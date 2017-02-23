@@ -439,6 +439,8 @@ Game.updateCombatTab = function() {
   else if(PH_Percent < 0.5) { PHB.style.background = "#dd7700"; }
   else if(PH_Percent < 0.75) { PHB.style.background = "#dddd00"; }
   else { PHB.style.background = "#33cc33"; }
+  PHB.style.MozTransition = "width 0.5s";
+  PHB.style.WebkitTransition = "width 0.5s";
   PHB.style.width = (100 * PH_Percent) + "%";
   var EHB = document.getElementById("enemyHPBar");
   if(Game.p_State !== Game.STATE_COMBAT) { EHB.style.display = "none"; }
@@ -449,6 +451,8 @@ Game.updateCombatTab = function() {
     else if(EH_Percent < 0.5) { EHB.style.background = "#dd7700"; }
     else if(EH_Percent < 0.75) { EHB.style.background = "#dddd00"; }
     else { EHB.style.background = "#33cc33"; }
+    EHB.style.MozTransition = "width 0.5s";
+    EHB.style.WebkitTransition = "width 0.5s";
     EHB.style.width = (100 * EH_Percent) + "%";
   }
 }
