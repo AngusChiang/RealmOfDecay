@@ -19,9 +19,6 @@ Add in the ability to buy potions:
 
 Possible updates:
 
-Inventory Cleanup changes:
- - Specifically, separation in how weapons and armour are handled by the system.
-
 Tweaks for the strength of bosses
  - Requires a lot of playtesting. The power of the player character can vary a lot, making bosses incredibly easy or difficult. This may end up being implemented in a future patch rather than for 1.0
 

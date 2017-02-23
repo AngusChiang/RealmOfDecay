@@ -698,7 +698,7 @@ Game.endCombat = function() {
     if(!Game.canLoot) { currencyToAdd *= 2; }
     else if(Game.e_isBoss) { currencyToAdd *= 1.5; }
 		currencyToAdd = Math.floor(currencyToAdd*(1+(0.05*Game.powerLevel(Game.BOOST_CURRENCY))));
-    var currencyBadgeBonus = Math.floor(currencyToAdd * (0.01 * Game.playerBadges.length));
+    var currencyBadgeBonus = Math.floor(currencyToAdd * (0.02 * Game.playerBadges.length));
     if(Game.RNG(1,50) <= Game.powerLevel(Game.BOOST_EXTRA)) {
       // Everybody gets seeds!
       currencyToAdd *= 3;
