@@ -175,30 +175,30 @@ Game.createPowersTab = function() {
     powerPointCounter.innerHTML = Game.p_PP;
     var powerPane = document.getElementById("available_area");
     powerPane.innerHTML = "";
-    for(var x = 0; x < Game.powerList.length; x++) {
+    for(var x = 0; x < Game.SKILL_LIST.length; x++) {
       var available = true;
       var viewable = true;
       var subsidiary = false;
       var basePower = -1;
       // Step 1: Determine if this is a subsidiary power.
-      if(Game.powerList[x][2].toString().length > 3) {
-        //powerList[x][2] is the constant for the power. If it's more than 3 chars long, it's a subsidiary!
+      if(Game.SKILL_LIST[x][2].toString().length > 3) {
+        //SKILL_LIST[x][2] is the constant for the power. If it's more than 3 chars long, it's a subsidiary!
         // Now... we check the level of the base power!
         subsidiary = true;
-        basePower = Math.floor(Game.powerList[x][2] / 10);
+        basePower = Math.floor(Game.SKILL_LIST[x][2] / 10);
         if(Game.powerLevel(basePower) != Game.getPowerLevelCap(basePower)) {
           // The base power isn't capped, we can't buy this
           available = false;
           viewable = false;
         }
         //OK, finally we check the other subsidiary powers on the same level (if there's any)
-        for(var z = 0; z < Game.powerList.length; z++) {
+        for(var z = 0; z < Game.SKILL_LIST.length; z++) {
           // If they're related to this power...
-          if(Math.floor(Game.powerList[z][2] / 10) == basePower) {
+          if(Math.floor(Game.SKILL_LIST[z][2] / 10) == basePower) {
             // ...and they're not this power...
-            if(Game.powerList[x][2] != Game.powerList[z][2]) {
+            if(Game.SKILL_LIST[x][2] != Game.SKILL_LIST[z][2]) {
               // ...and their level is above zero...
-              if(Game.powerLevel(Game.powerList[z][2]) > 0) {
+              if(Game.powerLevel(Game.SKILL_LIST[z][2]) > 0) {
                 // we can't buy this one!
                 available = false;
               }
@@ -207,7 +207,7 @@ Game.createPowersTab = function() {
         }
       }
       if(viewable) {
-        powerPane.appendChild(Game.createPowerUIPanel(Game.powerList[x][2], basePower, Game.powerLevel(Game.powerList[x][2]), available, true));
+        powerPane.appendChild(Game.createPowerUIPanel(Game.SKILL_LIST[x][2], basePower, Game.powerLevel(Game.SKILL_LIST[x][2]), available, true));
       }
     }
     var purchasedPowers = document.getElementById("purchased_area");

@@ -1,6 +1,27 @@
 Game = {};
 /*
+Changes made already:
+  • The Intuition skill is now called Undermine.
+
 Stuff left to do for MVP:
+
+Passive Stat Effects:
+  Strength: Gives a chance to block incoming strikes, reducing their damage by half.
+  Dexterity: Gives a chance to parry incoming strikes, reducing their damage by half.
+  Intelligence: Gives a chance to dodge incoming strikes, reducing their damage by half.
+  Constitution: Gives a chance when attacking to heal yourself for an amount equal to your Constitution.
+  
+New Skills:
+  Armour Mastery (5 ranks) - New base skill in the Defence tree. Increases armour values by 5% per rank.
+  Shield Wall (5 ranks) - New Defence skill branching from Ancestral Fortitude. Grants a 1% increase in block chance per rank.
+  Shield Bash (5 ranks) - New Defence skill branching from Shield Wall. Whenever you attack, you have a 3% chance per rank to increase damage dealt by your armour's matching resistance.
+  Bladed Armour (5 ranks) - New Defence skill branching from Shield Wall. Deals 2% per rank of damage taken to an attacker.
+  Victory Rush (5 ranks) - New Defence skill branching from Survival Instincts. Heals you for 5% per rank when you defeat an enemy.
+  Artful Dodger (1 rank) - New Defence skill branching from Victory Rush. Whenever you dodge an attack, the cooldown on your Burst Attack is reset.
+  Eye for an Eye (1 rank) - New Defence skill branching from Victory Rush. Deals 100% of damage taken back to an attacker after a successful block.
+  Riposte (1 rank) - New Defence skill branching from Victory Rush. Whenever you parry an attack, you instantly perform a counter-attack.
+  Second Wind (5 ranks) - New Defence skill branching from Last Bastion. Whenever a blow would kill you, instead restore 6% of your health per rank. Only works once per battle.
+  Bountiful Bags (5 ranks) - New Support skill branching from Five-Finger Discount. Increases inventory sizes by 3 slots per rank.
 
 Add in the ability to buy potions:
  - Potions come in two main types: healing potions and debuff potions.
@@ -22,9 +43,6 @@ Possible updates:
 Tweaks for the strength of bosses
  - Requires a lot of playtesting. The power of the player character can vary a lot, making bosses incredibly easy or difficult. This may end up being implemented in a future patch rather than for 1.0
 
-Automatic Stat Point Assignment
- - Automatically use stat points on level up, based on equipped weapon. Turned off by default. Part of the autobattle system.
-
 Update strategy
  - Adjust loading algorithm for future patches so a full save clear isn't required, by checking the save version when attempting to load newly added parameters, or converting existing parameters to new formats where applicable.
 
@@ -36,43 +54,42 @@ Boss Buffs and Debuffs
 
 */
 Game.init = function() {
-	//Define some constants we can use later
+  //Define some constants we can use later
   this.GAME_VERSION = 10; // Used to purge older saves between major version changes, don't change this value unless you're also making a change that modifies what is saved or loaded.
   // The experience curve
-	this.XP_MULT = 1.05;
-	this.XP_RANGEMIN = 3.0;
-	this.XP_RANGEMAX = 4.0;
-	this.XP_BASE = 40;
-	this.XP_INIT = 128;
+  this.XP_MULT = 1.05;
+  this.XP_RANGEMIN = 3.0;
+  this.XP_RANGEMAX = 4.0;
+  this.XP_BASE = 40;
+  this.XP_INIT = 128;
   this.WEAPON_BASE_MULT = 0.6; // Multiplier for main stat to apply to damage dealt.
-	//Player states
-	this.STATE_IDLE = 0;
-	this.STATE_REPAIR = 1;
-	this.STATE_COMBAT = 2;
+  //Player states
+  this.STATE_IDLE = 0;
+  this.STATE_REPAIR = 1;
+  this.STATE_COMBAT = 2;
   //Player Powers
-  this.BOOST_CARE = 101; // Proper Care
-  this.BOOST_BROKEN = 1011; // Hanging By a Thread
-  this.BOOST_REPAIR = 1012; // High Maintenance
-  this.BOOST_REPAIRPOWER = 1013; // Master Tinkerer
-  this.BOOST_CURRENCY = 102; // Pickpocket
-  this.BOOST_EXTRA = 1021; // Cavity Search
-  this.BOOST_SCRAP = 1022; // Thorough Looting
-  this.BOOST_CRIT = 103; // Keen Eye
-  this.BOOST_CRITDMG = 1031; // Keener Eye
-  this.BOOST_ENRAGE = 1032; // Adrenaline Rush
-  this.BOOST_SHIELD = 104; // Divine Shield
-  this.BOOST_ABSORB = 1041; // Absorption Shield
-  this.BOOST_REFLECT = 1042; // Reflective Shield
-  this.BOOST_MORESP = 105; // Luck of the Draw
-  this.BOOST_MOREPP = 1051; // Lucky Star
-  this.BOOST_XP = 106; // Fast Learner
+  this.SKILL_PROPER_CARE = 101; // Proper Care
+  this.SKILL_HANGING_BY_A_THREAD = 1011; // Hanging By a Thread
+  this.SKILL_HIGH_MAINTENANCE = 1012; // High Maintenance
+  this.SKILL_MASTER_TINKERER = 1013; // Master Tinkerer
+  this.SKILL_PICKPOCKET = 102; // Pickpocket
+  this.SKILL_CAVITY_SEARCH = 1021; // Cavity Search
+  this.SKILL_THOROUGH_LOOTING = 1022; // Thorough Looting
+  this.SKILL_KEEN_EYE = 103; // Keen Eye
+  this.SKILL_KEENER_EYE = 1031; // Keener Eye
+  this.SKILL_ADRENALINE_RUSH = 1032; // Adrenaline Rush
+  this.SKILL_DIVINE_SHIELD = 104; // Divine Shield
+  this.SKILL_ABSORPTION_SHIELD = 1041; // Absorption Shield
+  this.SKILL_REFLECTIVE_SHIELD = 1042; // Reflective Shield
+  this.SKILL_LUCK_OF_THE_DRAW = 105; // Luck of the Draw
+  this.SKILL_LUCKY_STAR = 1051; // Lucky Star
+  this.SKILL_FAST_LEARNER = 106; // Fast Learner
   this.BOOST_STATUP = 1061; // Patience and Discipline
   this.BOOST_DOUBLE = 107; // Flurry
   this.BOOST_DBLPOWER = 1071; // Empowered Flurry
   this.BOOST_BURST = 1072; // Wild Swings
   this.BOOST_REGEN = 108; // Survival Instincts
   this.BOOST_FULLHEAL = 1081; // Will To Live
-  // this.BOOST_DYING = 1082; // Down But Not Out
   this.BOOST_DAMAGE = 109; // Deadly Force
   this.BOOST_EXECUTE = 1091; // Execute
   this.BOOST_BONUSDMG = 1092; // Overcharge
@@ -85,7 +102,7 @@ Game.init = function() {
   this.BOOST_DEBUFF = 112; // Expose Weakness
   this.BOOST_FASTBURST = 1121; // Press The Advantage
   this.BOOST_DEBUFFBURST = 1122; // Turn The Tables
-  this.BOOST_NOWEAKNESS = 1123; // Commander's Intuition
+  this.BOOST_NOWEAKNESS = 1123; // Undermine
   this.BOOST_PRICES = 113; // Bartering
   this.BOOST_SELL = 1131; // Haggling
   this.BOOST_MORESCRAP = 1132; // Disassembly
@@ -93,14 +110,65 @@ Game.init = function() {
   this.BOOST_MULTIPOTION = 115; // Brewmaster
   this.BOOST_HEALINGPOTION = 1151; // Medic's Intuition
   this.BOOST_DEBUFFPOTION = 1152; // Saboteur's Intuition
-	//Weapon Types
-	this.WEAPON_MELEE = 201;
-	this.WEAPON_RANGE = 202;
-	this.WEAPON_MAGIC = 203;
-	//Weapon Speeds
-	this.WSPEED_SLOW = 211; // 2.6 to 3.0 seconds
-	this.WSPEED_MID = 212; // 2.1 to 2.5 seconds
-	this.WSPEED_FAST = 213; // 1.6 to 2.0 seconds
+  //New Skill List
+  // Support Tree
+  this.SKILL_PICKPOCKET = 101; // Pickpocket
+  this.SKILL_CAVITY_SEARCH = 1011; // Cavity Search
+  this.BOOST_PRICES = 1012; // Bartering
+  this.SKILL_THOROUGH_LOOTING = 10111; // Thorough Looting
+  this.BOOST_SELL = 10121; // Haggling
+  this.BOOST_PICKPOCKET = 101211; // Five-Finger Discount
+  this.BOOST_STATUP = 101212; // Patience and Discipline
+  this.BOOST_MORESCRAP = 101213; // Disassembly
+  this.SKILL_BOUNTIFUL_BAGS = 1012111; // Bountiful Bags (Increases the size of the player's weapon and armour storage by 3 items per rank.)
+  this.SKILL_MASTER_TINKERER = 1012131; // Master Tinkerer
+  this.SKILL_LUCK_OF_THE_DRAW = 1012121; // Luck of the Draw
+  this.SKILL_LUCKY_STAR = 10121211; // Lucky Star
+  this.SKILL_FAST_LEARNER = 1012122; // Fast Learner
+  this.SKILL_PROPER_CARE = 1012123; // Proper Care
+  this.SKILL_HIGH_MAINTENANCE = 10121231; // High Maintenance
+  this.SKILL_HANGING_BY_A_THREAD = 10121232; // Hanging by a Thread
+  // Offense Tree
+  this.BOOST_DAMAGE = 102; // Deadly Force
+  this.BOOST_SPEED = 1021; // Nimble Fingers
+  this.SKILL_KEEN_EYE = 1022; // Keen Eye
+  this.BOOST_DOUBLE = 10211; // Flurry
+  this.SKILL_KEENER_EYE = 10221; // Keener Eye
+  this.BOOST_DEBUFF = 10222; // Expose Weakness
+  this.BOOST_DBLPOWER = 102111; // Empowered Flurry
+  this.BOOST_FIRST = 102211; // Sneak Attack
+  this.BOOST_FASTBURST = 102221; // Press the Advantage
+  this.BOOST_BURST = 1021111; // Wild Swings
+  this.SKILL_ADRENALINE_RUSH = 1021112; // Adrenaline Rush
+  this.BOOST_OVERCHARGE = 10211121; // Overcharge
+  this.BOOST_EXECUTE = 1022111; // Execute
+  this.BOOST_DEBUFFBURST = 1022211; // Turn the Tables
+  this.BOOST_NOWEAKNESS = 10222111; // Undermine
+  // Defense Tree
+  this.SKILL_ARMOUR_MASTERY = 103; // Armour Mastery (increases bonuses on armour by 5% per rank)
+  this.BOOST_DEFENCE = 1031; // Ancestral Fortitude
+  this.BOOST_REGEN = 1032; // Survival Instincts
+  this.SKILL_DIVINE_SHIELD_WALL = 10311; // Shield Wall (1% chance per rank to block incoming damage. Blocks reduce incoming damage by 50%.)
+  this.SKILL_SHIELD_BASH = 10312; // Shield Bash (3% chance per hit to increase damage dealt by your armour's resistance to the enemy's weapon type.)
+  this.SKILL_VICTORY_RUSH = 10321; // Victory Rush (Restores 5% health per rank when defeating an enemy.)
+  this.BOOST_VENGEANCE = 103111; // Vengeance
+  this.BOOST_LASTSTAND = 103112; // Last Bastion
+  this.SKILL_BLADED_ARMOUR = 103113; // Bladed Armour (Attackers take 2% per rank of the damage they deal to you.)
+  this.SKILL_ARTFUL_DODGER = 103211; // Artful Dodger (Dodging an attack instantly refreshes your Burst Attack.)
+  this.SKILL_EYE_FOR_AN_EYE = 103212; // Eye for an Eye (Deal 100% of damage blocked to attacker on a successful block.)
+  this.SKILL_RIPOSTE = 103213; // Riposte (Delivers an instant attack after parrying.)
+  this.SKILL_DIVINE_SHIELD = 1031121; // Divine Shield
+  this.SKILL_SECOND_WIND = 1031122; // Second Wind (A blow that would kill you instead restores 6% health per rank. Can only trigger once per battle.)
+  this.SKILL_ABSORPTION_SHIELD = 10311211; // Absorption Shield
+  this.SKILL_REFLECTIVE_SHIELD = 10311212; // Reflective Shield
+  //Weapon Types
+  this.WEAPON_MELEE = 201;
+  this.WEAPON_RANGE = 202;
+  this.WEAPON_MAGIC = 203;
+  //Weapon Speeds
+  this.WSPEED_SLOW = 211; // 2.6 to 3.0 seconds
+  this.WSPEED_MID = 212; // 2.1 to 2.5 seconds
+  this.WSPEED_FAST = 213; // 1.6 to 2.0 seconds
   // Armour strengths
   this.ARMOUR_STR_MELEE = 231;
   this.ARMOUR_STR_RANGE = 232;

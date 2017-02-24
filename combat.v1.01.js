@@ -106,11 +106,11 @@ Game.playerCombatTick = function(isBurst) {
         // Deadly Force
         playerDMG *= (1 + 0.02*Game.powerLevel(Game.BOOST_DAMAGE));
         // Keen Eye
-        var critChance = 3*Game.powerLevel(Game.BOOST_CRIT);
+        var critChance = 3*Game.powerLevel(Game.SKILL_KEEN_EYE);
         var didCrit = false;
         if(Game.RNG(1,100) <= critChance) {
           // Keener Eye
-          playerDMG *= (1.5 + 0.1*Game.powerLevel(Game.BOOST_CRITDMG));
+          playerDMG *= (1.5 + 0.1*Game.powerLevel(Game.SKILL_KEENER_EYE));
           didCrit = true;
           Game.combatLog("player", " - <span class='q222'>Critical hit!</span>");
         }
@@ -120,14 +120,14 @@ Game.playerCombatTick = function(isBurst) {
         }
         if(Game.p_Adrenaline > 0) {
           // Adrenaline Rush
-          playerDMG *= (1 + 0.05*Game.powerLevel(Game.BOOST_ENRAGE));
+          playerDMG *= (1 + 0.05*Game.powerLevel(Game.SKILL_ADRENALINE_RUSH));
           Game.p_Adrenaline--;
           if(Game.p_Adrenaline == 0) {
             Game.combatLog("player", "The <span class='q222'>Adrenaline Rush</span> subsides.");
           }
         }
         else {
-          if(Game.powerLevel(Game.BOOST_ENRAGE) > 0 && didCrit) {
+          if(Game.powerLevel(Game.SKILL_ADRENALINE_RUSH) > 0 && didCrit) {
             // Activate Adrenaline Rush on crit.
             Game.p_Adrenaline = 3;
             Game.combatLog("player", " - You feel an <span class='q222'>Adrenaline Rush</span>!");
@@ -138,7 +138,7 @@ Game.playerCombatTick = function(isBurst) {
         if(Game.p_Weapon[8] == 0) {
           // Broken weapon.
           canDebuff = false;
-          playerDMG *= (0.25 + 0.1*Game.powerLevel(Game.BOOST_BROKEN));
+          playerDMG *= (0.25 + 0.1*Game.powerLevel(Game.SKILL_HANGING_BY_A_THREAD));
         }
         if(Game.getPlayerDebuff()[0] == Game.DEBUFF_DISARM) {
           // Disarmed.
@@ -199,8 +199,8 @@ Game.playerCombatTick = function(isBurst) {
             case Game.WEAPON_MELEE:
               if(Game.getEnemyDebuff()[0] != Game.DEBUFF_SHRED) {
                 for(var e = 0; e < Game.e_Armour[4].length; e++) {
-                  if(isBurst && Game.e_Armour[4][e][0] == Game.ARMOUR_STR_MELEE) {
-                    if(Game.powerLevel(Game.BOOST_NOWEAKNESS) > 0) {
+                  if(Game.e_Armour[4][e][0] == Game.ARMOUR_STR_MELEE) {
+                    if(isBurst && Game.powerLevel(Game.BOOST_NOWEAKNESS) > 0) {
                       playerDMG += Game.e_Armour[4][e][1];
                     } else {
                       playerDMG = Math.max(playerDMG-Game.e_Armour[4][e][1],0);
@@ -237,7 +237,7 @@ Game.playerCombatTick = function(isBurst) {
           else {
             // Stick 'em with the pointy end.
             Game.combatLog("player","You hit " + (Game.e_ProperName ? "" : "the ") + Game.e_Name + " with your <span class='q" + Game.p_Weapon[7] + "'>" + Game.p_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + playerDMG + "</span> damage.");
-            if(Game.RNG(1,50) < Game.powerLevel(Game.BOOST_CARE)) {
+            if(Game.RNG(1,50) < Game.powerLevel(Game.SKILL_PROPER_CARE)) {
               // Proper Care
               Game.combatLog("player"," - <span class='q222'>Proper Care</span> prevented weapon decay.");
             }
@@ -426,14 +426,14 @@ Game.enemyCombatTick = function() {
           Game.TRIGGER_FLAWLESS_BOSS = false;
         }
 				// Divine Shield anyone?
-				if(Game.RNG(1,100) <= Game.powerLevel(Game.BOOST_SHIELD)) {
+				if(Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_DIVINE_SHIELD)) {
           if(Game.p_HP <= enemyDMG) { Game.giveBadge(Game.BADGE_INTERVENTION); } // Divine Intervention
-					if(Game.powerLevel(Game.BOOST_REFLECT) == 1) {
+					if(Game.powerLevel(Game.SKILL_REFLECTIVE_SHIELD) == 1) {
 						// No, YOU take the hit!
 						Game.e_HP = Math.max(Game.e_HP - enemyDMG, 0);
 						Game.combatLog("player","Your <span class='q222'>Reflective Shield</span> dealt <span class='q222'>" + enemyDMG + "</span> damage.");
 					}
-					else if(Game.powerLevel(Game.BOOST_ABSORB) == 1) {
+					else if(Game.powerLevel(Game.SKILL_ABSORPTION_SHIELD) == 1) {
             // Free health is the best kind.
             Game.p_HP = Math.min(Game.p_HP + enemyDMG, Game.p_MaxHP);
             Game.combatLog("player","Your <span class='q222'>Absorption Shield</span> healed you for  <span class='q222'>" + enemyDMG + "</span>.");
@@ -482,7 +482,7 @@ Game.enemyCombatTick = function() {
             }
           }
 					if(Game.p_Armour[3] > 0) {
-						if(Game.RNG(1,50) <= Game.powerLevel(Game.BOOST_CARE)) {
+						if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_PROPER_CARE)) {
 							// My gear is INVINCIBLE!
 							Game.combatLog("player"," - <span class='q222'>Proper Care</span> prevented armour decay.");
 						}
@@ -684,7 +684,7 @@ Game.endCombat = function() {
     // More XP? Only if you paid for it in points or boss blood.
     if(!Game.canLoot) { xpToAdd *= 2; }
     else if(Game.e_isBoss) { xpToAdd *= 1.5; }
-    xpToAdd = Math.floor(xpToAdd*(1+(0.05*Game.powerLevel(Game.BOOST_XP))));
+    xpToAdd = Math.floor(xpToAdd*(1+(0.05*Game.powerLevel(Game.SKILL_FAST_LEARNER))));
     var badgeBonus = Math.floor(xpToAdd * (0.02 * Game.playerBadges.length));
 		Game.combatLog("info","You gained <span class='q222'>" + xpToAdd + "</span> (<span class='q223'>+" + badgeBonus + "</span>) (<span class='q224'>+" + Game.prestigeLevel + "</span>) experience.");
     // Overflow
@@ -697,14 +697,14 @@ Game.endCombat = function() {
     // More seeds? See above.
     if(!Game.canLoot) { currencyToAdd *= 2; }
     else if(Game.e_isBoss) { currencyToAdd *= 1.5; }
-		currencyToAdd = Math.floor(currencyToAdd*(1+(0.05*Game.powerLevel(Game.BOOST_CURRENCY))));
+		currencyToAdd = Math.floor(currencyToAdd*(1+(0.05*Game.powerLevel(Game.SKILL_PICKPOCKET))));
     var currencyBadgeBonus = Math.floor(currencyToAdd * (0.02 * Game.playerBadges.length));
-    if(Game.RNG(1,50) <= Game.powerLevel(Game.BOOST_EXTRA)) {
+    if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_CAVITY_SEARCH)) {
       // Everybody gets seeds!
       currencyToAdd *= 3;
       Game.combatLog("info","<span class='q222'>Cavity Search</span> tripled seed gain!");
     }
-    if(Game.RNG(1,50) <= Game.powerLevel(Game.BOOST_SCRAP)) {
+    if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_THOROUGH_LOOTING)) {
       // Yes, you can have some scrap. It's okay.
       Game.p_Scrap++;
       Game.TRACK_COMBAT_SCRAP++;
@@ -744,7 +744,7 @@ Game.endCombat = function() {
       // DING
 			Game.levelUp();
 		}
-    if(Game.RNG(1,50) <= Game.powerLevel(Game.BOOST_REPAIR)) {
+    if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_HIGH_MAINTENANCE)) {
       // If this works, nobody will complain about repair timers.
       Game.p_Weapon[8] = 50 + (5*(Game.p_Weapon[1]-1));
       Game.p_Armour[3] = 50 + (5*(Game.p_Armour[1]-1));

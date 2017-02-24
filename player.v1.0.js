@@ -50,14 +50,14 @@ Game.levelUp = function() {
   }
 	Game.p_SkillPoints++;
 	Game.combatLog("info","You gained a Stat Point.");
-  var SPChance = Game.powerLevel(Game.BOOST_MORESP);
+  var SPChance = Game.powerLevel(Game.SKILL_LUCK_OF_THE_DRAW);
 	if(Game.RNG(1,100) <= SPChance) {
 		Game.p_SkillPoints++;
 		Game.combatLog("info","Your <span class='q222'>Luck of the Draw</span> power granted another Stat Point.");
 	}
   Game.p_PP += 1;
 	Game.combatLog("info","You gained a Power point.");
-  if(Game.RNG(1,100) <= Game.powerLevel(Game.BOOST_MOREPP)) {
+  if(Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_LUCKY_STAR)) {
     Game.p_PP++;
     Game.combatLog("info","<span class='q222'>Lucky Star</span> granted an additional Power Point.");
   }
