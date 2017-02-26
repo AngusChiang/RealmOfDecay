@@ -1,15 +1,20 @@
 Game = {};
 /*
 Changes made already:
-  • The skill trees have been redefined, and split into three broad categories:
-    • The Offense tree focuses on skills that increase damage done and effects that occur when attacking.
-    • The Defence tree focuses on skills that decrease damage taken and effects that occur when attacked.
-    • The Support tree focuses on quality of life upgrades that don't fit into either of the above trees.
+  • Skill Changes
+    • The skill trees have been redefined, and split into three broad categories:
+      • The Offense tree focuses on skills that increase damage done and effects that occur when attacking.
+      • The Defence tree focuses on skills that decrease damage taken and effects that occur when attacked.
+      • The Support tree focuses on quality of life upgrades that don't fit into either of the above trees.
   • The 'Intuition' skill is now called 'Undermine'.
   • The 'Will to Live' skill has been renamed to 'Victory Rush' and now restores 5% health per rank when you defeat an enemy.
+  • The 'Survival Instincts' skill now directly increases the repair and regen values instead of increasing the frequency of repair ticks.
+  • New Skills:
+    • Armour Mastery is the new base skill in the Defence tree, increasing the potency of armour bonuses by 5% per rank (rounded up to the nearest point).
   • All badges relating to reaching maximum levels with particular skills have been removed.
   • Previous restrictions on which skills can be purchased together have been removed, except for the split between 'Absorption Shield' and 'Reflective Shield'.
   • Purchased skills will no longer remain in the 'Available Skills' section once they have reached their maximum level.
+  • Skills will now only ever have 5 ranks or 1 rank.
   • Fixed an issue where the 'Proper Care' skill was less likely to activate than it should have been.
   • Fixed an issue where the 'Master Tinkerer' skill was much less effective than intended.
 
@@ -27,7 +32,6 @@ Combat Changes:
   
 New Skills:
   Terminal Illness (1 rank) - New Offense skill branching from Expose Weakness. Allows debuff timers to be refreshed if reapplied.
-  Armour Mastery (5 ranks) - New base skill in the Defence tree. Increases armour values by 5% per rank.
   Shield Wall (5 ranks) - New Defence skill branching from Ancestral Fortitude. Grants a 1% increase in block chance per rank.
   Shield Crush (5 ranks) - New Defence skill branching from Shield Wall. Whenever you attack, you have a 3% chance per rank to negate enemy armour bonuses.
   Hold The Line (1 rank) - New Defence skill branching from Shield Crush. Whenever Shield Crush activates, you are guaranteed to block the next attack.
@@ -38,6 +42,9 @@ New Skills:
   Eye for an Eye (1 rank) - New Defence skill branching from Victory Rush. Deals 100% of damage taken back to an attacker after a successful block.
   Second Wind (5 ranks) - New Defence skill branching from Last Bastion. Whenever a blow would kill you, instead restore 6% of your health per rank. Only works once per battle.
   Bountiful Bags (5 ranks) - New Support skill branching from Five-Finger Discount. Increases inventory sizes by 3 slots per rank.
+
+UI Fixes:
+  Currently, the idleHeal function is doing a full redraw of the active panel whenever it runs (once per second). Finishing the updateActivePanel function will mean that we can remove this call and solve a number of UI responsiveness issues that spring from redrawing all the elements once a second.
 
 Add in the ability to buy potions:
  - Potions come in two main types: healing potions and debuff potions.
@@ -399,7 +406,7 @@ Game.init = function() {
   var playerTabButton = document.getElementById("playerTab");
   var combatTabButton = document.getElementById("combatTab");
   var zoneTabButton = document.getElementById("zoneTab");
-  var powersTabButton = document.getElementById("powersTab");
+  var skillsTabButton = document.getElementById("skillsTab");
   var inventoryTabButton = document.getElementById("inventoryTab");
   var storeTabButton = document.getElementById("storeTab");
   var optionsTabButton = document.getElementById("optionsTab");
@@ -409,7 +416,7 @@ Game.init = function() {
   playerTabButton.onclick = function(){ Game.showPanel('playerTable'); };
   combatTabButton.onclick = function(){ Game.showPanel('combatTable'); };
   zoneTabButton.onclick = function(){ Game.showPanel('zoneTable'); };
-  powersTabButton.onclick = function(){ Game.showPanel('powersTable'); };
+  skillsTabButton.onclick = function(){ Game.showPanel('skillsTable'); };
   inventoryTabButton.onclick = function(){ Game.showPanel('inventoryTable'); };
   storeTabButton.onclick = function(){ Game.showPanel('storeTable'); };
   optionsTabButton.onclick = function(){ Game.showPanel('optionsTable'); };

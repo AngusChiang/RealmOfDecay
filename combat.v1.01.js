@@ -391,7 +391,9 @@ Game.enemyCombatTick = function() {
 					case Game.WEAPON_MAGIC:
 						if(Game.getPlayerDebuff()[0] !== Game.DEBUFF_SHRED && Game.p_Armour[3] > 0) {
 							for(var a = 0; a < Game.p_Armour[4].length; a++) {
-								if(Game.p_Armour[4][a][0] == Game.ARMOUR_STR_MAGIC) { enemyDMG = Math.max(enemyDMG-Game.p_Armour[4][a][1],0); }
+								if(Game.p_Armour[4][a][0] == Game.ARMOUR_STR_MAGIC) { 
+                                  enemyDMG = Math.max(enemyDMG - Math.ceil(Game.p_Armour[4][a][1] * (1 + (0.05 * Game.powerLevel(Game.SKILL_ARMOUR_MASTERY)))),0);
+                                }
 							}
 						}
 						for(var b = 0; b < Game.p_Armour[5].length; b++) {
@@ -401,7 +403,9 @@ Game.enemyCombatTick = function() {
 					case Game.WEAPON_RANGE:
 						if(Game.getPlayerDebuff()[0] !== Game.DEBUFF_SHRED && Game.p_Armour[3] > 0) {
 							for(var c = 0; c < Game.p_Armour[4].length; c++) {
-								if(Game.p_Armour[4][c][0] == Game.ARMOUR_STR_RANGE) { enemyDMG = Math.max(enemyDMG-Game.p_Armour[4][c][1],0); }
+								if(Game.p_Armour[4][c][0] == Game.ARMOUR_STR_RANGE) { 
+                                  enemyDMG = Math.max(enemyDMG - Math.ceil(Game.p_Armour[4][c][1] * (1 + (0.05 * Game.powerLevel(Game.SKILL_ARMOUR_MASTERY)))),0);
+                                }
 							}
 						}
 						for(var d = 0; d < Game.p_Armour[5].length; d++) {
@@ -411,7 +415,9 @@ Game.enemyCombatTick = function() {
 					case Game.WEAPON_MELEE:
 						if(Game.getPlayerDebuff()[0] !== Game.DEBUFF_SHRED && Game.p_Armour[3] > 0) {
 							for(var e = 0; e < Game.p_Armour[4].length; e++) {
-								if(Game.p_Armour[4][e][0] == Game.ARMOUR_STR_MELEE) { enemyDMG = Math.max(enemyDMG-Game.p_Armour[4][e][1],0); }
+								if(Game.p_Armour[4][e][0] == Game.ARMOUR_STR_MELEE) { 
+                                  enemyDMG = Math.max(enemyDMG - Math.ceil(Game.p_Armour[4][e][1] * (1 + (0.05 * Game.powerLevel(Game.SKILL_ARMOUR_MASTERY)))),0); 
+                                }
 							}
 						}
 						for(var f = 0; f < Game.p_Armour[5].length; f++) {

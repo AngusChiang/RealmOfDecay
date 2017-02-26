@@ -263,7 +263,7 @@ Game.SKILL_LIST = [["Pickpocket","Increases seed gains from combat by 5% per ran
                   ["Turn The Tables", "Adds 20% per rank to the debuff application chance when using Burst Attack.",1022211],
                   ["Overcharge","Adds 25% damage to attacks at the cost of an extra durability point per attack.",10211121],
                   ["Undermine","When using Burst Attack, the enemy's resistance to your attack type is treated as a vulnerability.",10222111],
-                  ["Armour Mastery (NYI)","Increases bonuses on armour by 5% per rank.",103],
+                  ["Armour Mastery","Increases bonuses on armour by 5% per rank.",103],
                   ["Ancestral Fortitude","Reduces weapon damage taken by 2% per rank.",1031],
                   ["Survival Instincts","Adds 2% per rank to health regen and repair ticks.",1032],
                   ["Shield Wall (NYI)","Increases block chance by 1% per rank.",10311],
