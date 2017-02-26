@@ -42,7 +42,7 @@ Game.createPlayerTab = function() {
   var playerInfoPanel = document.getElementById("playerInfoPanel");
   playerInfoPanel.innerHTML = "";
   playerInfoPanel.appendChild(Game.createPlayerUIPanel());
-  if(Game.p_SkillPoints > 0) {
+  if(Game.p_StatPoints > 0) {
     playerInfoPanel.appendChild(Game.createStatPointPanel());
   }
   var playerEQPanel = document.getElementById("playerEquipmentPanel");
@@ -168,13 +168,20 @@ Game.createPowersTab = function() {
   //This bit is important - we set in other functions whether the power panel needs rebuilding, because mass DOM changes cause lag problems when they're done once a second.
   if(Game.updatePowers) {
     var avail = document.getElementById("availablePowers");
-    avail.style.display = Game.p_PP == 0 ? "none" : "";
+    avail.style.display = Game.p_SkillPoints == 0 ? "none" : "";
     var avail2 = document.getElementById("availablePowersHeader");
-    avail2.style.display = Game.p_PP == 0 ? "none" : "";
+    avail2.style.display = Game.p_SkillPoints == 0 ? "none" : "";
     var powerPointCounter = document.getElementById("powerPointsOut");
-    powerPointCounter.innerHTML = Game.p_PP;
-    var powerPane = document.getElementById("available_area");
-    powerPane.innerHTML = "";
+    powerPointCounter.innerHTML = Game.p_SkillPoints;
+    // Clear the panes
+    var offensePane = document.getElementById("available_area_offense");
+    offensePane.innerHTML = "";
+    var defensePane = document.getElementById("available_area_defense");
+    defensePane.innerHTML = "";
+    var supportPane = document.getElementById("available_area_support");
+    supportPane.innerHTML = "";
+    var specialPane = document.getElementById("available_area_special");
+    specialPane.innerHTML = "";
     for(var x = 0; x < Game.SKILL_LIST.length; x++) {
       var available = true;
       var viewable = true;
@@ -191,22 +198,36 @@ Game.createPowersTab = function() {
           available = false;
           viewable = false;
         }
-        //OK, finally we check the other subsidiary powers on the same level (if there's any)
-        for(var z = 0; z < Game.SKILL_LIST.length; z++) {
-          // If they're related to this power...
-          if(Math.floor(Game.SKILL_LIST[z][2] / 10) == basePower) {
-            // ...and they're not this power...
-            if(Game.SKILL_LIST[x][2] != Game.SKILL_LIST[z][2]) {
-              // ...and their level is above zero...
-              if(Game.powerLevel(Game.SKILL_LIST[z][2]) > 0) {
-                // we can't buy this one!
-                available = false;
-              }
-            }
+        if(Game.SKILL_LIST[x][2] == Game.SKILL_ABSORPTION_SHIELD) {
+          if(Game.powerLevel(Game.SKILL_REFLECTIVE_SHIELD) > 0) {
+            available = false;
+          }
+        }
+        if(Game.SKILL_LIST[x][2] == Game.SKILL_REFLECTIVE_SHIELD) {
+          if(Game.powerLevel(Game.SKILL_ABSORPTION_SHIELD) > 0) {
+            available = false;
           }
         }
       }
+      if(Game.powerLevel(Game.SKILL_LIST[x][2]) == Game.getPowerLevelCap(Game.SKILL_LIST[x][2])) {
+        viewable = false;
+      }
       if(viewable) {
+        var powerPane = null;
+        switch(Game.SKILL_LIST[x][2].toString().substring(0,3)) {
+          case "101":
+            powerPane = offensePane;
+            break;
+          case "102":
+            powerPane = defensePane;
+            break;
+          case "103":
+            powerPane = supportPane;
+            break;
+          case "104":
+            powerPane = specialPane;
+            break;
+        }
         powerPane.appendChild(Game.createPowerUIPanel(Game.SKILL_LIST[x][2], basePower, Game.powerLevel(Game.SKILL_LIST[x][2]), available, true));
       }
     }
@@ -418,7 +439,7 @@ Game.updateCombatTab = function() {
   var playerDebuff = document.getElementById("combat_playerDebuff");
   if(playerDebuff !== null) { playerDebuff.innerHTML = "<strong>Debuff:</strong> " + Game.p_Debuff[1] + "(" + Game.debuff_names[Game.p_Debuff[0]-Game.DEBUFF_SHRED] + ") - " + Game.player_debuffTimer + "s"; }
   var playerBurst = document.getElementById("combat_burstButton");
-  if(playerBurst !== null) { playerBurst.innerHTML = Game.p_specUsed ? "Burst Unavailable" : (Game.powerLevel(Game.BOOST_BURST) > 0 ? "Wild Swings" : "Burst Attack"); }
+  if(playerBurst !== null) { playerBurst.innerHTML = Game.p_specUsed ? "Burst Unavailable" : (Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0 ? "Wild Swings" : "Burst Attack"); }
   // Player Weapon (Durability)
   var playerWeaponDurability = document.getElementById("combat_playerWeaponDurability");
   if(playerWeaponDurability !== null) { playerWeaponDurability.innerHTML = Game.p_Weapon[8] + " uses"; }
@@ -475,16 +496,16 @@ Game.updatePlayerTab = function() {
   var CONSection = document.getElementById("player_UICon");
   CONSection.innerHTML = "<strong>CON:</strong> " + Game.p_Con;
   var unspentSPSection = document.getElementById("player_UISP");
-  unspentSPSection.innerHTML = "<strong>Free SP:</strong> " + Game.p_SkillPoints;
+  unspentSPSection.innerHTML = "<strong>Stat Points:</strong> " + Game.p_StatPoints;
   var unspentPPSection = document.getElementById("player_UIPP");
-  unspentPPSection.innerHTML = "<strong>Free PP:</strong> " + Game.p_PP;
+  unspentPPSection.innerHTML = "<strong>Skill Points:</strong> " + Game.p_SkillPoints;
   var seedsSection = document.getElementById("player_UISeeds");
   seedsSection.innerHTML = "<strong>Seeds:</strong> " + Game.p_Currency;
   var scrapSection = document.getElementById("player_UIScrap");
   scrapSection.innerHTML = "<strong>Scrap:</strong> " + Game.p_Scrap;
   // Stat Point Panel (available points)
   var statPointPanel = document.getElementById("player_statPointsLeft");
-  if(statPointPanel !== null) { statPointPanel.innerHTML = "Stat Points (" + Game.p_SkillPoints + " left)"; }
+  if(statPointPanel !== null) { statPointPanel.innerHTML = "Stat Points (" + Game.p_StatPoints + " left)"; }
   // Tracking panel values
   var statPanel = document.getElementById("statsOut");
   statPanel.innerHTML = "";

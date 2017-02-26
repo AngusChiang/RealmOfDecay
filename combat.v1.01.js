@@ -41,7 +41,7 @@ Game.startCombat = function(isManual, isBoss) {
     }
     Game.VAMPIRISM_START_HEALTH = Game.p_HP;
     Game.PROGRESS_LONGFIGHT = 0;
-		if(Game.RNG(1,10) <= 5+Game.powerLevel(Game.BOOST_FIRST)) {
+		if(Game.RNG(1,10) <= 5+Game.powerLevel(Game.SKILL_SNEAK_ATTACK)) {
       // Pick me pick me!
 			Game.combat_playerInterval = window.setTimeout(function() { Game.playerCombatTick(false); },100);
 			Game.combat_enemyInterval = window.setTimeout(Game.enemyCombatTick,1100);
@@ -77,7 +77,7 @@ Game.playerCombatTick = function(isBurst) {
       else {
         // Stage 0: Execute
         if(Game.e_HP / Game.e_MaxHP < 0.25) {
-          if(Game.RNG(1,20) <= Game.powerLevel(Game.BOOST_EXECUTE)) {
+          if(Game.RNG(1,20) <= Game.powerLevel(Game.SKILL_EXECUTE)) {
             Game.e_HP = 0;
             Game.combatLog("player","<span class='q222'>Execute</span> activated, instantly dealing a killing blow.");
             if(Game.wildSwing) {
@@ -104,7 +104,7 @@ Game.playerCombatTick = function(isBurst) {
         }
         // Stage 2: Percentile Boosts.
         // Deadly Force
-        playerDMG *= (1 + 0.02*Game.powerLevel(Game.BOOST_DAMAGE));
+        playerDMG *= (1 + 0.02*Game.powerLevel(Game.SKILL_DEADLY_FORCE));
         // Keen Eye
         var critChance = 3*Game.powerLevel(Game.SKILL_KEEN_EYE);
         var didCrit = false;
@@ -114,7 +114,7 @@ Game.playerCombatTick = function(isBurst) {
           didCrit = true;
           Game.combatLog("player", " - <span class='q222'>Critical hit!</span>");
         }
-        if(Game.powerLevel(Game.BOOST_BONUSDMG) > 0) {
+        if(Game.powerLevel(Game.SKILL_OVERCHARGE) > 0) {
           // Overcharge
           playerDMG *= 1.25;
         }
@@ -151,7 +151,7 @@ Game.playerCombatTick = function(isBurst) {
         }
         if(Game.flurryActive) {
           // This is a flurry attack.
-          playerDMG *= (0.5 + 0.04*Game.powerLevel(Game.BOOST_DBLPOWER));
+          playerDMG *= (0.5 + 0.04*Game.powerLevel(Game.SKILL_EMPOWERED_FLURRY));
         }
         // Stage 4: Mind Control Resolution
         if(Game.getPlayerDebuff()[0] == Game.DEBUFF_MC) {
@@ -168,7 +168,7 @@ Game.playerCombatTick = function(isBurst) {
               if(Game.getEnemyDebuff()[0] != Game.DEBUFF_SHRED) {
                 for(var a = 0; a < Game.e_Armour[4].length; a++) {
                   if(Game.e_Armour[4][a][0] == Game.ARMOUR_STR_MAGIC) {
-                    if(isBurst && Game.powerLevel(Game.BOOST_NOWEAKNESS) > 0) {
+                    if(isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
                       playerDMG += Game.e_Armour[4][a][1];
                     } else {
                       playerDMG = Math.max(playerDMG-Game.e_Armour[4][a][1],0);
@@ -184,7 +184,7 @@ Game.playerCombatTick = function(isBurst) {
               if(Game.getEnemyDebuff()[0] != Game.DEBUFF_SHRED) {
                 for(var c = 0; c < Game.e_Armour[4].length; c++) {
                   if(Game.e_Armour[4][c][0] == Game.ARMOUR_STR_RANGE) {
-                    if(isBurst && Game.powerLevel(Game.BOOST_NOWEAKNESS) > 0) {
+                    if(isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
                       playerDMG += Game.e_Armour[4][c][1];
                     } else {
                       playerDMG = Math.max(playerDMG-Game.e_Armour[4][c][1],0);
@@ -200,7 +200,7 @@ Game.playerCombatTick = function(isBurst) {
               if(Game.getEnemyDebuff()[0] != Game.DEBUFF_SHRED) {
                 for(var e = 0; e < Game.e_Armour[4].length; e++) {
                   if(Game.e_Armour[4][e][0] == Game.ARMOUR_STR_MELEE) {
-                    if(isBurst && Game.powerLevel(Game.BOOST_NOWEAKNESS) > 0) {
+                    if(isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
                       playerDMG += Game.e_Armour[4][e][1];
                     } else {
                       playerDMG = Math.max(playerDMG-Game.e_Armour[4][e][1],0);
@@ -237,13 +237,13 @@ Game.playerCombatTick = function(isBurst) {
           else {
             // Stick 'em with the pointy end.
             Game.combatLog("player","You hit " + (Game.e_ProperName ? "" : "the ") + Game.e_Name + " with your <span class='q" + Game.p_Weapon[7] + "'>" + Game.p_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + playerDMG + "</span> damage.");
-            if(Game.RNG(1,50) < Game.powerLevel(Game.SKILL_PROPER_CARE)) {
+            if(Game.RNG(1,100) <= (3 * Game.powerLevel(Game.SKILL_PROPER_CARE))) {
               // Proper Care
               Game.combatLog("player"," - <span class='q222'>Proper Care</span> prevented weapon decay.");
             }
             else {
               Game.p_Weapon[8]--;
-              if(Game.powerLevel(Game.BOOST_BONUSDMG) > 0) { Game.p_Weapon[8]--; }
+              if(Game.powerLevel(Game.SKILL_OVERCHARGE) > 0) { Game.p_Weapon[8]--; }
               if(Game.p_Weapon[8] <= 0) {
                 Game.p_Weapon[8] = 0;
                 Game.TRACK_BROKEN_ITEMS++;
@@ -266,9 +266,9 @@ Game.playerCombatTick = function(isBurst) {
           }
         }
         // Stage 7: Debuff Application
-        var debuffChance = 10 + Game.powerLevel(Game.BOOST_DEBUFF);
+        var debuffChance = 10 + Game.powerLevel(Game.SKILL_EXPOSE_WEAKNESS);
         if(isBurst) {
-          debuffChance += 20 * Game.powerLevel(Game.BOOST_DEBUFFBURST);
+          debuffChance += 20 * Game.powerLevel(Game.SKILL_TURN_THE_TABLES);
         }
         if(Game.e_Debuff.length > 0) {
            if(Game.getPlayerDebuff()[0] !== Game.DEBUFF_MC) {
@@ -312,14 +312,14 @@ Game.playerCombatTick = function(isBurst) {
           Game.player_debuffTimer = 0;
         }
           // Stage 8: Miscellaneous Effects
-        if(Game.RNG(1,100) <= Game.powerLevel(Game.BOOST_PICKPOCKET)) {
+        if(Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_FIVE_FINGER_DISCOUNT)) {
           Game.p_Currency += Game.e_Level;
           Game.combatLog("player","<span class='q222'>Five-Finger Discount</span> allowed you to steal " + Game.e_Level + " seeds.");
         }
       }
       if(Game.e_HP > 0 && Game.p_HP > 0) {
         if(!Game.flurryActive) {
-          if(Game.RNG(1,100) <= Game.powerLevel(Game.BOOST_DOUBLE)) {
+          if(Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_FLURRY)) {
             Game.flurryActive = true;
             Game.combatLog("player"," - <span class='q222'>Flurry</span> activated for an additional strike!");
             Game.playerCombatTick(isBurst);
@@ -327,7 +327,7 @@ Game.playerCombatTick = function(isBurst) {
         }
         else { Game.flurryActive = false; }
         window.clearTimeout(Game.combat_playerInterval);
-        var timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.02*Game.powerLevel(Game.BOOST_SPEED)));
+        var timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.02*Game.powerLevel(Game.SKILL_NIMBLE_FINGERS)));
         if(Game.getPlayerDebuff()[0] == Game.DEBUFF_SLOW) {
           timerLength *= (1 + (Game.p_Debuff[3]/100));
         }
@@ -376,10 +376,10 @@ Game.enemyCombatTick = function() {
 			else {
 				// Stage 3: Percentile Reductions
 				// Ancestral Fortitude
-				enemyDMG *= (1 - 0.02*Game.powerLevel(Game.BOOST_DEFENCE));
+				enemyDMG *= (1 - 0.02*Game.powerLevel(Game.SKILL_ANCESTRAL_FORTITUDE));
 				// Last Bastion
-				if(Game.powerLevel(Game.BOOST_LASTSTAND) > 0 && (Game.p_HP / Game.p_MaxHP) <= 0.3) {
-					enemyDMG *= (1 - 0.1*Game.powerLevel(Game.BOOST_LASTSTAND));
+				if(Game.powerLevel(Game.SKILL_LAST_BASTION) > 0 && (Game.p_HP / Game.p_MaxHP) <= 0.3) {
+					enemyDMG *= (1 - 0.1*Game.powerLevel(Game.SKILL_LAST_BASTION));
 				}
 				// Disarmed
 				if(Game.getEnemyDebuff()[0] == Game.DEBUFF_DISARM) {
@@ -463,7 +463,7 @@ Game.enemyCombatTick = function() {
 					else {
 						Game.combatLog("enemy",(Game.e_ProperName ? "" : "The ") + Game.e_Name + " hits you with their <span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + enemyDMG + "</span> damage.");
 					}
-					if(Game.RNG(1,50) <= Game.powerLevel(Game.BOOST_VENGEANCE)) {
+					if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_VENGEANCE)) {
 						// You get what you give. Mostly.
 						var vengDMG = Math.floor(enemyDMG/2);
 						Game.e_HP = Math.max(Game.e_HP-vengDMG,0);
@@ -482,7 +482,7 @@ Game.enemyCombatTick = function() {
             }
           }
 					if(Game.p_Armour[3] > 0) {
-						if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_PROPER_CARE)) {
+						if(Game.RNG(1,100) <= (3 * Game.powerLevel(Game.SKILL_PROPER_CARE))) {
 							// My gear is INVINCIBLE!
 							Game.combatLog("player"," - <span class='q222'>Proper Care</span> prevented armour decay.");
 						}
@@ -568,15 +568,15 @@ Game.burstAttack = function() {
       Game.p_specUsed = true;
       Game.TRACK_BURSTS++;
       Game.badgeCheck(Game.BADGE_BURSTSPAM); // Manual Labour
-      if(Game.powerLevel(Game.BOOST_BURST) > 0) {
+      if(Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0) {
         if(Game.e_Debuff !== []) {
-          window.setTimeout(function() { Game.p_specUsed = false; },10000-(1000*Game.powerLevel(Game.BOOST_FASTBURST)));
+          window.setTimeout(function() { Game.p_specUsed = false; },10000-(1000*Game.powerLevel(Game.SKILL_PRESS_THE_ADVANTAGE)));
         } else {
           window.setTimeout(function() { Game.p_specUsed = false; },10000);
         }
         Game.combatLog("player","<span class='q222'>Wild Swings</span> activated.");
         Game.wildSwing = true;
-        for(var x = Game.powerLevel(Game.BOOST_BURST); x >= 0; x--) {
+        for(var x = Game.powerLevel(Game.SKILL_WILD_SWINGS); x >= 0; x--) {
           Game.playerCombatTick(true);
         }
         if(Game.wildSwing) {
@@ -688,7 +688,7 @@ Game.endCombat = function() {
     var badgeBonus = Math.floor(xpToAdd * (0.02 * Game.playerBadges.length));
 		Game.combatLog("info","You gained <span class='q222'>" + xpToAdd + "</span> (<span class='q223'>+" + badgeBonus + "</span>) (<span class='q224'>+" + Game.prestigeLevel + "</span>) experience.");
     // Overflow
-    if(Game.powerLevel(Game.BOOST_OVERFLOW) > 0) {
+    if(Game.powerLevel(Game.SKILL_RECLAIMED_KNOWLEDGE) > 0) {
       var bonusXP = Math.floor(Math.min(Game.TRACK_XP_OVERFLOW, xpToAdd / 2));
       xpToAdd += bonusXP;
       Game.TRACK_XP_OVERFLOW -= bonusXP;
@@ -750,10 +750,10 @@ Game.endCombat = function() {
       Game.p_Armour[3] = 50 + (5*(Game.p_Armour[1]-1));
       Game.combatLog("info","<span class='q222'>High Maintenance</span> fully repaired your equipment.");
     }
-    if(Game.RNG(1,50) <= Game.powerLevel(Game.BOOST_FULLHEAL)) {
+    if(Game.powerLevel(Game.SKILL_VICTORY_RUSH) > 0) {
       // Cutting out the downtime.
-      Game.p_HP = Game.p_MaxHP;
-      Game.combatLog("info","<span class='q222'>Will To Live</span> restored you to full health.");
+      Game.p_HP = Math.min(Game.p_MaxHP, Game.p_HP + Math.floor((Game.powerLevel(Game.SKILL_VICTORY_RUSH) * 0.05) * Game.p_MaxHP));
+      Game.combatLog("info","<span class='q222'>Victory Rush</span> restored <span class='q222'>" + Math.floor((Game.powerLevel(Game.SKILL_VICTORY_RUSH) * 0.05) * Game.p_MaxHP) + "</span> health.");
     }
     Game.TRACK_WINS++;
     Game.badgeCheck(Game.BADGE_KILLCOUNT); // Skullcrusher Mountain
@@ -793,7 +793,7 @@ Game.playerDebuffTicker = function() {
     if(Game.getPlayerDebuff()[0] == Game.DEBUFF_SLEEP) {
       // Rise and shine buttercup!
       Game.combatLog("player","You wake up!");
-      var timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.02*Game.powerLevel(Game.BOOST_SPEED)));
+      var timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.02*Game.powerLevel(Game.SKILL_NIMBLE_FINGERS)));
       Game.combat_playerInterval = window.setTimeout(function() { Game.playerCombatTick(false); },timerLength);
     }
     Game.p_Debuff = [];

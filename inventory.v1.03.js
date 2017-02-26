@@ -34,7 +34,7 @@ Game.discardWeapon = function(index) {
   Game.drawActivePanel();
 }
 Game.sellWeapon = function(index, loud) {
-  var salePrice = Math.floor(25*Math.pow(1.1,Game.p_WeaponInventory[index][1])*(1+0.05*Game.powerLevel(Game.BOOST_SELL)));
+  var salePrice = Math.floor(25*Math.pow(1.1,Game.p_WeaponInventory[index][1])*(1+0.05*Game.powerLevel(Game.SKILL_HAGGLING)));
   salePrice = Math.floor(salePrice*(10+(Game.p_WeaponInventory[index][7]-Game.QUALITY_NORMAL))/10);
   var soldWepName = Game.p_WeaponInventory[index][0].split("|")[0];
   if(loud) { Game.toastNotification("<span class='q" + Game.p_WeaponInventory[index][7] + "'>" + soldWepName + "</span> sold for " + salePrice + " seeds."); }
@@ -67,7 +67,7 @@ Game.scrapWeapon = function(index, loud) {
       salePrice = Game.RNG(0,1);
       break;
   }
-  if(Game.powerLevel(Game.BOOST_MORESCRAP) == 1) { salePrice++; }
+  if(Game.powerLevel(Game.SKILL_DISASSEMBLY) == 1) { salePrice++; }
   if(loud) { Game.toastNotification("<span class='q" + Game.p_WeaponInventory[index][7] + "'>" + scrappedWepName + "</span> converted into " + salePrice + " scrap."); }
   Game.p_WeaponInventory.splice(index,1);
   Game.updateInventory = true;
@@ -104,7 +104,7 @@ Game.discardArmour = function(index) {
   Game.drawActivePanel();
 }
 Game.sellArmour = function(index, loud) {
-  var salePrice = Math.floor(25*Math.pow(1.1,Game.p_ArmourInventory[index][1])*(1+0.05*Game.powerLevel(Game.BOOST_SELL)));
+  var salePrice = Math.floor(25*Math.pow(1.1,Game.p_ArmourInventory[index][1])*(1+0.05*Game.powerLevel(Game.SKILL_HAGGLING)));
   salePrice = Math.floor(salePrice*(10+(Game.p_ArmourInventory[index][2]-Game.QUALITY_NORMAL))/10);
   var soldArmName = Game.p_ArmourInventory[index][0].split("|")[0];
   if(loud) { Game.toastNotification("<span class='q" + Game.p_ArmourInventory[index][2] + "'>" + soldArmName + "</span> sold for " + salePrice + " seeds."); }
@@ -136,7 +136,7 @@ Game.scrapArmour = function(index, loud) {
       salePrice = Game.RNG(0,1);
       break;
   }
-  if(Game.powerLevel(Game.BOOST_MORESCRAP) == 1) { salePrice++; }
+  if(Game.powerLevel(Game.SKILL_DISASSEMBLY) == 1) { salePrice++; }
   if(loud) { Game.toastNotification("<span class='q" + Game.p_ArmourInventory[index][2] + "'>" + scrappedArmName + "</span> converted into " + salePrice + " scrap."); }
   Game.p_ArmourInventory.splice(index,1);
   Game.updateInventory = true;
@@ -428,7 +428,7 @@ Game.upgradeArmourLevel = function(armour) {
   return armour;
 }
 Game.calculateItemLevelPrice = function(level, quality) {
-  var upgradeCost = Math.floor(150 * Math.pow(1.06,level) * (1-0.02*Game.powerLevel(Game.BOOST_PRICES)));
+  var upgradeCost = Math.floor(150 * Math.pow(1.06,level) * (1-0.02*Game.powerLevel(Game.SKILL_BARTERING)));
   upgradeCost = Math.floor(upgradeCost*(10+(quality-Game.QUALITY_NORMAL))/10);
   return upgradeCost;
 }

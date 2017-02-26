@@ -23,7 +23,7 @@ Game.levelUp = function() {
 	Game.p_Con += conUp;
 	Game.combatLog("info","You gained <span class='q222'>" + conUp + "</span> Constitution.");
   Game.p_MaxHP += (15 * conUp);
-  var statUpChance = Game.powerLevel(Game.BOOST_STATUP);
+  var statUpChance = Game.powerLevel(Game.SKILL_PATIENCE_AND_DISCIPLINE);
   if(statUpChance > 0 && Game.RNG(1,100) <= 3*statUpChance) {
     var chosenStat = Game.RNG(1,4);
     switch(chosenStat) {
@@ -48,17 +48,17 @@ Game.levelUp = function() {
   if(Game.p_Level == 50) {
     Game.badgeCheck(Game.BADGE_NO_SPEND);
   }
-	Game.p_SkillPoints++;
+	Game.p_StatPoints++;
 	Game.combatLog("info","You gained a Stat Point.");
   var SPChance = Game.powerLevel(Game.SKILL_LUCK_OF_THE_DRAW);
 	if(Game.RNG(1,100) <= SPChance) {
-		Game.p_SkillPoints++;
+		Game.p_StatPoints++;
 		Game.combatLog("info","Your <span class='q222'>Luck of the Draw</span> power granted another Stat Point.");
 	}
-  Game.p_PP += 1;
+  Game.p_SkillPoints += 1;
 	Game.combatLog("info","You gained a Power point.");
   if(Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_LUCKY_STAR)) {
-    Game.p_PP++;
+    Game.p_SkillPoints++;
     Game.combatLog("info","<span class='q222'>Lucky Star</span> granted an additional Power Point.");
   }
   if(Game.p_Level == 5) { Game.bossChance = 1; }
@@ -66,7 +66,7 @@ Game.levelUp = function() {
   Game.updatePowers = true;
 }
 Game.addStat = function(stat, count) {
-	while(count > 0 && Game.p_SkillPoints > 0) {
+	while(count > 0 && Game.p_StatPoints > 0) {
 		switch(stat) {
 			case Game.STAT_STR:
 				Game.p_Str++; Game.POINTS_STR++; Game.POINTS_STR_CURRENT++; if(Game.POINTS_STR >= 100) { Game.giveBadge(Game.BADGE_STR); } break;
@@ -81,7 +81,7 @@ Game.addStat = function(stat, count) {
 				Game.p_Con++; Game.POINTS_CON++; Game.POINTS_CON_CURRENT++; Game.p_MaxHP += 15; if(Game.POINTS_CON >= 100) { Game.giveBadge(Game.BADGE_CON); } break;
         // Defence of the Ancients
 		}
-		Game.p_SkillPoints--; count--;
+		Game.p_StatPoints--; count--;
 	}
   if((Game.POINTS_STR + Game.POINTS_DEX + Game.POINTS_INT + Game.POINTS_CON) >= 200) { Game.giveBadge(Game.BADGE_TOTAL); }
   // The Only Way is Up
@@ -96,9 +96,9 @@ Game.initPlayer = function(level) {
 	Game.p_HP = Game.p_MaxHP;
 	Game.p_EXP = 0;
 	Game.p_NextEXP = Math.floor(Game.XP_INIT*Math.pow(Game.XP_MULT,level-1));
-	Game.p_SkillPoints = level;
+	Game.p_StatPoints = level;
 	Game.p_Level = level;
-	Game.p_PP = level;
+	Game.p_SkillPoints = level;
 	Game.p_Weapon = Game.makeWeapon(level);
   Game.p_Armour = Game.makeArmour(level);
 }
@@ -226,7 +226,7 @@ Game.statReset = function() {
       Game.p_MaxHP -= (15 * Game.POINTS_CON_CURRENT);
       Game.p_HP = Math.min(Game.p_HP, Game.p_MaxHP);
       Game.POINTS_CON_CURRENT = 0;
-      Game.p_SkillPoints += pointCount;
+      Game.p_StatPoints += pointCount;
       Game.p_Scrap -= scrapCost;
       Game.TRACK_RESETS++;
       Game.toastNotification("Stat points have been reset.");

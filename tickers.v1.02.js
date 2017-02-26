@@ -9,7 +9,7 @@ Game.startRepair = function() {
   if(Game.p_State !== Game.STATE_COMBAT && !Game.p_repairInterval) {
     Game.toastNotification("Repairing equipment...");
     Game.giveBadge(Game.BADGE_REPAIR);
-    Game.p_repairInterval = window.setInterval(Game.repairTick,1000-(20*Game.powerLevel(Game.BOOST_REGEN)));
+    Game.p_repairInterval = window.setInterval(Game.repairTick,1000-(20*Game.powerLevel(Game.SKILL_SURVIVAL_INSTINCTS)));
   }
 }
 Game.repairTick = function() {
@@ -17,10 +17,10 @@ Game.repairTick = function() {
   var armourMax = 50 + 5*(Game.p_Armour[1]-1);
   var wepRepairAmount = (5 + Math.floor(Game.p_Weapon[1] / 3));
   var armRepairAmount = (5 + Math.floor(Game.p_Armour[1] / 3));
-  wepRepairAmount += (0.2 * Game.powerLevel(Game.SKILL_MASTER_TINKERER));
-  armRepairAmount += (0.2 * Game.powerLevel(Game.SKILL_MASTER_TINKERER));
-  Game.p_Weapon[8] = Math.min((Game.p_Weapon[8] + wepRepairAmount), weaponMax);
-  Game.p_Armour[3] = Math.min((Game.p_Armour[3] + armRepairAmount), armourMax);
+  wepRepairAmount *= (1 + (0.2 * Game.powerLevel(Game.SKILL_MASTER_TINKERER)));
+  armRepairAmount *= (1 + (0.2 * Game.powerLevel(Game.SKILL_MASTER_TINKERER)));
+  Game.p_Weapon[8] = Math.min((Game.p_Weapon[8] + Math.floor(wepRepairAmount)), weaponMax);
+  Game.p_Armour[3] = Math.min((Game.p_Armour[3] + Math.floor(armRepairAmount)), armourMax);
   if(Game.p_Weapon[8] === weaponMax && Game.p_Armour[3] === armourMax) {
     window.clearInterval(Game.p_repairInterval);
     Game.p_repairInterval = null;
@@ -43,7 +43,7 @@ Game.idleHeal = function() {
       Game.updateActivePanel();
     }
 	}
-  Game.p_IdleInterval = window.setTimeout(Game.idleHeal,1000-(20*Game.powerLevel(Game.BOOST_REGEN)));
+  Game.p_IdleInterval = window.setTimeout(Game.idleHeal,1000-(20*Game.powerLevel(Game.SKILL_SURVIVAL_INSTINCTS)));
 	Game.drawActivePanel();
   Game.updateActivePanel();
 }

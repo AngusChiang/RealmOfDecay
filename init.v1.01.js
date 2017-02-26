@@ -1,25 +1,41 @@
 Game = {};
 /*
 Changes made already:
-  • The Intuition skill is now called Undermine.
+  • The skill trees have been redefined, and split into three broad categories:
+    • The Offense tree focuses on skills that increase damage done and effects that occur when attacking.
+    • The Defence tree focuses on skills that decrease damage taken and effects that occur when attacked.
+    • The Support tree focuses on quality of life upgrades that don't fit into either of the above trees.
+  • The 'Intuition' skill is now called 'Undermine'.
+  • The 'Will to Live' skill has been renamed to 'Victory Rush' and now restores 5% health per rank when you defeat an enemy.
+  • All badges relating to reaching maximum levels with particular skills have been removed.
+  • Previous restrictions on which skills can be purchased together have been removed, except for the split between 'Absorption Shield' and 'Reflective Shield'.
+  • Purchased skills will no longer remain in the 'Available Skills' section once they have reached their maximum level.
+  • Fixed an issue where the 'Proper Care' skill was less likely to activate than it should have been.
+  • Fixed an issue where the 'Master Tinkerer' skill was much less effective than intended.
 
 Stuff left to do for MVP:
 
 Passive Stat Effects:
   Strength: Gives a chance to block incoming strikes, reducing their damage by half.
-  Dexterity: Gives a chance to parry incoming strikes, reducing their damage by half.
-  Intelligence: Gives a chance to dodge incoming strikes, reducing their damage by half.
+  Dexterity: Increases your chance of critically striking an enemy for 50% increased damage.
+  Intelligence: Gives a chance to dodge incoming strikes, preventing all damage.
   Constitution: Gives a chance when attacking to heal yourself for an amount equal to your Constitution.
   
+Combat Changes:
+  With the three new possible types of mitigation, we now need an attack table, which will determine the outcome of any given strike (Block, Parry, Dodge, Critical or Normal)
+  For enemies, this should not be required (as they cannot yet block, dodge or parry) however will be useful to implement nonetheless for criticals.
+  
 New Skills:
+  Terminal Illness (1 rank) - New Offense skill branching from Expose Weakness. Allows debuff timers to be refreshed if reapplied.
   Armour Mastery (5 ranks) - New base skill in the Defence tree. Increases armour values by 5% per rank.
   Shield Wall (5 ranks) - New Defence skill branching from Ancestral Fortitude. Grants a 1% increase in block chance per rank.
-  Shield Bash (5 ranks) - New Defence skill branching from Shield Wall. Whenever you attack, you have a 3% chance per rank to increase damage dealt by your armour's matching resistance.
+  Shield Crush (5 ranks) - New Defence skill branching from Shield Wall. Whenever you attack, you have a 3% chance per rank to negate enemy armour bonuses.
+  Hold The Line (1 rank) - New Defence skill branching from Shield Crush. Whenever Shield Crush activates, you are guaranteed to block the next attack.
+  Stand Your Ground (1 rank) - New Defence skill branching from Shield Crush. Whenever Shield Crush activates, it removes your active debuff.
+  Riposte (5 ranks) - New Defence skill branching from Hold The Line. A successful block has a 5% chance per rank to Disarm the attacker.
   Bladed Armour (5 ranks) - New Defence skill branching from Shield Wall. Deals 2% per rank of damage taken to an attacker.
-  Victory Rush (5 ranks) - New Defence skill branching from Survival Instincts. Heals you for 5% per rank when you defeat an enemy.
   Artful Dodger (1 rank) - New Defence skill branching from Victory Rush. Whenever you dodge an attack, the cooldown on your Burst Attack is reset.
   Eye for an Eye (1 rank) - New Defence skill branching from Victory Rush. Deals 100% of damage taken back to an attacker after a successful block.
-  Riposte (1 rank) - New Defence skill branching from Victory Rush. Whenever you parry an attack, you instantly perform a counter-attack.
   Second Wind (5 ranks) - New Defence skill branching from Last Bastion. Whenever a blow would kill you, instead restore 6% of your health per rank. Only works once per battle.
   Bountiful Bags (5 ranks) - New Support skill branching from Five-Finger Discount. Increases inventory sizes by 3 slots per rank.
 
@@ -67,100 +83,61 @@ Game.init = function() {
   this.STATE_IDLE = 0;
   this.STATE_REPAIR = 1;
   this.STATE_COMBAT = 2;
-  //Player Powers
-  this.SKILL_PROPER_CARE = 101; // Proper Care
-  this.SKILL_HANGING_BY_A_THREAD = 1011; // Hanging By a Thread
-  this.SKILL_HIGH_MAINTENANCE = 1012; // High Maintenance
-  this.SKILL_MASTER_TINKERER = 1013; // Master Tinkerer
-  this.SKILL_PICKPOCKET = 102; // Pickpocket
-  this.SKILL_CAVITY_SEARCH = 1021; // Cavity Search
-  this.SKILL_THOROUGH_LOOTING = 1022; // Thorough Looting
-  this.SKILL_KEEN_EYE = 103; // Keen Eye
-  this.SKILL_KEENER_EYE = 1031; // Keener Eye
-  this.SKILL_ADRENALINE_RUSH = 1032; // Adrenaline Rush
-  this.SKILL_DIVINE_SHIELD = 104; // Divine Shield
-  this.SKILL_ABSORPTION_SHIELD = 1041; // Absorption Shield
-  this.SKILL_REFLECTIVE_SHIELD = 1042; // Reflective Shield
-  this.SKILL_LUCK_OF_THE_DRAW = 105; // Luck of the Draw
-  this.SKILL_LUCKY_STAR = 1051; // Lucky Star
-  this.SKILL_FAST_LEARNER = 106; // Fast Learner
-  this.BOOST_STATUP = 1061; // Patience and Discipline
-  this.BOOST_DOUBLE = 107; // Flurry
-  this.BOOST_DBLPOWER = 1071; // Empowered Flurry
-  this.BOOST_BURST = 1072; // Wild Swings
-  this.BOOST_REGEN = 108; // Survival Instincts
-  this.BOOST_FULLHEAL = 1081; // Will To Live
-  this.BOOST_DAMAGE = 109; // Deadly Force
-  this.BOOST_EXECUTE = 1091; // Execute
-  this.BOOST_BONUSDMG = 1092; // Overcharge
-  this.BOOST_DEFENCE = 110; // Ancestral Fortitude
-  this.BOOST_LASTSTAND = 1101; // Last Bastion
-  this.BOOST_VENGEANCE = 1102; // Vengeance
-  this.BOOST_SPEED = 111; // Nimble Fingers
-  this.BOOST_FIRST = 1111; // Sneak Attack
-  this.BOOST_PICKPOCKET = 1112; // Five-Finger Discount
-  this.BOOST_DEBUFF = 112; // Expose Weakness
-  this.BOOST_FASTBURST = 1121; // Press The Advantage
-  this.BOOST_DEBUFFBURST = 1122; // Turn The Tables
-  this.BOOST_NOWEAKNESS = 1123; // Undermine
-  this.BOOST_PRICES = 113; // Bartering
-  this.BOOST_SELL = 1131; // Haggling
-  this.BOOST_MORESCRAP = 1132; // Disassembly
-  this.BOOST_OVERFLOW = 114; // Reclaimed Knowledge
-  this.BOOST_MULTIPOTION = 115; // Brewmaster
-  this.BOOST_HEALINGPOTION = 1151; // Medic's Intuition
-  this.BOOST_DEBUFFPOTION = 1152; // Saboteur's Intuition
   //New Skill List
   // Support Tree
-  this.SKILL_PICKPOCKET = 101; // Pickpocket
-  this.SKILL_CAVITY_SEARCH = 1011; // Cavity Search
-  this.BOOST_PRICES = 1012; // Bartering
-  this.SKILL_THOROUGH_LOOTING = 10111; // Thorough Looting
-  this.BOOST_SELL = 10121; // Haggling
-  this.BOOST_PICKPOCKET = 101211; // Five-Finger Discount
-  this.BOOST_STATUP = 101212; // Patience and Discipline
-  this.BOOST_MORESCRAP = 101213; // Disassembly
-  this.SKILL_BOUNTIFUL_BAGS = 1012111; // Bountiful Bags (Increases the size of the player's weapon and armour storage by 3 items per rank.)
-  this.SKILL_MASTER_TINKERER = 1012131; // Master Tinkerer
-  this.SKILL_LUCK_OF_THE_DRAW = 1012121; // Luck of the Draw
-  this.SKILL_LUCKY_STAR = 10121211; // Lucky Star
-  this.SKILL_FAST_LEARNER = 1012122; // Fast Learner
-  this.SKILL_PROPER_CARE = 1012123; // Proper Care
-  this.SKILL_HIGH_MAINTENANCE = 10121231; // High Maintenance
-  this.SKILL_HANGING_BY_A_THREAD = 10121232; // Hanging by a Thread
+  this.SKILL_PICKPOCKET = 101;
+  this.SKILL_CAVITY_SEARCH = 1011;
+  this.SKILL_BARTERING = 1012;
+  this.SKILL_THOROUGH_LOOTING = 10111;
+  this.SKILL_HAGGLING = 10121;
+  this.SKILL_FIVE_FINGER_DISCOUNT = 101211;
+  this.SKILL_PATIENCE_AND_DISCIPLINE = 101212;
+  this.SKILL_DISASSEMBLY = 101213;
+  this.SKILL_BOUNTIFUL_BAGS = 1012111; // Increases the size of the player's weapon and armour storage by 3 items per rank.
+  this.SKILL_LUCK_OF_THE_DRAW = 1012121;
+  this.SKILL_FAST_LEARNER = 1012122;
+  this.SKILL_PROPER_CARE = 1012123;
+  this.SKILL_MASTER_TINKERER = 1012131;
+  this.SKILL_LUCKY_STAR = 10121211;
+  this.SKILL_HIGH_MAINTENANCE = 10121231;
+  this.SKILL_HANGING_BY_A_THREAD = 10121232; 
   // Offense Tree
-  this.BOOST_DAMAGE = 102; // Deadly Force
-  this.BOOST_SPEED = 1021; // Nimble Fingers
-  this.SKILL_KEEN_EYE = 1022; // Keen Eye
-  this.BOOST_DOUBLE = 10211; // Flurry
-  this.SKILL_KEENER_EYE = 10221; // Keener Eye
-  this.BOOST_DEBUFF = 10222; // Expose Weakness
-  this.BOOST_DBLPOWER = 102111; // Empowered Flurry
-  this.BOOST_FIRST = 102211; // Sneak Attack
-  this.BOOST_FASTBURST = 102221; // Press the Advantage
-  this.BOOST_BURST = 1021111; // Wild Swings
-  this.SKILL_ADRENALINE_RUSH = 1021112; // Adrenaline Rush
-  this.BOOST_OVERCHARGE = 10211121; // Overcharge
-  this.BOOST_EXECUTE = 1022111; // Execute
-  this.BOOST_DEBUFFBURST = 1022211; // Turn the Tables
-  this.BOOST_NOWEAKNESS = 10222111; // Undermine
+  this.SKILL_DEADLY_FORCE = 102;
+  this.SKILL_NIMBLE_FINGERS = 1021; 
+  this.SKILL_KEEN_EYE = 1022; 
+  this.SKILL_FLURRY = 10211; 
+  this.SKILL_KEENER_EYE = 10221;
+  this.SKILL_EXPOSE_WEAKNESS = 10222; 
+  this.SKILL_EMPOWERED_FLURRY = 102111;
+  this.SKILL_SNEAK_ATTACK = 102211;
+  this.SKILL_PRESS_THE_ADVANTAGE = 102221;
+  this.SKILL_TERMINAL_ILLNESS = 102222; // Allows debuff timers to be refreshed when reapplied.
+  this.SKILL_WILD_SWINGS = 1021111;
+  this.SKILL_ADRENALINE_RUSH = 1021112; 
+  this.SKILL_EXECUTE = 1022111;
+  this.SKILL_TURN_THE_TABLES = 1022211; 
+  this.SKILL_OVERCHARGE = 10211121; 
+  this.SKILL_UNDERMINE = 10222111; 
   // Defense Tree
-  this.SKILL_ARMOUR_MASTERY = 103; // Armour Mastery (increases bonuses on armour by 5% per rank)
-  this.BOOST_DEFENCE = 1031; // Ancestral Fortitude
-  this.BOOST_REGEN = 1032; // Survival Instincts
-  this.SKILL_DIVINE_SHIELD_WALL = 10311; // Shield Wall (1% chance per rank to block incoming damage. Blocks reduce incoming damage by 50%.)
-  this.SKILL_SHIELD_BASH = 10312; // Shield Bash (3% chance per hit to increase damage dealt by your armour's resistance to the enemy's weapon type.)
-  this.SKILL_VICTORY_RUSH = 10321; // Victory Rush (Restores 5% health per rank when defeating an enemy.)
-  this.BOOST_VENGEANCE = 103111; // Vengeance
-  this.BOOST_LASTSTAND = 103112; // Last Bastion
-  this.SKILL_BLADED_ARMOUR = 103113; // Bladed Armour (Attackers take 2% per rank of the damage they deal to you.)
-  this.SKILL_ARTFUL_DODGER = 103211; // Artful Dodger (Dodging an attack instantly refreshes your Burst Attack.)
-  this.SKILL_EYE_FOR_AN_EYE = 103212; // Eye for an Eye (Deal 100% of damage blocked to attacker on a successful block.)
-  this.SKILL_RIPOSTE = 103213; // Riposte (Delivers an instant attack after parrying.)
-  this.SKILL_DIVINE_SHIELD = 1031121; // Divine Shield
-  this.SKILL_SECOND_WIND = 1031122; // Second Wind (A blow that would kill you instead restores 6% health per rank. Can only trigger once per battle.)
-  this.SKILL_ABSORPTION_SHIELD = 10311211; // Absorption Shield
-  this.SKILL_REFLECTIVE_SHIELD = 10311212; // Reflective Shield
+  this.SKILL_ARMOUR_MASTERY = 103; // Increases bonuses on armour by 5% per rank.
+  this.SKILL_ANCESTRAL_FORTITUDE = 1031;
+  this.SKILL_SURVIVAL_INSTINCTS = 1032;
+  this.SKILL_SHIELD_WALL = 10311; // 1% chance per rank to block incoming damage. Blocks reduce incoming damage by 50%.
+  this.SKILL_SHIELD_CRUSH = 10312; // Adds a 3% chance per rank to ignore enemy armour bonus against your weapon when attacking.
+  this.SKILL_VICTORY_RUSH = 10321; // Restores 5% health per rank when defeating an enemy.
+  this.SKILL_VENGEANCE = 103111;
+  this.SKILL_LAST_BASTION = 103112;
+  this.SKILL_BLADED_ARMOUR = 103113; // Attackers take 2% per rank of the damage they deal to you.
+  this.SKILL_HOLD_THE_LINE = 103121; // Guarantees a block after Shield Crush activates.
+  this.SKILL_STAND_YOUR_GROUND = 103122; // Removes your active debuff when Shield Crush activates.
+  this.SKILL_ARTFUL_DODGER = 103211; // Dodging an attack instantly refreshes your Burst Attack.
+  this.SKILL_EYE_FOR_AN_EYE = 103212; // Deal 100% of damage blocked to attacker on a successful block.
+  this.SKILL_DIVINE_SHIELD = 1031121;
+  this.SKILL_SECOND_WIND = 1031122; // A blow that would kill you instead restores 6% health per rank. Can only trigger once per battle.
+  this.SKILL_RIPOSTE = 1031211; // A successful block has a 5% chance per rank to Disarm the attacker.
+  this.SKILL_ABSORPTION_SHIELD = 10311211;
+  this.SKILL_REFLECTIVE_SHIELD = 10311212;
+  this.SKILL_RECLAIMED_KNOWLEDGE = 104;
   //Weapon Types
   this.WEAPON_MELEE = 201;
   this.WEAPON_RANGE = 202;
@@ -298,79 +275,50 @@ Game.init = function() {
   this.BADGE_NO_WEAPON = 2029; // Where We're Going, We Don't Need Weapons
   this.BADGE_NO_ARMOUR = 2030; // Where We're Going, We Don't Need Armour
   this.BADGE_NO_GEAR = 2031; // Where We're Going, We Don't Need Gear
-  // This next set all relate to specific powers
-  this.BADGE_POWER_THREAD = 2032; // Taking Care of the Careless (Hanging By a Thread)
-  this.BADGE_POWER_MAINT = 2033; // Excessive Demands (High Maintenance)
-  this.BADGE_POWER_REPAIR = 2034; // Gnomish Ingenuity (Master Tinkerer)
-  this.BADGE_POWER_CAVITY = 2035; // Latex Glove Fanatic (Cavity Search)
-  this.BADGE_POWER_LOOTING = 2036; // Gold Digger (Thorough Looting)
-  this.BADGE_POWER_KEENER = 2037; // Commander Keen (Keener Eye)
-  this.BADGE_POWER_RUSH = 2038; // No Rush (Adrenaline Rush)
-  this.BADGE_POWER_ABSORB = 2039; // Glutton for Punishment (Absorption Shield)
-  this.BADGE_POWER_REFLECT = 2040; // Return to Sender (Reflective Shield)
-  this.BADGE_POWER_LUCKY = 2041; // Eight-Leaf Clover (Lucky Star)
-  this.BADGE_POWER_SKILLS = 2042; // Statuesque (Patience and Discipline)
-  this.BADGE_POWER_FLURRY = 2043; // They Told Me It Was Overpowered (Empowered Flurry)
-  this.BADGE_POWER_WILD = 2044; // Monkeying Around (Wild Swings)
-  this.BADGE_POWER_DYING = 2045; // No Time for Dying (Will to Live)
-  this.BADGE_POWER_EXECUTE = 2046; // Butcher's Block (Execute)
-  this.BADGE_POWER_OVERCHARGE = 2047; // Pushing the Limits (Overcharge)
-  this.BADGE_POWER_BASTION = 2048; // Hollow Bastion (Last Bastion)
-  this.BADGE_POWER_REVENGE = 2049; // Right Back at You (Vengeance)
-  this.BADGE_POWER_FIRST = 2050; // Ladies First (Sneak Attack)
-  this.BADGE_POWER_FINGER = 2051; // Disembodied Finger (Five-Finger Discount)
-  this.BADGE_POWER_PRESSURE = 2052; // Under Pressure (Press the Advantage)
-  this.BADGE_POWER_TABLES = 2053; // Table Flipper (Turn the Tables)
-  this.BADGE_POWER_INTUITION = 2054; // Discerning Eye (Intuition)
-  this.BADGE_POWER_MARKET = 2055; // Market Regular (Haggling)
-  this.BADGE_POWER_SCRAP = 2056; // Systematic Deconstruction (Disassembly)
-  this.BADGE_POWER_HEALPOTION = 2057; // Trust Me, I'm a Doctor (Medic's Intuition)
-  this.BADGE_POWER_DEBUFFPOTION = 2058; // Dirty Tactics (Saboteur's Intuition)
-  // End of the power block
-  this.BADGE_STR = 2059; // A Good Offense
-  this.BADGE_DEX = 2060; // Pinpoint Accuracy
-  this.BADGE_INT = 2061; // Bookish Type
-  this.BADGE_CON = 2062; // Defence of the Ancients
-  this.BADGE_TOTAL = 2063; // The Only Way is Up
-  this.BADGE_POWER = 2064; // Unlimited Power!
-  this.BADGE_RESETS = 2065; // Indecisive
-  this.BADGE_RANDOM_DEBUFFS = 2066; // Rolling the Bones
+  this.BADGE_STR = 2032; // A Good Offense
+  this.BADGE_DEX = 2033; // Pinpoint Accuracy
+  this.BADGE_INT = 2034; // Bookish Type
+  this.BADGE_CON = 2035; // Defence of the Ancients
+  this.BADGE_TOTAL = 2036; // The Only Way is Up
+  this.BADGE_POWER = 2037; // Unlimited Power!
+  this.BADGE_RESETS = 2038; // Indecisive
+  this.BADGE_RANDOM_DEBUFFS = 2039; // Rolling the Bones
   this.PROGRESS_RANDOM_DEBUFFS = 0;
-  this.BADGE_DEBUFF_SPEND = 2067; // Happy Customer
+  this.BADGE_DEBUFF_SPEND = 2040; // Happy Customer
   this.PROGRESS_DEBUFF_SPEND = 0;
-  this.BADGE_NO_NAME = 2068; // Unimaginative
-  this.BADGE_NO_FLAVOUR = 2069; // Lacking in Flavour
-  this.BADGE_FIRST_BUY = 2070; // Broken In
-  this.BADGE_SPEND1 = 2071; // The Trade Parade
-  this.BADGE_SPEND2 = 2072; // Sucker
-  this.BADGE_SPEND3 = 2073; // CAPITALISM!
+  this.BADGE_NO_NAME = 2041; // Unimaginative
+  this.BADGE_NO_FLAVOUR = 2042; // Lacking in Flavour
+  this.BADGE_FIRST_BUY = 2043; // Broken In
+  this.BADGE_SPEND1 = 2044; // The Trade Parade
+  this.BADGE_SPEND2 = 2045; // Sucker
+  this.BADGE_SPEND3 = 2046; // CAPITALISM!
   this.PROGRESS_SPEND = 0;
-  this.BADGE_NO_SPEND = 2074; // The Trade Blockade
-  this.BADGE_SELLING = 2075; // Rags to Riches
-  this.BADGE_SCRAPPING = 2076; // Heavy Metal
-  this.BADGE_DISCARDS = 2077; // Disposable Income
-  this.BADGE_REPAIR = 2078; // A Habit is Born
-  this.BADGE_BLUE = 2079; // Blue in the Face
-  this.BADGE_PURPLE = 2080; // Tastes like Purple
-  this.BADGE_FULL_INV = 2081; // Full House
-  this.BADGE_FULL_WEP = 2082; // Weapon Hoarder
-  this.BADGE_FULL_ARM = 2083; // Armour Hoarder
-  this.BADGE_FULL_POT = 2084; // Potion Hoarder
-  this.BADGE_FULL_AMAZING = 2085; // Expensive Tastes
-  this.BADGE_BOSSCHANCE = 2086; // Chasing Shadows
+  this.BADGE_NO_SPEND = 2047; // The Trade Blockade
+  this.BADGE_SELLING = 2048; // Rags to Riches
+  this.BADGE_SCRAPPING = 2049; // Heavy Metal
+  this.BADGE_DISCARDS = 2050; // Disposable Income
+  this.BADGE_REPAIR = 2051; // A Habit is Born
+  this.BADGE_BLUE = 2052; // Blue in the Face
+  this.BADGE_PURPLE = 2053; // Tastes like Purple
+  this.BADGE_FULL_INV = 2054; // Full House
+  this.BADGE_FULL_WEP = 2055; // Weapon Hoarder
+  this.BADGE_FULL_ARM = 2056; // Armour Hoarder
+  this.BADGE_FULL_POT = 2057; // Potion Hoarder
+  this.BADGE_FULL_AMAZING = 2058; // Expensive Tastes
+  this.BADGE_BOSSCHANCE = 2059; // Chasing Shadows
   // Boss kill badges
-  this.BADGE_ZONE1 = 2087; // Trolling the Troll
-  this.BADGE_ZONE2 = 2088; // Calm Down Dear
-  this.BADGE_ZONE3 = 2089; // Time For A Shower
-  this.BADGE_ZONE4 = 2090; // All Change, Please
-  this.BADGE_ZONE5 = 2091; // Outgrown
-  this.BADGE_ZONE6 = 2092; // Problem Solved
-  this.BADGE_ZONE7 = 2093; // Beyond Divinity
-  this.BADGE_ZONE8 = 2094; // Surpassing The Master
-  this.BADGE_ZONE9 = 2095; // Feeling Broody
-  this.BADGE_ZONE10 = 2096; // Coming To A Point
-  this.BADGE_ZONE11 = 2097; // Too Hot To Handle
-  this.BADGE_ZONE12 = 2098; // A Long Way Down
+  this.BADGE_ZONE1 = 2060; // Trolling the Troll
+  this.BADGE_ZONE2 = 2061; // Calm Down Dear
+  this.BADGE_ZONE3 = 2062; // Time For A Shower
+  this.BADGE_ZONE4 = 2063; // All Change, Please
+  this.BADGE_ZONE5 = 2064; // Outgrown
+  this.BADGE_ZONE6 = 2065; // Problem Solved
+  this.BADGE_ZONE7 = 2066; // Beyond Divinity
+  this.BADGE_ZONE8 = 2067; // Surpassing The Master
+  this.BADGE_ZONE9 = 2068; // Feeling Broody
+  this.BADGE_ZONE10 = 2069; // Coming To A Point
+  this.BADGE_ZONE11 = 2070; // Too Hot To Handle
+  this.BADGE_ZONE12 = 2071; // A Long Way Down
 	// Player variables
   this.MAX_INVENTORY = 18;
   this.p_Name = "Generic Player Name";
@@ -504,8 +452,8 @@ Game.prestige = function() {
         Game.p_maxZone = 0;
         Game.prestigeLevel += Game.p_Level;
         Game.initPlayer(1);
-        Game.p_PP += Math.floor(Game.prestigeLevel/4);
-        Game.p_SkillPoints += Math.floor(Game.prestigeLevel/2);
+        Game.p_SkillPoints += Math.floor(Game.prestigeLevel/4);
+        Game.p_StatPoints += Math.floor(Game.prestigeLevel/2);
         Game.repopulateShop();
         Game.TRACK_RESETS++;
         Game.giveBadge(Game.BADGE_PRESTIGE);
@@ -543,10 +491,10 @@ Game.save = function(auto) {
   STS.p_NextEXP = Game.p_NextEXP;
   STS.p_Powers = Game.p_Powers;
   STS.p_Level = Game.p_Level;
-  STS.p_PP = Game.p_PP;
+  STS.p_PP = Game.p_SkillPoints;
   STS.p_Currency = Game.p_Currency;
   STS.p_Scrap = Game.p_Scrap;
-  STS.p_SkillPoints = Game.p_SkillPoints;
+  STS.p_SkillPoints = Game.p_StatPoints;
   STS.p_WeaponInventory = Game.p_WeaponInventory
   STS.p_Weapon = Game.p_Weapon;
   STS.p_ArmourInventory = Game.p_ArmourInventory;
@@ -662,10 +610,10 @@ Game.load = function() {
 		Game.p_NextEXP = g.p_NextEXP;
 		Game.p_Powers = g.p_Powers;
 		Game.p_Level = g.p_Level;
-		Game.p_PP = g.p_PP;
+		Game.p_SkillPoints = g.p_PP;
     Game.p_Currency = g.p_Currency;
     Game.p_Scrap = g.p_Scrap;
-		Game.p_SkillPoints = g.p_SkillPoints;
+		Game.p_StatPoints = g.p_SkillPoints;
     Game.p_WeaponInventory = g.p_WeaponInventory
 		Game.p_Weapon = g.p_Weapon;
     Game.p_ArmourInventory = g.p_ArmourInventory;

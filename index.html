@@ -98,29 +98,37 @@
                         <div id="zoneList"></div>
                     </tr>
                   </table>
-									<table id="powersTable" style="display:none;">
-										<tr>
-											<td>
-												<table id="availablePowers" class="availablePowersPanel">
+                  <table id="powersTable" style="display:none;">
+                    <tr>
+                      <td>
+                        <table id="availablePowers" class="availablePowersPanel">
                           <tr>
-                            <td id="availablePowersHeader"><div class="powerHeader">Available Powers (<span id="powerPointsOut"></span> points available):</div></td>
+                            <td id="availablePowersHeader"><div class="powerHeader">Available Skills (<span id="powerPointsOut"></span> points available):</div></td>
                           </tr>
-													<tr id="available_row">
-                            <td id="available_area">
-                            </td>
+                          <tr id="available_row">
+                            <td id="available_area_offense"></td>
                           </tr>
-												</table>
-                        <div class="powerHeader">Selected Powers</div>
+                          <tr>
+                            <td id="available_area_defense"></td>
+                          </tr>
+                          <tr>
+                            <td id="available_area_support"></td>
+                          </tr>
+                          <tr>
+                            <td id="available_area_special"></td>
+                          </tr>
+                        </table>
+                        <div class="powerHeader">Selected Skills</div>
                         <table id="purchasedPowers" class="availablePowersPanel">
                           <tr>
                             <td id="purchased_area"></td>
                           </tr>
                         </table>
                         <span class="nonPanelButton" id="powerReset" onclick="Game.resetPowers();">Reset your Powers</span>
-											</td>
-										</tr>
-									</table>
-									<table id="inventoryTable" style="display:none;">
+                        </td>
+                      </tr>
+                    </table>
+                    <table id="inventoryTable" style="display:none;">
                     <tr id="cleanup">
                       <td><span class="nonPanelButton" onclick="Game.automaticInventoryClear();">Clean Inventory</span></td>
                     </tr>

@@ -350,7 +350,7 @@ Game.createPowerUIPanel = function(powerID, rootID, currentLevel, selectable, bu
 
   var panel = document.createElement("table");
   panel.setAttribute("class", "itemPanel");
-  if(!selectable || (Game.p_PP === 0 && Game.powerLevel(powerID) === 0)) {
+  if(!selectable || (Game.p_SkillPoints === 0 && Game.powerLevel(powerID) === 0)) {
     panel.setAttribute("style","opacity:0.4;-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=40)';");
   }
   var row1 = document.createElement("tr");
@@ -379,7 +379,7 @@ Game.createPowerUIPanel = function(powerID, rootID, currentLevel, selectable, bu
   effectSection.innerHTML = Game.getPowerDesc(powerID);
   row3.appendChild(effectSection);
   panel.appendChild(row3);
-  if(currentLevel < Game.getPowerLevelCap(powerID) && selectable && Game.p_PP > 0 && buyable) {
+  if(currentLevel < Game.getPowerLevelCap(powerID) && selectable && Game.p_SkillPoints > 0 && buyable) {
     var upgradeButton = document.createElement("span");
     var upgradeSection = document.createElement("td");
     upgradeSection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;");
@@ -417,6 +417,7 @@ Game.createPlayerUIPanel = function() {
   var row4 = document.createElement("tr");
   var row5 = document.createElement("tr");
   var row6 = document.createElement("tr");
+  var row7 = document.createElement("tr");
   var nameSection = document.createElement("td");
   nameSection.setAttribute("colspan", "3");
   nameSection.setAttribute("style", "font-size:18px;font-weight:bold;")
@@ -429,25 +430,28 @@ Game.createPlayerUIPanel = function() {
   row1.appendChild(levelSection);
   panel.appendChild(row1);
   var HPSection = document.createElement("td");
-  HPSection.setAttribute("colspan", "3");
+  HPSection.setAttribute("colspan", "4");
   HPSection.id = "player_hpmaxhp";
   HPSection.innerHTML = "<strong>HP:</strong> " + prettifyNumber(Game.p_HP) + " / " + prettifyNumber(Game.p_MaxHP) + " (" + Math.floor(Game.p_HP / Game.p_MaxHP * 10000)/100 + "%)";
-  var unspentSPSection = document.createElement("td");
-  unspentSPSection.id = "player_UISP";
-  unspentSPSection.innerHTML = "<strong>Free SP:</strong> " + Game.p_SkillPoints;
   row2.appendChild(HPSection);
-  row2.appendChild(unspentSPSection);
   panel.appendChild(row2);
   var XPSection = document.createElement("td");
-  XPSection.setAttribute("colspan", "3");
+  XPSection.setAttribute("colspan", "4");
   XPSection.id = "player_xpmaxxp";
   XPSection.innerHTML = "<strong>XP:</strong> " + Game.p_EXP + " / " + Game.p_NextEXP + " (" + Math.floor(Game.p_EXP / Game.p_NextEXP * 10000)/100 + "%)";
-  var unspentPPSection = document.createElement("td");
-  unspentPPSection.id = "player_UIPP";
-  unspentPPSection.innerHTML = "<strong>Free PP:</strong> " + Game.p_PP;
   row3.appendChild(XPSection);
-  row3.appendChild(unspentPPSection);
   panel.appendChild(row3);
+  var unspentSPSection = document.createElement("td");
+  unspentSPSection.setAttribute("colspan","2");
+  unspentSPSection.id = "player_UISP";
+  unspentSPSection.innerHTML = "<strong>Stat Points:</strong> " + Game.p_StatPoints;
+  var unspentPPSection = document.createElement("td");
+  unspentPPSection.setAttribute("colspan","2");
+  unspentPPSection.id = "player_UIPP";
+  unspentPPSection.innerHTML = "<strong>Skill Points:</strong> " + Game.p_SkillPoints;
+  row4.appendChild(unspentSPSection);
+  row4.appendChild(unspentPPSection);
+  panel.appendChild(row4);
   var STRSection = document.createElement("td");
   STRSection.id = "player_UIStr";
   STRSection.innerHTML = "<strong>STR:</strong> " + Game.p_Str;
@@ -460,11 +464,11 @@ Game.createPlayerUIPanel = function() {
   var CONSection = document.createElement("td");
   CONSection.id = "player_UICon";
   CONSection.innerHTML = "<strong>CON:</strong> " + Game.p_Con;
-  row4.appendChild(STRSection);
-  row4.appendChild(DEXSection);
-  row4.appendChild(INTSection);
-  row4.appendChild(CONSection);
-  panel.appendChild(row4);
+  row5.appendChild(STRSection);
+  row5.appendChild(DEXSection);
+  row5.appendChild(INTSection);
+  row5.appendChild(CONSection);
+  panel.appendChild(row5);
   var seedsSection = document.createElement("td");
   seedsSection.setAttribute("colspan", "2");
   seedsSection.id = "player_UISeeds";
@@ -473,9 +477,9 @@ Game.createPlayerUIPanel = function() {
   scrapSection.setAttribute("colspan", "2");
   scrapSection.id = "player_UIScrap";
   scrapSection.innerHTML = "<strong>Scrap:</strong> " + Game.p_Scrap;
-  row5.appendChild(seedsSection);
-  row5.appendChild(scrapSection);
-  panel.appendChild(row5);
+  row6.appendChild(seedsSection);
+  row6.appendChild(scrapSection);
+  panel.appendChild(row6);
   var renameButton = document.createElement("span");
   var renameSection = document.createElement("td");
   renameSection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;width:50% !important");
@@ -492,9 +496,9 @@ Game.createPlayerUIPanel = function() {
   resetButton.onclick = function(){ return function() { Game.statReset(); }; }();
   resetButton.innerHTML = "Reset Stats";
   resetSection.appendChild(resetButton);
-  row6.appendChild(renameSection);
-  row6.appendChild(resetSection);
-  panel.appendChild(row6);
+  row7.appendChild(renameSection);
+  row7.appendChild(resetSection);
+  panel.appendChild(row7);
   return panel;
 }
 Game.createPlayerCombatPanel = function() {
@@ -550,7 +554,7 @@ Game.createPlayerCombatPanel = function() {
     burstButton.setAttribute("class", "itemPanelButton");
     burstButton.onclick = function(){ return function() { Game.burstAttack(); }; }();
     burstButton.id = "combat_burstButton";
-    burstButton.innerHTML = Game.p_specUsed ? "Burst Unavailable" : (Game.powerLevel(Game.BOOST_BURST) > 0 ? "Wild Swings" : "Burst Attack");
+    burstButton.innerHTML = Game.p_specUsed ? "Burst Unavailable" : (Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0 ? "Wild Swings" : "Burst Attack");
     burstSection.appendChild(burstButton);
     row4.appendChild(burstSection);
     var fleeButton = document.createElement("span");
@@ -650,7 +654,7 @@ Game.createStatPointPanel = function() {
   var nameSection = document.createElement("td");
   nameSection.setAttribute("colspan", "4");
   nameSection.setAttribute("style","font-size:18px;font-weight:bold;width:100% !important;");
-  nameSection.innerHTML = "Stat Points (" + Game.p_SkillPoints + " left)";
+  nameSection.innerHTML = "Stat Points (" + Game.p_StatPoints + " left)";
   nameSection.id = "player_statPointsLeft"
   row1.appendChild(nameSection);
   panel.appendChild(row1);
