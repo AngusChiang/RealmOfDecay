@@ -72,9 +72,6 @@ Update strategy
 Boss Buffs and Debuffs
  - Bosses and some elites should be able to give themselves buffs that have various effects on the user (and possibly cause issues for the player)
 
-95 of 98 badges implemented.
-3 of 98 badges rely on non-existent mechanics
-
 */
 Game.init = function() {
   //Define some constants we can use later
@@ -86,6 +83,7 @@ Game.init = function() {
   this.XP_BASE = 40;
   this.XP_INIT = 128;
   this.WEAPON_BASE_MULT = 0.6; // Multiplier for main stat to apply to damage dealt.
+  this.STAT_CONVERSION_SCALE = 3;
   //Player states
   this.STATE_IDLE = 0;
   this.STATE_REPAIR = 1;
@@ -747,6 +745,17 @@ function arraysEqual(a, b) {
     if (a[i] !== b[i]) return false;
   }
   return true;
+}
+function statValue(val) {
+  if(val < 0)
+    return -statValue(-val);
+  var mult = val / Game.STAT_CONVERSION_SCALE;
+  var trinum = (Math.sqrt(8.0 * mult + 1.0) - 1.0) / 2.0;
+  return trinum * Game.STAT_CONVERSION_SCALE;
+}
+
+function clearElementContent(el) {
+  while(el.firstChild) { el.removeChild(el.firstChild); }
 }
 
 document.getElementById("loadedInit").style.display = "";
