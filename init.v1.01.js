@@ -32,6 +32,7 @@ Combat Changes:
   
 New Skills:
   Terminal Illness (1 rank) - New Offense skill branching from Expose Weakness. Allows debuff timers to be refreshed if reapplied.
+  Bloodlust (1 rank) - New Offense skill branching from <TBC>. Critical strikes refresh the cooldown on your Burst Attack.
   Shield Wall (5 ranks) - New Defence skill branching from Ancestral Fortitude. Grants a 1% increase in block chance per rank.
   Shield Crush (5 ranks) - New Defence skill branching from Shield Wall. Whenever you attack, you have a 3% chance per rank to negate enemy armour bonuses.
   Hold The Line (1 rank) - New Defence skill branching from Shield Crush. Whenever Shield Crush activates, you are guaranteed to block the next attack.
@@ -160,28 +161,28 @@ Game.init = function() {
   this.ARMOUR_VULN_RANGE = 235;
   this.ARMOUR_VULN_MAGIC = 236;
   // Debuff types
-  this.DEBUFF_SHRED = 241; // Negates opponent's armour
-  this.DEBUFF_MULTI = 242; // Delivers a second attack with each hit
+  this.DEBUFF_SHRED = 241; // Negates target's armour
+  this.DEBUFF_MULTI = 242; // Delivers a second, weaker attack with each hit
   this.DEBUFF_DRAIN = 243; // Restores a percentage of damage dealt as health
-  this.DEBUFF_SLOW = 244; // Lowers the enemy's attack speed
-  this.DEBUFF_MC = 245; // Causes the enemy's next attack to hit themselves
+  this.DEBUFF_SLOW = 244; // Lowers the target's attack speed
+  this.DEBUFF_MC = 245; // Causes the target's next attack to hit themselves
   this.DEBUFF_DOT = 246; // Deals an arbitrary amount of extra damage
-  this.DEBUFF_PARAHAX = 247; // May cause the enemy to be unable to attack
-  this.DEBUFF_DOOM = 248; // Kills the enemy instantly
-  this.DEBUFF_DISARM = 249; // Negates opponent's weapon
-  this.DEBUFF_SLEEP = 250; // Renders victim unable to act. Can be broken with damage.
-	// Item Quality
-	this.QUALITY_POOR = 221;
-	this.QUALITY_NORMAL = 222;
-	this.QUALITY_GOOD = 223;
-	this.QUALITY_GREAT = 224;
-	this.QUALITY_AMAZING = 225;
+  this.DEBUFF_PARAHAX = 247; // May cause the target to be unable to attack
+  this.DEBUFF_DOOM = 248; // Chance to kill the target instantly
+  this.DEBUFF_DISARM = 249; // Negates target's weapon
+  this.DEBUFF_SLEEP = 250; // Renders target unable to act. Can be broken with damage.
+  // Item Quality
+  this.QUALITY_POOR = 221;
+  this.QUALITY_NORMAL = 222;
+  this.QUALITY_GOOD = 223;
+  this.QUALITY_GREAT = 224;
+  this.QUALITY_AMAZING = 225;
   this.QUALITY_LEGENDARY = 226;
-	// Point assignment stats
-	this.STAT_STR = 301;
-	this.STAT_DEX = 302;
-	this.STAT_INT = 303;
-	this.STAT_CON = 304;
+  // Point assignment stats
+  this.STAT_STR = 301;
+  this.STAT_DEX = 302;
+  this.STAT_INT = 303;
+  this.STAT_CON = 304;
   // Point assignment tracking
   this.POINTS_STR = 0;
   this.POINTS_DEX = 0;
@@ -324,26 +325,26 @@ Game.init = function() {
   this.BADGE_ZONE10 = 2069; // Coming To A Point
   this.BADGE_ZONE11 = 2070; // Too Hot To Handle
   this.BADGE_ZONE12 = 2071; // A Long Way Down
-	// Player variables
+  // Player variables
   this.MAX_INVENTORY = 18;
   this.p_Name = "Generic Player Name";
-	this.p_HP = 0; this.p_MaxHP = 0;
-	this.p_Str = 0; this.p_Dex = 0;
-	this.p_Int = 0; this.p_Con = 0;
-	this.p_EXP = 0; this.p_NextEXP = 0;
-	this.p_SkillPoints = 0;
-	this.p_Level = 0; this.p_PP = 0; // Power points.
-	this.p_Powers = []; // Selected powers.
-	this.p_Weapon = []; // Player weapon.
+  this.p_HP = 0; this.p_MaxHP = 0;
+  this.p_Str = 0; this.p_Dex = 0;
+  this.p_Int = 0; this.p_Con = 0;
+  this.p_EXP = 0; this.p_NextEXP = 0;
+  this.p_SkillPoints = 0;
+  this.p_Level = 0; this.p_PP = 0; // Power points.
+  this.p_Powers = []; // Selected powers.
+  this.p_Weapon = []; // Player weapon.
   this.p_Armour = []; // Player armour.
   this.p_Potion = []; // Equipped potion.
-	this.p_State = Game.STATE_IDLE; // Player states
-	this.p_specUsed = false;
-	this.p_autoSaved = true;
-	this.p_RepairInterval = null;
+  this.p_State = Game.STATE_IDLE; // Player states
+  this.p_specUsed = false;
+  this.p_autoSaved = true;
+  this.p_RepairInterval = null;
   this.p_Currency = 0;
   this.p_Scrap = 0;
-	this.p_IdleInterval = null;
+  this.p_IdleInterval = null;
   this.p_Debuff = [];
   this.p_Adrenaline = 0;
   this.p_currentZone = 0;
@@ -367,22 +368,22 @@ Game.init = function() {
   this.player_debuffTimer = 0;
   this.enemy_debuffInterval = null;
   this.enemy_debuffTimer = 0;
-	this.combat_enemyInterval = null;
+  this.combat_enemyInterval = null;
   this.combat_playerInterval = null;
   this.toastQueue = [];
   this.toastTimer = null;
-	// Enemy variables
-	this.e_HP = 0; this.e_MaxHP = 0;
-	this.e_MainStat = 0; this.e_Level = 0;
+  // Enemy variables
+  this.e_HP = 0; this.e_MaxHP = 0;
+  this.e_MainStat = 0; this.e_Level = 0;
   this.e_Name = "";
-	this.e_isBoss = false;
-	this.e_Weapon = []; // Enemy weapon
+  this.e_isBoss = false;
+  this.e_Weapon = []; // Enemy weapon
   this.e_Armour = []; // Enemy armour
-	this.e_DebuffStacks = 0;
+  this.e_DebuffStacks = 0;
   this.e_Debuff = [];
   this.e_ProperName = false; // Used for name output
   this.canLoot = true; // So we can take items from things...
-	this.last_Weapon = []; // Weapon to take
+  this.last_Weapon = []; // Weapon to take
   this.last_Armour = [];
   // Autobattle vars
   this.autoBattle = false;
@@ -391,11 +392,11 @@ Game.init = function() {
   this.autoBattle_repair = 5;
   this.autoSell_options = ["SELL","SCRAP","IGNORE","IGNORE","IGNORE"];
   if(!this.load()) {
- 		this.initPlayer(1);
+    this.initPlayer(1);
     this.showPanel("helpTable");
     this.repopulateShop();
- 		this.save(true);
- 	}
+    this.save(true);
+  }
   else {
     this.showPanel(this.activePanel);
     this.toastNotification("Game loaded.");
@@ -421,14 +422,14 @@ Game.init = function() {
   helpTabButton.onclick = function(){ Game.showPanel('helpTable'); };
   updateTabButton.onclick = function(){ Game.showPanel('updateTable'); };
   badgeTabButton.onclick = function(){ Game.showPanel('badgeTable'); };
-	if(Game.p_State != Game.STATE_COMBAT) { Game.idleHeal(); }
-	this.drawActivePanel();
+  if(Game.p_State != Game.STATE_COMBAT) { Game.idleHeal(); }
+  this.drawActivePanel();
 }
 Game.reset = function() {
-	if(confirm("Are you sure you wish to erase your save? It will be lost permanently...")) {
-		window.localStorage.removeItem("gameSave");
-		window.location.reload();
-	}
+  if(confirm("Are you sure you wish to erase your save? It will be lost permanently...")) {
+    window.localStorage.removeItem("gameSave");
+    window.location.reload();
+  }
 }
 Game.prestige = function() {
   var prestigeBonus = Game.p_Level;
@@ -586,23 +587,23 @@ Game.save = function(auto) {
   }
 }
 Game.load = function() {
-	//localStorage yeeeeee
-	var g;
-	try {
-		g = JSON.parse(window.localStorage.getItem("gameSave"));
-	}
-	catch(x) {
-		g = null;
-		console.log("Failed to load save. Is localStorage a thing on this browser?");
-	}
-	if(g !== null && g.GAME_VERSION == Game.GAME_VERSION) {
+  //localStorage yeeeeee
+  var g;
+  try {
+    g = JSON.parse(window.localStorage.getItem("gameSave"));
+  }
+  catch(x) {
+    g = null;
+    console.log("Failed to load save. Is localStorage a thing on this browser?");
+  }
+  if(g !== null && g.GAME_VERSION == Game.GAME_VERSION) {
     Game.p_Name = g.p_Name;
-		Game.p_HP = g.p_HP;
-		Game.p_MaxHP = g.p_MaxHP;
-		Game.p_Str = g.p_Str;
-		Game.p_Dex = g.p_Dex;
-		Game.p_Int = g.p_Int;
-		Game.p_Con = g.p_Con;
+    Game.p_HP = g.p_HP;
+    Game.p_MaxHP = g.p_MaxHP;
+    Game.p_Str = g.p_Str;
+    Game.p_Dex = g.p_Dex;
+    Game.p_Int = g.p_Int;
+    Game.p_Con = g.p_Con;
     Game.POINTS_STR = g.POINTS_STR;
     Game.POINTS_DEX = g.POINTS_DEX;
     Game.POINTS_INT = g.POINTS_INT;
@@ -611,102 +612,102 @@ Game.load = function() {
     Game.POINTS_DEX_CURRENT = g.POINTS_DEX_CURRENT;
     Game.POINTS_INT_CURRENT = g.POINTS_INT_CURRENT;
     Game.POINTS_CON_CURRENT = g.POINTS_CON_CURRENT;
-		Game.p_EXP = g.p_EXP;
-		Game.p_NextEXP = g.p_NextEXP;
-		Game.p_Powers = g.p_Powers;
-		Game.p_Level = g.p_Level;
-		Game.p_SkillPoints = g.p_PP;
+    Game.p_EXP = g.p_EXP;
+    Game.p_NextEXP = g.p_NextEXP;
+    Game.p_Powers = g.p_Powers;
+    Game.p_Level = g.p_Level;
+    Game.p_SkillPoints = g.p_PP;
     Game.p_Currency = g.p_Currency;
     Game.p_Scrap = g.p_Scrap;
-		Game.p_StatPoints = g.p_SkillPoints;
+    Game.p_StatPoints = g.p_SkillPoints;
     Game.p_WeaponInventory = g.p_WeaponInventory
-		Game.p_Weapon = g.p_Weapon;
+    Game.p_Weapon = g.p_Weapon;
     Game.p_ArmourInventory = g.p_ArmourInventory;
     Game.p_Armour = g.p_Armour;
     Game.p_PotionInventory = g.p_PotionInventory;
     Game.p_Potion = g.p_Potion;
     Game.p_WeaponShopStock = g.p_WeaponShopStock;
     Game.p_ArmourShopStock = g.p_ArmourShopStock;
-		Game.last_Weapon = g.last_Weapon;
-    Game.last_Armour = g.last_Armour;
-    Game.activePanel = g.activePanel;
-    Game.playerBadges = g.playerBadges;
-    Game.p_currentZone = g.p_currentZone;
-    Game.p_maxZone = g.p_maxZone;
-    Game.TRACK_TOTAL_DMG = g.TRACK_TOTAL_DMG;
-    Game.TRACK_MELEE_DMG = g.TRACK_MELEE_DMG;
-    Game.TRACK_RANGE_DMG = g.TRACK_RANGE_DMG;
-    Game.TRACK_MAGIC_DMG = g.TRACK_MAGIC_DMG;
-    Game.TRACK_TOTAL_TAKEN = g.TRACK_TOTAL_TAKEN;
-    Game.TRACK_MELEE_TAKEN = g.TRACK_MELEE_TAKEN;
-    Game.TRACK_MAGIC_TAKEN = g.TRACK_MAGIC_TAKEN;
-    Game.TRACK_RANGE_TAKEN = g.TRACK_RANGE_TAKEN;
-    Game.TRACK_ATTACKS_OUT = g.TRACK_ATTACKS_OUT;
-    Game.TRACK_ATTACKS_IN = g.TRACK_ATTACKS_IN;
-    Game.TRACK_WINS = g.TRACK_WINS;
-    Game.TRACK_LOSSES = g.TRACK_LOSSES;
-    Game.TRACK_ESCAPES = g.TRACK_ESCAPES;
-    Game.TRACK_WIN_STREAK = g.TRACK_WIN_STREAK;
-    Game.TRACK_BURSTS = g.TRACK_BURSTS;
-    Game.TRACK_BOSS_KILLS = g.TRACK_BOSS_KILLS;
-    Game.TRACK_BOSS_CHANCE = g.TRACK_BOSS_CHANCE;
-    Game.TRACK_MAXHIT_IN = g.TRACK_MAXHIT_IN;
-    Game.TRACK_MAXHIT_OUT = g.TRACK_MAXHIT_OUT;
-    Game.TRACK_XP_GAINED = g.TRACK_XP_GAINED;
-    Game.TRACK_XP_LOST = g.TRACK_XP_LOST;
-    Game.TRACK_XP_OVERFLOW = g.TRACK_XP_OVERFLOW;
-    Game.TRACK_UPGRADES = g.TRACK_UPGRADES;
-    Game.TRACK_REFORGES = g.TRACK_REFORGES;
-    Game.TRACK_RESETS = g.TRACK_RESETS;
-    Game.TRACK_ITEM_SALES = g.TRACK_ITEM_SALES;
-    Game.TRACK_ITEM_SCRAPS = g.TRACK_ITEM_SCRAPS;
-    Game.TRACK_ITEM_DISCARDS = g.TRACK_ITEM_DISCARDS;
-    Game.TRACK_BROKEN_ITEMS = g.TRACK_BROKEN_ITEMS;
-    Game.TRACK_COMBAT_SEEDS = g.TRACK_COMBAT_SEEDS;
-    Game.TRACK_SALE_SEEDS = g.TRACK_SALE_SEEDS;
-    Game.TRACK_COMBAT_SCRAP = g.TRACK_COMBAT_SCRAP;
-    Game.TRACK_CONVERT_SCRAP = g.TRACK_CONVERT_SCRAP;
-    Game.TRACK_DEBUFFS_OUT = g.TRACK_DEBUFFS_OUT;
-    Game.TRACK_DEBUFFS_IN = g.TRACK_DEBUFFS_IN;
-    Game.TRACK_DOOM_IN = g.TRACK_DOOM_IN;
-    Game.TRACK_DOOM_OUT = g.TRACK_DOOM_OUT;
-    Game.TRACK_SLEEPBREAK_IN = g.TRACK_SLEEPBREAK_IN;
-    Game.TRACK_SLEEPBREAK_OUT = g.TRACK_SLEEPBREAK_OUT;
-    Game.TRACK_DRAIN_IN = g.TRACK_DRAIN_IN;
-    Game.TRACK_DRAIN_OUT = g.TRACK_DRAIN_OUT;
-    Game.TRACK_DOTS_IN = g.TRACK_DOTS_IN;
-    Game.TRACK_DOTS_OUT = g.TRACK_DOTS_OUT;
-    Game.TRACK_CHARM_IN = g.TRACK_CHARM_IN;
-    Game.TRACK_CHARM_OUT = g.TRACK_CHARM_OUT;
-    Game.TRACK_PARAHAX_IN = g.TRACK_PARAHAX_IN;
-    Game.TRACK_PARAHAX_OUT = g.TRACK_PARAHAX_OUT;
-    Game.TRACK_POTIONS_USED = g.TRACK_POTIONS_USED;
-    Game.PROGRESS_AUTOSAVE = g.PROGRESS_AUTOSAVE;
-    Game.PROGRESS_KEYBINDING = g.PROGRESS_KEYBINDING;
-    Game.PROGRESS_MANUAL_BATTLE = g.PROGRESS_MANUAL_BATTLE;
-    Game.PROGRESS_RANDOM_DEBUFFS = g.PROGRESS_RANDOM_DEBUFFS;
-    Game.PROGRESS_DEBUFF_SPEND = g.PROGRESS_DEBUFF_SPEND;
-    Game.PROGRESS_SCRAPPING = g.PROGRESS_SCRAPPING;
-    Game.PROGRESS_SPEND = g.PROGRESS_SPEND;
-    Game.autoBattle_flee = g.autoBattle_flee;
-    Game.autoBattle_repair = g.autoBattle_repair;
-    Game.autoSell_options = g.autoSell_options;
-    if(g.bossChance === undefined) { Game.bossChance = Game.p_Level >= 5 ? 1 : 0; }
-    else { Game.bossChance = g.bossChance; }
-    if(g.prestigeLevel === undefined) { Game.prestigeLevel = 0; }
-    else { Game.prestigeLevel = g.prestigeLevel; }
-    // Fix for weapons with the old weaker sleep debuff circa V1.0 RC2
-    if(Game.p_Weapon[9][0] == 250 && Game.p_Weapon[9][3] == 20) {
-      Game.p_Weapon[9][3] = 15;
+      Game.last_Weapon = g.last_Weapon;
+  Game.last_Armour = g.last_Armour;
+  Game.activePanel = g.activePanel;
+  Game.playerBadges = g.playerBadges;
+  Game.p_currentZone = g.p_currentZone;
+  Game.p_maxZone = g.p_maxZone;
+  Game.TRACK_TOTAL_DMG = g.TRACK_TOTAL_DMG;
+  Game.TRACK_MELEE_DMG = g.TRACK_MELEE_DMG;
+  Game.TRACK_RANGE_DMG = g.TRACK_RANGE_DMG;
+  Game.TRACK_MAGIC_DMG = g.TRACK_MAGIC_DMG;
+  Game.TRACK_TOTAL_TAKEN = g.TRACK_TOTAL_TAKEN;
+  Game.TRACK_MELEE_TAKEN = g.TRACK_MELEE_TAKEN;
+  Game.TRACK_MAGIC_TAKEN = g.TRACK_MAGIC_TAKEN;
+  Game.TRACK_RANGE_TAKEN = g.TRACK_RANGE_TAKEN;
+  Game.TRACK_ATTACKS_OUT = g.TRACK_ATTACKS_OUT;
+  Game.TRACK_ATTACKS_IN = g.TRACK_ATTACKS_IN;
+  Game.TRACK_WINS = g.TRACK_WINS;
+  Game.TRACK_LOSSES = g.TRACK_LOSSES;
+  Game.TRACK_ESCAPES = g.TRACK_ESCAPES;
+  Game.TRACK_WIN_STREAK = g.TRACK_WIN_STREAK;
+  Game.TRACK_BURSTS = g.TRACK_BURSTS;
+  Game.TRACK_BOSS_KILLS = g.TRACK_BOSS_KILLS;
+  Game.TRACK_BOSS_CHANCE = g.TRACK_BOSS_CHANCE;
+  Game.TRACK_MAXHIT_IN = g.TRACK_MAXHIT_IN;
+  Game.TRACK_MAXHIT_OUT = g.TRACK_MAXHIT_OUT;
+  Game.TRACK_XP_GAINED = g.TRACK_XP_GAINED;
+  Game.TRACK_XP_LOST = g.TRACK_XP_LOST;
+  Game.TRACK_XP_OVERFLOW = g.TRACK_XP_OVERFLOW;
+  Game.TRACK_UPGRADES = g.TRACK_UPGRADES;
+  Game.TRACK_REFORGES = g.TRACK_REFORGES;
+  Game.TRACK_RESETS = g.TRACK_RESETS;
+  Game.TRACK_ITEM_SALES = g.TRACK_ITEM_SALES;
+  Game.TRACK_ITEM_SCRAPS = g.TRACK_ITEM_SCRAPS;
+  Game.TRACK_ITEM_DISCARDS = g.TRACK_ITEM_DISCARDS;
+  Game.TRACK_BROKEN_ITEMS = g.TRACK_BROKEN_ITEMS;
+  Game.TRACK_COMBAT_SEEDS = g.TRACK_COMBAT_SEEDS;
+  Game.TRACK_SALE_SEEDS = g.TRACK_SALE_SEEDS;
+  Game.TRACK_COMBAT_SCRAP = g.TRACK_COMBAT_SCRAP;
+  Game.TRACK_CONVERT_SCRAP = g.TRACK_CONVERT_SCRAP;
+  Game.TRACK_DEBUFFS_OUT = g.TRACK_DEBUFFS_OUT;
+  Game.TRACK_DEBUFFS_IN = g.TRACK_DEBUFFS_IN;
+  Game.TRACK_DOOM_IN = g.TRACK_DOOM_IN;
+  Game.TRACK_DOOM_OUT = g.TRACK_DOOM_OUT;
+  Game.TRACK_SLEEPBREAK_IN = g.TRACK_SLEEPBREAK_IN;
+  Game.TRACK_SLEEPBREAK_OUT = g.TRACK_SLEEPBREAK_OUT;
+  Game.TRACK_DRAIN_IN = g.TRACK_DRAIN_IN;
+  Game.TRACK_DRAIN_OUT = g.TRACK_DRAIN_OUT;
+  Game.TRACK_DOTS_IN = g.TRACK_DOTS_IN;
+  Game.TRACK_DOTS_OUT = g.TRACK_DOTS_OUT;
+  Game.TRACK_CHARM_IN = g.TRACK_CHARM_IN;
+  Game.TRACK_CHARM_OUT = g.TRACK_CHARM_OUT;
+  Game.TRACK_PARAHAX_IN = g.TRACK_PARAHAX_IN;
+  Game.TRACK_PARAHAX_OUT = g.TRACK_PARAHAX_OUT;
+  Game.TRACK_POTIONS_USED = g.TRACK_POTIONS_USED;
+  Game.PROGRESS_AUTOSAVE = g.PROGRESS_AUTOSAVE;
+  Game.PROGRESS_KEYBINDING = g.PROGRESS_KEYBINDING;
+  Game.PROGRESS_MANUAL_BATTLE = g.PROGRESS_MANUAL_BATTLE;
+  Game.PROGRESS_RANDOM_DEBUFFS = g.PROGRESS_RANDOM_DEBUFFS;
+  Game.PROGRESS_DEBUFF_SPEND = g.PROGRESS_DEBUFF_SPEND;
+  Game.PROGRESS_SCRAPPING = g.PROGRESS_SCRAPPING;
+  Game.PROGRESS_SPEND = g.PROGRESS_SPEND;
+  Game.autoBattle_flee = g.autoBattle_flee;
+  Game.autoBattle_repair = g.autoBattle_repair;
+  Game.autoSell_options = g.autoSell_options;
+  if(g.bossChance === undefined) { Game.bossChance = Game.p_Level >= 5 ? 1 : 0; }
+  else { Game.bossChance = g.bossChance; }
+  if(g.prestigeLevel === undefined) { Game.prestigeLevel = 0; }
+  else { Game.prestigeLevel = g.prestigeLevel; }
+  // Fix for weapons with the old weaker sleep debuff circa V1.0 RC2
+  if(Game.p_Weapon[9][0] == 250 && Game.p_Weapon[9][3] == 20) {
+    Game.p_Weapon[9][3] = 15;
+  }
+  for(var x = 0; x < Game.p_WeaponInventory.length; x++) {
+    if(Game.p_WeaponInventory[x][9][0] == 250 && Game.p_WeaponInventory[x][9][3] == 20) {
+      Game.p_WeaponInventory[x][9][3] = 15;
     }
-    for(var x = 0; x < Game.p_WeaponInventory.length; x++) {
-      if(Game.p_WeaponInventory[x][9][0] == 250 && Game.p_WeaponInventory[x][9][3] == 20) {
-        Game.p_WeaponInventory[x][9][3] = 15;
-      }
-    }
-    return true;
-	}
-	else { return false; }
+  }
+  return true;
+  }
+  else { return false; }
 }
 Game.RNG = function(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
