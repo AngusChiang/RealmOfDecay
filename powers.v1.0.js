@@ -3,14 +3,19 @@ Game.buyPower = function(power) {
     var selectionLevel = Game.powerLevel(power);
     var canUpgrade = true;
     switch(power) {
-      case Game.SKILL_ABSORPTION_SHIELD:
-      case Game.SKILL_REFLECTIVE_SHIELD:
       case Game.SKILL_DISASSEMBLY:
+      case Game.SKILL_TERMINAL_ILLNESS:
       case Game.SKILL_OVERCHARGE:
       case Game.SKILL_UNDERMINE:
+      case Game.SKILL_HOLD_THE_LINE:
+      case Game.SKILL_STAND_YOUR_GROUND:
+      case Game.SKILL_ARTFUL_DODGER:
+      case Game.SKILL_EYE_FOR_AN_EYE:
+      case Game.SKILL_ABSORPTION_SHIELD:
+      case Game.SKILL_REFLECTIVE_SHIELD:
       case Game.SKILL_RECLAIMED_KNOWLEDGE:
-//      case Game.BOOST_HEALINGPOTION:
-//      case Game.BOOST_DEBUFFPOTION:
+      // case Game.BOOST_HEALINGPOTION:
+      // case Game.BOOST_DEBUFFPOTION:
         if(selectionLevel === 1) {
           Game.toastNotification("This power is at maximum level.");
           canUpgrade = false;
@@ -118,8 +123,8 @@ Game.getPowerLevelCap = function(power) {
     case Game.SKILL_ABSORPTION_SHIELD:
     case Game.SKILL_REFLECTIVE_SHIELD:
     case Game.SKILL_RECLAIMED_KNOWLEDGE:
-    //case Game.BOOST_HEALINGPOTION:
-    //case Game.BOOST_DEBUFFPOTION:
+    // case Game.BOOST_HEALINGPOTION:
+    // case Game.BOOST_DEBUFFPOTION:
       return 1;
     default:
       return 0;
@@ -136,24 +141,24 @@ Game.getPowerDesc = function(power) {
   }
 }
 Game.resetPowers = function() {
-    var totalSpent = 0;
-    for(var a = 0; a < Game.p_Powers.length; a++) {
-      totalSpent += Game.p_Powers[a][1];
-    }
-    var scrapCost = Math.ceil((totalSpent + Game.p_SkillPoints)/3);
-    if(Game.p_Scrap < scrapCost) {
-      Game.toastNotification("You need " + scrapCost + " scrap to reset your powers.");
-      return;
-    }
-    if(confirm("Are you sure you wish to reset your power point allocation? \n\nThis will cost a total of " + scrapCost + " scrap and cannot be undone.")) {
-      Game.p_Powers = [];
-      Game.p_SkillPoints += totalSpent;
-      Game.p_Scrap -= scrapCost;
-      Game.toastNotification("Power points have been reset.");
-      Game.updatePowers = true;
-      Game.TRACK_RESETS++;
-      Game.badgeCheck(Game.BADGE_RESETS); // Indecisive
-      Game.drawActivePanel();
+  var totalSpent = 0;
+  for(var a = 0; a < Game.p_Powers.length; a++) {
+    totalSpent += Game.p_Powers[a][1];
+  }
+  var scrapCost = Math.ceil((totalSpent + Game.p_SkillPoints)/3);
+  if(Game.p_Scrap < scrapCost) {
+    Game.toastNotification("You need " + scrapCost + " scrap to reset your powers.");
+    return;
+  }
+  if(confirm("Are you sure you wish to reset your power point allocation? \n\nThis will cost a total of " + scrapCost + " scrap and cannot be undone.")) {
+    Game.p_Powers = [];
+    Game.p_SkillPoints += totalSpent;
+    Game.p_Scrap -= scrapCost;
+    Game.toastNotification("Power points have been reset.");
+    Game.updatePowers = true;
+    Game.TRACK_RESETS++;
+    Game.badgeCheck(Game.BADGE_RESETS); // Indecisive
+    Game.drawActivePanel();
   }
 }
 

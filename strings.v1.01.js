@@ -15,276 +15,366 @@ Game.slow_range_generic = ["Crossbow","Longbow","Composite Bow","Sling","Hand-Ca
 Game.fast_magic_generic = ["Spellblade","Tome of Thunder","Quarterstaff","Scepter","Spark Orb"];
 Game.mid_magic_generic = ["Mageblade","Tome of Flame","Spell Focus","Battlestaff","Flame Orb"];
 Game.slow_magic_generic = ["War Staff","Tome of Frost","Grimoire","Crozier","Frost Orb"];
-Game.debuffs_generic = [[241, "Ruthlessness", 10, -1],
-                        [242, "Frenzy", 10, 50],
-                        [243, "Bloodthirst", 10, 20],
-                        [244, "Cripple", 10, 15],
-                        [245, "Mind Control", 5, -1],
-                        [246, "Wound Poison", 10, 20],
-                        [247, "Nerve Strike", 10, 15],
-                        [248, "Mounting Dread", 5, 5],
-                        [249, "Disarmed", 10, -1],
-                        [250, "Comatose", 10, 15]];
-Game.debuffs_potion_normal = [[241, "Acidic Solution", 15, -1],
-                        [242, "Twinstrike Tonic", 10, 50],
-                        [243, "Vampiric Infusion", 10, 20],
-                        [244, "Frostblood Draught", 10, 15],
-                        [245, "Cupid's Charm Chalice", 5, -1],
-                        [246, "Nightshade Potion", 10, 20],
-                        [247, "Mind-Numbing Mix", 10, 15],
-                        [248, "Bottled Heart Attack", 5, 5],
-                        [249, "Butterfinger Brew", 10, -1],
-                        [250, "Chloroform Concoction", 10, 15]];
-Game.debuffs_potion_superior = [[241, "Enhanced Acidic Solution", 15, -1],
-                        [242, "Enhanced Twinstrike Tonic", 15, 70],
-                        [243, "Enhanced Vampiric Infusion", 15, 30],
-                        [244, "Enhanced Frostblood Draught", 15, 25],
-                        [245, "Cupid's Charm Chalice", 5, -1],
-                        [246, "Enhanced Nightshade Potion", 15, 30],
-                        [247, "Enhanced Mind-Numbing Mix", 15, 25],
-                        [248, "Bottled Double Heart Attack", 5, 7],
-                        [249, "Enhanced Butterfinger Brew", 15, -1],
-                        [250, "Enhanced Chloroform Concoction", 15, 10]];
-Game.debuff_names = ["Armour Shred",
-                     "Double Attack",
-                     "Health Drain",
-                     "Slower Attacks",
-                     "Confusion",
-                     "Damage over Time",
-                     "Paralysis",
-                     "Doom",
-                     "Disarm",
-                     "Sleep"];
-Game.debuff_descriptions = ["Causes your attacks to ignore the target's armour strengths for 10 (15) seconds.",
-                            "Causes your attacks to deal a second hit for 50% (70%) of the main hit's damage for 10 (15) seconds.",
-                            "Restores HP equal to 20% (30%) of weapon DPS every second for 10 (15) seconds.",
-                            "Increases the delay between the victim's attacks by 15% (25%) for 10 (15) seconds.",
-                            "Causes the victim's next attack to hit themselves.",
-                            "Deals 20% (30%) of weapon DPS to the victim every second for 10 (15) seconds.",
-                            "Causes the victim's attacks to fail 15% (25%) of the time for 10 (15) seconds.",
-                            "Grants a 5% (7%) chance to kill the victim outright. Deals 250% (350%) weapon DPS if it fails to kill.",
-                            "Cuts damage dealt by the victim by 50% and prevents the victim applying debuffs for 10 (15) seconds.",
-                            "Prevents the victim from attacking for 10 (15) seconds. Has a 60% (40%) chance to break on hit."];
-Game.potions = [[[0, "Lesser Healing Potion", 0.2],
-                [1, "Healing Potion", 0.3],
-                [2, "Greater Healing Potion", 0.4]],
-               [[0, "Acidic Solution", 0],
-                [1, "Twinstrike Tonic", 1],
-                [2, "Vampiric Infusion", 2],
-                [3, "Frostblood Draught", 3],
-                [4, "Cupid's Charm Chalice", 4],
-                [5, "Nightshade Potion", 5],
-                [6, "Mind-Numbing Mix", 6],
-                [7, "Bottled Heart Attack", 7],
-                [8, "Butterfinger Brew", 8],
-                [9, "Chloroform Concoction", 9]]];
-Game.potions_superior = [[[0, "Lesser Healing Potion", 0.3],
-                [1, "Healing Potion", 0.4],
-                [2, "Greater Healing Potion", 0.5]],
-               [[0, "Enhanced Acidic Solution", 0],
-                [1, "Enhanced Twinstrike Tonic", 1],
-                [2, "Enhanced Vampiric Infusion", 2],
-                [3, "Enhanced Frostblood Draught", 3],
-                [4, "Cupid's Charm Chalice", 4],
-                [5, "Enhanced Nightshade Potion", 5],
-                [6, "Enhanced Mind-Numbing Mix", 6],
-                [7, "Enhanced Bottled Heart Attack", 7],
-                [8, "Enhanced Butterfinger Brew", 8],
-                [9, "Enhanced Chloroform Concoction", 9]]];
+Game.debuffs_generic = [
+  [241, "Ruthlessness", 10, -1],
+  [242, "Frenzy", 10, 50],
+  [243, "Bloodthirst", 10, 20],
+  [244, "Cripple", 10, 15],
+  [245, "Mind Control", 5, -1],
+  [246, "Wound Poison", 10, 20],
+  [247, "Nerve Strike", 10, 15],
+  [248, "Mounting Dread", 5, 5],
+  [249, "Disarmed", 10, -1],
+  [250, "Comatose", 10, 15]
+];
+Game.debuffs_potion_normal = [
+  [241, "Acidic Solution", 15, -1],
+  [242, "Twinstrike Tonic", 10, 50],
+  [243, "Vampiric Infusion", 10, 20],
+  [244, "Frostblood Draught", 10, 15],
+  [245, "Cupid's Charm Chalice", 5, -1],
+  [246, "Nightshade Potion", 10, 20],
+  [247, "Mind-Numbing Mix", 10, 15],
+  [248, "Bottled Heart Attack", 5, 5],
+  [249, "Butterfinger Brew", 10, -1],
+  [250, "Chloroform Concoction", 10, 15]
+];
+Game.debuffs_potion_superior = [
+  [241, "Enhanced Acidic Solution", 15, -1],
+  [242, "Enhanced Twinstrike Tonic", 15, 70],
+  [243, "Enhanced Vampiric Infusion", 15, 30],
+  [244, "Enhanced Frostblood Draught", 15, 25],
+  [245, "Cupid's Charm Chalice", 5, -1],
+  [246, "Enhanced Nightshade Potion", 15, 30],
+  [247, "Enhanced Mind-Numbing Mix", 15, 25],
+  [248, "Bottled Double Heart Attack", 5, 7],
+  [249, "Enhanced Butterfinger Brew", 15, -1],
+  [250, "Enhanced Chloroform Concoction", 15, 10]
+];
+Game.debuff_names = [
+  "Armour Shred",
+  "Double Attack",
+  "Health Drain",
+  "Slower Attacks",
+  "Confusion",
+  "Damage over Time",
+  "Paralysis",
+  "Doom",
+  "Disarm",
+  "Sleep"
+];
+Game.debuff_descriptions = [
+  "Causes your attacks to ignore the target's armour strengths for 10 (15) seconds.",
+  "Causes your attacks to deal a second hit for 50% (70%) of the main hit's damage for 10 (15) seconds.",
+  "Restores HP equal to 20% (30%) of weapon DPS every second for 10 (15) seconds.",
+  "Increases the delay between the target's attacks by 15% (25%) for 10 (15) seconds.",
+  "Causes the target's next attack to hit themselves.",
+  "Deals 20% (30%) of weapon DPS to the target every second for 10 (15) seconds.",
+  "Causes the target's attacks to fail 15% (25%) of the time for 10 (15) seconds.",
+  "Grants a 5% (7%) chance to kill the target outright. Deals 250% (350%) weapon DPS if it fails to kill.",
+  "Cuts damage dealt by the target by 50% and prevents the target applying debuffs for 10 (15) seconds.",
+  "Prevents the target from attacking for 10 (15) seconds. Has a 60% (40%) chance to break on hit."
+];
+Game.potions = [
+  [
+    [0, "Lesser Healing Potion", 0.2],
+    [1, "Healing Potion", 0.3],
+    [2, "Greater Healing Potion", 0.4]
+  ],
+  [
+    [0, "Acidic Solution", 0],
+    [1, "Twinstrike Tonic", 1],
+    [2, "Vampiric Infusion", 2],
+    [3, "Frostblood Draught", 3],
+    [4, "Cupid's Charm Chalice", 4],
+    [5, "Nightshade Potion", 5],
+    [6, "Mind-Numbing Mix", 6],
+    [7, "Bottled Heart Attack", 7],
+    [8, "Butterfinger Brew", 8],
+    [9, "Chloroform Concoction", 9]
+  ]
+];
+Game.potions_superior = [
+  [
+    [0, "Lesser Healing Potion", 0.3],
+    [1, "Healing Potion", 0.4],
+    [2, "Greater Healing Potion", 0.5]
+  ],
+  [
+    [0, "Enhanced Acidic Solution", 0],
+    [1, "Enhanced Twinstrike Tonic", 1],
+    [2, "Enhanced Vampiric Infusion", 2],
+    [3, "Enhanced Frostblood Draught", 3],
+    [4, "Cupid's Charm Chalice", 4],
+    [5, "Enhanced Nightshade Potion", 5],
+    [6, "Enhanced Mind-Numbing Mix", 6],
+    [7, "Enhanced Bottled Heart Attack", 7],
+    [8, "Enhanced Butterfinger Brew", 8],
+    [9, "Enhanced Chloroform Concoction", 9]
+  ]
+];
 // Always need more names!
-Game.fast_melee_special = ["Blinkstrike|They'll never know what hit 'em...",
-                           "Adder's Fang|Not to scale.",
-                           "Torturer's Poker|Tell me, tell me everything...",
-                           "Excalibur|Straight outta the lake.",
-                           "Sword Breaker|Serrated for your pleasure.",
-                           "Ether-Soaked Rag|\"Hey, does this cloth smell like chloroform to you?\""];
-Game.fast_melee_debuffs = [[242, "Frenzy", 15, 70],
-                           [246, "Wound Poison", 15, 30],
-                           [245, "Domination", 5, -1],
-                           [243, "Holy Light", 15, 30],
-                           [249, "Break Weapon", 15, -1],
-                           [250, "Anesthesia", 15, 10]];
-Game.mid_melee_special = ["Edge of Depravity|I think it's just misunderstood...",
-                          "Storm's Herald|Whatever you do, don't hold it above your head.",
-                          "Flametongue|Good for those long cold nights in camp.",
-                          "Zenith Blade|Glows brighter than the sun.",
-                          "Gunblade|Bringing a sword to a gunfight.",
-                          "Concrete Pillowcase|GO TO SLEEP DAMN YOU!"];
-Game.mid_melee_debuffs = [[241, "Ruthlessness", 15, -1],
-                          [247, "Static Shock", 15, 25],
-                          [243, "Cauterize", 15, 30],
-                          [249, "Dazzle", 15, -1],
-                          [247, "Staggered", 15, 25],
-                          [250, "Concussion", 15, 10]];
-Game.slow_melee_special = ["Planetary Edge|Rare, because planets aren't edgy.",
-                           "Death Sentence|The Grim Reaper has arrived.",
-                           "The Ambassador|Diplomatic immunity!",
-                           "Excalibur II|Do it the same, but better!",
-                           "Mjolnir|They're not worthy!",
-                           "Generic Melee Weapon|Relic of a bygone era."];
-Game.slow_melee_debuffs = [[244, "Hamstring", 15, 25],
-                           [248, "Dark Omen", 5, 7],
-                           [241, "Diplomacy", 15, -1],
-                           [243, "Holy Radiance", 15, 30],
-                           [244, "Concussion", 15, 25],
-                           [244, "Generic Slow", 15, 25]];
-Game.fast_range_special = ["Ace of Spades|Who throws a card? I mean, come on, really?",
-                           "Tomahawk|Serving native tribes for centuries.",
-                           "Throat Piercers|Also perfect for piercing other parts.",
-                           "Miniature Shurikens|Why throw one when you can throw ten?",
-                           "Tranquilizer Blowpipe|Be very very quiet...",
-                           "M60 Light Machine Gun|Modern warfare at its finest."];
-Game.fast_range_debuffs = [[246, "Paper Cut", 15, 30],
-                           [244, "Cripple", 15, 25],
-                           [241, "Piercing Throw", 15, -1],
-                           [242, "Barrage", 15, 70],
-                           [250, "Tranquilized", 15, 10],
-                           [247, "Suppressive Fire", 15, 25]];
-Game.mid_range_special = ["Death From Above|Or below, or far away, depending on where you stand.",
-                          "Tidebreaker's Harpoon|They might want it back at some point.",
-                          "The Dreamer|Shoots rainbows and sunshine.",
-                          "Sagittarius|Making the stars align for you.",
-                          "Generic Ranged Weapon|Relic of a bygone era.",
-                          "Gas Grenade|Hold your breath."];
-Game.mid_range_debuffs = [[248, "Impending Doom", 5, 7],
-                          [243, "Bloodthirst", 15, 30],
-                          [250, "Counting Sheep", 15, 10],
-                          [242, "Starfall", 15, 70],
-                          [246, "Generic Bleed", 15, 30],
-                          [250, "Sleeping Gas", 15, 10]];
-Game.slow_range_special = ["The Stakeholder|Raising the stakes, one corpse at a time.",
-                           "Artemis Bow|Comes with a free built in harp, no strings attached.",
-                           "Parting Shot|Something to remember them by.",
-                           "Star Searcher|I wonder what we'll find today?",
-                           "C4-Laced Boomerang|It better not come back...",
-                           "Dwarven Hand Cannon|Apparently, dwarves had really big hands."];
-Game.slow_range_debuffs = [[247, "Unbalanced", 15, 20],
-                           [245, "Charm", 5, -1],
-                           [241, "Ruthlessness", 15, -1],
-                           [249, "Arm Shot", 15, -1],
-                           [246, "Shrapnel", 15, 30],
-                           [248, "Explosive Shot", 5, 7]];
-Game.fast_magic_special = ["Thundercaller|A lightning rod, for all intents and purposes.",
-                           "Cosmic Fury|Dr. Tyson would like a word with you...",
-                           "Spark-Touched Fetish|Rubber gloves are strongly recommended.",
-                           "\"The Theory of Everything\"|It works! At least in theory...",
-                           "Generic Magic Weapon|Relic of a bygone era.",
-                           "Contagion|Spreading the love."];
-Game.fast_magic_debuffs = [[247, "Static Shock", 15, 20],
-                           [242, "Frenzy", 15, 65],
-                           [245, "Confuse", 5, -1],
-                           [243, "Expert Strategy", 15, 30],
-                           [243, "Generic Heal", 15, 30],
-                           [246, "Poison Cloud", 15, 30]];
-Game.mid_magic_special = ["Flamecore Battlestaff|Still warm to the touch.",
-                          "Gift of the Cosmos|Just keeps on giving.",
-                          "Emberleaf War Tome|Not actually made of embers, which are terrible for books.",
-                          "Encyclopedia of the Realm|Knowledge is power.",
-                          "\"How to Maim Your Dragon\"|Now featuring step by step guides!",
-                          "Hypnotist's Watch|Your eyelids are getting heavy..."];
-Game.mid_magic_debuffs = [[246, "Slow Burn", 15, 30],
-                          [244, "Cripple", 15, 25],
-                          [243, "Drain Life", 15, 30],
-                          [241, "Find Weakness", 15, -1],
-                          [249, "Wing Clip", 15, -1],
-                          [250, "Hypnosis", 15, 10]];
-Game.slow_magic_special = ["The Tetranomicon|Written and bound by Tetradigm. Mostly incomprehensible.",
-                           "Comet Chaser|Note: Comets are dangerous, DO NOT TRY THIS AT HOME.",
-                           "Absolute Zero|Not quite. But it's close!",
-                           "Judgement Staff|Bear the weight of your crimes!",
-                           "Cock of the Infinite|I put on my robe and wizard hat.",
-                           "\"A Brief History of Magic\"|1,600 pages of sheer drivel."];
-Game.slow_magic_debuffs = [[248, "Flames of Tetradigm", 5, 7],
-                           [246, "Slow Burn", 15, 30],
-                           [247, "Bitter Cold", 15, 25],
-                           [248, "Judgement Bolt", 5, 10],
-                           [241, "Penetration", 15, -1],
-                           [250, "Intense Boredom", 15, 10]];
+Game.fast_melee_special = [
+  "Blinkstrike|They'll never know what hit 'em...",
+  "Adder's Fang|Not to scale.",
+  "Torturer's Poker|Tell me, tell me everything...",
+  "Excalibur|Straight outta the lake.",
+  "Sword Breaker|Serrated for your pleasure.",
+  "Ether-Soaked Rag|\"Hey, does this cloth smell like chloroform to you?\""
+];
+Game.fast_melee_debuffs = [
+  [242, "Frenzy", 15, 70],
+  [246, "Wound Poison", 15, 30],
+  [245, "Domination", 5, -1],
+  [243, "Holy Light", 15, 30],
+  [249, "Break Weapon", 15, -1],
+  [250, "Anesthesia", 15, 10]
+];
+Game.mid_melee_special = [
+  "Edge of Depravity|I think it's just misunderstood...",
+  "Storm's Herald|Whatever you do, don't hold it above your head.",
+  "Flametongue|Good for those long cold nights in camp.",
+  "Zenith Blade|Glows brighter than the sun.",
+  "Gunblade|Bringing a sword to a gunfight.",
+  "Concrete Pillowcase|GO TO SLEEP DAMN YOU!"
+];
+Game.mid_melee_debuffs = [
+  [241, "Ruthlessness", 15, -1],
+  [247, "Static Shock", 15, 25],
+  [243, "Cauterize", 15, 30],
+  [249, "Dazzle", 15, -1],
+  [247, "Staggered", 15, 25],
+  [250, "Concussion", 15, 10]
+];
+Game.slow_melee_special = [
+  "Planetary Edge|Rare, because planets aren't edgy.",
+  "Death Sentence|The Grim Reaper has arrived.",
+  "The Ambassador|Diplomatic immunity!",
+  "Excalibur II|Do it the same, but better!",
+  "Mjolnir|They're not worthy!",
+  "Generic Melee Weapon|Relic of a bygone era."
+];
+Game.slow_melee_debuffs = [
+  [244, "Hamstring", 15, 25],
+  [248, "Dark Omen", 5, 7],
+  [241, "Diplomacy", 15, -1],
+  [243, "Holy Radiance", 15, 30],
+  [244, "Concussion", 15, 25],
+  [244, "Generic Slow", 15, 25]
+];
+Game.fast_range_special = [
+  "Ace of Spades|Who throws a card? I mean, come on, really?",
+  "Tomahawk|Serving native tribes for centuries.",
+  "Throat Piercers|Also perfect for piercing other parts.",
+  "Miniature Shurikens|Why throw one when you can throw ten?",
+  "Tranquilizer Blowpipe|Be very very quiet...",
+  "M60 Light Machine Gun|Modern warfare at its finest."
+];
+Game.fast_range_debuffs = [
+  [246, "Paper Cut", 15, 30],
+  [244, "Cripple", 15, 25],
+  [241, "Piercing Throw", 15, -1],
+  [242, "Barrage", 15, 70],
+  [250, "Tranquilized", 15, 10],
+  [247, "Suppressive Fire", 15, 25]
+];
+Game.mid_range_special = [
+  "Death From Above|Or below, or far away, depending on where you stand.",
+  "Tidebreaker's Harpoon|They might want it back at some point.",
+  "The Dreamer|Shoots rainbows and sunshine.",
+  "Sagittarius|Making the stars align for you.",
+  "Generic Ranged Weapon|Relic of a bygone era.",
+  "Gas Grenade|Hold your breath."
+];
+Game.mid_range_debuffs = [
+  [248, "Impending Doom", 5, 7],
+  [243, "Bloodthirst", 15, 30],
+  [250, "Counting Sheep", 15, 10],
+  [242, "Starfall", 15, 70],
+  [246, "Generic Bleed", 15, 30],
+  [250, "Sleeping Gas", 15, 10]
+];
+Game.slow_range_special = [
+  "The Stakeholder|Raising the stakes, one corpse at a time.",
+  "Artemis Bow|Comes with a free built in harp, no strings attached.",
+  "Parting Shot|Something to remember them by.",
+  "Star Searcher|I wonder what we'll find today?",
+  "C4-Laced Boomerang|It better not come back...",
+  "Dwarven Hand Cannon|Apparently, dwarves had really big hands.",
+  "Tear Gas Launcher|Illegal for use in Canada. Caution advised."
+];
+Game.slow_range_debuffs = [
+  [247, "Unbalanced", 15, 20],
+  [245, "Charm", 5, -1],
+  [241, "Ruthlessness", 15, -1],
+  [249, "Arm Shot", 15, -1],
+  [246, "Shrapnel", 15, 30],
+  [248, "Explosive Shot", 5, 7],
+  [249, "Incapacitated", 15, -1]                        
+];
+Game.fast_magic_special = [
+  "Thundercaller|A lightning rod, for all intents and purposes.",
+  "Cosmic Fury|Dr. Tyson would like a word with you...",
+  "Spark-Touched Fetish|Rubber gloves are strongly recommended.",
+  "\"The Theory of Everything\"|It works! At least in theory...",
+  "Generic Magic Weapon|Relic of a bygone era.",
+  "Contagion|Spreading the love."
+];
+Game.fast_magic_debuffs = [
+  [247, "Static Shock", 15, 20],
+  [242, "Frenzy", 15, 65],
+  [245, "Confuse", 5, -1],
+  [243, "Expert Strategy", 15, 30],
+  [243, "Generic Heal", 15, 30],
+  [246, "Poison Cloud", 15, 30]
+];
+Game.mid_magic_special = [
+  "Flamecore Battlestaff|Still warm to the touch.",
+  "Gift of the Cosmos|Just keeps on giving.",
+  "Emberleaf War Tome|Not actually made of embers, which are terrible for books.",
+  "Encyclopedia of the Realm|Knowledge is power.",
+  "\"How to Maim Your Dragon\"|Now featuring step by step guides!",
+  "Hypnotist's Watch|Your eyelids are getting heavy..."
+];
+Game.mid_magic_debuffs = [
+  [246, "Slow Burn", 15, 30],
+  [244, "Cripple", 15, 25],
+  [243, "Drain Life", 15, 30],
+  [241, "Find Weakness", 15, -1],
+  [249, "Wing Clip", 15, -1],
+  [250, "Hypnosis", 15, 10]
+];
+Game.slow_magic_special = [
+  "The Tetranomicon|Written and bound by Tetradigm. Mostly incomprehensible.",
+  "Comet Chaser|Note: Comets are dangerous, DO NOT TRY THIS AT HOME.",
+  "Absolute Zero|Not quite. But it's close!",
+  "Judgement Staff|Bear the weight of your crimes!",
+  "Cock of the Infinite|I put on my robe and wizard hat.",
+  "\"A Brief History of Magic\"|1,600 pages of sheer drivel."
+];
+Game.slow_magic_debuffs = [
+  [248, "Flames of Tetradigm", 5, 7],
+  [246, "Slow Burn", 15, 30],
+  [247, "Bitter Cold", 15, 25],
+  [248, "Judgement Bolt", 5, 10],
+  [241, "Penetration", 15, -1],
+  [250, "Intense Boredom", 15, 10]
+];
 // Prefixes for non-great items
 // Yes there's a blank one, it's so the item has no prefix :)
-Game.weaponQualityDescriptors = [["Worthless","Damaged","Inept","Decayed","Flawed","Decrepit","Useless"],
-                           ["Average","Unremarkable","","Passable","Basic","Simple","Usable","Adequate"],
-                           ["Pristine","Enhanced","Powerful","Well-Maintained","Powerful","Superior","Exceptional"]];
-Game.armourQualityDescriptors = [["Tattered","Frayed","Threadbare","Cracked","Battleworn","Useless","Worthless"],
-                                 ["Average","Unremarkable","","Passable","Basic","Simple","Usable","Adequate"],
-                                 ["Polished","Well-Kept","Reinforced","Tempered","Heavy","Spotless","Exceptional"]];
-Game.armour_generic = ["Robe","Jerkin","Poncho","Overcoat","Tunic","Cuirass","Brigandine","Chestplate","Buckler","Deflector","Longcoat","Wrap","Tower Shield","Kite Shield","Legplates","Shorts","Tights","Hat","Beanie","Kilt","Trench Coat"];
-Game.armour_special = ["The Blue Collar|If this won't stop attackers, the one wearing it will.",
-                       "Xena's Breastplate|It was padded all along!",
-                       "Dual-Wielded Shields|But how am I meant to attack?",
-                       "Steel Cage|Especially effective against shark attacks.",
-                       "Golden Helmet|Unrealistically heavy.",
-                       "Iron Boots|Definitely not made for walking.",
-                       "The Emperor's Clothes|Trust me, they're magnificent.",
-                       "Ze Goggles|Zey do nothing!",
-                       "Zenith Shield|Glows brighter than the sun.",
-                       "Generic Armour Name|Relic of a bygone era.",
-                       "Aegis Shield|Don't stare directly at it.",
-                       "Planetary Bulwark|You will not go to space today.",
-                       "Chainmail Bikini|Covers all the important bits.",
-                       "Cardboard Box|Who in their right mind would attack a harmless box?",
-                       "Golden Breastplate|Only really good for dying in style.",
-                       "Turtle Shell|Nature's take on the humble shield.",
-                       "Dragon Chainbody|Yes, dragon is a metal. No, we don't know what it is.",
-                       "Giant Armour Plate|It's bigger than you, and we all know bigger is better.",
-                       "Top Hat and Monocle|Stop! Dapper time!",
-                       "Kevlar Vest|Stops just about anything that doesn't aim for the head.",
-                       "Mechanical Exoskeleton|Humans are so much more effective when encased in metal.",
-                       "Overly Elaborate Robe|Washing this thing will be your worst nightmare."];
-Game.SKILL_LIST = [["Pickpocket","Increases seed gains from combat by 5% per rank.",101],
-                  ["Cavity Search","Adds a 2% chance per rank to triple seed gains from combat.",1011],
-                  ["Bartering", "Reduces seed prices by 2% per rank.",1012],
-                  ["Thorough Looting","Adds a 2% chance per rank to salvage scrap from defeated enemies.",10111],
-                  ["Haggling", "Increases seeds received from selling items by 5% per rank.",10121],
-                  ["Five-Finger Discount","Adds a 1% chance per rank to steal seeds equal to your character level when attacking.",101211],
-                  ["Patience and Discipline","Adds a 3% chance per rank to boost a random stat when leveling up.",101212],
-                  ["Disassembly", "Guarantees an additional piece of scrap from destroying items.",101213],
-                  ["Bountiful Bags (NYI)", "Adds 3 slots per rank to your inventory limit.",1012111],
-                  ["Luck of the Draw","Adds a 1% chance per rank to gain an additional Stat Point on level up.",1012121],
-                  ["Fast Learner","Adds 5% per rank to experience gained in combat.",1012122],
-                  ["Proper Care","Adds a 3% chance per rank to negate decay on your worn equipment per hit.",1012123],
-                  ["Master Tinkerer","Increases the effectiveness of repair ticks by 20% per rank.",1012131],
-                  ["Lucky Star","Adds a 1% chance per rank to gain an extra Skill Point on level up.",10121211],
-                  ["High Maintenance","Adds a 2% chance per rank to fully repair equipment when defeating an enemy.",10121231],
-                  ["Hanging By A Thread","Adds 10% per rank to a broken weapon's damage output.",10121232],
-                  ["Deadly Force","Adds 2% per rank to all damage dealt by weapons.",102],
-                  ["Nimble Fingers","Adds 2% per rank to attack speeds.",1021],
-                  ["Keen Eye","Adds 3% per rank to critical strike chance.",1022],
-                  ["Flurry","Adds a 1% chance per rank to perform a secondary strike after an attack for 50% damage.",10211],
-                  ["Keener Eye","Adds 10% additional damage per rank to critical strikes.",10221],
-                  ["Expose Weakness", "Adds 1% per rank to the debuff application rate.",10222],
-                  ["Empowered Flurry","Adds 4% per level to the damage of Flurry's secondary strike.",102111],
-                  ["Sneak Attack","Adds 10% per rank to your chance to strike first in combat.",102211],
-                  ["Press The Advantage", "Using Burst Attack on a debuffed foe reduces its cooldown by 1 second per rank.",102221],
-                  ["Terminal Illness (NYI)","Allows debuff timers to be refreshed when reapplied.",102222],
-                  ["Wild Swings","Augments your Burst Attack to deal an additional hit per rank, but reduces its damage by 50%.",1021111],
-                  ["Adrenaline Rush","After a critical strike, your next 3 attacks deal 5% additional damage per rank.",1021112],
-                  ["Execute","Adds a 5% chance per rank to instantly kill an enemy below 25% health.",1022111],
-                  ["Turn The Tables", "Adds 20% per rank to the debuff application chance when using Burst Attack.",1022211],
-                  ["Overcharge","Adds 25% damage to attacks at the cost of an extra durability point per attack.",10211121],
-                  ["Undermine","When using Burst Attack, the enemy's resistance to your attack type is treated as a vulnerability.",10222111],
-                  ["Armour Mastery","Increases bonuses on armour by 5% per rank.",103],
-                  ["Ancestral Fortitude","Reduces weapon damage taken by 2% per rank.",1031],
-                  ["Survival Instincts","Adds 2% per rank to health regen and repair ticks.",1032],
-                  ["Shield Wall (NYI)","Increases block chance by 1% per rank.",10311],
-                  ["Shield Crush (NYI)","Adds a 3% chance per rank to ignore enemy armour bonus against your weapon when attacking.",10312],
-                  ["Victory Rush","Restores 5% health per rank after defeating an enemy.",10321],
-                  ["Vengeance","Adds a 2% chance per rank to return 50% of damage taken to the target.",103111],
-                  ["Last Bastion","Reduces damage taken by 10% per rank when your health is below 30%.",103112],
-                  ["Bladed Armour (NYI)","Deal 2% damage taken per rank back to the attacker.",103113],
-                  ["Hold The Line (NYI)","Guarantees a block after Shield Crush activates.",103121],
-                  ["Stand Your Ground (NYI)","Clears your current debuff when Shield Crush activates.",103122],
-                  ["Artful Dodger (NYI)","Refreshes your Burst Attack cooldown when you dodge an attack.",103211],
-                  ["Eye for an Eye (NYI)","Deals 100% of blocked damage to the attacker after a successful block.",103212],
-                  ["Divine Shield","Adds a 1% chance per rank to completely negate an enemy attack.",1031121],
-                  ["Second Wind (NYI)","Causes a blow that would kill you to instead restore 6% health per rank, once per battle.",1031122],
-                  ["Riposte (NYI)","Adds a 5% chance per rank that a successful block will Disarm the attacker.",1031211],
-                  ["Absorption Shield","Your Divine Shield now heals you for the damage you would have taken.",10311211],
-                  ["Reflective Shield","Your Divine Shield now deals the damage you would have taken to the enemy.",10311212],
-                  ["Reclaimed Knowledge", "Increases experience gained in combat by up to 50% by draining the experience overflow pool.",104]];
-                 // ["Brewmaster", "Grants a 1% chance per rank to ignore the single-use limitation on a potion when using it in combat.",115],
-                 // ["Medic's Intuition", "Causes healing potions to restore an additional 10% of your health.", 1151],
-                 // ["Saboteur's Intuition", "Causes your debuffing potions to apply the superior versions of their respective debuffs.", 1152]];
+Game.weaponQualityDescriptors = [
+  ["Worthless","Damaged","Inept","Decayed","Flawed","Decrepit","Useless"],
+  ["Average","Unremarkable","","Passable","Basic","Simple","Usable","Adequate"],
+  ["Pristine","Enhanced","Powerful","Well-Maintained","Powerful","Superior","Exceptional"]
+];
+Game.armourQualityDescriptors = [
+  ["Tattered","Frayed","Threadbare","Cracked","Battleworn","Useless","Worthless"],
+  ["Average","Unremarkable","","Passable","Basic","Simple","Usable","Adequate"],
+  ["Polished","Well-Kept","Reinforced","Tempered","Heavy","Spotless","Exceptional"]
+];
+Game.armour_generic = [
+  "Robe",
+  "Jerkin",
+  "Poncho",
+  "Overcoat",
+  "Tunic",
+  "Cuirass",
+  "Brigandine",
+  "Chestplate",
+  "Buckler",
+  "Deflector",
+  "Longcoat",
+  "Wrap",
+  "Tower Shield",
+  "Kite Shield",
+  "Legplates",
+  "Shorts",
+  "Tights",
+  "Hat",
+  "Beanie",
+  "Kilt",
+  "Trench Coat"
+];
+Game.armour_special = [
+  "The Blue Collar|If this won't stop attackers, the one wearing it will.",
+  "Xena's Breastplate|It was padded all along!",
+  "Dual-Wielded Shields|But how am I meant to attack?",
+  "Steel Cage|Especially effective against shark attacks.",
+  "Golden Helmet|Unrealistically heavy.",
+  "Iron Boots|Definitely not made for walking.",
+  "The Emperor's Clothes|Trust me, they're magnificent.",
+  "Ze Goggles|Zey do nothing!",
+  "Zenith Shield|Glows brighter than the sun.",
+  "Generic Armour Name|Relic of a bygone era.",
+  "Aegis Shield|Don't stare directly at it.",
+  "Planetary Bulwark|You will not go to space today.",
+  "Chainmail Bikini|Covers all the important bits.",
+  "Cardboard Box|Who in their right mind would attack a harmless box?",
+  "Golden Breastplate|Only really good for dying in style.",
+  "Turtle Shell|Nature's take on the humble shield.",
+  "Dragon Chainbody|Yes, dragon is a metal. No, we don't know what it is.",
+  "Giant Armour Plate|It's bigger than you, and we all know bigger is better.",
+  "Top Hat and Monocle|Stop! Dapper time!",
+  "Kevlar Vest|Stops just about anything that doesn't aim for the head.",
+  "Mechanical Exoskeleton|Humans are so much more effective when encased in metal.",
+  "Overly Elaborate Robe|Washing this thing will be your worst nightmare."
+];
+Game.SKILL_LIST = [
+  ["Pickpocket","Increases seed gains from combat by 5% per rank.",101],
+  ["Cavity Search","Adds a 2% chance per rank to triple seed gains from combat.",1011],
+  ["Bartering", "Reduces seed prices by 2% per rank.",1012],
+  ["Thorough Looting","Adds a 2% chance per rank to salvage scrap from defeated enemies.",10111],
+  ["Haggling", "Increases seeds received from selling items by 5% per rank.",10121],
+  ["Five-Finger Discount","Adds a 1% chance per rank to steal seeds equal to your character level when attacking.",101211],
+  ["Patience and Discipline","Adds a 3% chance per rank to boost a random stat when leveling up.",101212],
+  ["Disassembly", "Guarantees an additional piece of scrap from destroying items.",101213],
+  ["Bountiful Bags (NYI)", "Adds 3 slots per rank to your inventory limit.",1012111],
+  ["Luck of the Draw","Adds a 1% chance per rank to gain an additional Stat Point on level up.",1012121],
+  ["Fast Learner","Adds 5% per rank to experience gained in combat.",1012122],
+  ["Proper Care","Adds a 3% chance per rank to negate decay on your worn equipment per hit.",1012123],
+  ["Master Tinkerer","Increases the effectiveness of repair ticks by 20% per rank.",1012131],
+  ["Lucky Star","Adds a 1% chance per rank to gain an extra Skill Point on level up.",10121211],
+  ["High Maintenance","Adds a 2% chance per rank to fully repair equipment when defeating an enemy.",10121231],
+  ["Hanging By A Thread","Adds 10% per rank to a broken weapon's damage output.",10121232],
+  ["Deadly Force","Adds 2% per rank to all damage dealt by weapons.",102],
+  ["Nimble Fingers","Adds 2% per rank to attack speeds.",1021],
+  ["Keen Eye","Adds 3% per rank to critical strike chance.",1022],
+  ["Flurry","Adds a 1% chance per rank to perform a secondary strike after an attack for 50% damage.",10211],
+  ["Keener Eye","Adds 10% additional damage per rank to critical strikes.",10221],
+  ["Expose Weakness", "Adds 1% per rank to the debuff application rate.",10222],
+  ["Empowered Flurry","Adds 4% per level to the damage of Flurry's secondary strike.",102111],
+  ["Sneak Attack","Adds 10% per rank to your chance to strike first in combat.",102211],
+  ["Press The Advantage", "Using Burst Attack on a debuffed foe reduces its cooldown by 1 second per rank.",102221],
+  ["Terminal Illness (NYI)","Allows debuff timers to be refreshed when reapplied.",102222],
+  ["Wild Swings","Augments your Burst Attack to deal an additional hit per rank, but reduces its damage by 50%.",1021111],
+  ["Adrenaline Rush","After a critical strike, your next 3 attacks deal 5% additional damage per rank.",1021112],
+  ["Execute","Adds a 5% chance per rank to instantly kill an enemy below 25% health.",1022111],
+  ["Turn The Tables", "Adds 20% per rank to the debuff application chance when using Burst Attack.",1022211],
+  ["Overcharge","Adds 25% damage to attacks at the cost of an extra durability point per attack.",10211121],
+  ["Undermine","When using Burst Attack, the enemy's resistance to your attack type is treated as a vulnerability.",10222111],
+  ["Armour Mastery","Increases bonuses on armour by 5% per rank.",103],
+  ["Ancestral Fortitude","Reduces weapon damage taken by 2% per rank.",1031],
+  ["Survival Instincts","Adds 2% per rank to health regen and repair ticks.",1032],
+  ["Shield Wall (NYI)","Increases block chance by 1% per rank.",10311],
+  ["Shield Crush (NYI)","Adds a 3% chance per rank to ignore enemy armour bonus against your weapon when attacking.",10312],
+  ["Victory Rush","Restores 5% health per rank after defeating an enemy.",10321],
+  ["Vengeance","Adds a 2% chance per rank to return 50% of damage taken to the target.",103111],
+  ["Last Bastion","Reduces damage taken by 10% per rank when your health is below 30%.",103112],
+  ["Bladed Armour (NYI)","Deal 2% damage taken per rank back to the attacker.",103113],
+  ["Hold The Line (NYI)","Guarantees a block after Shield Crush activates.",103121],
+  ["Stand Your Ground (NYI)","Clears your current debuff when Shield Crush activates.",103122],
+  ["Artful Dodger (NYI)","Refreshes your Burst Attack cooldown when you dodge an attack.",103211],
+  ["Eye for an Eye (NYI)","Deals 100% of blocked damage to the attacker after a successful block.",103212],
+  ["Divine Shield","Adds a 1% chance per rank to completely negate an enemy attack.",1031121],
+  ["Second Wind (NYI)","Causes a blow that would kill you to instead restore 6% health per rank, once per battle.",1031122],
+  ["Riposte (NYI)","Adds a 5% chance per rank that a successful block will Disarm the attacker.",1031211],
+  ["Absorption Shield","Your Divine Shield now heals you for the damage you would have taken.",10311211],
+  ["Reflective Shield","Your Divine Shield now deals the damage you would have taken to the enemy.",10311212],
+  ["Reclaimed Knowledge", "Increases experience gained in combat by up to 50% by draining the experience overflow pool.",104]
+ // ["Brewmaster", "Grants a 1% chance per rank to ignore the single-use limitation on a potion when using it in combat.",115],
+ // ["Medic's Intuition", "Causes healing potions to restore an additional 10% of your health.", 1151],
+ // ["Saboteur's Intuition", "Causes your debuffing potions to apply the superior versions of their respective debuffs.", 1152]
+];
 Game.BADGE_LIST = [
   ["The Personal Touch","Give your character a name.","See that? That's you, right there.",2001],
   ["God Complex","Name your character after Psychemaster, the game's developer.","Shhh... this one's a nod to Orteil.",2002],

@@ -1,6 +1,6 @@
 body {
   padding-top:50px;
-	background:#300000;
+  background:#300000;
   margin:0px;
   min-width:825px;
   overflow-y:scroll;
@@ -21,12 +21,12 @@ body * {
   -moz-user-select: none; /* mozilla browsers */
   -khtml-user-select: none; /* webkit (konqueror) browsers */
   -ms-user-select: none; /* IE10+ */
-	font-family:sans-serif;
-	font-size:14px;
-	color:#b0b0b0;
+  font-family:sans-serif;
+  font-size:14px;
+  color:#b0b0b0;
 }
 input {
-	color:#b0b0b0;
+  color:#b0b0b0;
 }
 .itemPanel {
   text-align:left;
@@ -122,43 +122,43 @@ input {
 }
 
 #main {
-	margin-left:auto;
-	margin-right:auto;
-	padding-bottom:20px;
-	z-index:5;
+  margin-left:auto;
+  margin-right:auto;
+  padding-bottom:20px;
+  z-index:5;
 }
 #rightPanel table{
-	width:100%;
+  width:100%;
 }
 .tabBar {
-	z-index:3;
+  z-index:3;
 }
 .tabButton {
-	background: #660000;
-	border-radius: 15px 15px 0px 0px;
-	-moz-border-radius: 15px 15px 0px 0px;
-	-webkit-border-radius: 15px 15px 0px 0px;
-	border: 4px outset #666666;
-	padding: 6px;
-	position: relative;
-	z-index:4;
+  background: #660000;
+  border-radius: 15px 15px 0px 0px;
+  -moz-border-radius: 15px 15px 0px 0px;
+  -webkit-border-radius: 15px 15px 0px 0px;
+  border: 4px outset #666666;
+  padding: 6px;
+  position: relative;
+  z-index:4;
   cursor:pointer;
 }
 .centerPanel td {
-	padding-bottom:3px;
+  padding-bottom:3px;
 }
 .combatLog {
-	padding:0px 10px;
+  padding:0px 10px;
 }
 #logBody div.player {
-	text-align:left;
-   padding-left:30px;
+  text-align:left;
+  padding-left:30px;
 }
 #logBody div.player > * {
   color: #33ff33;
 }
 #logBody div.enemy {
-	text-align:left;
+  text-align:left;
   padding-left:30px;
 }
 #logBody div.enemy > * {
@@ -172,58 +172,58 @@ input {
   color: #dddddd;
 }
 .powerName {
-	font-size:14px;
-	font-weight:bold;
+  font-size:14px;
+  font-weight:bold;
 }
 .powerHeader, .powerHeader span{
-	font-size:28px;
-	font-weight:bold;
+  font-size:28px;
+  font-weight:bold;
 }
 .playerInfo td, .weaponInfo td, .armourInfo td, .lastWepInfo td{
-	width:50%;
-	text-align:center;
+  width:50%;
+  text-align:center;
 }
 .playerInfo td:first-child, .weaponInfo td:first-child, .armourInfo td:first-child, .lastWepInfo td:first-child{
-	text-align:right;
+  text-align:right;
 }
 .playerInfo td:only-child, .weaponInfo td:only-child, .armourInfo td:only-child, .lastWepInfo td:only-child{
-	text-align:center;
+  text-align:center;
 }
 .titleBar {
-	width:100%;
+  width:100%;
 }
 .blockHeader {
-	font-size:16px;
-	font-weight:bold;
+  font-size:16px;
+  font-weight:bold;
 }
 .footer {
-	position:fixed;
+  position:fixed;
   z-index:15;
-	bottom:0;
+  bottom:0;
   right:0;
-	text-align:center;
-	margin-left:auto;
-	margin-right:auto;
-	background:#000000;
-	color:#b0b0b0;
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+  background:#000000;
+  color:#b0b0b0;
 }
 .savePopup {
-	position:fixed;
-	bottom:35px;
-	text-align:center;
-	width:100%;
-	margin-left:auto;
-	margin-right:auto;
-	color:#b0b0b0;
-	z-index:10;
+  position:fixed;
+  bottom:35px;
+  text-align:center;
+  width:100%;
+  margin-left:auto;
+  margin-right:auto;
+  color:#b0b0b0;
+  z-index:10;
 }
 .savePopup > span {
-	padding:5px;
-	border-radius: 10px;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border: 5px outset #666666;
-	background: #000000;
+  padding:5px;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border: 5px outset #666666;
+  background: #000000;
   font-weight:bold;
   font-size:20px;
 }
@@ -231,39 +231,39 @@ input {
   font-size:20px;
 }
 .playerHPBorder {
-	border: 2px outset #666666;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	z-index:9;
-	width:45%;
-	height:25px;
-	float:left;
-	text-align:left;
-	position:relative;
+  border: 2px outset #666666;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  z-index:9;
+  width:45%;
+  height:25px;
+  float:left;
+  text-align:left;
+  position:relative;
 }
 .enemyHPBorder {
-	border: 2px outset #666666;
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	z-index:9;
-	width:45%;
-	height:25px;
-	float:right;
-	text-align:right;
-	position:relative;
+  border: 2px outset #666666;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  z-index:9;
+  width:45%;
+  height:25px;
+  float:right;
+  text-align:right;
+  position:relative;
 }
 .playerHPBar, .enemyHPBar {
-	position:relative;
-	z-index:8;
-	height:25px;
+  position:relative;
+  z-index:8;
+  height:25px;
 }
 #playerHPBarText, #enemyHPBarText {
-	font-size:10px;
-	padding: 1px 3px;
-	vertical-align:middle;
-	float:inherit;
+  font-size:10px;
+  padding: 1px 3px;
+  vertical-align:middle;
+  float:inherit;
 }
 .bigButton {
   border: 3px outset #878787;

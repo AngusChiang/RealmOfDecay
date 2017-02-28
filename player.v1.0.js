@@ -6,22 +6,22 @@ actions and advancement.
 --------------------------*/
 
 Game.levelUp = function() {
-	Game.combatLog("info","Level up! You are now level <span class='q222'>" + (Game.p_Level+1) + "</span>.");
+  Game.combatLog("info","Level up! You are now level <span class='q222'>" + (Game.p_Level+1) + "</span>.");
   var hpUp = Game.RNG(25,30);
-	Game.p_MaxHP += hpUp
-	Game.combatLog("info","You gained <span class='q222'>" + hpUp + "</span> maximum HP.");
+  Game.p_MaxHP += hpUp
+  Game.combatLog("info","You gained <span class='q222'>" + hpUp + "</span> maximum HP.");
   var strUp = 1 + (Game.p_Weapon[2] == Game.WEAPON_MELEE ? 1 : 0);
-	Game.p_Str += strUp;
-	Game.combatLog("info","You gained <span class='q222'>" + strUp + "</span> Strength.");
-	var dexUp = 1 + (Game.p_Weapon[2] == Game.WEAPON_RANGE ? 1 : 0);
-	Game.p_Dex += dexUp;
-	Game.combatLog("info","You gained <span class='q222'>" + dexUp + "</span> Dexterity.");
-	var intUp = 1 + (Game.p_Weapon[2] == Game.WEAPON_MAGIC ? 1 : 0);
-	Game.p_Int += intUp;
-	Game.combatLog("info","You gained <span class='q222'>" + intUp + "</span> Intelligence.");
-	var conUp = Game.RNG(1,4) == 1 ? 2 : 1;
-	Game.p_Con += conUp;
-	Game.combatLog("info","You gained <span class='q222'>" + conUp + "</span> Constitution.");
+  Game.p_Str += strUp;
+  Game.combatLog("info","You gained <span class='q222'>" + strUp + "</span> Strength.");
+  var dexUp = 1 + (Game.p_Weapon[2] == Game.WEAPON_RANGE ? 1 : 0);
+  Game.p_Dex += dexUp;
+  Game.combatLog("info","You gained <span class='q222'>" + dexUp + "</span> Dexterity.");
+  var intUp = 1 + (Game.p_Weapon[2] == Game.WEAPON_MAGIC ? 1 : 0);
+  Game.p_Int += intUp;
+  Game.combatLog("info","You gained <span class='q222'>" + intUp + "</span> Intelligence.");
+  var conUp = Game.RNG(1,4) == 1 ? 2 : 1;
+  Game.p_Con += conUp;
+  Game.combatLog("info","You gained <span class='q222'>" + conUp + "</span> Constitution.");
   Game.p_MaxHP += (15 * conUp);
   var statUpChance = Game.powerLevel(Game.SKILL_PATIENCE_AND_DISCIPLINE);
   if(statUpChance > 0 && Game.RNG(1,100) <= 3*statUpChance) {
@@ -41,65 +41,64 @@ Game.levelUp = function() {
         break;
     }
   }
-	Game.p_Level++;
+  Game.p_Level++;
   Game.TRACK_XP_OVERFLOW += Game.p_EXP - Game.p_NextEXP;
-	Game.p_EXP = 0;
-	Game.p_NextEXP = Math.floor(Game.XP_INIT*Math.pow(Game.XP_MULT,Game.p_Level-1));
+  Game.p_EXP = 0;
+  Game.p_NextEXP = Math.floor(Game.XP_INIT*Math.pow(Game.XP_MULT,Game.p_Level-1));
   if(Game.p_Level == 50) {
     Game.badgeCheck(Game.BADGE_NO_SPEND);
   }
-	Game.p_StatPoints++;
-	Game.combatLog("info","You gained a Stat Point.");
-  var SPChance = Game.powerLevel(Game.SKILL_LUCK_OF_THE_DRAW);
-	if(Game.RNG(1,100) <= SPChance) {
-		Game.p_StatPoints++;
-		Game.combatLog("info","Your <span class='q222'>Luck of the Draw</span> power granted another Stat Point.");
-	}
+  Game.p_StatPoints++;
+  Game.combatLog("info","You gained a Stat Point.");
+  if(Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_LUCK_OF_THE_DRAW)) {
+    Game.p_StatPoints++;
+    Game.combatLog("info","Your <span class='q222'>Luck of the Draw</span> power granted another Stat Point.");
+  }
   Game.p_SkillPoints += 1;
-	Game.combatLog("info","You gained a Power point.");
+  Game.combatLog("info","You gained a Skill Point.");
   if(Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_LUCKY_STAR)) {
     Game.p_SkillPoints++;
-    Game.combatLog("info","<span class='q222'>Lucky Star</span> granted an additional Power Point.");
+    Game.combatLog("info","<span class='q222'>Lucky Star</span> granted an additional Skill Point.");
   }
   if(Game.p_Level == 5) { Game.bossChance = 1; }
   Game.repopulateShop();
   Game.updatePowers = true;
 }
 Game.addStat = function(stat, count) {
-	while(count > 0 && Game.p_StatPoints > 0) {
-		switch(stat) {
-			case Game.STAT_STR:
-				Game.p_Str++; Game.POINTS_STR++; Game.POINTS_STR_CURRENT++; if(Game.POINTS_STR >= 100) { Game.giveBadge(Game.BADGE_STR); } break;
-        // A Good Offense
-			case Game.STAT_DEX:
-				Game.p_Dex++; Game.POINTS_DEX++; Game.POINTS_DEX_CURRENT++; if(Game.POINTS_DEX >= 100) { Game.giveBadge(Game.BADGE_DEX); } break;
-        // Pinpoint Accuracy
-			case Game.STAT_INT:
-				Game.p_Int++; Game.POINTS_INT++; Game.POINTS_INT_CURRENT++; if(Game.POINTS_INT >= 100) { Game.giveBadge(Game.BADGE_INT); } break;
-        // Bookish Type
-			case Game.STAT_CON:
-				Game.p_Con++; Game.POINTS_CON++; Game.POINTS_CON_CURRENT++; Game.p_MaxHP += 15; if(Game.POINTS_CON >= 100) { Game.giveBadge(Game.BADGE_CON); } break;
-        // Defence of the Ancients
-		}
-		Game.p_StatPoints--; count--;
-	}
+  while(count > 0 && Game.p_StatPoints > 0) {
+    switch(stat) {
+      case Game.STAT_STR:
+        Game.p_Str++; Game.POINTS_STR++; Game.POINTS_STR_CURRENT++; if(Game.POINTS_STR >= 100) { Game.giveBadge(Game.BADGE_STR); } break;
+  // A Good Offense
+      case Game.STAT_DEX:
+        Game.p_Dex++; Game.POINTS_DEX++; Game.POINTS_DEX_CURRENT++; if(Game.POINTS_DEX >= 100) { Game.giveBadge(Game.BADGE_DEX); } break;
+  // Pinpoint Accuracy
+      case Game.STAT_INT:
+        Game.p_Int++; Game.POINTS_INT++; Game.POINTS_INT_CURRENT++; if(Game.POINTS_INT >= 100) { Game.giveBadge(Game.BADGE_INT); } break;
+  // Bookish Type
+      case Game.STAT_CON:
+        Game.p_Con++; Game.POINTS_CON++; Game.POINTS_CON_CURRENT++; Game.p_MaxHP += 15; if(Game.POINTS_CON >= 100) { Game.giveBadge(Game.BADGE_CON); } break;
+    // Defence of the Ancients
+    }
+    Game.p_StatPoints--; count--;
+  }
   if((Game.POINTS_STR + Game.POINTS_DEX + Game.POINTS_INT + Game.POINTS_CON) >= 200) { Game.giveBadge(Game.BADGE_TOTAL); }
   // The Only Way is Up
 	Game.drawActivePanel();
 }
 Game.initPlayer = function(level) {
-	Game.p_Str = Game.RNG(5,7) + Game.RNG(level-1,2*(level-1));
-	Game.p_Dex = Game.RNG(5,7) + Game.RNG(level-1,2*(level-1));
-	Game.p_Int = Game.RNG(5,7) + Game.RNG(level-1,2*(level-1));
-	Game.p_Con = Game.RNG(5,7) + Game.RNG(level-1,2*(level-1));
+  Game.p_Str = Game.RNG(5,7) + Game.RNG(level-1,2*(level-1));
+  Game.p_Dex = Game.RNG(5,7) + Game.RNG(level-1,2*(level-1));
+  Game.p_Int = Game.RNG(5,7) + Game.RNG(level-1,2*(level-1));
+  Game.p_Con = Game.RNG(5,7) + Game.RNG(level-1,2*(level-1));
   Game.p_MaxHP = (Game.p_Con * 15) + Game.RNG(25*level,30*level);
-	Game.p_HP = Game.p_MaxHP;
-	Game.p_EXP = 0;
-	Game.p_NextEXP = Math.floor(Game.XP_INIT*Math.pow(Game.XP_MULT,level-1));
-	Game.p_StatPoints = level;
-	Game.p_Level = level;
-	Game.p_SkillPoints = level;
-	Game.p_Weapon = Game.makeWeapon(level);
+  Game.p_HP = Game.p_MaxHP;
+  Game.p_EXP = 0;
+  Game.p_NextEXP = Math.floor(Game.XP_INIT*Math.pow(Game.XP_MULT,level-1));
+  Game.p_StatPoints = level;
+  Game.p_Level = level;
+  Game.p_SkillPoints = level;
+  Game.p_Weapon = Game.makeWeapon(level);
   Game.p_Armour = Game.makeArmour(level);
 }
 Game.getEnemyName = function(isBoss) {
@@ -113,16 +112,16 @@ Game.getEnemyName = function(isBoss) {
 Game.makeEnemy = function(level) {
   var L = Math.min(level, Game.ZONE_MAX_LEVEL[Game.p_currentZone]);
   Game.e_Name = Game.getEnemyName(false);
-	Game.e_MaxHP = Game.RNG(80,100) + Game.RNG(25*(L-1),30*(L-1));
-	Game.e_MainStat = Game.RNG(5,7) + Game.RNG(L-1,1.5*(L-1));
+  Game.e_MaxHP = Game.RNG(80,100) + Game.RNG(25*(L-1),30*(L-1));
+  Game.e_MainStat = Game.RNG(5,7) + Game.RNG(L-1,1.5*(L-1));
   var scalingFactor = 0.8+((L-1)*0.03);
   Game.e_MaxHP = Math.floor(Game.e_MaxHP*scalingFactor);
   Game.e_MainStat = Math.floor(Game.e_MainStat*scalingFactor);
   Game.e_HP = Game.e_MaxHP;
   Game.e_Debuff = [];
-	Game.e_Level = L;
-	Game.e_DebuffStacks = 0;
-	Game.e_isBoss = false;
+  Game.e_Level = L;
+  Game.e_DebuffStacks = 0;
+  Game.e_isBoss = false;
   Game.e_ProperName = false;
   Game.e_Weapon = [];
   do {
@@ -136,16 +135,16 @@ Game.makeEnemy = function(level) {
 Game.makeElite = function(level) {
   var L = Math.min(level, Game.ZONE_MAX_LEVEL[Game.p_currentZone]);
   Game.e_Name = Game.getEnemyName(true);
-	Game.e_MaxHP = Game.RNG(80,100) + Game.RNG(25*(L-1),30*(L-1));
-	Game.e_MainStat = Game.RNG(5,7) + Game.RNG(Math.floor((L-1)*1.5),2*(L-1));
+  Game.e_MaxHP = Game.RNG(80,100) + Game.RNG(25*(L-1),30*(L-1));
+  Game.e_MainStat = Game.RNG(5,7) + Game.RNG(Math.floor((L-1)*1.5),2*(L-1));
   var scalingFactor = 0.9+((L-1)*0.04);
   Game.e_MaxHP = Math.floor(Game.e_MaxHP*scalingFactor);
   Game.e_MainStat = Math.floor(Game.e_MainStat*scalingFactor);
   Game.e_HP = Game.e_MaxHP;
   Game.e_Debuff = [];
-	Game.e_Level = L;
-	Game.e_DebuffStacks = 0;
-	Game.e_isBoss = true;
+  Game.e_Level = L;
+  Game.e_DebuffStacks = 0;
+  Game.e_isBoss = true;
   Game.e_ProperName = false;
   Game.e_Weapon = [];
   do {
@@ -158,13 +157,13 @@ Game.makeElite = function(level) {
 }
 Game.makeBoss = function() {
   Game.e_Name = Game.ZONE_BOSSES[Game.p_currentZone][0];
-	Game.e_MaxHP = Game.ZONE_BOSSES[Game.p_currentZone][2];
-	Game.e_MainStat = Game.ZONE_BOSSES[Game.p_currentZone][3];
+  Game.e_MaxHP = Game.ZONE_BOSSES[Game.p_currentZone][2];
+  Game.e_MainStat = Game.ZONE_BOSSES[Game.p_currentZone][3];
   Game.e_HP = Game.e_MaxHP;
   Game.e_Debuff = [];
-	Game.e_Level = Game.ZONE_BOSSES[Game.p_currentZone][1];
-	Game.e_DebuffStacks = 0;
-	Game.e_isBoss = true;
+  Game.e_Level = Game.ZONE_BOSSES[Game.p_currentZone][1];
+  Game.e_DebuffStacks = 0;
+  Game.e_isBoss = true;
   Game.e_ProperName = true;
   Game.e_Weapon = Game.ZONE_BOSSES[Game.p_currentZone][4];
   Game.e_Armour = Game.ZONE_BOSSES[Game.p_currentZone][5];

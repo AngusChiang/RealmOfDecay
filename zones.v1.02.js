@@ -24,18 +24,6 @@ Game.ZONE_DESCRIPTIONS = [
   "With the relentless advancement of the magical arts, centres like the Ley Line Research Facility have risen across the globe over the years, where magi work around the clock to push the boundaries of magic for military purposes. This facility, as a direct result of your unwitting destruction of their most prized artifact and research material, has had to work twice as hard to make new discoveries, some of which now patrol the halls, neglected but no less functional from their abandonment.",
   "Set deep beneath the Pillar of Ash, the intense magma currents and searing atmosphere of this subterranean complex serve as a power source for the tower above. In true Ashen style, most of the elementals and hardy creatures of the caverns have been bound to the will of the Ash, and their unbridled power and otherworldly appearance has proven to be a most effective deterrent against those who would attempt to undermine the Ashen's ultimate quest for destruction.",
   "Having learned their lesson the first time around, the Ash Cult decided to build their colossal tower and base of operations on less volatile ground. The tower itself is constantly being built ever skyward, in the hopes that a significant sacrifice at its very peak will be enough to pierce the heavens, finally awakening their lord from his slumber and bolstering their efforts to cleanse the land of all those who have corrupted it."];
-Game.ZONE_CLEAR_QUOTES = ["After the echoes subsided from the fall of the massive cave troll, some modicum of peace returned to the Whispering Cave - it is clear that the troll's presence did more to anger the cave's inhabitants than you ever could. Now that problem has been solved, the local wildlife are free to return to their usual habits, and you are free to head out into the world, in search of more adventures.",
-  "With Ragekai's defeat by your hand, the operations of this outpost are sure to come to a screeching halt. That, or a new, even more tyrannical overseer will step in once the cult finds out about the hit to their supply route. It's not a good idea to wait around and find out, so you decide to keep moving forward.",
-  "The mist hanging over the swamp settled shortly after the behemoth fell, revealing a pile of indistinct ruins in the far distance. Mercifully, the swampy nature of the land gives way to rolling plains long before the ruin is reached - revealed to be the faintly smoking wreckage of a large scale commuter train, begging to be explored and possibly salvaged from.",
-  "Watching the wispy remnants of the train's tormented driver dissipate into the atmosphere, you see a long road through the cracked windshield leading towards the base of a sizable mountain - not too dissimilar to the one you used to commute on to work every morning. Driven on by memories of the familiar, you pop the emergency exit of the carriage open and head ever forward into the dark.",
-  "The sheer force of the limp giant's body smashing into the ground threw enormous amounts of dust and spores into the air, the sound of the impact carrying for miles around. Having unwittingly drawn attention to yourself with this act, you make the incredibly smart choice of picking a direction and running until the tunnel and its denizens fade into the horizon.",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  ""];
 Game.ZONE_MIN_LEVEL = [1,11,21,31,41,51,61,71,81,91,101,111];
 Game.ZONE_MAX_LEVEL = [10,20,30,40,50,60,70,80,90,100,110,120];
 Game.ZONE_ENEMY_NAMES = [

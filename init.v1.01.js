@@ -628,128 +628,127 @@ Game.load = function() {
     Game.p_Potion = g.p_Potion;
     Game.p_WeaponShopStock = g.p_WeaponShopStock;
     Game.p_ArmourShopStock = g.p_ArmourShopStock;
-      Game.last_Weapon = g.last_Weapon;
-  Game.last_Armour = g.last_Armour;
-  Game.activePanel = g.activePanel;
-  Game.playerBadges = g.playerBadges;
-  Game.p_currentZone = g.p_currentZone;
-  Game.p_maxZone = g.p_maxZone;
-  Game.TRACK_TOTAL_DMG = g.TRACK_TOTAL_DMG;
-  Game.TRACK_MELEE_DMG = g.TRACK_MELEE_DMG;
-  Game.TRACK_RANGE_DMG = g.TRACK_RANGE_DMG;
-  Game.TRACK_MAGIC_DMG = g.TRACK_MAGIC_DMG;
-  Game.TRACK_TOTAL_TAKEN = g.TRACK_TOTAL_TAKEN;
-  Game.TRACK_MELEE_TAKEN = g.TRACK_MELEE_TAKEN;
-  Game.TRACK_MAGIC_TAKEN = g.TRACK_MAGIC_TAKEN;
-  Game.TRACK_RANGE_TAKEN = g.TRACK_RANGE_TAKEN;
-  Game.TRACK_ATTACKS_OUT = g.TRACK_ATTACKS_OUT;
-  Game.TRACK_ATTACKS_IN = g.TRACK_ATTACKS_IN;
-  Game.TRACK_WINS = g.TRACK_WINS;
-  Game.TRACK_LOSSES = g.TRACK_LOSSES;
-  Game.TRACK_ESCAPES = g.TRACK_ESCAPES;
-  Game.TRACK_WIN_STREAK = g.TRACK_WIN_STREAK;
-  Game.TRACK_BURSTS = g.TRACK_BURSTS;
-  Game.TRACK_BOSS_KILLS = g.TRACK_BOSS_KILLS;
-  Game.TRACK_BOSS_CHANCE = g.TRACK_BOSS_CHANCE;
-  Game.TRACK_MAXHIT_IN = g.TRACK_MAXHIT_IN;
-  Game.TRACK_MAXHIT_OUT = g.TRACK_MAXHIT_OUT;
-  Game.TRACK_XP_GAINED = g.TRACK_XP_GAINED;
-  Game.TRACK_XP_LOST = g.TRACK_XP_LOST;
-  Game.TRACK_XP_OVERFLOW = g.TRACK_XP_OVERFLOW;
-  Game.TRACK_UPGRADES = g.TRACK_UPGRADES;
-  Game.TRACK_REFORGES = g.TRACK_REFORGES;
-  Game.TRACK_RESETS = g.TRACK_RESETS;
-  Game.TRACK_ITEM_SALES = g.TRACK_ITEM_SALES;
-  Game.TRACK_ITEM_SCRAPS = g.TRACK_ITEM_SCRAPS;
-  Game.TRACK_ITEM_DISCARDS = g.TRACK_ITEM_DISCARDS;
-  Game.TRACK_BROKEN_ITEMS = g.TRACK_BROKEN_ITEMS;
-  Game.TRACK_COMBAT_SEEDS = g.TRACK_COMBAT_SEEDS;
-  Game.TRACK_SALE_SEEDS = g.TRACK_SALE_SEEDS;
-  Game.TRACK_COMBAT_SCRAP = g.TRACK_COMBAT_SCRAP;
-  Game.TRACK_CONVERT_SCRAP = g.TRACK_CONVERT_SCRAP;
-  Game.TRACK_DEBUFFS_OUT = g.TRACK_DEBUFFS_OUT;
-  Game.TRACK_DEBUFFS_IN = g.TRACK_DEBUFFS_IN;
-  Game.TRACK_DOOM_IN = g.TRACK_DOOM_IN;
-  Game.TRACK_DOOM_OUT = g.TRACK_DOOM_OUT;
-  Game.TRACK_SLEEPBREAK_IN = g.TRACK_SLEEPBREAK_IN;
-  Game.TRACK_SLEEPBREAK_OUT = g.TRACK_SLEEPBREAK_OUT;
-  Game.TRACK_DRAIN_IN = g.TRACK_DRAIN_IN;
-  Game.TRACK_DRAIN_OUT = g.TRACK_DRAIN_OUT;
-  Game.TRACK_DOTS_IN = g.TRACK_DOTS_IN;
-  Game.TRACK_DOTS_OUT = g.TRACK_DOTS_OUT;
-  Game.TRACK_CHARM_IN = g.TRACK_CHARM_IN;
-  Game.TRACK_CHARM_OUT = g.TRACK_CHARM_OUT;
-  Game.TRACK_PARAHAX_IN = g.TRACK_PARAHAX_IN;
-  Game.TRACK_PARAHAX_OUT = g.TRACK_PARAHAX_OUT;
-  Game.TRACK_POTIONS_USED = g.TRACK_POTIONS_USED;
-  Game.PROGRESS_AUTOSAVE = g.PROGRESS_AUTOSAVE;
-  Game.PROGRESS_KEYBINDING = g.PROGRESS_KEYBINDING;
-  Game.PROGRESS_MANUAL_BATTLE = g.PROGRESS_MANUAL_BATTLE;
-  Game.PROGRESS_RANDOM_DEBUFFS = g.PROGRESS_RANDOM_DEBUFFS;
-  Game.PROGRESS_DEBUFF_SPEND = g.PROGRESS_DEBUFF_SPEND;
-  Game.PROGRESS_SCRAPPING = g.PROGRESS_SCRAPPING;
-  Game.PROGRESS_SPEND = g.PROGRESS_SPEND;
-  Game.autoBattle_flee = g.autoBattle_flee;
-  Game.autoBattle_repair = g.autoBattle_repair;
-  Game.autoSell_options = g.autoSell_options;
-  if(g.bossChance === undefined) { Game.bossChance = Game.p_Level >= 5 ? 1 : 0; }
-  else { Game.bossChance = g.bossChance; }
-  if(g.prestigeLevel === undefined) { Game.prestigeLevel = 0; }
-  else { Game.prestigeLevel = g.prestigeLevel; }
-  // Fix for weapons with the old weaker sleep debuff circa V1.0 RC2
-  if(Game.p_Weapon[9][0] == 250 && Game.p_Weapon[9][3] == 20) {
-    Game.p_Weapon[9][3] = 15;
-  }
-  for(var x = 0; x < Game.p_WeaponInventory.length; x++) {
-    if(Game.p_WeaponInventory[x][9][0] == 250 && Game.p_WeaponInventory[x][9][3] == 20) {
-      Game.p_WeaponInventory[x][9][3] = 15;
+    Game.last_Weapon = g.last_Weapon;
+    Game.last_Armour = g.last_Armour;
+    Game.activePanel = g.activePanel;
+    Game.playerBadges = g.playerBadges;
+    Game.p_currentZone = g.p_currentZone;
+    Game.p_maxZone = g.p_maxZone;
+    Game.TRACK_TOTAL_DMG = g.TRACK_TOTAL_DMG;
+    Game.TRACK_MELEE_DMG = g.TRACK_MELEE_DMG;
+    Game.TRACK_RANGE_DMG = g.TRACK_RANGE_DMG;
+    Game.TRACK_MAGIC_DMG = g.TRACK_MAGIC_DMG;
+    Game.TRACK_TOTAL_TAKEN = g.TRACK_TOTAL_TAKEN;
+    Game.TRACK_MELEE_TAKEN = g.TRACK_MELEE_TAKEN;
+    Game.TRACK_MAGIC_TAKEN = g.TRACK_MAGIC_TAKEN;
+    Game.TRACK_RANGE_TAKEN = g.TRACK_RANGE_TAKEN;
+    Game.TRACK_ATTACKS_OUT = g.TRACK_ATTACKS_OUT;
+    Game.TRACK_ATTACKS_IN = g.TRACK_ATTACKS_IN;
+    Game.TRACK_WINS = g.TRACK_WINS;
+    Game.TRACK_LOSSES = g.TRACK_LOSSES;
+    Game.TRACK_ESCAPES = g.TRACK_ESCAPES;
+    Game.TRACK_WIN_STREAK = g.TRACK_WIN_STREAK;
+    Game.TRACK_BURSTS = g.TRACK_BURSTS;
+    Game.TRACK_BOSS_KILLS = g.TRACK_BOSS_KILLS;
+    Game.TRACK_BOSS_CHANCE = g.TRACK_BOSS_CHANCE;
+    Game.TRACK_MAXHIT_IN = g.TRACK_MAXHIT_IN;
+    Game.TRACK_MAXHIT_OUT = g.TRACK_MAXHIT_OUT;
+    Game.TRACK_XP_GAINED = g.TRACK_XP_GAINED;
+    Game.TRACK_XP_LOST = g.TRACK_XP_LOST;
+    Game.TRACK_XP_OVERFLOW = g.TRACK_XP_OVERFLOW;
+    Game.TRACK_UPGRADES = g.TRACK_UPGRADES;
+    Game.TRACK_REFORGES = g.TRACK_REFORGES;
+    Game.TRACK_RESETS = g.TRACK_RESETS;
+    Game.TRACK_ITEM_SALES = g.TRACK_ITEM_SALES;
+    Game.TRACK_ITEM_SCRAPS = g.TRACK_ITEM_SCRAPS;
+    Game.TRACK_ITEM_DISCARDS = g.TRACK_ITEM_DISCARDS;
+    Game.TRACK_BROKEN_ITEMS = g.TRACK_BROKEN_ITEMS;
+    Game.TRACK_COMBAT_SEEDS = g.TRACK_COMBAT_SEEDS;
+    Game.TRACK_SALE_SEEDS = g.TRACK_SALE_SEEDS;
+    Game.TRACK_COMBAT_SCRAP = g.TRACK_COMBAT_SCRAP;
+    Game.TRACK_CONVERT_SCRAP = g.TRACK_CONVERT_SCRAP;
+    Game.TRACK_DEBUFFS_OUT = g.TRACK_DEBUFFS_OUT;
+    Game.TRACK_DEBUFFS_IN = g.TRACK_DEBUFFS_IN;
+    Game.TRACK_DOOM_IN = g.TRACK_DOOM_IN;
+    Game.TRACK_DOOM_OUT = g.TRACK_DOOM_OUT;
+    Game.TRACK_SLEEPBREAK_IN = g.TRACK_SLEEPBREAK_IN;
+    Game.TRACK_SLEEPBREAK_OUT = g.TRACK_SLEEPBREAK_OUT;
+    Game.TRACK_DRAIN_IN = g.TRACK_DRAIN_IN;
+    Game.TRACK_DRAIN_OUT = g.TRACK_DRAIN_OUT;
+    Game.TRACK_DOTS_IN = g.TRACK_DOTS_IN;
+    Game.TRACK_DOTS_OUT = g.TRACK_DOTS_OUT;
+    Game.TRACK_CHARM_IN = g.TRACK_CHARM_IN;
+    Game.TRACK_CHARM_OUT = g.TRACK_CHARM_OUT;
+    Game.TRACK_PARAHAX_IN = g.TRACK_PARAHAX_IN;
+    Game.TRACK_PARAHAX_OUT = g.TRACK_PARAHAX_OUT;
+    Game.TRACK_POTIONS_USED = g.TRACK_POTIONS_USED;
+    Game.PROGRESS_AUTOSAVE = g.PROGRESS_AUTOSAVE;
+    Game.PROGRESS_KEYBINDING = g.PROGRESS_KEYBINDING;
+    Game.PROGRESS_MANUAL_BATTLE = g.PROGRESS_MANUAL_BATTLE;
+    Game.PROGRESS_RANDOM_DEBUFFS = g.PROGRESS_RANDOM_DEBUFFS;
+    Game.PROGRESS_DEBUFF_SPEND = g.PROGRESS_DEBUFF_SPEND;
+    Game.PROGRESS_SCRAPPING = g.PROGRESS_SCRAPPING;
+    Game.PROGRESS_SPEND = g.PROGRESS_SPEND;
+    Game.autoBattle_flee = g.autoBattle_flee;
+    Game.autoBattle_repair = g.autoBattle_repair;
+    Game.autoSell_options = g.autoSell_options;
+    if(g.bossChance === undefined) { Game.bossChance = Game.p_Level >= 5 ? 1 : 0; }
+    else { Game.bossChance = g.bossChance; }
+    if(g.prestigeLevel === undefined) { Game.prestigeLevel = 0; }
+    else { Game.prestigeLevel = g.prestigeLevel; }
+    // Fix for weapons with the old weaker sleep debuff circa V1.0 RC2
+    if(Game.p_Weapon[9][0] == 250 && Game.p_Weapon[9][3] == 20) {
+      Game.p_Weapon[9][3] = 15;
     }
-  }
-  return true;
+    for(var x = 0; x < Game.p_WeaponInventory.length; x++) {
+      if(Game.p_WeaponInventory[x][9][0] == 250 && Game.p_WeaponInventory[x][9][3] == 20) {
+        Game.p_WeaponInventory[x][9][3] = 15;
+      }
+    }
+    return true;
   }
   else { return false; }
 }
 Game.RNG = function(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 Game.padLeft = function(nr, n, str){
-    return Array(n-String(nr).length+1).join(str||'0')+nr;
+  return Array(n-String(nr).length+1).join(str||'0')+nr;
 }
 function prettifyNumber(x) {
-    var parts = x.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
+  var parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
 }
 function abbreviateNumber(value) {
-    var newValue = value;
-    if (value >= 1000) {
-        var suffixes = ["", "k", "m", "b","t","qa","qi","sx","sp"];
-        var suffixNum = Math.floor( (""+value).length/3 );
-        var shortValue = '';
-        for (var precision = 2; precision >= 1; precision--) {
-            shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
-            var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
-            if (dotLessShortValue.length <= 2) { break; }
-        }
-        if (shortValue % 1 != 0)  shortNum = shortValue.toFixed(1);
-        newValue = shortValue+suffixes[suffixNum];
+  var newValue = value;
+  if (value >= 1000) {
+    var suffixes = ["","k","m" "b","t","qa","qi","sx","sp"];
+    var suffixNum = Math.floor( (""+value).length/3 );
+    var shortValue = '';
+    for (var precision = 2; precision >= 1; precision--) {
+      shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
+      var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
+      if (dotLessShortValue.length <= 2) { break; }
     }
-    return newValue;
+    if (shortValue % 1 != 0)  shortNum = shortValue.toFixed(1);
+    newValue = shortValue+suffixes[suffixNum];
+  }
+  return newValue;
 }
 
 function arraysEqual(a, b) {
   if (a === b) return true;
   if (a == null || b == null) return false;
   if (a.length != b.length) return false;
-
   for (var i = 0; i < a.length; ++i) {
     if (a[i] !== b[i]) return false;
   }
   return true;
 }
+
 function statValue(val) {
-  if(val < 0)
-    return -statValue(-val);
+  if(val < 0) { return -statValue(-val); }
   var mult = val / Game.STAT_CONVERSION_SCALE;
   var trinum = (Math.sqrt(8.0 * mult + 1.0) - 1.0) / 2.0;
   return trinum * Game.STAT_CONVERSION_SCALE;

@@ -148,72 +148,72 @@ Game.scrapArmour = function(index, loud) {
   if(!loud) { return salePrice; }
 }
 Game.makeWeapon = function(level) {
-	// Returns a weapon as an array with the form
-	// [name,level,type,speed,minDmg,maxDmg,dps,quality,decay,[debuffID,debuffName,debuffDuration,debuffStrength]]
-	var type = Game.RNG(Game.WEAPON_MELEE,Game.WEAPON_MAGIC);
-	var sType = Game.RNG(Game.WSPEED_SLOW, Game.WSPEED_FAST);
-	var speed = 0;
-	var minDmg = 0; var maxDmg = 0;
-	var dps = 0;
-	var decay = 50 + 5*(level-1);
-	var qualityMult = 1; var qualityID = Game.QUALITY_NORMAL;
+  // Returns a weapon as an array with the form
+  // [name,level,type,speed,minDmg,maxDmg,dps,quality,decay,[debuffID,debuffName,debuffDuration,debuffStrength]]
+  var type = Game.RNG(Game.WEAPON_MELEE,Game.WEAPON_MAGIC);
+  var sType = Game.RNG(Game.WSPEED_SLOW, Game.WSPEED_FAST);
+  var speed = 0;
+  var minDmg = 0; var maxDmg = 0;
+  var dps = 0;
+  var decay = 50 + 5*(level-1);
+  var qualityMult = 1; var qualityID = Game.QUALITY_NORMAL;
   var debuff = [];
 	// Quality generator
 	var qT = Game.RNG(1,100);
 	if(qT == 1) {
-		qualityMult = 1.3;
-		qualityID = Game.QUALITY_AMAZING;
+      qualityMult = 1.3;
+      qualityID = Game.QUALITY_AMAZING;
 	} else if(qT < 6) {
-		qualityMult = 1.2;
-		qualityID = Game.QUALITY_GREAT;
+      qualityMult = 1.2;
+      qualityID = Game.QUALITY_GREAT;
 	} else if(qT < 16) {
-		qualityMult = 1.1;
-		qualityID = Game.QUALITY_GOOD;
+      qualityMult = 1.1;
+      qualityID = Game.QUALITY_GOOD;
 	} else if(qT < 26) {
-		qualityMult = 0.9;
-		qualityID = Game.QUALITY_POOR;
+      qualityMult = 0.9;
+      qualityID = Game.QUALITY_POOR;
 	} else {
-		qualityMult = 1;
-		qualityID = Game.QUALITY_NORMAL;
+      qualityMult = 1;
+      qualityID = Game.QUALITY_NORMAL;
 	}
 	// Weapon speed
 	switch(sType) {
-		case Game.WSPEED_FAST:
-			speed = Game.RNG(16,20);
-			break;
-		case Game.WSPEED_MID:
-			speed = Game.RNG(21,25);
-			break;
-		case Game.WSPEED_SLOW:
-			speed = Game.RNG(26,30);
-			break;
+      case Game.WSPEED_FAST:
+        speed = Game.RNG(16,20);
+        break;
+      case Game.WSPEED_MID:
+        speed = Game.RNG(21,25);
+        break;
+      case Game.WSPEED_SLOW:
+        speed = Game.RNG(26,30);
+        break;
 	}
 	speed = speed/10;
 	var base = 0; var variance = 0; var perLv = 0;
 	switch(sType) {
-		case Game.WSPEED_FAST:
-			base = Game.RNG(8,10);
-			perLv = 2;
-			variance = 0.3;
-			break;
-		case Game.WSPEED_MID:
-			base = Game.RNG(11,13);
-			perLv = 2.5;
-			variance = 0.4;
-			break;
-		case Game.WSPEED_SLOW:
-			base = Game.RNG(14,16);
-			perLv = 3;
-			variance = 0.5;
-			break;
+      case Game.WSPEED_FAST:
+        base = Game.RNG(8,10);
+        perLv = 2;
+        variance = 0.3;
+        break;
+      case Game.WSPEED_MID:
+        base = Game.RNG(11,13);
+        perLv = 2.5;
+        variance = 0.4;
+        break;
+      case Game.WSPEED_SLOW:
+        base = Game.RNG(14,16);
+        perLv = 3;
+        variance = 0.5;
+        break;
 	}
   var name = Game.getWeaponName(type,qualityID,sType);
   // Logic time!
   // Weapon damage = (Base + Bonus based on weapon level +/- Variance based on level) * Quality multiplier
-	minDmg = Math.floor((base + ((level-1)*perLv)-(1+(variance*(level-1)/2)))*qualityMult);
-	maxDmg = Math.ceil((base + ((level-1)*perLv)+(1+(variance*(level-1)/2)))*qualityMult);
-	dps = Math.floor((minDmg + maxDmg)/2/speed*100)/100;
-	return new Array(name[0],level,type,speed,minDmg,maxDmg,dps,qualityID,decay,name[1]);
+  minDmg = Math.floor((base + ((level-1)*perLv)-(1+(variance*(level-1)/2)))*qualityMult);
+  maxDmg = Math.ceil((base + ((level-1)*perLv)+(1+(variance*(level-1)/2)))*qualityMult);
+  dps = Math.floor((minDmg + maxDmg)/2/speed*100)/100;
+  return new Array(name[0],level,type,speed,minDmg,maxDmg,dps,qualityID,decay,name[1]);
 }
 Game.makeArmour = function(level) {
   // Returns a piece of armour in the following form:
@@ -224,22 +224,26 @@ Game.makeArmour = function(level) {
   var qualityPlus = 1;
   var armStrengths = 0; var armVulns = 0;
   var qT = Game.RNG(1,100);
-	if(qT == 1) {
-		qualityPlus = 4;	armQuality = Game.QUALITY_AMAZING;
+  if(qT == 1) {
+    qualityPlus = 4;	armQuality = Game.QUALITY_AMAZING;
     armStrengths = 3; armVulns = 0;
-	} else if(qT < 6) {
-		qualityPlus = 3; armQuality = Game.QUALITY_GREAT;
+  } 
+  else if(qT < 6) {
+    qualityPlus = 3; armQuality = Game.QUALITY_GREAT;
     armStrengths = 2; armVulns = 0;
-	} else if(qT < 16) {
-		qualityPlus = 2;armQuality = Game.QUALITY_GOOD;
+  }
+  else if(qT < 16) {
+    qualityPlus = 2;armQuality = Game.QUALITY_GOOD;
     armStrengths = 2; armVulns = 1;
-	} else if(qT < 26) {
-		qualityPlus = 0; armQuality = Game.QUALITY_POOR;
+  } 
+  else if(qT < 26) {
+    qualityPlus = 0; armQuality = Game.QUALITY_POOR;
     armStrengths = 1; armVulns = 2;
-	} else {
-		qualityPlus = 1; armQuality = Game.QUALITY_NORMAL;
+  } 
+  else {
+    qualityPlus = 1; armQuality = Game.QUALITY_NORMAL;
     armStrengths = 1; armVulns = 1;
-	}
+  }
   var availableTypes = [0,1,2];
   var armStrList = [];
   var armVulnList = [];

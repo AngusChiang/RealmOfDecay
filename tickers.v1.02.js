@@ -33,15 +33,15 @@ Game.repairTick = function() {
 }
 Game.idleHeal = function() {
   // Todo: Finish the updateActivePanel function.
-	if(Game.p_State != Game.STATE_COMBAT) {
-		Game.p_HP = Math.min(Game.p_HP + Math.ceil(Game.p_Con * (1 + (0.04 * Game.powerLevel(Game.SKILL_SURVIVAL_INSTINCTS)))),Game.p_MaxHP);
-		if(!Game.p_autoSaved && Game.p_HP == Game.p_MaxHP && Game.p_State == Game.STATE_IDLE) {
-			Game.p_autoSaved = true;
+  if(Game.p_State != Game.STATE_COMBAT) {
+    Game.p_HP = Math.min(Game.p_HP + Math.ceil(Game.p_Con * (1 + (0.04 * Game.powerLevel(Game.SKILL_SURVIVAL_INSTINCTS)))),Game.p_MaxHP);
+    if(!Game.p_autoSaved && Game.p_HP == Game.p_MaxHP && Game.p_State == Game.STATE_IDLE) {
+      Game.p_autoSaved = true;
       Game.PROGRESS_AUTOSAVE++;
-			Game.save(1);
-		}
+      Game.save(1);
+    }
     else {
-     // Game.drawActivePanel();
+      // Game.drawActivePanel();
       Game.updateActivePanel();
     }
   }

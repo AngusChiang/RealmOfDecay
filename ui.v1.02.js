@@ -321,35 +321,35 @@ Game.createBadgeTab = function() {
   }
 }
 Game.combatLog = function(combatant, message) {
-	var d = document.createElement("div");
-	d.setAttribute("class",combatant);
-	var x = document.createElement("span");
+  var d = document.createElement("div");
+  d.setAttribute("class",combatant);
+  var x = document.createElement("span");
   var ct = new Date();
   x.innerHTML = message;
   //x.innerHTML = "<span style='font-weight:bold;'>[" + Game.padLeft(ct.getHours(),2) + ":" + Game.padLeft(ct.getMinutes(),2) + ":" + Game.padLeft(ct.getSeconds(),2) + "]</span> " + message;
-	d.appendChild(x);
-	var logBox = document.getElementById("logBody");
-	logBox.appendChild(d);
+  d.appendChild(x);
+  var logBox = document.getElementById("logBody");
+  logBox.appendChild(d);
 }
 Game.showPanel = function(panelID) {
-	var panelList = document.getElementsByTagName("table");
+  var panelList = document.getElementsByTagName("table");
   var initPanel = document.getElementById("initTable");
-	for(var x = 0; x < panelList.length; x++) {
-		if(panelList[x].id !== "initTable" && panelList[x].id == panelID) {
-			panelList[x].style.display = "";
+  for(var x = 0; x < panelList.length; x++) {
+    if(panelList[x].id !== "initTable" && panelList[x].id == panelID) {
+      panelList[x].style.display = "";
       var tabHeader = document.getElementById(panelList[x].id.slice(0,-2));
       tabHeader.style.backgroundColor = "#991010";
       tabHeader.style.color = "#ffffff";
       tabHeader.style.fontWeight = "bold";
-		}
-		else if(panelList[x].id !== "initTable" && panelList[x].id.match(/(\w+)Table/g) !== null) {
-			panelList[x].style.display = "none";
+    }
+    else if(panelList[x].id !== "initTable" && panelList[x].id.match(/(\w+)Table/g) !== null) {
+      panelList[x].style.display = "none";
       var tabHeader = document.getElementById(panelList[x].id.slice(0,-2));
       tabHeader.style.backgroundColor = "";
       tabHeader.style.color = "";
       tabHeader.style.fontWeight = "";
-		}
-	}
+    }
+  }
   Game.activePanel = panelID;
   initPanel.style.display = "none";
   switch(panelID) {
@@ -360,15 +360,15 @@ Game.showPanel = function(panelID) {
   Game.drawActivePanel();
 }
 Game.toastNotification = function(message) {
-	Game.toastQueue.push(message);
-	if(Game.toastTimer == null) {
-		Game.showMessage();
-	}
+  Game.toastQueue.push(message);
+  if(Game.toastTimer == null) {
+    Game.showMessage();
+  }
 }
 Game.showMessage = function() {
   var toastFrame = document.getElementById("saveToast");
   if(Game.toastQueue.length == 0) {
-		toastFrame.style.display = "none";
+    toastFrame.style.display = "none";
     window.clearTimeout(Game.toastTimer);
     Game.toastTimer = null;
 	}
