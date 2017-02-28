@@ -46,7 +46,6 @@ Game.idleHeal = function() {
     }
   }
   Game.p_IdleInterval = window.setTimeout(Game.idleHeal,1000);
-  Game.drawActivePanel();
   Game.updateActivePanel();
 }
 Game.autoBattleFunc = function() {

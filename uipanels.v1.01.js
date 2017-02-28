@@ -753,7 +753,7 @@ Game.createStatPointPanel = function() {
   var infoSection = document.createElement("td");
   return panel;
 }
-Game.createStatisticPanel = function(name, value) {
+Game.createStatisticPanel = function(name, value, valueID) {
   // And it goes a little something like this:
   // +-----------------------------------+
   // | Name                    |  Value  |
@@ -767,6 +767,7 @@ Game.createStatisticPanel = function(name, value) {
   nameSection.setAttribute("style", "width:75% !important");
   valSection.innerHTML = prettifyNumber(value);
   valSection.setAttribute("style", "text-align:right;width:25% !important");
+  valSection.id = valueID;
   row1.appendChild(nameSection);
   row1.appendChild(valSection);
   panel.appendChild(row1);

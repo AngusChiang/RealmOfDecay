@@ -152,7 +152,7 @@ Game.giveBadge = function(badgeID) {
   }
   Game.playerBadges.push(badgeID);
   Game.toastNotification("Badge earned: " + Game.BADGE_LIST[badgeID - Game.BADGE_NAME][0]);
-  Game.drawActivePanel();
+  Game.updateActivePanel();
 }
 
 document.getElementById("loadedBadges").style.display = "";

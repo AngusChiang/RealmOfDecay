@@ -63,7 +63,7 @@ Game.buyPower = function(power) {
         }
       }
       Game.p_SkillPoints--;
-      Game.updatePowers = true;
+      Game.updateSkills = true;
     }
   }
   Game.badgeCheck(Game.BADGE_POWER); // Unlimited Power!
@@ -155,7 +155,7 @@ Game.resetPowers = function() {
     Game.p_SkillPoints += totalSpent;
     Game.p_Scrap -= scrapCost;
     Game.toastNotification("Power points have been reset.");
-    Game.updatePowers = true;
+    Game.updateSkills = true;
     Game.TRACK_RESETS++;
     Game.badgeCheck(Game.BADGE_RESETS); // Indecisive
     Game.drawActivePanel();

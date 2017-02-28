@@ -6,17 +6,19 @@ Changes made already:
       • The Offense tree focuses on skills that increase damage done and effects that occur when attacking.
       • The Defence tree focuses on skills that decrease damage taken and effects that occur when attacked.
       • The Support tree focuses on quality of life upgrades that don't fit into either of the above trees.
-  • The 'Intuition' skill is now called 'Undermine'.
-  • The 'Will to Live' skill has been renamed to 'Victory Rush' and now restores 5% health per rank when you defeat an enemy.
-  • The 'Survival Instincts' skill now directly increases the repair and regen values instead of increasing the frequency of repair ticks.
-  • New Skills:
-    • Armour Mastery is the new base skill in the Defence tree, increasing the potency of armour bonuses by 5% per rank (rounded up to the nearest point).
-  • All badges relating to reaching maximum levels with particular skills have been removed.
-  • Previous restrictions on which skills can be purchased together have been removed, except for the split between 'Absorption Shield' and 'Reflective Shield'.
-  • Purchased skills will no longer remain in the 'Available Skills' section once they have reached their maximum level.
-  • Skills will now only ever have 5 ranks or 1 rank.
-  • Fixed an issue where the 'Proper Care' skill was less likely to activate than it should have been.
-  • Fixed an issue where the 'Master Tinkerer' skill was much less effective than intended.
+    • The 'Intuition' skill is now called 'Undermine'.
+    • The 'Will to Live' skill has been renamed to 'Victory Rush' and now restores 5% health per rank when you defeat an enemy.
+    • The 'Survival Instincts' skill now directly increases the repair and regen values instead of increasing the frequency of repair ticks.
+    • New Skills:
+      • Armour Mastery is the new base skill in the Defence tree, increasing the potency of armour bonuses by 5% per rank (rounded up to the nearest point).
+    • All badges relating to reaching maximum levels with particular skills have been removed.
+    • Previous restrictions on which skills can be purchased together have been removed, except for the split between 'Absorption Shield' and 'Reflective Shield'.
+    • Purchased skills will no longer remain in the 'Available Skills' section once they have reached their maximum level.
+    • Skills will now only ever have 5 ranks or 1 rank.
+  • Bug Fixes
+    • Fixed an issue where the 'Proper Care' skill was less likely to activate than it should have been.
+    • Fixed an issue where the 'Master Tinkerer' skill was much less effective than intended.
+    • Fixed an issue where the UI on the Player tab was often unresponsive due to excessive redrawing operations.
 
 Stuff left to do for MVP:
 
@@ -43,9 +45,6 @@ New Skills:
   Eye for an Eye (1 rank) - New Defence skill branching from Victory Rush. Deals 100% of damage taken back to an attacker after a successful block.
   Second Wind (5 ranks) - New Defence skill branching from Last Bastion. Whenever a blow would kill you, instead restore 6% of your health per rank. Only works once per battle.
   Bountiful Bags (5 ranks) - New Support skill branching from Five-Finger Discount. Increases inventory sizes by 3 slots per rank.
-
-UI Fixes:
-  Currently, the idleHeal function is doing a full redraw of the active panel whenever it runs (once per second). Finishing the updateActivePanel function will mean that we can remove this call and solve a number of UI responsiveness issues that spring from redrawing all the elements once a second.
 
 Add in the ability to buy potions:
  - Potions come in two main types: healing potions and debuff potions.
@@ -361,7 +360,7 @@ Game.init = function() {
   this.p_ArmourShopStock = [];
   this.p_PotionShopStock = [];
   this.updateInventory = true;
-  this.updatePowers = true;
+  this.updateSkills = true;
   this.updateForge = true;
   this.flurryActive = false;
   this.player_debuffInterval = null;
@@ -723,7 +722,7 @@ function prettifyNumber(x) {
 function abbreviateNumber(value) {
   var newValue = value;
   if (value >= 1000) {
-    var suffixes = ["","k","m" "b","t","qa","qi","sx","sp"];
+    var suffixes = ["","k","m","b","t","qa","qi","sx","sp"];
     var suffixNum = Math.floor( (""+value).length/3 );
     var shortValue = '';
     for (var precision = 2; precision >= 1; precision--) {
@@ -756,6 +755,13 @@ function statValue(val) {
 
 function clearElementContent(el) {
   while(el.firstChild) { el.removeChild(el.firstChild); }
+}
+
+function updateElementIDContent(elID, content) {
+  var T = document.getElementById(elID);
+  if (T !== null) {
+    T.innerHTML = content;
+  }
 }
 
 document.getElementById("loadedInit").style.display = "";

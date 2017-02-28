@@ -62,7 +62,7 @@ Game.levelUp = function() {
   }
   if(Game.p_Level == 5) { Game.bossChance = 1; }
   Game.repopulateShop();
-  Game.updatePowers = true;
+  Game.updateSkills = true;
 }
 Game.addStat = function(stat, count) {
   while(count > 0 && Game.p_StatPoints > 0) {
@@ -84,7 +84,12 @@ Game.addStat = function(stat, count) {
   }
   if((Game.POINTS_STR + Game.POINTS_DEX + Game.POINTS_INT + Game.POINTS_CON) >= 200) { Game.giveBadge(Game.BADGE_TOTAL); }
   // The Only Way is Up
-	Game.drawActivePanel();
+  if(Game.p_StatPoints == 0) {
+    Game.drawActivePanel();
+  }
+  else {
+    Game.updateActivePanel();
+  }
 }
 Game.initPlayer = function(level) {
   Game.p_Str = Game.RNG(5,7) + Game.RNG(level-1,2*(level-1));

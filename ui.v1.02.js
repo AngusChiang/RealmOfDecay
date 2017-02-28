@@ -14,8 +14,8 @@ Game.drawActivePanel = function() {
       Game.createCombatTab(); break;
     case "zoneTable":
       Game.createZoneTab(); break;
-    case "powersTable":
-      Game.createPowersTab(); break;
+    case "skillsTable":
+      Game.createSkillsTab(); break;
     case "inventoryTable":
       Game.createInventoryTab(); break;
     case "storeTable":
@@ -52,56 +52,56 @@ Game.createPlayerTab = function() {
   // Statistics outputs. There's going to be a LOT of these.
   var statPanel = document.getElementById("statsOut");
   statPanel.innerHTML = "";
-  statPanel.appendChild(Game.createStatisticPanel("Total Damage Dealt", Game.TRACK_TOTAL_DMG));
-  statPanel.appendChild(Game.createStatisticPanel("Melee Damage Dealt", Game.TRACK_MELEE_DMG));
-  statPanel.appendChild(Game.createStatisticPanel("Ranged Damage Dealt", Game.TRACK_RANGE_DMG));
-  statPanel.appendChild(Game.createStatisticPanel("Magic Damage Dealt", Game.TRACK_MAGIC_DMG));
-  statPanel.appendChild(Game.createStatisticPanel("Total Damage Taken", Game.TRACK_TOTAL_TAKEN));
-  statPanel.appendChild(Game.createStatisticPanel("Melee Damage Taken", Game.TRACK_MELEE_TAKEN));
-  statPanel.appendChild(Game.createStatisticPanel("Ranged Damage Taken", Game.TRACK_RANGE_TAKEN));
-  statPanel.appendChild(Game.createStatisticPanel("Magic Damage Taken", Game.TRACK_MAGIC_TAKEN));
-  statPanel.appendChild(Game.createStatisticPanel("Attacks Used", Game.TRACK_ATTACKS_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Attacks Taken", Game.TRACK_ATTACKS_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Battles Won", Game.TRACK_WINS));
-  statPanel.appendChild(Game.createStatisticPanel("Battles Lost", Game.TRACK_LOSSES));
-  statPanel.appendChild(Game.createStatisticPanel("Battles Fled", Game.TRACK_ESCAPES));
-  statPanel.appendChild(Game.createStatisticPanel("Current Win Streak", Game.TRACK_WIN_STREAK));
-  statPanel.appendChild(Game.createStatisticPanel("Burst Attacks Used", Game.TRACK_BURSTS));
-  statPanel.appendChild(Game.createStatisticPanel("Elites / Bosses Defeated", Game.TRACK_BOSS_KILLS));
-  statPanel.appendChild(Game.createStatisticPanel("Highest Elite Chance", Game.TRACK_BOSS_CHANCE + "%"));
-  statPanel.appendChild(Game.createStatisticPanel("Largest Hit Dealt", Game.TRACK_MAXHIT_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Largest Hit Taken", Game.TRACK_MAXHIT_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Total Experience Gained", Game.TRACK_XP_GAINED));
-  statPanel.appendChild(Game.createStatisticPanel("Experience Lost", Game.TRACK_XP_LOST));
-  statPanel.appendChild(Game.createStatisticPanel("Experience Overflow Pool", Game.TRACK_XP_OVERFLOW));
-  statPanel.appendChild(Game.createStatisticPanel("Item Upgrades Bought", Game.TRACK_UPGRADES));
-  statPanel.appendChild(Game.createStatisticPanel("Reforges Bought", Game.TRACK_REFORGES));
-  statPanel.appendChild(Game.createStatisticPanel("Power/Stat Point Resets", Game.TRACK_RESETS));
-  statPanel.appendChild(Game.createStatisticPanel("Items Sold", Game.TRACK_ITEM_SALES));
-  statPanel.appendChild(Game.createStatisticPanel("Items Scrapped", Game.TRACK_ITEM_SCRAPS));
-  statPanel.appendChild(Game.createStatisticPanel("Items Discarded", Game.TRACK_ITEM_DISCARDS));
-  statPanel.appendChild(Game.createStatisticPanel("Items Broken in Combat", Game.TRACK_BROKEN_ITEMS));
-  statPanel.appendChild(Game.createStatisticPanel("Seeds Gained from Combat", Game.TRACK_COMBAT_SEEDS));
-  statPanel.appendChild(Game.createStatisticPanel("Seeds Gained from Sales", Game.TRACK_SALE_SEEDS));
-  statPanel.appendChild(Game.createStatisticPanel("Scrap Gained from Combat", Game.TRACK_COMBAT_SCRAP));
-  statPanel.appendChild(Game.createStatisticPanel("Scrap Gained from Conversion", Game.TRACK_CONVERT_SCRAP));
-  statPanel.appendChild(Game.createStatisticPanel("Debuffs Applied", Game.TRACK_DEBUFFS_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Debuffs Suffered", Game.TRACK_DEBUFFS_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Successful Dooms Used", Game.TRACK_DOOM_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Successful Dooms Suffered", Game.TRACK_DOOM_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Enemies Awoken from Sleep", Game.TRACK_SLEEPBREAK_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Times Awoken from Sleep", Game.TRACK_SLEEPBREAK_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Health Drained from Enemies", Game.TRACK_DRAIN_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Health Drained by Enemies", Game.TRACK_DRAIN_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Damage Dealt with DoTs", Game.TRACK_DOTS_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Damage Taken from DoTs", Game.TRACK_DOTS_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Times Confused", Game.TRACK_CHARM_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Enemies Confused", Game.TRACK_CHARM_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Your Hits Lost to Paralysis", Game.TRACK_PARAHAX_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Enemy Hits Lost to Paralysis", Game.TRACK_PARAHAX_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Potions Used", Game.TRACK_POTIONS_USED));
-  statPanel.appendChild(Game.createStatisticPanel("Badges Earned", Game.playerBadges.length));
-  statPanel.appendChild(Game.createStatisticPanel("Prestige Level", Game.prestigeLevel));
+  statPanel.appendChild(Game.createStatisticPanel("Total Damage Dealt", Game.TRACK_TOTAL_DMG, "player_stat1"));
+  statPanel.appendChild(Game.createStatisticPanel("Melee Damage Dealt", Game.TRACK_MELEE_DMG, "player_stat2"));
+  statPanel.appendChild(Game.createStatisticPanel("Ranged Damage Dealt", Game.TRACK_RANGE_DMG, "player_stat3"));
+  statPanel.appendChild(Game.createStatisticPanel("Magic Damage Dealt", Game.TRACK_MAGIC_DMG, "player_stat4"));
+  statPanel.appendChild(Game.createStatisticPanel("Total Damage Taken", Game.TRACK_TOTAL_TAKEN, "player_stat5"));
+  statPanel.appendChild(Game.createStatisticPanel("Melee Damage Taken", Game.TRACK_MELEE_TAKEN, "player_stat6"));
+  statPanel.appendChild(Game.createStatisticPanel("Ranged Damage Taken", Game.TRACK_RANGE_TAKEN, "player_stat7"));
+  statPanel.appendChild(Game.createStatisticPanel("Magic Damage Taken", Game.TRACK_MAGIC_TAKEN, "player_stat8"));
+  statPanel.appendChild(Game.createStatisticPanel("Attacks Used", Game.TRACK_ATTACKS_OUT, "player_stat9"));
+  statPanel.appendChild(Game.createStatisticPanel("Attacks Taken", Game.TRACK_ATTACKS_IN, "player_stat10"));
+  statPanel.appendChild(Game.createStatisticPanel("Battles Won", Game.TRACK_WINS, "player_stat11"));
+  statPanel.appendChild(Game.createStatisticPanel("Battles Lost", Game.TRACK_LOSSES, "player_stat12"));
+  statPanel.appendChild(Game.createStatisticPanel("Battles Fled", Game.TRACK_ESCAPES, "player_stat13"));
+  statPanel.appendChild(Game.createStatisticPanel("Current Win Streak", Game.TRACK_WIN_STREAK, "player_stat14"));
+  statPanel.appendChild(Game.createStatisticPanel("Burst Attacks Used", Game.TRACK_BURSTS, "player_stat15"));
+  statPanel.appendChild(Game.createStatisticPanel("Elites / Bosses Defeated", Game.TRACK_BOSS_KILLS, "player_stat16"));
+  statPanel.appendChild(Game.createStatisticPanel("Highest Elite Chance", Game.TRACK_BOSS_CHANCE + "%", "player_stat17"));
+  statPanel.appendChild(Game.createStatisticPanel("Largest Hit Dealt", Game.TRACK_MAXHIT_OUT, "player_stat18"));
+  statPanel.appendChild(Game.createStatisticPanel("Largest Hit Taken", Game.TRACK_MAXHIT_IN, "player_stat19"));
+  statPanel.appendChild(Game.createStatisticPanel("Total Experience Gained", Game.TRACK_XP_GAINED, "player_stat20"));
+  statPanel.appendChild(Game.createStatisticPanel("Experience Lost", Game.TRACK_XP_LOST, "player_stat21"));
+  statPanel.appendChild(Game.createStatisticPanel("Experience Overflow Pool", Game.TRACK_XP_OVERFLOW, "player_stat22"));
+  statPanel.appendChild(Game.createStatisticPanel("Item Upgrades Bought", Game.TRACK_UPGRADES, "player_stat23"));
+  statPanel.appendChild(Game.createStatisticPanel("Reforges Bought", Game.TRACK_REFORGES, "player_stat24"));
+  statPanel.appendChild(Game.createStatisticPanel("Power/Stat Point Resets", Game.TRACK_RESETS, "player_stat25"));
+  statPanel.appendChild(Game.createStatisticPanel("Items Sold", Game.TRACK_ITEM_SALES, "player_stat26"));
+  statPanel.appendChild(Game.createStatisticPanel("Items Scrapped", Game.TRACK_ITEM_SCRAPS, "player_stat27"));
+  statPanel.appendChild(Game.createStatisticPanel("Items Discarded", Game.TRACK_ITEM_DISCARDS, "player_stat28"));
+  statPanel.appendChild(Game.createStatisticPanel("Items Broken in Combat", Game.TRACK_BROKEN_ITEMS, "player_stat29"));
+  statPanel.appendChild(Game.createStatisticPanel("Seeds Gained from Combat", Game.TRACK_COMBAT_SEEDS, "player_stat30"));
+  statPanel.appendChild(Game.createStatisticPanel("Seeds Gained from Sales", Game.TRACK_SALE_SEEDS, "player_stat31"));
+  statPanel.appendChild(Game.createStatisticPanel("Scrap Gained from Combat", Game.TRACK_COMBAT_SCRAP, "player_stat32"));
+  statPanel.appendChild(Game.createStatisticPanel("Scrap Gained from Conversion", Game.TRACK_CONVERT_SCRAP, "player_stat33"));
+  statPanel.appendChild(Game.createStatisticPanel("Debuffs Applied", Game.TRACK_DEBUFFS_OUT, "player_stat34"));
+  statPanel.appendChild(Game.createStatisticPanel("Debuffs Suffered", Game.TRACK_DEBUFFS_IN, "player_stat35"));
+  statPanel.appendChild(Game.createStatisticPanel("Successful Dooms Used", Game.TRACK_DOOM_OUT, "player_stat36"));
+  statPanel.appendChild(Game.createStatisticPanel("Successful Dooms Suffered", Game.TRACK_DOOM_IN, "player_stat37"));
+  statPanel.appendChild(Game.createStatisticPanel("Enemies Awoken from Sleep", Game.TRACK_SLEEPBREAK_OUT, "player_stat38"));
+  statPanel.appendChild(Game.createStatisticPanel("Times Awoken from Sleep", Game.TRACK_SLEEPBREAK_IN, "player_stat39"));
+  statPanel.appendChild(Game.createStatisticPanel("Health Drained from Enemies", Game.TRACK_DRAIN_IN, "player_stat40"));
+  statPanel.appendChild(Game.createStatisticPanel("Health Drained by Enemies", Game.TRACK_DRAIN_OUT, "player_stat41"));
+  statPanel.appendChild(Game.createStatisticPanel("Damage Dealt with DoTs", Game.TRACK_DOTS_OUT, "player_stat42"));
+  statPanel.appendChild(Game.createStatisticPanel("Damage Taken from DoTs", Game.TRACK_DOTS_IN, "player_stat43"));
+  statPanel.appendChild(Game.createStatisticPanel("Times Confused", Game.TRACK_CHARM_IN, "player_stat44"));
+  statPanel.appendChild(Game.createStatisticPanel("Enemies Confused", Game.TRACK_CHARM_OUT, "player_stat45"));
+  statPanel.appendChild(Game.createStatisticPanel("Your Hits Lost to Paralysis", Game.TRACK_PARAHAX_IN, "player_stat46"));
+  statPanel.appendChild(Game.createStatisticPanel("Enemy Hits Lost to Paralysis", Game.TRACK_PARAHAX_OUT, "player_stat47"));
+  statPanel.appendChild(Game.createStatisticPanel("Potions Used", Game.TRACK_POTIONS_USED, "player_stat48"));
+  statPanel.appendChild(Game.createStatisticPanel("Badges Earned", Game.playerBadges.length, "player_stat49"));
+  statPanel.appendChild(Game.createStatisticPanel("Prestige Level", Game.prestigeLevel, "player_stat50"));
 }
 Game.createCombatTab = function() {
   var playerCombatPanel = document.getElementById("playerCombatPanel");
@@ -163,13 +163,13 @@ Game.createZoneTab = function() {
     zl.appendChild(Game.createZonePanel(x));
   }
 }
-Game.createPowersTab = function() {
-  //The Powers Panel
+Game.createSkillsTab = function() {
+  //The Skills Panel
   //This bit is important - we set in other functions whether the power panel needs rebuilding, because mass DOM changes cause lag problems when they're done once a second.
-  if(Game.updatePowers) {
-    var avail = document.getElementById("availablePowers");
+  if(Game.updateSkills) {
+    var avail = document.getElementById("availableSkills");
     avail.style.display = Game.p_SkillPoints == 0 ? "none" : "";
-    var avail2 = document.getElementById("availablePowersHeader");
+    var avail2 = document.getElementById("availableSkillsHeader");
     avail2.style.display = Game.p_SkillPoints == 0 ? "none" : "";
     var powerPointCounter = document.getElementById("powerPointsOut");
     powerPointCounter.innerHTML = Game.p_SkillPoints;
@@ -236,7 +236,7 @@ Game.createPowersTab = function() {
     for(var y = 0; y < Game.p_Powers.length; y++) {
       purchasedPowers.appendChild(Game.createPowerUIPanel(Game.p_Powers[y][0], -1, Game.p_Powers[y][1], true, false));
     }
-    Game.updatePowers = false;
+    Game.updateSkills = false;
   }
 }
 Game.createInventoryTab = function() {
@@ -354,7 +354,7 @@ Game.showPanel = function(panelID) {
   initPanel.style.display = "none";
   switch(panelID) {
     case "inventoryTable": Game.updateInventory = true; break;
-    case "powersTable": Game.updatePowers = true; break;
+    case "powersTable": Game.updateSkills = true; break;
     case "forgeTable": Game.updateForge = true; break;
   }
   Game.drawActivePanel();
@@ -507,58 +507,57 @@ Game.updatePlayerTab = function() {
   var statPointPanel = document.getElementById("player_statPointsLeft");
   if(statPointPanel !== null) { statPointPanel.innerHTML = "Stat Points (" + Game.p_StatPoints + " left)"; }
   // Tracking panel values
-  var statPanel = document.getElementById("statsOut");
-  statPanel.innerHTML = "";
-  statPanel.appendChild(Game.createStatisticPanel("Total Damage Dealt", Game.TRACK_TOTAL_DMG));
-  statPanel.appendChild(Game.createStatisticPanel("Melee Damage Dealt", Game.TRACK_MELEE_DMG));
-  statPanel.appendChild(Game.createStatisticPanel("Ranged Damage Dealt", Game.TRACK_RANGE_DMG));
-  statPanel.appendChild(Game.createStatisticPanel("Magic Damage Dealt", Game.TRACK_MAGIC_DMG));
-  statPanel.appendChild(Game.createStatisticPanel("Total Damage Taken", Game.TRACK_TOTAL_TAKEN));
-  statPanel.appendChild(Game.createStatisticPanel("Melee Damage Taken", Game.TRACK_MELEE_TAKEN));
-  statPanel.appendChild(Game.createStatisticPanel("Ranged Damage Taken", Game.TRACK_RANGE_TAKEN));
-  statPanel.appendChild(Game.createStatisticPanel("Magic Damage Taken", Game.TRACK_MAGIC_TAKEN));
-  statPanel.appendChild(Game.createStatisticPanel("Attacks Used", Game.TRACK_ATTACKS_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Attacks Taken", Game.TRACK_ATTACKS_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Battles Won", Game.TRACK_WINS));
-  statPanel.appendChild(Game.createStatisticPanel("Battles Lost", Game.TRACK_LOSSES));
-  statPanel.appendChild(Game.createStatisticPanel("Battles Fled", Game.TRACK_ESCAPES));
-  statPanel.appendChild(Game.createStatisticPanel("Current Win Streak", Game.TRACK_WIN_STREAK));
-  statPanel.appendChild(Game.createStatisticPanel("Burst Attacks Used", Game.TRACK_BURSTS));
-  statPanel.appendChild(Game.createStatisticPanel("Elites / Bosses Defeated", Game.TRACK_BOSS_KILLS));
-  statPanel.appendChild(Game.createStatisticPanel("Highest Elite Chance", Game.TRACK_BOSS_CHANCE + "%"));
-  statPanel.appendChild(Game.createStatisticPanel("Largest Hit Dealt", Game.TRACK_MAXHIT_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Largest Hit Taken", Game.TRACK_MAXHIT_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Total Experience Gained", Game.TRACK_XP_GAINED));
-  statPanel.appendChild(Game.createStatisticPanel("Experience Lost", Game.TRACK_XP_LOST));
-  statPanel.appendChild(Game.createStatisticPanel("Experience Overflow Pool", Game.TRACK_XP_OVERFLOW));
-  statPanel.appendChild(Game.createStatisticPanel("Item Upgrades Bought", Game.TRACK_UPGRADES));
-  statPanel.appendChild(Game.createStatisticPanel("Reforges Bought", Game.TRACK_REFORGES));
-  statPanel.appendChild(Game.createStatisticPanel("Power/Stat Point Resets", Game.TRACK_RESETS));
-  statPanel.appendChild(Game.createStatisticPanel("Items Sold", Game.TRACK_ITEM_SALES));
-  statPanel.appendChild(Game.createStatisticPanel("Items Scrapped", Game.TRACK_ITEM_SCRAPS));
-  statPanel.appendChild(Game.createStatisticPanel("Items Discarded", Game.TRACK_ITEM_DISCARDS));
-  statPanel.appendChild(Game.createStatisticPanel("Items Broken in Combat", Game.TRACK_BROKEN_ITEMS));
-  statPanel.appendChild(Game.createStatisticPanel("Seeds Gained from Combat", Game.TRACK_COMBAT_SEEDS));
-  statPanel.appendChild(Game.createStatisticPanel("Seeds Gained from Sales", Game.TRACK_SALE_SEEDS));
-  statPanel.appendChild(Game.createStatisticPanel("Scrap Gained from Combat", Game.TRACK_COMBAT_SCRAP));
-  statPanel.appendChild(Game.createStatisticPanel("Scrap Gained from Conversion", Game.TRACK_CONVERT_SCRAP));
-  statPanel.appendChild(Game.createStatisticPanel("Debuffs Applied", Game.TRACK_DEBUFFS_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Debuffs Suffered", Game.TRACK_DEBUFFS_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Successful Dooms Used", Game.TRACK_DOOM_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Successful Dooms Suffered", Game.TRACK_DOOM_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Enemies Awoken from Sleep", Game.TRACK_SLEEPBREAK_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Times Awoken from Sleep", Game.TRACK_SLEEPBREAK_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Health Drained from Enemies", Game.TRACK_DRAIN_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Health Drained by Enemies", Game.TRACK_DRAIN_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Damage Dealt with DoTs", Game.TRACK_DOTS_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Damage Taken from DoTs", Game.TRACK_DOTS_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Times Confused", Game.TRACK_CHARM_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Enemies Confused", Game.TRACK_CHARM_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Your Hits Lost to Paralysis", Game.TRACK_PARAHAX_IN));
-  statPanel.appendChild(Game.createStatisticPanel("Enemy Hits Lost to Paralysis", Game.TRACK_PARAHAX_OUT));
-  statPanel.appendChild(Game.createStatisticPanel("Potions Used", Game.TRACK_POTIONS_USED));
-  statPanel.appendChild(Game.createStatisticPanel("Badges Earned", Game.playerBadges.length));
-  statPanel.appendChild(Game.createStatisticPanel("Prestige Level", Game.prestigeLevel));
+  // Modify this so that we don't have to redraw the panels every time.
+  updateElementIDContent("player_stat1", Game.TRACK_TOTAL_DMG);
+  updateElementIDContent("player_stat2", Game.TRACK_MELEE_DMG);
+  updateElementIDContent("player_stat3", Game.TRACK_RANGE_DMG);
+  updateElementIDContent("player_stat4", Game.TRACK_MAGIC_DMG);
+  updateElementIDContent("player_stat5", Game.TRACK_TOTAL_TAKEN);
+  updateElementIDContent("player_stat6", Game.TRACK_MELEE_TAKEN);
+  updateElementIDContent("player_stat7", Game.TRACK_RANGE_TAKEN);
+  updateElementIDContent("player_stat8", Game.TRACK_MAGIC_TAKEN);
+  updateElementIDContent("player_stat9", Game.TRACK_ATTACKS_OUT);
+  updateElementIDContent("player_stat10", Game.TRACK_ATTACKS_IN);
+  updateElementIDContent("player_stat11", Game.TRACK_WINS);
+  updateElementIDContent("player_stat12", Game.TRACK_LOSSES);
+  updateElementIDContent("player_stat13", Game.TRACK_ESCAPES);
+  updateElementIDContent("player_stat14", Game.TRACK_WIN_STREAK);
+  updateElementIDContent("player_stat15", Game.TRACK_BURSTS);
+  updateElementIDContent("player_stat16", Game.TRACK_BOSS_KILLS);
+  updateElementIDContent("player_stat17", Game.TRACK_BOSS_CHANCE + "%");
+  updateElementIDContent("player_stat18", Game.TRACK_MAXHIT_OUT);
+  updateElementIDContent("player_stat19", Game.TRACK_MAXHIT_IN);
+  updateElementIDContent("player_stat20", Game.TRACK_XP_GAINED);
+  updateElementIDContent("player_stat21", Game.TRACK_XP_LOST);
+  updateElementIDContent("player_stat22", Game.TRACK_XP_OVERFLOW);
+  updateElementIDContent("player_stat23", Game.TRACK_UPGRADES);
+  updateElementIDContent("player_stat24", Game.TRACK_REFORGES);
+  updateElementIDContent("player_stat25", Game.TRACK_RESETS);
+  updateElementIDContent("player_stat26", Game.TRACK_ITEM_SALES);
+  updateElementIDContent("player_stat27", Game.TRACK_ITEM_SCRAPS);
+  updateElementIDContent("player_stat28", Game.TRACK_ITEM_DISCARDS);
+  updateElementIDContent("player_stat29", Game.TRACK_BROKEN_ITEMS);
+  updateElementIDContent("player_stat30", Game.TRACK_COMBAT_SEEDS);
+  updateElementIDContent("player_stat31", Game.TRACK_SALE_SEEDS);
+  updateElementIDContent("player_stat32", Game.TRACK_COMBAT_SCRAP);
+  updateElementIDContent("player_stat33", Game.TRACK_CONVERT_SCRAP);
+  updateElementIDContent("player_stat34", Game.TRACK_DEBUFFS_OUT);
+  updateElementIDContent("player_stat35", Game.TRACK_DEBUFFS_IN);
+  updateElementIDContent("player_stat36", Game.TRACK_DOOM_OUT);
+  updateElementIDContent("player_stat37", Game.TRACK_DOOM_IN);
+  updateElementIDContent("player_stat38", Game.TRACK_SLEEPBREAK_OUT);
+  updateElementIDContent("player_stat39", Game.TRACK_SLEEPBREAK_IN);
+  updateElementIDContent("player_stat40", Game.TRACK_DRAIN_IN);
+  updateElementIDContent("player_stat41", Game.TRACK_DRAIN_OUT);
+  updateElementIDContent("player_stat42", Game.TRACK_DOTS_OUT);
+  updateElementIDContent("player_stat43", Game.TRACK_DOTS_IN);
+  updateElementIDContent("player_stat44", Game.TRACK_CHARM_IN);
+  updateElementIDContent("player_stat45", Game.TRACK_CHARM_OUT);
+  updateElementIDContent("player_stat46", Game.TRACK_PARAHAX_IN);
+  updateElementIDContent("player_stat47", Game.TRACK_PARAHAX_OUT);
+  updateElementIDContent("player_stat48", Game.TRACK_POTIONS_USED);
+  updateElementIDContent("player_stat49", Game.playerBadges.length);
+  updateElementIDContent("player_stat50", Game.prestigeLevel);
   // Player Weapon (Durability)
   var playerWeaponDurability = document.getElementById("combat_playerWeaponDurability");
   if(playerWeaponDurability !== null) { playerWeaponDurability.innerHTML = Game.p_Weapon[8] + " uses"; }
