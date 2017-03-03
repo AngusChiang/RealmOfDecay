@@ -432,7 +432,7 @@ Game.upgradeArmourLevel = function(armour) {
   return armour;
 }
 Game.calculateItemLevelPrice = function(level, quality) {
-  var upgradeCost = Math.floor(150 * Math.pow(1.06,level) * (1-0.02*Game.powerLevel(Game.SKILL_BARTERING)));
+  var upgradeCost = Math.floor(150 * Math.pow(1.06,level) * (1-0.03*Game.powerLevel(Game.SKILL_BARTERING)));
   upgradeCost = Math.floor(upgradeCost*(10+(quality-Game.QUALITY_NORMAL))/10);
   return upgradeCost;
 }

@@ -105,7 +105,7 @@ Game.playerCombatTick = function(isBurst) {
         }
         // Stage 2: Percentile Boosts.
         // Deadly Force
-        playerDMG *= (1 + 0.02*Game.powerLevel(Game.SKILL_DEADLY_FORCE));
+        playerDMG *= (1 + 0.03*Game.powerLevel(Game.SKILL_DEADLY_FORCE));
         // Keen Eye
         var critChance = 3*Game.powerLevel(Game.SKILL_KEEN_EYE);
         var didCrit = false;
@@ -117,7 +117,7 @@ Game.playerCombatTick = function(isBurst) {
         }
         if(Game.powerLevel(Game.SKILL_OVERCHARGE) > 0) {
           // Overcharge
-          playerDMG *= 1.25;
+          playerDMG *= 1.35;
         }
         if(Game.p_Adrenaline > 0) {
           // Adrenaline Rush
@@ -152,7 +152,7 @@ Game.playerCombatTick = function(isBurst) {
         }
         if(Game.flurryActive) {
           // This is a flurry attack.
-          playerDMG *= (0.5 + 0.04*Game.powerLevel(Game.SKILL_EMPOWERED_FLURRY));
+          playerDMG *= (0.5 + 0.05*Game.powerLevel(Game.SKILL_EMPOWERED_FLURRY));
         }
         // Stage 4: Mind Control Resolution
         if(Game.getPlayerDebuff()[0] == Game.DEBUFF_MC) {
@@ -267,7 +267,7 @@ Game.playerCombatTick = function(isBurst) {
           }
         }
         // Stage 7: Debuff Application
-        var debuffChance = 10 + Game.powerLevel(Game.SKILL_EXPOSE_WEAKNESS);
+        var debuffChance = 10 + (2 * Game.powerLevel(Game.SKILL_EXPOSE_WEAKNESS));
         if(isBurst) {
           debuffChance += 20 * Game.powerLevel(Game.SKILL_TURN_THE_TABLES);
         }
@@ -328,7 +328,7 @@ Game.playerCombatTick = function(isBurst) {
         }
         else { Game.flurryActive = false; }
         window.clearTimeout(Game.combat_playerInterval);
-        var timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.02*Game.powerLevel(Game.SKILL_NIMBLE_FINGERS)));
+        var timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.03*Game.powerLevel(Game.SKILL_NIMBLE_FINGERS)));
         if(Game.getPlayerDebuff()[0] == Game.DEBUFF_SLOW) {
           timerLength *= (1 + (Game.p_Debuff[3]/100));
         }
@@ -377,9 +377,9 @@ Game.enemyCombatTick = function() {
       else {
         // Stage 3: Percentile Reductions
         // Ancestral Fortitude
-        enemyDMG *= (1 - 0.02*Game.powerLevel(Game.SKILL_ANCESTRAL_FORTITUDE));
+        enemyDMG *= (1 - 0.03*Game.powerLevel(Game.SKILL_ANCESTRAL_FORTITUDE));
         // Last Bastion
-        if(Game.powerLevel(Game.SKILL_LAST_BASTION) > 0 && (Game.p_HP / Game.p_MaxHP) <= 0.3) {
+        if(Game.p_HP / Game.p_MaxHP <= 0.3) {
           enemyDMG *= (1 - 0.1*Game.powerLevel(Game.SKILL_LAST_BASTION));
         }
         // Disarmed
@@ -433,7 +433,7 @@ Game.enemyCombatTick = function() {
           Game.TRIGGER_FLAWLESS_BOSS = false;
         }
         // Divine Shield anyone?
-        if(Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_DIVINE_SHIELD)) {
+        if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_DIVINE_SHIELD)) {
           if(Game.p_HP <= enemyDMG) { Game.giveBadge(Game.BADGE_INTERVENTION); } // Divine Intervention
           if(Game.powerLevel(Game.SKILL_REFLECTIVE_SHIELD) == 1) {
               // No, YOU take the hit!
@@ -801,7 +801,7 @@ Game.playerDebuffTicker = function() {
     if(Game.getPlayerDebuff()[0] == Game.DEBUFF_SLEEP) {
       // Rise and shine buttercup!
       Game.combatLog("player","You wake up!");
-      var timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.02*Game.powerLevel(Game.SKILL_NIMBLE_FINGERS)));
+      var timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.03*Game.powerLevel(Game.SKILL_NIMBLE_FINGERS)));
       Game.combat_playerInterval = window.setTimeout(function() { Game.playerCombatTick(false); },timerLength);
     }
     Game.p_Debuff = [];

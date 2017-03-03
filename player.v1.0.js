@@ -23,7 +23,7 @@ Game.levelUp = function() {
   Game.p_Con += conUp;
   Game.combatLog("info","You gained <span class='q222'>" + conUp + "</span> Constitution.");
   Game.p_MaxHP += (15 * conUp);
-  var statUpChance = Game.powerLevel(Game.SKILL_PATIENCE_AND_DISCIPLINE);
+  var statUpChance = 2 * Game.powerLevel(Game.SKILL_PATIENCE_AND_DISCIPLINE);
   if(statUpChance > 0 && Game.RNG(1,100) <= 3*statUpChance) {
     var chosenStat = Game.RNG(1,4);
     switch(chosenStat) {
@@ -50,7 +50,7 @@ Game.levelUp = function() {
   }
   Game.p_StatPoints++;
   Game.combatLog("info","You gained a Stat Point.");
-  if(Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_LUCK_OF_THE_DRAW)) {
+  if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_LUCK_OF_THE_DRAW)) {
     Game.p_StatPoints++;
     Game.combatLog("info","Your <span class='q222'>Luck of the Draw</span> power granted another Stat Point.");
   }

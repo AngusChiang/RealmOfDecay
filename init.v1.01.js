@@ -14,7 +14,18 @@ Changes made already:
     • All badges relating to reaching maximum levels with particular skills have been removed.
     • Previous restrictions on which skills can be purchased together have been removed, except for the split between 'Absorption Shield' and 'Reflective Shield'.
     • Purchased skills will no longer remain in the 'Available Skills' section once they have reached their maximum level.
-    • Skills will now only ever have 5 ranks or 1 rank.
+    • The following maximum ranks and values per rank have been changed:
+      • Deadly Force (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)
+      • Nimble Fingers (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)
+      • Divine Shield (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
+      • Ancestral Fortitude (10 ranks -> 5 ranks)
+      • Luck of the Draw (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
+      • Patience and Discipline (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
+      • Lucky Star (10 ranks -> 5 ranks)
+      • Empowered Flurry (4% per rank -> 5% per rank)
+      • Overcharge (25% per rank -> 35% per rank)
+      • Expose Weakness (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
+      • Bartering (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)
   • Bug Fixes
     • Fixed an issue where the 'Proper Care' skill was less likely to activate than it should have been.
     • Fixed an issue where the 'Master Tinkerer' skill was much less effective than intended.
