@@ -172,7 +172,19 @@ Game.playerCombatTick = function(isBurst) {
                   if(Game.e_Armour[4][a][0] == Game.ARMOUR_STR_MAGIC) {
                     if(isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
                       playerDMG += Game.e_Armour[4][a][1];
-                    } else {
+                    } 
+                    else if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_SHIELD_CRUSH)) {
+                      Game.combatLog("player","<span class='q222'>Shield Crush</span> breached the enemy's defences!");
+                      Game.shieldCrushActive = true;
+                      if(Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0) {
+                        Game.combatLog("player","Preparing to <span class='q222'>Hold The Line</span>!");
+                      }
+                      if(Game.powerLevel(Game.SKILL_STAND_YOUR_GROUND) > 0) {
+                        Game.player_debuffTimer = 0; 
+                        Game.combatLog("player","<span class='q222'>Stand Your Ground</span> cleansed your active debuff.");
+                      }
+                    }
+                    else {
                       playerDMG = Math.max(playerDMG-Game.e_Armour[4][a][1],0);
                     }
                   }
@@ -188,7 +200,19 @@ Game.playerCombatTick = function(isBurst) {
                   if(Game.e_Armour[4][c][0] == Game.ARMOUR_STR_RANGE) {
                     if(isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
                       playerDMG += Game.e_Armour[4][c][1];
-                    } else {
+                    } 
+                    else if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_SHIELD_CRUSH)) {
+                      Game.combatLog("player","<span class='q222'>Shield Crush</span> breached the enemy's defences!");
+                      Game.shieldCrushActive = true;
+                      if(Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0) {
+                        Game.combatLog("player","Preparing to <span class='q222'>Hold The Line</span>!");
+                      }
+                      if(Game.powerLevel(Game.SKILL_STAND_YOUR_GROUND) > 0) {
+                        Game.player_debuffTimer = 0; 
+                        Game.combatLog("player","<span class='q222'>Stand Your Ground</span> cleansed your active debuff.");
+                      }
+                    }
+                    else {
                       playerDMG = Math.max(playerDMG-Game.e_Armour[4][c][1],0);
                     }
                   }
@@ -204,7 +228,19 @@ Game.playerCombatTick = function(isBurst) {
                   if(Game.e_Armour[4][e][0] == Game.ARMOUR_STR_MELEE) {
                     if(isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
                       playerDMG += Game.e_Armour[4][e][1];
-                    } else {
+                    }
+                    else if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_SHIELD_CRUSH)) {
+                      Game.combatLog("player","<span class='q222'>Shield Crush</span> breached the enemy's defences!");
+                      Game.shieldCrushActive = true;
+                      if(Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0) {
+                        Game.combatLog("player","Preparing to <span class='q222'>Hold The Line</span>!");
+                      }
+                      if(Game.powerLevel(Game.SKILL_STAND_YOUR_GROUND) > 0) {
+                        Game.player_debuffTimer = 0; 
+                        Game.combatLog("player","<span class='q222'>Stand Your Ground</span> cleansed your active debuff.");
+                      }
+                    }
+                    else {
                       playerDMG = Math.max(playerDMG-Game.e_Armour[4][e][1],0);
                     }
                   }
@@ -369,7 +405,7 @@ Game.enemyCombatTick = function() {
       Game.TRACK_PARAHAX_OUT++;
     }
     // Dodge Check
-    else if (Game.RNG(1,10000) <= (100 * statValue(Game.p_Int))){
+    else if (Game.RNG(1,10000) <= Math.floor(50 * statValue(Game.p_Int))){
       // Dodged a bullet
       Game.combatLog("player","You dodged the incoming attack.");
     }
@@ -440,9 +476,10 @@ Game.enemyCombatTick = function() {
         }
         // Stage 4a: Block
         var didBlock = false;
-        var blockRate = Math.floor(statValue(Game.p_Str) * 100);
-        if(Game.RNG(1,10000) <= blockRate) {
+        var blockRate = (100 * Game.powerLevel(Game.SKILL_SHIELD_WALL)) + Math.floor(statValue(Game.p_Str) * 100);
+        if(Game.RNG(1,10000) <= blockRate || (Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0 && Game.shieldCrushActive)) {
           didBlock = true;
+          Game.shieldCrushActive = false;
         }        
         // Stage 5: Damage Application
         enemyDMG = Math.floor(enemyDMG);
@@ -671,6 +708,7 @@ Game.endCombat = function() {
   Game.e_Debuff = [];
   Game.p_State = Game.STATE_IDLE;
   Game.p_specUsed = false;
+  Game.shieldCrushActive = false;
   if(Game.p_HP > 0) {
     // Player won, give xp and maybe, just maybe, a level.
     Game.combatLog("info","You won!");

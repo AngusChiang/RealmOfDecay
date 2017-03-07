@@ -4,10 +4,6 @@ Stuff left to do for MVP:
 
 New Skills:
   Bloodlust (1 rank) - New Offense skill branching from <TBC>. Critical strikes refresh the cooldown on your Burst Attack.
-  Shield Wall (5 ranks) - New Defence skill branching from Ancestral Fortitude. Grants a 1% increase in block chance per rank.
-  Shield Crush (5 ranks) - New Defence skill branching from Shield Wall. Whenever you attack, you have a 2% chance per rank to negate enemy armour bonuses.
-  Hold The Line (1 rank) - New Defence skill branching from Shield Crush. Whenever Shield Crush activates, you are guaranteed to block the next attack.
-  Stand Your Ground (1 rank) - New Defence skill branching from Shield Crush. Whenever Shield Crush activates, it removes your active debuff.
   Riposte (5 ranks) - New Defence skill branching from Hold The Line. A successful block has a 5% chance per rank to Disarm the attacker.
   Bladed Armour (5 ranks) - New Defence skill branching from Shield Wall. Deals 2% per rank of damage taken to an attacker.
   Artful Dodger (1 rank) - New Defence skill branching from Victory Rush. Whenever you dodge an attack, the cooldown on your Burst Attack is reset.
@@ -332,6 +328,7 @@ Game.init = function() {
   this.updateSkills = true;
   this.updateForge = true;
   this.flurryActive = false;
+  this.shieldCrushActive = false;
   this.player_debuffInterval = null;
   this.player_debuffTimer = 0;
   this.enemy_debuffInterval = null;
