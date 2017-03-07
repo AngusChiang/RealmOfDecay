@@ -107,13 +107,14 @@ Game.playerCombatTick = function(isBurst) {
         // Deadly Force
         playerDMG *= (1 + 0.03*Game.powerLevel(Game.SKILL_DEADLY_FORCE));
         // Keen Eye
-        var critChance = 3*Game.powerLevel(Game.SKILL_KEEN_EYE);
+        var critChance = 300*Game.powerLevel(Game.SKILL_KEEN_EYE);
+        critChance += Math.floor(statValue(Game.p_Dex) * 100);
         var didCrit = false;
-        if(Game.RNG(1,100) <= critChance) {
+        if(Game.RNG(1,10000) <= critChance) {
           // Keener Eye
           playerDMG *= (1.5 + 0.1*Game.powerLevel(Game.SKILL_KEENER_EYE));
           didCrit = true;
-          Game.combatLog("player", " - <span class='q222'>Critical hit!</span>");
+          //Game.combatLog("player", " - <span class='q222'>Critical hit!</span>");
         }
         if(Game.powerLevel(Game.SKILL_OVERCHARGE) > 0) {
           // Overcharge
@@ -233,11 +234,11 @@ Game.playerCombatTick = function(isBurst) {
           Game.updateCombatTab();
           if(Game.getPlayerDebuff()[0] == Game.DEBUFF_DISARM || Game.p_Weapon[8] == 0) {
             // Use the force, applied via the knuckles.
-            Game.combatLog("player","You hit " + (Game.e_ProperName ? "" : "the ") + Game.e_Name + " with your fists for <span class='q222'>" + playerDMG + "</span> damage.");
+            Game.combatLog("player","You hit " + (Game.e_ProperName ? "" : "the ") + Game.e_Name + " with your fists for <span class='q222'>" + playerDMG + "</span> damage" + (didCrit ? " (Critical)" : "."));
           }
           else {
             // Stick 'em with the pointy end.
-            Game.combatLog("player","You hit " + (Game.e_ProperName ? "" : "the ") + Game.e_Name + " with your <span class='q" + Game.p_Weapon[7] + "'>" + Game.p_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + playerDMG + "</span> damage.");
+            Game.combatLog("player","You hit " + (Game.e_ProperName ? "" : "the ") + Game.e_Name + " with your <span class='q" + Game.p_Weapon[7] + "'>" + Game.p_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + playerDMG + "</span> damage" + (didCrit ? " (Critical)" : "."));
             if(Game.RNG(1,100) <= (3 * Game.powerLevel(Game.SKILL_PROPER_CARE))) {
               // Proper Care
               Game.combatLog("player"," - <span class='q222'>Proper Care</span> prevented weapon decay.");
@@ -272,9 +273,11 @@ Game.playerCombatTick = function(isBurst) {
           debuffChance += 20 * Game.powerLevel(Game.SKILL_TURN_THE_TABLES);
         }
         if(Game.e_Debuff.length > 0) {
-           if(Game.getPlayerDebuff()[0] !== Game.DEBUFF_MC) {
-             canDebuff = false;
-           }
+          if(Game.getPlayerDebuff()[0] !== Game.DEBUFF_MC) {
+            if(Game.powerLevel(Game.SKILL_TERMINAL_ILLNESS == 0)) {
+              canDebuff = false;
+            }
+          }
         }
         if( Game.p_Weapon[9].length == 0) { canDebuff = false; }
         var debuffApplied = false;
@@ -320,7 +323,7 @@ Game.playerCombatTick = function(isBurst) {
       }
       if(Game.e_HP > 0 && Game.p_HP > 0) {
         if(!Game.flurryActive) {
-          if(Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_FLURRY)) {
+          if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_FLURRY)) {
             Game.flurryActive = true;
             Game.combatLog("player"," - <span class='q222'>Flurry</span> activated for an additional strike!");
             Game.playerCombatTick(isBurst);
@@ -331,6 +334,10 @@ Game.playerCombatTick = function(isBurst) {
         var timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.03*Game.powerLevel(Game.SKILL_NIMBLE_FINGERS)));
         if(Game.getPlayerDebuff()[0] == Game.DEBUFF_SLOW) {
           timerLength *= (1 + (Game.p_Debuff[3]/100));
+        }
+        if(Game.RNG(1,10000) <= (100 * statValue(Game.p_Con))) {
+          Game.p_HP = Math.min(Game.p_HP + Game.p_Con, Game.p_MaxHP);
+          Game.combatLog("player","Your Constitution restored <span class='q222'>" + Game.p_Con + "</span> health.");
         }
         Game.combat_playerInterval = window.setTimeout(function() { Game.playerCombatTick(false); },timerLength);
       }
@@ -360,6 +367,11 @@ Game.enemyCombatTick = function() {
       // Paralysis happened.
       Game.combatLog("enemy","<span class='q222'>" + Game.e_Debuff[1] + "</span> prevented " + (Game.e_ProperName ? "" : "the ") + Game.e_Name + " from attacking.");
       Game.TRACK_PARAHAX_OUT++;
+    }
+    // Dodge Check
+    else if (Game.RNG(1,10000) <= (100 * statValue(Game.p_Int))){
+      // Dodged a bullet
+      Game.combatLog("player","You dodged the incoming attack.");
     }
     else {
       // Stage 1: Base Damage.
@@ -426,6 +438,12 @@ Game.enemyCombatTick = function() {
             }
             break;
         }
+        // Stage 4a: Block
+        var didBlock = false;
+        var blockRate = Math.floor(statValue(Game.p_Str) * 100);
+        if(Game.RNG(1,10000) <= blockRate) {
+          didBlock = true;
+        }        
         // Stage 5: Damage Application
         enemyDMG = Math.floor(enemyDMG);
         if(enemyDMG > 0) {
@@ -451,6 +469,12 @@ Game.enemyCombatTick = function() {
         }
         else {
           // This may hurt a little.
+          var blockedDamage = 0;
+          if(didBlock) {
+            var TDMG = enemyDMG;
+            enemyDMG = Math.floor(enemyDMG * 3 / 4);
+            blockedDamage = TDMG - enemyDMG;
+          }
           Game.p_HP = Math.max(Game.p_HP - enemyDMG, 0);
           Game.TRACK_ATTACKS_IN++;
           Game.TRACK_TOTAL_TAKEN += enemyDMG;
@@ -465,10 +489,10 @@ Game.enemyCombatTick = function() {
               Game.TRACK_MAGIC_TAKEN += enemyDMG; break;
           }
           if(Game.getEnemyDebuff()[0] == Game.DEBUFF_DISARM) {
-              Game.combatLog("enemy",(Game.e_ProperName ? "" : "The ") + Game.e_Name + " hits you with their fists for <span class='q222'>" + enemyDMG + "</span> damage.");
+              Game.combatLog("enemy",(Game.e_ProperName ? "" : "The ") + Game.e_Name + " hits you with their fists for <span class='q222'>" + enemyDMG + "</span> damage" + (didBlock ? " (<span class='q222'>" + blockedDamage + "</span> blocked)" : "") + ".");
           }
           else {
-              Game.combatLog("enemy",(Game.e_ProperName ? "" : "The ") + Game.e_Name + " hits you with their <span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + enemyDMG + "</span> damage.");
+              Game.combatLog("enemy",(Game.e_ProperName ? "" : "The ") + Game.e_Name + " hits you with their <span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + enemyDMG + "</span> damage" + (didBlock ? " (<span class='q222'>" + blockedDamage + "</span> blocked)" : "") + ".");
           }
           if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_VENGEANCE)) {
               // You get what you give. Mostly.

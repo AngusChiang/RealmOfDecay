@@ -1,53 +1,11 @@
 Game = {};
 /*
-Changes made already:
-  • Skill Changes
-    • The skill trees have been redefined, and split into three broad categories:
-      • The Offense tree focuses on skills that increase damage done and effects that occur when attacking.
-      • The Defence tree focuses on skills that decrease damage taken and effects that occur when attacked.
-      • The Support tree focuses on quality of life upgrades that don't fit into either of the above trees.
-    • The 'Intuition' skill is now called 'Undermine'.
-    • The 'Will to Live' skill has been renamed to 'Victory Rush' and now restores 5% health per rank when you defeat an enemy.
-    • The 'Survival Instincts' skill now directly increases the repair and regen values instead of increasing the frequency of repair ticks.
-    • New Skills:
-      • Armour Mastery is the new base skill in the Defence tree, increasing the potency of armour bonuses by 5% per rank (rounded up to the nearest point).
-    • All badges relating to reaching maximum levels with particular skills have been removed.
-    • Previous restrictions on which skills can be purchased together have been removed, except for the split between 'Absorption Shield' and 'Reflective Shield'.
-    • Purchased skills will no longer remain in the 'Available Skills' section once they have reached their maximum level.
-    • The following maximum ranks and values per rank have been changed:
-      • Deadly Force (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)
-      • Nimble Fingers (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)
-      • Divine Shield (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
-      • Ancestral Fortitude (10 ranks -> 5 ranks)
-      • Luck of the Draw (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
-      • Patience and Discipline (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
-      • Lucky Star (10 ranks -> 5 ranks)
-      • Empowered Flurry (4% per rank -> 5% per rank)
-      • Overcharge (25% per rank -> 35% per rank)
-      • Expose Weakness (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
-      • Bartering (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)
-  • Bug Fixes
-    • Fixed an issue where the 'Proper Care' skill was less likely to activate than it should have been.
-    • Fixed an issue where the 'Master Tinkerer' skill was much less effective than intended.
-    • Fixed an issue where the UI on the Player tab was often unresponsive due to excessive redrawing operations.
-
 Stuff left to do for MVP:
 
-Passive Stat Effects:
-  Strength: Gives a chance to block incoming strikes, reducing their damage by half.
-  Dexterity: Increases your chance of critically striking an enemy for 50% increased damage.
-  Intelligence: Gives a chance to dodge incoming strikes, preventing all damage.
-  Constitution: Gives a chance when attacking to heal yourself for an amount equal to your Constitution.
-  
-Combat Changes:
-  With the three new possible types of mitigation, we now need an attack table, which will determine the outcome of any given strike (Block, Parry, Dodge, Critical or Normal)
-  For enemies, this should not be required (as they cannot yet block, dodge or parry) however will be useful to implement nonetheless for criticals.
-  
 New Skills:
-  Terminal Illness (1 rank) - New Offense skill branching from Expose Weakness. Allows debuff timers to be refreshed if reapplied.
   Bloodlust (1 rank) - New Offense skill branching from <TBC>. Critical strikes refresh the cooldown on your Burst Attack.
   Shield Wall (5 ranks) - New Defence skill branching from Ancestral Fortitude. Grants a 1% increase in block chance per rank.
-  Shield Crush (5 ranks) - New Defence skill branching from Shield Wall. Whenever you attack, you have a 3% chance per rank to negate enemy armour bonuses.
+  Shield Crush (5 ranks) - New Defence skill branching from Shield Wall. Whenever you attack, you have a 2% chance per rank to negate enemy armour bonuses.
   Hold The Line (1 rank) - New Defence skill branching from Shield Crush. Whenever Shield Crush activates, you are guaranteed to block the next attack.
   Stand Your Ground (1 rank) - New Defence skill branching from Shield Crush. Whenever Shield Crush activates, it removes your active debuff.
   Riposte (5 ranks) - New Defence skill branching from Hold The Line. A successful block has a 5% chance per rank to Disarm the attacker.

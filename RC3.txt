@@ -1,0 +1,43 @@
+Realm of Decay v1.0.1
+---------------------
+
+  • Skill Rework
+    • The skill trees have been redefined, and split into three broad categories:
+      • The Offense tree focuses on skills that increase damage done and effects that occur when attacking.
+      • The Defence tree focuses on skills that decrease damage taken and effects that occur when attacked.
+      • The Support tree focuses on quality of life upgrades that don't fit into either of the above trees.
+    • The 'Intuition' skill is now called 'Undermine'.
+    • The 'Will to Live' skill has been renamed to 'Victory Rush' and now restores 5% health per rank when you defeat an enemy.
+    • The 'Survival Instincts' skill now directly increases the repair and regen values instead of increasing the frequency of repair ticks.
+    • All badges relating to reaching maximum levels with particular skills have been removed.
+    • Previous restrictions on which skills can be purchased together have been removed, except for the split between 'Absorption Shield' and 'Reflective Shield'.
+    • Purchased skills will no longer remain in the 'Available Skills' section once they have reached their maximum level.
+    • The following maximum ranks and values per rank have been changed:
+      • Proper Care (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)
+      • Pickpocket (10 ranks -> 5 ranks)
+      • Divine Shield (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
+      • Luck of the Draw (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
+      • Fast Learner (10 ranks -> 5 ranks)
+      • Flurry (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
+      • Survival Instincts (10 ranks -> 5 ranks, 2% per rank -> 4% per rank)
+      • Deadly Force (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)
+      • Ancestral Fortitude (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)
+      • Nimble Fingers (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)
+      • Expose Weakness (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)
+      • Bartering (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)
+      • Patience and Discipline (1% per rank -> 2% per rank)
+      • Empowered Flurry (4% per rank -> 5% per rank)
+      • Overcharge (25% per rank -> 35% per rank)
+  • New Skills:
+    • Armour Mastery is the new base skill in the Defence tree, increasing the potency of armour bonuses by 5% per rank (rounded up to the nearest point).
+    • Terminal Illness is a new single rank skill in the Offense tree, allowing the player to refresh debuff timers if they are reapplied during their duration. Branches from Expose Weakness.
+  • Passive Effects on Stats
+    • Player stats now provide an additional passive bonus, which scales with their value:
+      • Strength gives a chance to block enemy attacks, reducing their damage by 25%.
+      • Dexterity gives a chance to critically strike for 50% increased damage.
+      • Intelligence gives a chance to dodge an incoming attack, preventing all effects of it.
+      • Constitution gives a chance to restore health equal to your Constitution value when attacking.
+  • Bug Fixes
+    • Fixed an issue where the 'Proper Care' skill was less likely to activate than it should have been.
+    • Fixed an issue where the 'Master Tinkerer' skill was much less effective than intended.
+    • Fixed an issue where the UI on the Player tab was often unresponsive due to excessive redrawing operations.
