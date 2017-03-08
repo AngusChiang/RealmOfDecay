@@ -344,6 +344,7 @@ Game.SKILL_LIST = [
   ["Expose Weakness", "Adds 1% per rank to the debuff application rate.",10222],
   ["Empowered Flurry","Adds 4% per level to the damage of Flurry's secondary strike.",102111],
   ["Sneak Attack","Adds 10% per rank to your chance to strike first in combat.",102211],
+  ["Bloodlust","Critical strikes refresh the cooldown on your Burst Attack",102212],
   ["Press The Advantage", "Using Burst Attack on a debuffed foe reduces its cooldown by 1 second per rank.",102221],
   ["Terminal Illness","Allows debuff timers to be refreshed when reapplied.",102222],
   ["Wild Swings","Augments your Burst Attack to deal an additional hit per rank, but reduces its damage by 50%.",1021111],

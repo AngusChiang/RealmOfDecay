@@ -114,7 +114,15 @@ Game.playerCombatTick = function(isBurst) {
           // Keener Eye
           playerDMG *= (1.5 + 0.1*Game.powerLevel(Game.SKILL_KEENER_EYE));
           didCrit = true;
-          //Game.combatLog("player", " - <span class='q222'>Critical hit!</span>");
+          if(Game.powerLevel(Game.SKILL_BLOODLUST) > 0 && Game.p_specUsed) {
+            // Bloodlust activated, reset Burst Attack.
+            if(Game.specResetInterval !== null) {
+              window.clearInterval(Game.specResetInterval);
+              Game.specResetInterval = null;
+            }
+            Game.p_specUsed = false;
+            Game.combatLog("player","<span class='q202'>Bloodlust</span> refreshed the cooldown on your " + Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0 ? "Wild Swings!" : "Burst Attack!");
+          }
         }
         if(Game.powerLevel(Game.SKILL_OVERCHARGE) > 0) {
           // Overcharge
@@ -638,9 +646,9 @@ Game.burstAttack = function() {
       Game.badgeCheck(Game.BADGE_BURSTSPAM); // Manual Labour
       if(Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0) {
         if(Game.e_Debuff !== []) {
-          window.setTimeout(function() { Game.p_specUsed = false; },10000-(1000*Game.powerLevel(Game.SKILL_PRESS_THE_ADVANTAGE)));
+          Game.specResetInterval = window.setTimeout(function() { Game.p_specUsed = false; },10000-(1000*Game.powerLevel(Game.SKILL_PRESS_THE_ADVANTAGE)));
         } else {
-          window.setTimeout(function() { Game.p_specUsed = false; },10000);
+          Game.specResetInterval = window.setTimeout(function() { Game.p_specUsed = false; },10000);
         }
         Game.combatLog("player","<span class='q222'>Wild Swings</span> activated.");
         Game.wildSwing = true;
@@ -679,6 +687,11 @@ Game.fleeCombat = function() {
     if(Game.p_Level >= 5) { Game.bossChance++; } // Not even running will save you from eventual boss encounters.
     Game.p_State = Game.STATE_IDLE;
     Game.p_specUsed = false;
+    Game.shieldCrushActive = false;
+    if(Game.specResetInterval !== null) {
+      window.clearInterval(Game.specResetInterval);
+      Game.specResetInterval = null;
+    }    
     Game.combatLog("info","You fled from the battle.");
     Game.TRACK_ESCAPES++;
     Game.TRACK_WIN_STREAK = 0;
@@ -708,6 +721,10 @@ Game.endCombat = function() {
   Game.e_Debuff = [];
   Game.p_State = Game.STATE_IDLE;
   Game.p_specUsed = false;
+  if(Game.specResetInterval !== null) {
+    window.clearInterval(Game.specResetInterval);
+    Game.specResetInterval = null;
+  }    
   Game.shieldCrushActive = false;
   if(Game.p_HP > 0) {
     // Player won, give xp and maybe, just maybe, a level.

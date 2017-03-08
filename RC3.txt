@@ -31,6 +31,7 @@ Realm of Decay v1.0.1
   • New Skills:
     • Armour Mastery is the new base skill in the Defence tree, increasing the potency of armour bonuses by 5% per rank (rounded up to the nearest point).
     • Terminal Illness is a new single rank skill in the Offense tree, allowing the player to refresh debuff timers if they are reapplied during their duration. Branches from Expose Weakness.
+    • Bloodlust is a new single rank skill in the Offense tree, which refreshes your Burst Attack cooldown upon a critical hit. Branches from Keener Eye.
     • Shield Wall is a new 5 rank skill in the Defence tree, increasing block chance by 1% per rank. Branches from Ancestral Fortitude.
     • Shield Crush is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to ignore enemy armour bonuses. Branches from Shield Wall.
     • Hold The Line is a new single rank skill in the Defence tree, guaranteeing a block whenever Shield Crush activates. Branches from Shield Crush.

@@ -3,7 +3,6 @@ Game = {};
 Stuff left to do for MVP:
 
 New Skills:
-  Bloodlust (1 rank) - New Offense skill branching from <TBC>. Critical strikes refresh the cooldown on your Burst Attack.
   Riposte (5 ranks) - New Defence skill branching from Hold The Line. A successful block has a 5% chance per rank to Disarm the attacker.
   Bladed Armour (5 ranks) - New Defence skill branching from Shield Wall. Deals 2% per rank of damage taken to an attacker.
   Artful Dodger (1 rank) - New Defence skill branching from Victory Rush. Whenever you dodge an attack, the cooldown on your Burst Attack is reset.
@@ -80,6 +79,7 @@ Game.init = function() {
   this.SKILL_EXPOSE_WEAKNESS = 10222; 
   this.SKILL_EMPOWERED_FLURRY = 102111;
   this.SKILL_SNEAK_ATTACK = 102211;
+  this.SKILL_BLOODLUST = 102212;
   this.SKILL_PRESS_THE_ADVANTAGE = 102221;
   this.SKILL_TERMINAL_ILLNESS = 102222; // Allows debuff timers to be refreshed when reapplied.
   this.SKILL_WILD_SWINGS = 1021111;
@@ -89,17 +89,17 @@ Game.init = function() {
   this.SKILL_OVERCHARGE = 10211121; 
   this.SKILL_UNDERMINE = 10222111; 
   // Defense Tree
-  this.SKILL_ARMOUR_MASTERY = 103; // Increases bonuses on armour by 5% per rank.
+  this.SKILL_ARMOUR_MASTERY = 103;
   this.SKILL_ANCESTRAL_FORTITUDE = 1031;
   this.SKILL_SURVIVAL_INSTINCTS = 1032;
-  this.SKILL_SHIELD_WALL = 10311; // 1% chance per rank to block incoming damage. Blocks reduce incoming damage by 50%.
-  this.SKILL_SHIELD_CRUSH = 10312; // Adds a 3% chance per rank to ignore enemy armour bonus against your weapon when attacking.
+  this.SKILL_SHIELD_WALL = 10311;
+  this.SKILL_SHIELD_CRUSH = 10312;
   this.SKILL_VICTORY_RUSH = 10321; // Restores 5% health per rank when defeating an enemy.
   this.SKILL_VENGEANCE = 103111;
   this.SKILL_LAST_BASTION = 103112;
   this.SKILL_BLADED_ARMOUR = 103113; // Attackers take 2% per rank of the damage they deal to you.
-  this.SKILL_HOLD_THE_LINE = 103121; // Guarantees a block after Shield Crush activates.
-  this.SKILL_STAND_YOUR_GROUND = 103122; // Removes your active debuff when Shield Crush activates.
+  this.SKILL_HOLD_THE_LINE = 103121;
+  this.SKILL_STAND_YOUR_GROUND = 103122;
   this.SKILL_ARTFUL_DODGER = 103211; // Dodging an attack instantly refreshes your Burst Attack.
   this.SKILL_EYE_FOR_AN_EYE = 103212; // Deal 100% of damage blocked to attacker on a successful block.
   this.SKILL_DIVINE_SHIELD = 1031121;
@@ -335,6 +335,7 @@ Game.init = function() {
   this.enemy_debuffTimer = 0;
   this.combat_enemyInterval = null;
   this.combat_playerInterval = null;
+  this.specResetInterval = null;
   this.toastQueue = [];
   this.toastTimer = null;
   // Enemy variables

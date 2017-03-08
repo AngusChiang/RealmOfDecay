@@ -5,6 +5,7 @@ Game.buyPower = function(power) {
     switch(power) {
       case Game.SKILL_DISASSEMBLY:
       case Game.SKILL_TERMINAL_ILLNESS:
+      case Game.SKILL_BLOODLUST:
       case Game.SKILL_OVERCHARGE:
       case Game.SKILL_UNDERMINE:
       case Game.SKILL_HOLD_THE_LINE:
@@ -114,6 +115,7 @@ Game.getPowerLevelCap = function(power) {
       return 5;
     case Game.SKILL_DISASSEMBLY:
     case Game.SKILL_TERMINAL_ILLNESS:
+    case Game.SKILL_BLOODLUST:
     case Game.SKILL_OVERCHARGE:
     case Game.SKILL_UNDERMINE:
     case Game.SKILL_HOLD_THE_LINE:
