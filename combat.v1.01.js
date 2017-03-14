@@ -488,7 +488,7 @@ Game.enemyCombatTick = function() {
         if(Game.RNG(1,10000) <= blockRate || (Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0 && Game.shieldCrushActive)) {
           didBlock = true;
           Game.shieldCrushActive = false;
-        }        
+        }
         // Stage 5: Damage Application
         enemyDMG = Math.floor(enemyDMG);
         if(enemyDMG > 0) {
@@ -538,6 +538,17 @@ Game.enemyCombatTick = function() {
           }
           else {
               Game.combatLog("enemy",(Game.e_ProperName ? "" : "The ") + Game.e_Name + " hits you with their <span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + enemyDMG + "</span> damage" + (didBlock ? " (<span class='q222'>" + blockedDamage + "</span> blocked)" : "") + ".");
+          }
+          if(didBlock && Game.RNG(1,100) <= Game.powerlevel(Game.SKILL_RIPOSTE)) {
+            // Riposte activated, disarm the opponent if we can.
+            if(canDebuff) {
+              Game.e_Debuff = Game.debuffs_generic[8].slice();
+              Game.TRACK_DEBUFFS_OUT++;
+              Game.enemy_debuffTimer = Game.debuffs_generic[8][2];
+              window.clearInterval(Game.enemy_debuffInterval);
+              Game.enemy_debuffInterval = window.setInterval(Game.enemyDebuffTicker,1000);
+              Game.combatLog("player","<span class='q222'>Riposte</span> activated! " + (Game.e_ProperName ? "" : "The ") + Game.e_Name + " suffers from <span class='q222'>" + Game.debuffs_generic[8][1] + "</span>.");
+            }
           }
           if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_VENGEANCE)) {
               // You get what you give. Mostly.

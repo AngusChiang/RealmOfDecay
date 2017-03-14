@@ -36,6 +36,7 @@ Realm of Decay v1.0.1
     • Shield Crush is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to ignore enemy armour bonuses. Branches from Shield Wall.
     • Hold The Line is a new single rank skill in the Defence tree, guaranteeing a block whenever Shield Crush activates. Branches from Shield Crush.
     • Stand Your Ground is a new single rank skill in the Defence tree, which removes the active debuff on you when Shield Crush activates. Branches from Shield Crush.
+    • Riposte is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to Disarm the attacker upon a successful block. Branches from Hold the Line.
   • Passive Effects on Stats
     • Player stats now provide an additional passive bonus, which scales with their value:
       • Strength gives a chance to block enemy attacks, reducing their damage by 25%.

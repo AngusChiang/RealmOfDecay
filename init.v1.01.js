@@ -3,7 +3,6 @@ Game = {};
 Stuff left to do for MVP:
 
 New Skills:
-  Riposte (5 ranks) - New Defence skill branching from Hold The Line. A successful block has a 5% chance per rank to Disarm the attacker.
   Bladed Armour (5 ranks) - New Defence skill branching from Shield Wall. Deals 2% per rank of damage taken to an attacker.
   Artful Dodger (1 rank) - New Defence skill branching from Victory Rush. Whenever you dodge an attack, the cooldown on your Burst Attack is reset.
   Eye for an Eye (1 rank) - New Defence skill branching from Victory Rush. Deals 100% of damage taken back to an attacker after a successful block.
