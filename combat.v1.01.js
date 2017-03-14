@@ -539,6 +539,11 @@ Game.enemyCombatTick = function() {
           else {
               Game.combatLog("enemy",(Game.e_ProperName ? "" : "The ") + Game.e_Name + " hits you with their <span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + enemyDMG + "</span> damage" + (didBlock ? " (<span class='q222'>" + blockedDamage + "</span> blocked)" : "") + ".");
           }
+          var reflectDMG = Math.floor(enemyDMG * (0.02 * Game.powerLevel(Game.SKILL_BLADED_ARMOUR)));
+          if(reflectDMG > 0) {
+            Game.e_HP = Math.max(0, Game.e_HP - reflectDMG);
+            Game.combatLog("player","<span class='q222'>Bladed Armour</span> dealt " + reflectDMG + " to the attacker.");
+          }
           if(didBlock && Game.RNG(1,100) <= Game.powerlevel(Game.SKILL_RIPOSTE)) {
             // Riposte activated, disarm the opponent if we can.
             if(canDebuff) {
