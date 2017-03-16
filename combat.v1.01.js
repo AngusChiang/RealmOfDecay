@@ -121,7 +121,7 @@ Game.playerCombatTick = function(isBurst) {
               Game.specResetInterval = null;
             }
             Game.p_specUsed = false;
-            Game.combatLog("player","<span class='q202'>Bloodlust</span> refreshed the cooldown on your " + Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0 ? "Wild Swings!" : "Burst Attack!");
+            Game.combatLog("player","<span class='q222'>Bloodlust</span> refreshed the cooldown on your " + Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0 ? "Wild Swings!" : "Burst Attack!");
           }
         }
         if(Game.powerLevel(Game.SKILL_OVERCHARGE) > 0) {
@@ -416,6 +416,13 @@ Game.enemyCombatTick = function() {
     else if (Game.RNG(1,10000) <= Math.floor(50 * statValue(Game.p_Int))){
       // Dodged a bullet
       Game.combatLog("player","You dodged the incoming attack.");
+      if(Game.p_specUsed && Game.powerLevel(Game.SKILL_ARTFUL_DODGER) > 0) {
+        // Artful Dodger
+        Game.combatLog("player", "<span class='q222'>Artful Dodger</span> refreshed your Burst Attack!");
+        window.clearTimeout(Game.specResetInterval);
+        Game.specResetInterval = null;
+        Game.p_specUsed = false;
+      }
     }
     else {
       // Stage 1: Base Damage.
@@ -539,12 +546,7 @@ Game.enemyCombatTick = function() {
           else {
               Game.combatLog("enemy",(Game.e_ProperName ? "" : "The ") + Game.e_Name + " hits you with their <span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + enemyDMG + "</span> damage" + (didBlock ? " (<span class='q222'>" + blockedDamage + "</span> blocked)" : "") + ".");
           }
-          var reflectDMG = Math.floor(enemyDMG * (0.02 * Game.powerLevel(Game.SKILL_BLADED_ARMOUR)));
-          if(reflectDMG > 0) {
-            Game.e_HP = Math.max(0, Game.e_HP - reflectDMG);
-            Game.combatLog("player","<span class='q222'>Bladed Armour</span> dealt " + reflectDMG + " to the attacker.");
-          }
-          if(didBlock && Game.RNG(1,100) <= Game.powerlevel(Game.SKILL_RIPOSTE)) {
+          if(didBlock && Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_RIPOSTE)) {
             // Riposte activated, disarm the opponent if we can.
             if(canDebuff) {
               Game.e_Debuff = Game.debuffs_generic[8].slice();
@@ -554,6 +556,12 @@ Game.enemyCombatTick = function() {
               Game.enemy_debuffInterval = window.setInterval(Game.enemyDebuffTicker,1000);
               Game.combatLog("player","<span class='q222'>Riposte</span> activated! " + (Game.e_ProperName ? "" : "The ") + Game.e_Name + " suffers from <span class='q222'>" + Game.debuffs_generic[8][1] + "</span>.");
             }
+          }
+          // Bladed Armour
+          var reflectDMG = Math.floor(enemyDMG * (0.02 * Game.powerLevel(Game.SKILL_BLADED_ARMOUR)));
+          if(reflectDMG > 0) {
+            Game.e_HP = Math.max(Game.e_HP - reflectDMG, 0);
+            Game.combatLog("player","<span class='q222'>Bladed Armour</span> dealt <span class='q222'>" + reflectDMG + "</span> damage to the attacker.");
           }
           if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_VENGEANCE)) {
               // You get what you give. Mostly.
