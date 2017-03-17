@@ -365,7 +365,7 @@ Game.SKILL_LIST = [
   ["Hold The Line","Guarantees a block after Shield Crush activates.",103121],
   ["Stand Your Ground","Clears your current debuff when Shield Crush activates.",103122],
   ["Artful Dodger","Refreshes your Burst Attack cooldown when you dodge an attack.",103211],
-  ["Eye for an Eye (NYI)","Deals 100% of blocked damage to the attacker after a successful block.",103212],
+  ["Eye for an Eye","Deals 100% of blocked damage to the attacker after a successful block.",103212],
   ["Divine Shield","Adds a 2% chance per rank to completely negate an enemy attack.",1031121],
   ["Second Wind (NYI)","Causes a blow that would kill you to instead restore 6% health per rank, once per battle.",1031122],
   ["Riposte","Adds a 5% chance per rank that a successful block will Disarm the attacker.",1031211],

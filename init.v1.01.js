@@ -3,7 +3,6 @@ Game = {};
 Stuff left to do for MVP:
 
 New Skills:
-  Eye for an Eye (1 rank) - New Defence skill branching from Victory Rush. Deals 100% of damage taken back to an attacker after a successful block.
   Second Wind (5 ranks) - New Defence skill branching from Last Bastion. Whenever a blow would kill you, instead restore 6% of your health per rank. Only works once per battle.
   Bountiful Bags (5 ranks) - New Support skill branching from Five-Finger Discount. Increases inventory sizes by 3 slots per rank.
 

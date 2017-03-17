@@ -39,6 +39,7 @@ Realm of Decay v1.0.1
     • Riposte is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to Disarm the attacker upon a successful block. Branches from Hold the Line.
     • Bladed Armour is a new 5 rank skill in the Defence tree, that deals a flat 2% per rank of damage taken to an attacker. Branches from Shield Wall.
     • Artful Dodger is a new single rank skill in the Defence tree, causing successful dodges to refresh the cooldown on your Burst Attack. Branches from Victory Rush.
+    • Eye for an Eye is a new single rank skill in the Defence tree, which deals 100% of blocked damage to the attacker upon a successful block. Branches from Victory Rush.
   • Passive Effects on Stats
     • Player stats now provide an additional passive bonus, which scales with their value:
       • Strength gives a chance to block enemy attacks, reducing their damage by 25%.

@@ -546,6 +546,11 @@ Game.enemyCombatTick = function() {
           else {
               Game.combatLog("enemy",(Game.e_ProperName ? "" : "The ") + Game.e_Name + " hits you with their <span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + enemyDMG + "</span> damage" + (didBlock ? " (<span class='q222'>" + blockedDamage + "</span> blocked)" : "") + ".");
           }
+          if(didBlock && Game.powerLevel(Game.SKILL_EYE_FOR_AN_EYE) > 0) {
+            // Eye for an Eye activated, return damage.
+            Game.e_HP = Math.max(Game.e_HP - blockedDamage, 0);
+            Game.combatLog("player","<span class='q222'>Eye for an Eye</span> dealt <span class='q222'>" + blockedDamage + "</span> back to the attacker.");
+          }
           if(didBlock && Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_RIPOSTE)) {
             // Riposte activated, disarm the opponent if we can.
             if(canDebuff) {
