@@ -528,6 +528,12 @@ Game.enemyCombatTick = function() {
             blockedDamage = TDMG - enemyDMG;
           }
           Game.p_HP = Math.max(Game.p_HP - enemyDMG, 0);
+          // Second Wind
+          if(Game.p_HP == 0 && Game.powerLevel(Game.SKILL_SECOND_WIND) > 0 && Game.secondWindAvailable) {
+            Game.secondWindAvailable = false;
+            Game.p_HP = Math.floor(Game.p_MaxHP * (0.06 * Game.powerLevel(Game.SKILL_SECOND_WIND)));
+            Game.combatLog("player", "<span class='q222'>Second Wind</span> saved you from certain death, restoring <span class='q222'>" + Game.p_HP + "</span> health!")
+          }
           Game.TRACK_ATTACKS_IN++;
           Game.TRACK_TOTAL_TAKEN += enemyDMG;
           Game.TRACK_MAXHIT_IN = Math.max(Game.TRACK_MAXHIT_IN, enemyDMG);
@@ -717,6 +723,7 @@ Game.fleeCombat = function() {
     Game.p_State = Game.STATE_IDLE;
     Game.p_specUsed = false;
     Game.shieldCrushActive = false;
+    Game.secondWindAvailable = true;
     if(Game.specResetInterval !== null) {
       window.clearInterval(Game.specResetInterval);
       Game.specResetInterval = null;
@@ -755,6 +762,7 @@ Game.endCombat = function() {
     Game.specResetInterval = null;
   }    
   Game.shieldCrushActive = false;
+  Game.secondWindAvailable = true;
   if(Game.p_HP > 0) {
     // Player won, give xp and maybe, just maybe, a level.
     Game.combatLog("info","You won!");
