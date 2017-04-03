@@ -2,10 +2,6 @@ Game = {};
 /*
 Stuff left to do for MVP:
 
-New Skills:
-  Second Wind (5 ranks) - New Defence skill branching from Last Bastion. Whenever a blow would kill you, instead restore 6% of your health per rank. Only works once per battle.
-  Bountiful Bags (5 ranks) - New Support skill branching from Five-Finger Discount. Increases inventory sizes by 3 slots per rank.
-
 Add in the ability to buy potions:
  - Potions come in two main types: healing potions and debuff potions.
  - Healing potions restore a set percentage of the player's health when used.
@@ -35,7 +31,7 @@ Boss Buffs and Debuffs
 */
 Game.init = function() {
   //Define some constants we can use later
-  this.GAME_VERSION = 10; // Used to purge older saves between major version changes, don't change this value unless you're also making a change that modifies what is saved or loaded.
+  this.GAME_VERSION = 11; // Used to purge older saves between major version changes, don't change this value unless you're also making a change that modifies what is saved or loaded.
   // The experience curve
   this.XP_MULT = 1.05;
   this.XP_RANGEMIN = 3.0;
@@ -286,7 +282,6 @@ Game.init = function() {
   this.BADGE_ZONE11 = 2070; // Too Hot To Handle
   this.BADGE_ZONE12 = 2071; // A Long Way Down
   // Player variables
-  this.MAX_INVENTORY = 18;
   this.p_Name = "Generic Player Name";
   this.p_HP = 0; this.p_MaxHP = 0;
   this.p_Str = 0; this.p_Dex = 0;
@@ -313,6 +308,7 @@ Game.init = function() {
   this.bossChance = 0;
   this.prestigeLevel = 0;
   this.activePanel = "";
+  this.MAX_INVENTORY = 18 + (3 * Game.powerLevel(Game.SKILL_BOUNTIFUL_BAGS));
   this.p_WeaponInventory = [];
   this.p_ArmourInventory = [];
   this.p_PotionInventory = [];
@@ -479,6 +475,7 @@ Game.save = function(auto) {
   STS.bossChance = Game.bossChance;
   STS.p_currentZone = Game.p_currentZone;
   STS.p_maxZone = Game.p_maxZone;
+  STS.MAX_INVENTORY = Game.MAX_INVENTORY;
   STS.TRACK_TOTAL_DMG = Game.TRACK_TOTAL_DMG;
   STS.TRACK_MELEE_DMG = Game.TRACK_MELEE_DMG;
   STS.TRACK_RANGE_DMG = Game.TRACK_RANGE_DMG;
@@ -597,6 +594,7 @@ Game.load = function() {
     Game.playerBadges = g.playerBadges;
     Game.p_currentZone = g.p_currentZone;
     Game.p_maxZone = g.p_maxZone;
+    Game.MAX_INVENTORY = g.MAX_INVENTORY;
     Game.TRACK_TOTAL_DMG = g.TRACK_TOTAL_DMG;
     Game.TRACK_MELEE_DMG = g.TRACK_MELEE_DMG;
     Game.TRACK_RANGE_DMG = g.TRACK_RANGE_DMG;
