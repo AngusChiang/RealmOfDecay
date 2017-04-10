@@ -317,7 +317,8 @@ Game.armour_special = [
   "Top Hat and Monocle|Stop! Dapper time!",
   "Kevlar Vest|Stops just about anything that doesn't aim for the head.",
   "Mechanical Exoskeleton|Humans are so much more effective when encased in metal.",
-  "Overly Elaborate Robe|Washing this thing will be your worst nightmare."
+  "Overly Elaborate Robe|Washing this thing will be your worst nightmare.",
+  "Rune Platebody|At least one dragon died in the making of this armour."
 ];
 Game.SKILL_LIST = [
   ["Pickpocket","Increases seed gains from combat by 5% per rank.",101],
@@ -328,7 +329,7 @@ Game.SKILL_LIST = [
   ["Five-Finger Discount","Adds a 1% chance per rank to steal seeds equal to your character level when attacking.",101211],
   ["Patience and Discipline","Adds a 3% chance per rank to boost a random stat when leveling up.",101212],
   ["Disassembly", "Guarantees an additional piece of scrap from destroying items.",101213],
-  ["Bountiful Bags (NYI)", "Adds 3 slots per rank to your inventory limit.",1012111],
+  ["Bountiful Bags", "Adds 3 slots per rank to your inventory limit.",1012111],
   ["Luck of the Draw","Adds a 1% chance per rank to gain an additional Stat Point on level up.",1012121],
   ["Fast Learner","Adds 5% per rank to experience gained in combat.",1012122],
   ["Proper Care","Adds a 3% chance per rank to negate decay on your worn equipment per hit.",1012123],
@@ -367,7 +368,7 @@ Game.SKILL_LIST = [
   ["Artful Dodger","Refreshes your Burst Attack cooldown when you dodge an attack.",103211],
   ["Eye for an Eye","Deals 100% of blocked damage to the attacker after a successful block.",103212],
   ["Divine Shield","Adds a 2% chance per rank to completely negate an enemy attack.",1031121],
-  ["Second Wind (NYI)","Causes a blow that would kill you to instead restore 6% health per rank, once per battle.",1031122],
+  ["Second Wind","Causes a blow that would kill you to instead restore 6% health per rank, once per battle.",1031122],
   ["Riposte","Adds a 5% chance per rank that a successful block will Disarm the attacker.",1031211],
   ["Absorption Shield","Your Divine Shield now heals you for the damage you would have taken.",10311211],
   ["Reflective Shield","Your Divine Shield now deals the damage you would have taken to the enemy.",10311212],
