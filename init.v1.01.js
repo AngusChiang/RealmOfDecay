@@ -17,6 +17,9 @@ Add in the ability to buy potions:
    - Healing potions heal for 10% more when boosted by Medic's Intuition
    - Debuff potions apply superior debuffs when boosted by Saboteur's Intuition
 
+Badges
+  New Badge: Terminally Unimaginative - Reach level 50 without naming any nameable object or yourself.
+
 Possible updates:
 
 Tweaks for the strength of bosses
