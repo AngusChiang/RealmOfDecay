@@ -203,6 +203,7 @@ Game.renamePlayer = function() {
     else { userPlayerName = userPlayerName.replace(/[<>|]/g,""); validPlayerName = true; }
   }
   Game.p_Name = userPlayerName;
+  Game.PROGRESS_NO_NAMES = false;
   Game.giveBadge(Game.BADGE_NAME); // The Personal Touch
   if(userPlayerName.toLowerCase() == "psychemaster") {
     Game.giveBadge(Game.BADGE_DEVNAME); // God Complex
