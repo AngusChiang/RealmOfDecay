@@ -271,19 +271,21 @@ Game.init = function() {
   this.BADGE_FULL_POT = 2057; // Potion Hoarder
   this.BADGE_FULL_AMAZING = 2058; // Expensive Tastes
   this.BADGE_BOSSCHANCE = 2059; // Chasing Shadows
+  this.BADGE_NO_NAMES = 2060; // Terminally Unimaginative
+  this.PROGRESS_NO_NAMES = true;
   // Boss kill badges
-  this.BADGE_ZONE1 = 2060; // Trolling the Troll
-  this.BADGE_ZONE2 = 2061; // Calm Down Dear
-  this.BADGE_ZONE3 = 2062; // Time For A Shower
-  this.BADGE_ZONE4 = 2063; // All Change, Please
-  this.BADGE_ZONE5 = 2064; // Outgrown
-  this.BADGE_ZONE6 = 2065; // Problem Solved
-  this.BADGE_ZONE7 = 2066; // Beyond Divinity
-  this.BADGE_ZONE8 = 2067; // Surpassing The Master
-  this.BADGE_ZONE9 = 2068; // Feeling Broody
-  this.BADGE_ZONE10 = 2069; // Coming To A Point
-  this.BADGE_ZONE11 = 2070; // Too Hot To Handle
-  this.BADGE_ZONE12 = 2071; // A Long Way Down
+  this.BADGE_ZONE1 = 2061; // Trolling the Troll
+  this.BADGE_ZONE2 = 2062; // Calm Down Dear
+  this.BADGE_ZONE3 = 2063; // Time For A Shower
+  this.BADGE_ZONE4 = 2064; // All Change, Please
+  this.BADGE_ZONE5 = 2065; // Outgrown
+  this.BADGE_ZONE6 = 2066; // Problem Solved
+  this.BADGE_ZONE7 = 2067; // Beyond Divinity
+  this.BADGE_ZONE8 = 2068; // Surpassing The Master
+  this.BADGE_ZONE9 = 2069; // Feeling Broody
+  this.BADGE_ZONE10 = 2070; // Coming To A Point
+  this.BADGE_ZONE11 = 2071; // Too Hot To Handle
+  this.BADGE_ZONE12 = 2072; // A Long Way Down
   // Player variables
   this.p_Name = "Generic Player Name";
   this.p_HP = 0; this.p_MaxHP = 0;

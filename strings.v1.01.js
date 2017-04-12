@@ -437,18 +437,19 @@ Game.BADGE_LIST = [
   ["Potion Hoarder", "Own one of every type of potion.","Concoctions for all occasions!",2057],
   ["Expensive Tastes", "Fill your weapon and armour inventories with only Amazing quality items.","Your collection is worth HOW MUCH?!?!?",2058],
   ["Chasing Shadows","Reach an elite appearance chance of 20% or more.","I'm not afraid of the dark, I'm afraid of what it hides...",2059],
-  ["Trolling the Troll","Defeat Massive Cave Troll Tetradigm in the Whispering Cave.","Maybe if he'd read that book, he would have learned how to not die.",2060],
-  ["Calm Down Dear","Defeat Ashen Berserker Ragekai in the Ash Cultist Outpost.","It's just a stab in the face, that's all. You won't feel a thing.",2061],
-  ["Time For A Shower","Defeat Swamp Behemoth Sythek in the Dawn's Light Swamp.","With this level of filth, you'll see me again in about a week.",2062],
-  ["All Change, Please","Defeat the Ethereal Train Driver at The Final Stop.","This service will terminate here. Please check all personal belongings when leaving the train.",2063],
-  ["Outgrown","Defeat the Lumbering Spore Giant within the Echoing Passage.","I'm bigger than you and I'm higher in the food chain!",2064],
-  ["Problem Solved","Defeat Chief Engineer DeSolver in The Swiftsteel Workshop.","May we all be blessed with everlasting prosperity.",2065],
-  ["Beyond Divinity","Defeat Archbishop Raferty in the Weary Hollow Chapel.","Where is your god now, eh?",2066],
-  ["Surpassing The Master","Defeat Bandit Mastermind Seiyria at The Fallen Pillar.","Banditry isn't a good career path, would not recommend.",2067],
-  ["Feeling Broody","Defeat Chromega, The Broodmother, atop the Dragons' Crown.","If you had several thousand kids, you would too.",2068],
-  ["Coming To A Point","Defeat Grand Archsage Reelix in the Ley Line Research Facility.","All the magical power in the world still couldn't stop you from killing him.",2069],
-  ["Too Hot To Handle","Defeat Magma Wyrm Mordoth deep within The Smouldering Heart.","Burning things are notoriously hard to loot.",2070],
-  ["High and Mighty","Defeat High Ashlord Kryzodoze atop the Pillar of Ash.","Knocking him off his several hundred foot high horse.",2071]
+  ["Terminally Unimaginative","Reach level 50 without naming anything that can be named.","Maybe it's best you leave everything at defaults after all...",2060],
+  ["Trolling the Troll","Defeat Massive Cave Troll Tetradigm in the Whispering Cave.","Maybe if he'd read that book, he would have learned how to not die.",2061],
+  ["Calm Down Dear","Defeat Ashen Berserker Ragekai in the Ash Cultist Outpost.","It's just a stab in the face, that's all. You won't feel a thing.",2062],
+  ["Time For A Shower","Defeat Swamp Behemoth Sythek in the Dawn's Light Swamp.","With this level of filth, you'll see me again in about a week.",2063],
+  ["All Change, Please","Defeat the Ethereal Train Driver at The Final Stop.","This service will terminate here. Please check all personal belongings when leaving the train.",2064],
+  ["Outgrown","Defeat the Lumbering Spore Giant within the Echoing Passage.","I'm bigger than you and I'm higher in the food chain!",2065],
+  ["Problem Solved","Defeat Chief Engineer DeSolver in The Swiftsteel Workshop.","May we all be blessed with everlasting prosperity.",2066],
+  ["Beyond Divinity","Defeat Archbishop Raferty in the Weary Hollow Chapel.","Where is your god now, eh?",2067],
+  ["Surpassing The Master","Defeat Bandit Mastermind Seiyria at The Fallen Pillar.","Banditry isn't a good career path, 0/10, would not recommend.",2068],
+  ["Feeling Broody","Defeat Chromega, The Broodmother, atop the Dragons' Crown.","If you had several thousand kids, you would too.",2069],
+  ["Coming To A Point","Defeat Grand Archsage Reelix in the Ley Line Research Facility.","All the magical power in the world still couldn't stop you from killing him.",2070],
+  ["Too Hot To Handle","Defeat Magma Wyrm Mordoth deep within The Smouldering Heart.","Burning things are notoriously hard to loot.",2071],
+  ["High and Mighty","Defeat High Ashlord Kryzodoze atop the Pillar of Ash.","Knocking him off his several hundred foot high horse.",2072]
 ];
 
 document.getElementById("loadedStrings").style.display = "";
