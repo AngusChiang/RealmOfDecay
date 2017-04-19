@@ -42,6 +42,8 @@ Realm of Decay v1.0.1
     • Eye for an Eye is a new single rank skill in the Defence tree, which deals 100% of blocked damage to the attacker upon a successful block. Branches from Victory Rush.
     • Second Wind is a new 5 rank skill in the Defence tree, which will negate a killing blow made against you and restore 6% of your maximum health per rank, once per battle. Branches from Last Bastion.
     • Bountiful Bags is a new 5 rank skill in the Support tree, which increases your inventory sizes by 3 slots per rank. Branches from Five Finger Discount.
+  • New Badges:
+    • Terminally Unimaginative is awarded for reaching level 50 without providing custom names or descriptions for anything.
   • Passive Effects on Stats
     • Player stats now provide an additional passive bonus, which scales with their value:
       • Strength gives a chance to block enemy attacks, reducing their damage by 25%.

@@ -437,7 +437,7 @@ Game.BADGE_LIST = [
   ["Potion Hoarder", "Own one of every type of potion.","Concoctions for all occasions!",2057],
   ["Expensive Tastes", "Fill your weapon and armour inventories with only Amazing quality items.","Your collection is worth HOW MUCH?!?!?",2058],
   ["Chasing Shadows","Reach an elite appearance chance of 20% or more.","I'm not afraid of the dark, I'm afraid of what it hides...",2059],
-  ["Terminally Unimaginative","Reach level 50 without naming anything that can be named.","Maybe it's best you leave everything at defaults after all...",2060],
+  ["Terminally Unimaginative","Reach level 50 without providing custom names or descriptions for anything.","Maybe it's best you leave everything at defaults after all...",2060],
   ["Trolling the Troll","Defeat Massive Cave Troll Tetradigm in the Whispering Cave.","Maybe if he'd read that book, he would have learned how to not die.",2061],
   ["Calm Down Dear","Defeat Ashen Berserker Ragekai in the Ash Cultist Outpost.","It's just a stab in the face, that's all. You won't feel a thing.",2062],
   ["Time For A Shower","Defeat Swamp Behemoth Sythek in the Dawn's Light Swamp.","With this level of filth, you'll see me again in about a week.",2063],
