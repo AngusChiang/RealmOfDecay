@@ -531,7 +531,7 @@ Game.upgradeWeaponQuality = function(weapon) {
       if(userWeaponName == null) { userWeaponName = ""; }
       if(userWeaponName.length > 40) { alert("The text provided was too long, please try something shorter."); }
       else if(/[<>|]/g.test(userWeaponName)) { alert("The text provided contained invalid characters, please try something else."); }
-      else { userWeaponName = userWeaponName.replace(/[<>|]/g,""); validWeaponName = true; }
+      else { userWeaponName = userWeaponName.replace(/[<>|]/g,""); validWeaponName = true; Game.PROGRESS_NO_NAMES = false; }
     }
     var validFlavourText = false;
     var userFlavourText = "";
@@ -540,7 +540,7 @@ Game.upgradeWeaponQuality = function(weapon) {
       if(userFlavourText == null) { userFlavourText = ""; }
       if(userFlavourText.length > 60) { alert("The text provided was too long, please try something shorter."); }
       else if(/[<>|]/g.test(userFlavourText)) { alert("The text provided contained invalid characters, please try something else."); }
-      else { userFlavourText = userFlavourText.replace(/[<>|]/g,""); validFlavourText = true; }
+      else { userFlavourText = userFlavourText.replace(/[<>|]/g,""); validFlavourText = true; Game.PROGRESS_NO_NAMES = false; }
     }
     if(userWeaponName.trim() === "") { Game.giveBadge(Game.BADGE_NO_NAME); } // Unimaginative
     if(userFlavourText.trim() === "") { Game.giveBadge(Game.BADGE_NO_FLAVOUR); } // Lacking in Flavour
@@ -588,7 +588,7 @@ Game.upgradeArmourQuality = function(armour) {
         if(userArmourName == null) { userArmourName = ""; }
         if(userArmourName.length > 40) { alert("The text provided was too long, please try something shorter."); }
         else if(/[<>|]/g.test(userArmourName)) { alert("The text provided contained invalid characters, please try something else."); }
-        else { userArmourName = userArmourName.replace(/[<>|]/g,""); validArmourName = true; }
+        else { userArmourName = userArmourName.replace(/[<>|]/g,""); validArmourName = true; Game.PROGRESS_NO_NAMES = false; }
       }
       var validFlavourText = false;
       var userFlavourText = "";
@@ -597,7 +597,7 @@ Game.upgradeArmourQuality = function(armour) {
         if(userFlavourText == null) { userFlavourText = ""; }
         if(userFlavourText.length > 60) { alert("The text provided was too long, please try something shorter."); }
         else if(/[<>|]/g.test(userFlavourText)) { alert("The text provided contained invalid characters, please try something else."); }
-        else { userFlavourText = userFlavourText.replace(/[<>|]/g,""); validFlavourText = true; }
+        else { userFlavourText = userFlavourText.replace(/[<>|]/g,""); validFlavourText = true; Game.PROGRESS_NO_NAMES = false; }
       }
       armour[0] = userArmourName + "|" + userFlavourText;
       if(userArmourName.trim() === "") { Game.giveBadge(Game.BADGE_NO_NAME); } // Unimaginative

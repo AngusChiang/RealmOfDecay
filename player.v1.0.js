@@ -46,7 +46,8 @@ Game.levelUp = function() {
   Game.p_EXP = 0;
   Game.p_NextEXP = Math.floor(Game.XP_INIT*Math.pow(Game.XP_MULT,Game.p_Level-1));
   if(Game.p_Level == 50) {
-    Game.badgeCheck(Game.BADGE_NO_SPEND);
+    Game.badgeCheck(Game.BADGE_NO_SPEND); // The Trade Blockade
+    if(Game.PROGRESS_NO_NAMES) { Game.giveBadge(Game.BADGE_NO_NAMES); } // Terminally Unimaginative
   }
   Game.p_StatPoints++;
   Game.combatLog("info","You gained a Stat Point.");
