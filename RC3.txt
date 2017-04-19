@@ -1,5 +1,5 @@
-Realm of Decay v1.0.1
----------------------
+Realm of Decay v1.1
+-------------------
 
   • Skill Rework
     • The skill trees have been redefined, and split into three broad categories:

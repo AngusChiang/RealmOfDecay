@@ -11,6 +11,22 @@ Game.ZONE_NAMES = [
   "Ley Line Research Facility",
   "The Smouldering Heart",
   "The Pillar of Ash"];
+// Sub-zones as follows; 
+// [Base Zone, Melee-Heavy Zone, Range-Heavy Zone, Magic-Heavy Zone]
+Game.SUB_ZONE_NAMES = [
+  ["Tangled Labyrinth","Claw-Scarred Run","Endless Depths","Lifegiving Springs"],
+  ["","","",""],
+  ["","","",""],
+  ["","","",""],
+  ["","","",""],
+  ["","","",""],
+  ["","","",""],
+  ["","","",""],
+  ["","","",""],
+  ["","","",""],
+  ["","","",""],
+  ["","","",""],
+];
 Game.ZONE_DESCRIPTIONS = [
   "What might appear to be a calm refuge in the wastes, the Whispering Cave soon revealed itself to be anything but that once explorers started to plumb its' depths. The cave plays home to a host of otherwise rare animals that sought sanctuary from the ravaging wars above ground, and the creatures do not take kindly to humans trespassing on one of the few places left for them to call home.",
   "The Ash Cult has long believed the world is overdue to be reborn in flames, and as such has been working around the clock to gather supplies and capture unwitting survivors in the hope of gathering a large enough offering to finally bring the wrath of the heavens down on the world. Small outposts like this one generally don't hold onto their captures for very long, yet if you're lucky there may be some pickings to be had before they're all transported away to their main fortress.",
@@ -79,7 +95,7 @@ Game.ZONE_BOSSES = [
    ["Exalt, Wrath of Heaven|Freshly delivered from on high.",70,202,2.1,236,280,122.86,226,395,[247,"Dazzle",20,40]],
    ["Archbishop's Shawl|You must be at least this holy to wear.",70,226,395,[[233,90]],[[234,80],[235,30]]]],
   ["Bandit Mastermind Seiyria",80,10250,690,
-   ["Ferrinoth, The Hunter's Mark|You'll know when you get hit with this, trust me.",80,202,2.6,322,383,135.58,226,445,[248,"Marked for Death",5,10]],
+   ["Ferrinoth, The Hunter's Mark|You'd swear those arrows have homing beacons on them.",80,202,2.6,322,383,135.58,226,445,[248,"Marked for Death",5,10]],
    ["Flame-Cured Dragon Leathers|Guaranteed to be fireproof, or your money back!",80,226,445,[[233,100],[232,50]],[[234,90]]]],
   ["Chromega, The Broodmother",90,12600,840,
    ["Breath of the Broodmother|Dragons don't need no stinking weapons!",90,203,2.6,360,428,151.54,226,495,[243,"Cauterize",20,40]],
