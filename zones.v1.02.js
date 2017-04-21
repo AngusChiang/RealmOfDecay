@@ -11,22 +11,6 @@ Game.ZONE_NAMES = [
   "Ley Line Research Facility",
   "The Smouldering Heart",
   "The Pillar of Ash"];
-// Sub-zones as follows; 
-// [Base Zone, Melee-Heavy Zone, Range-Heavy Zone, Magic-Heavy Zone]
-Game.SUB_ZONE_NAMES = [
-  ["Tangled Labyrinth","Claw-Scarred Run","Endless Depths","Lifegiving Springs"],
-  ["","","",""],
-  ["","","",""],
-  ["","","",""],
-  ["","","",""],
-  ["","","",""],
-  ["","","",""],
-  ["","","",""],
-  ["","","",""],
-  ["","","",""],
-  ["","","",""],
-  ["","","",""],
-];
 Game.ZONE_DESCRIPTIONS = [
   "What might appear to be a calm refuge in the wastes, the Whispering Cave soon revealed itself to be anything but that once explorers started to plumb its' depths. The cave plays home to a host of otherwise rare animals that sought sanctuary from the ravaging wars above ground, and the creatures do not take kindly to humans trespassing on one of the few places left for them to call home.",
   "The Ash Cult has long believed the world is overdue to be reborn in flames, and as such has been working around the clock to gather supplies and capture unwitting survivors in the hope of gathering a large enough offering to finally bring the wrath of the heavens down on the world. Small outposts like this one generally don't hold onto their captures for very long, yet if you're lucky there may be some pickings to be had before they're all transported away to their main fortress.",

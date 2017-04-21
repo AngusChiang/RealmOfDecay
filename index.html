@@ -212,57 +212,57 @@
                   <table id="helpTable" style="display:none;">
                     <tr>
                       <td>
-                        <div class="powerHeader">Introduction</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('introBlock');">Introduction</div>
 
-                        <p>Remember that old saying, 'war never changes'? Yea, the guys who came up with that never banked on the ground breaking re-discovery of magic, long considered unfeasible by society at large and persecuted out of existence centuries ago.</p>
+                        <p class="introBlock">Remember that old saying, 'war never changes'? Yea, the guys who came up with that never banked on the ground breaking re-discovery of magic, long considered unfeasible by society at large and persecuted out of existence centuries ago.</p>
 
-                        <p>With society being what it was at the time, precious few people outside of government agencies knew of these developments, or of the raw power that could be harnessed with them, until that power was brought to bear against them. When concrete information finally came to light about the discoveries, millions had already fallen in titanic struggles worldwide, the result of militaries across the globe testing the limits and applications of their new-found strength.</p>
+                        <p class="introBlock">With society being what it was at the time, precious few people outside of government agencies knew of these developments, or of the raw power that could be harnessed with them, until that power was brought to bear against them. When concrete information finally came to light about the discoveries, millions had already fallen in titanic struggles worldwide, the result of militaries across the globe testing the limits and applications of their new-found strength.</p>
 
-                        <p>However, their meddling with the powers laying dormant within the planet has come at a great cost. Some once verdant areas of the land are fading away without warning or visible cause, to be reduced to deserted and arid areas. On top of this, those who most consistently exercised their magical prowess have found themselves suffering from a myriad of strange and incomprehensible effects: seemingly random loss of limbs, sudden blindness, occasionally bursting into flame, that sort of thing.</p>
+                        <p class="introBlock">However, their meddling with the powers laying dormant within the planet has come at a great cost. Some once verdant areas of the land are fading away without warning or visible cause, to be reduced to deserted and arid areas. On top of this, those who most consistently exercised their magical prowess have found themselves suffering from a myriad of strange and incomprehensible effects: seemingly random loss of limbs, sudden blindness, occasionally bursting into flame, that sort of thing.</p>
 
-                        <p>And then there's you. Once a prominent researcher at the Ley Line Research Facility, your life was turned upside down when you fell victim to an interesting, if maddening ailment - your hands, usually good for just about anything, now cause a noticeable increase in the rate at which non-natural objects degrade when held. This problem was discovered when an incredibly valuable ancient artifact crumbled to dust in your hands, costing the facility millions.</p>
+                        <p class="introBlock">And then there's you. Once a prominent researcher at the Ley Line Research Facility, your life was turned upside down when you fell victim to an interesting, if maddening ailment - your hands, usually good for just about anything, now cause a noticeable increase in the rate at which non-natural objects degrade when held. This problem was discovered when an incredibly valuable ancient artifact crumbled to dust in your hands, costing the facility millions.</p>
 
-                        <p>Now with nothing left to return to, you find yourself living off scraps and foraging in a cave system some distance away from the facility. Seeking to right some of the many wrongs committed by your colleagues and the people they now serve, you cobble together a crude weapon and head out into the ravaged world to mete out justice, one way or another.</p>
+                        <p class="introBlock">Now with nothing left to return to, you find yourself living off scraps and foraging in a cave system some distance away from the facility. Seeking to right some of the many wrongs committed by your colleagues and the people they now serve, you cobble together a crude weapon and head out into the ravaged world to mete out justice, one way or another.</p>
 
-                        <div class="powerHeader">Combat Mechanics</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('combatBlock');">Combat Mechanics</div>
 
-                        <p>Everything in the Realm is out to kill you, whether it's for survival or just because they don't like your face, so it's in your best interest to learn how fighting works. Each combatant will have two pieces of equipment to consider: their weapon, which dictates the amount and type of damage they will deal, and their armour, which dictates how much damage they will take. When looking at the 'Combat' tab, these items are laid out side by side, along with the combatant names and health pools.</p>
+                        <p class="combatBlock hiddenElement">Everything in the Realm is out to kill you, whether it's for survival or just because they don't like your face, so it's in your best interest to learn how fighting works. Each combatant will have two pieces of equipment to consider: their weapon, which dictates the amount and type of damage they will deal, and their armour, which dictates how much damage they will take. When looking at the 'Combat' tab, these items are laid out side by side, along with the combatant names and health pools.</p>
 
-                        <p>When combat begins - initiated by the 'Look for something to kill' button - a target will be located for you, and then the two of you will begin trading blows until either you fall, the target falls, or you run away.</p>
+                        <p class="combatBlock hiddenElement">When combat begins - initiated by the 'Look for something to kill' button - a target will be located for you, and then the two of you will begin trading blows until either you fall, the target falls, or you run away.</p>
 
-                        <p>When attacking a target, the damage you deal is based on a few things:</p>
-                        <ul>
+                        <p class="combatBlock hiddenElement">When attacking a target, the damage you deal is based on a few things:</p>
+                        <ul class="combatBlock hiddenElement">
                           <li>The attack damage on your weapon;</li>
                           <li>The value of the stat relating to your current weapon (Strength for melee, Dexterity for ranged, Intelligence for magic);</li>
                           <li>Any resistances or vulnerabilities on the target's armour;</li>
                           <li>Any powers that inflence damage dealt.</li>
                         </ul>
 
-                        <p>And when your target decides to fight back, the damage they deal to you is based on a similar set of values:</p>
-                        <ul>
+                        <p class="combatBlock hiddenElement">And when your target decides to fight back, the damage they deal to you is based on a similar set of values:</p>
+                        <ul class="combatBlock hiddenElement">
                           <li>The attack damage on their weapon;</li>
                           <li>Their 'main stat' value (this plays the same role yours does in your damage calculation);</li>
                           <li>Any resistances or vulnerabilities on your armour;</li>
                           <li>Any powers that influence damage taken.</li>
                         </ul>
 
-                        <p>Your offensive options during combat are limited to fleeing, using a potion, and using a Burst Attack. The Burst Attack button is simply a single strike delivered instantly to the target, respecting all the usual rules regarding how much damage is dealt, as well as resetting the time delay between attacks.</p>
+                        <p class="combatBlock hiddenElement">Your offensive options during combat are limited to fleeing, and using a Burst Attack. The Burst Attack button is simply a single strike delivered instantly to the target, respecting all the usual rules regarding how much damage is dealt, as well as resetting the time delay between attacks.</p>
 
-                        <p>When you are not in combat, your health regenerates based on your Constitution value. That value also increases the size of your maximum health pool, which is good for the whole 'not dying' thing.</p>
+                        <p class="combatBlock hiddenElement">When you are not in combat, your health regenerates based on your Constitution value. That value also increases the size of your maximum health pool, which is good for the whole 'not dying' thing.</p>
 
-                        <div class="powerHeader">Debuffs</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('debuffBlock');">Debuffs</div>
 
-                        <p>Weapons of particularly high quality will have a debuff attached to them. Each strike that is delivered with the weapon in combat has a 10% chance to apply the debuff to the target. If the debuff does damage to the target, that damage ignores any armour they are wearing. Note the ambiguity - your enemies can also take advantage of debuffs if they have a weapon that carries one, in the same way that you can.</p>
+                        <p class="debuffBlock hiddenElement">Weapons of particularly high quality will have a debuff attached to them. Each strike that is delivered with the weapon in combat has a 10% chance to apply the debuff to the target. If the debuff does damage to the target, that damage ignores any armour they are wearing. Note the ambiguity - your enemies can also take advantage of debuffs if they have a weapon that carries one, in the same way that you can.</p>
 
-                        <p>A full listing of the debuffs in the game and their effects is available in the Store tab.</p>
+                        <p class="debuffBlock hiddenElement">A full listing of the debuffs in the game and their effects is available in the Store tab.</p>
 
-                        <div class="powerHeader">Powers</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('powerBlock');">Powers</div>
 
-                        <p>The ability to break things by holding them isn't the only interesting ability you have access to - the Powers tab lists a number of additional effects that can apply to you and be honed and strengthened through the leveling process. You'll gain a point every level to spend on this tab, and most of the listed powers unlock additional subsidiaries once they reach maximum strength - although you can only level one subsidiary power at once. Located on this tab is also the 'Reset Powers' button - for a small fee of scrap based on total Power Points earned, you can clear your mind, and thus your power selection, and then re-assign points to your taste.</p>
+                        <p class="powerBlock hiddenElement">The ability to break things by holding them isn't the only interesting ability you have access to - the Powers tab lists a number of additional effects that can apply to you and be honed and strengthened through the leveling process. You'll gain a point every level to spend on this tab, and most of the listed powers unlock additional subsidiaries once they reach maximum strength - although you can only level one subsidiary power at once. Located on this tab is also the 'Reset Powers' button - for a small fee of scrap based on total Power Points earned, you can clear your mind, and thus your power selection, and then re-assign points to your taste.</p>
 
-                        <div class="powerHeader">Item Quality</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('qualityBlock');">Item Quality</div>
 
-                        <p>The quality of items dictates several things: the number and strength of individual armour resistances and vulnerabilities, the damage ranges available on weapons, and the availability and potency of debuffs on weapons. There are six 'tiers' of quality, although only five of those are available to you. These tiers and their effects on equipment are as follows:<br /><br />
+                        <p class="qualityBlock hiddenElement">The quality of items dictates several things: the number and strength of individual armour resistances and vulnerabilities, the damage ranges available on weapons, and the availability and potency of debuffs on weapons. There are six 'tiers' of quality, although only five of those are available to you. These tiers and their effects on equipment are as follows:<br /><br />
 
                           <span class="q221">Poor (grey)</span> items are the lowest quality of item.<br />
                           - Weapons of poor quality have 90% of their intended damage values.<br />
@@ -283,48 +283,48 @@
                           - Weapons of legendary quality deal more damage and have more potent debuffs than even amazing weapons.<br />
                           - Armours of legendary quality are not strictly better than amazing armours - they instead serve to enforce a weakness on bosses for the player to take advantage of.</p>
 
-                        <div class="powerHeader">Durability and Decay</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('duraBlock');">Durability and Decay</div>
 
-                        <p>All equipment has a set amount of durability - a measure of how close an item is to becoming unusable. When an item reaches 0 durability, its effect is diminished significantly: weapons have their damage output cut in half and can no longer apply their debuffs, and armour resistances no longer apply (although vulnerabilities still apply even when armour is broken).</p>
+                        <p class="duraBlock hiddenElement">All equipment has a set amount of durability - a measure of how close an item is to becoming unusable. When an item reaches 0 durability, its effect is diminished significantly: weapons have their damage output cut in half and can no longer apply their debuffs, and armour resistances no longer apply (although vulnerabilities still apply even when armour is broken).</p>
 
-                        <p>To combat this, you have the ability to repair items. This is done at no cost, but takes time to complete based on your level and the level of the items being repaired. During the repair process, you are free to switch out items of equipment for other damaged items without interrupting the repairing procedure. Entering combat will halt the repair process if it is running.</p>
+                        <p class="duraBlock hiddenElement">To combat this, you have the ability to repair items. This is done at no cost, but takes time to complete based on your level and the level of the items being repaired. During the repair process, you are free to switch out items of equipment for other damaged items without interrupting the repairing procedure. Entering combat will halt the repair process if it is running.</p>
 
-                        <div class="powerHeader">Items</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('itemsBlock');">Items</div>
 
-                        <p>The 'Items' tab plays host to a listing of all items you are currently carrying, and presents options as to how they can be used. Items can be freely equipped, sold, scrapped or discarded from this tab at any time, even during combat - worth remembering if you come up against an opponent whose weakness you can't exploit with your currently equipped weapon, or one who keeps taking advantage of a gap in your defences.</p>
+                        <p class="itemsBlock hiddenElement">The 'Items' tab plays host to a listing of all items you are currently carrying, and presents options as to how they can be used. Items can be freely equipped, sold, scrapped or discarded from this tab at any time, even during combat - worth remembering if you come up against an opponent whose weakness you can't exploit with your currently equipped weapon, or one who keeps taking advantage of a gap in your defences.</p>
 
-                        <p>Selling an item rewards you with an amount of seeds (the currency of the Realm) based on that item's level and quality. Scrapping an item rewards you with a small amount of scrap based on the quality of the destroyed item. Both seeds and scrap are used in the Store to enhance or replace your equipment.</p>
+                        <p class="itemsBlock hiddenElement">Selling an item rewards you with an amount of seeds (the currency of the Realm) based on that item's level and quality. Scrapping an item rewards you with a small amount of scrap based on the quality of the destroyed item. Both seeds and scrap are used in the Store to enhance or replace your equipment.</p>
 
-                        <div class="powerHeader">The Store</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('storeBlock');">The Store</div>
 
-                        <p>The Store is your centralised hub for equipment enhancement or replacement. Here, you can perform the following actions:</p>
-                        <ul>
+                        <p class="storeBlock hiddenElement">The Store is your centralised hub for equipment enhancement or replacement. Here, you can perform the following actions:</p>
+                        <ul class="storeBlock hiddenElement">
                           <li>Spend seeds to increase the level of your equipped weapon and/or armour;</li>
                           <li>Spend seeds to purchase quality weapons and armour which may be otherwise difficult to find.</li>
                           <li>Spend scrap to increase the quality of your equipped weapon and/or armour;</li>
                           <li>Spend scrap to apply a debuff to your equipped weapon or replace it with a better one;</li>
                         </ul>
 
-                        <p>When purchasing item quality upgrades, raising the quality past certain thresholds causes additional things to happen. When an item is upgraded to 'Great' quality, you have the option of applying a custom name and piece of flavour text to that weapon. When upgrading a weapon specifically, it is granted a random debuff once it reaches 'Good' quality, which it retains through further quality upgrades unless it is replaced using the option in the Store. When upgrading armour, the distribution of strengths and vulnerabilities shifts, in accordance with the guides set in the 'Item Quality' section above.</p>
+                        <p class="storeBlock hiddenElement">When purchasing item quality upgrades, raising the quality past certain thresholds causes additional things to happen. When an item is upgraded to 'Great' quality, you have the option of applying a custom name and piece of flavour text to that weapon. When upgrading a weapon specifically, it is granted a random debuff once it reaches 'Good' quality, which it retains through further quality upgrades unless it is replaced using the option in the Store. When upgrading armour, the distribution of strengths and vulnerabilities shifts, in accordance with the guides set in the 'Item Quality' section above.</p>
 
-                        <p>Items upgraded using the Store cannot reach Legendary quality.</p>
+                        <p class="storeBlock hiddenElement">Items upgraded using the Store cannot reach Legendary quality.</p>
 
-                        <div class="powerHeader">Options</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('optionsBlock');">Options</div>
 
-                        <p>The 'Options' tab is home to a number of configuration options that didn't necessarily belong in other tabs, including controls for the auto-battle system, configuration options for the bulk sell and scrap buttons on the Items tab, and manual saving and resetting.</p>
+                        <p class="optionsBlock hiddenElement">The 'Options' tab is home to a number of configuration options that didn't necessarily belong in other tabs, including controls for the auto-battle system, configuration options for the bulk sell and scrap buttons on the Items tab, and manual saving and resetting.</p>
 
-                        <p>The auto-battle system is what makes this game semi-idle: it will attempt to initiate combat whenever your health is full, will flee from combat if you are close to death, repair items if they have broken or are close to doing so, and bulk sell or scrap items if your inventories get full.</p>
+                        <p class="optionsBlock hiddenElement">The auto-battle system is what makes this game semi-idle: it will attempt to initiate combat whenever your health is full, will flee from combat if you are close to death, repair items if they have broken or are close to doing so, and bulk sell or scrap items if your inventories get full.</p>
 
-                        <p>The auto-battle system will not do certain things, though: It will not change your equipment for you, it will not attempt to upgrade or purchase new equipment in the Store, nor will it attempt to spend any of your Stat Points or Power Points for you. The auto-battle system will stop running automatically if either section of your inventory is full after the usual selling or scrapping has occured.</p>
+                        <p class="optionsBlock hiddenElement">The auto-battle system will not do certain things, though: It will not change your equipment for you, it will not attempt to upgrade or purchase new equipment in the Store, nor will it attempt to spend any of your Stat Points or Power Points for you. The auto-battle system will stop running automatically if either section of your inventory is full after the usual selling or scrapping has occured.</p>
 
-                        <div class="powerHeader">Badges</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('badgeBlock');">Badges</div>
 
-                        <p>During your time in the Realm, you'll make progress towards the earning of 'badges' - one time rewards for reaching milestones and performing certain feats within the game world. Each of these badges grants a 2% boost to seeds and experience gained from combat.</p>
+                        <p class="badgeBlock hiddenElement">During your time in the Realm, you'll make progress towards the earning of 'badges' - one time rewards for reaching milestones and performing certain feats within the game world. Each of these badges grants a 2% boost to seeds and experience gained from combat.</p>
 
-                        <div class="powerHeader">Key Bindings</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('bindingBlock');">Key Bindings</div>
 
-                        <p>A number of game functions are mapped to keys on the keyboard for easy access, as follows:</p>
-                        <ul>
+                        <p class="bindingBlock hiddenElement">A number of game functions are mapped to keys on the keyboard for easy access, as follows:</p>
+                        <ul class="bindingBlock hiddenElement">
                           <li>1 - Activates the Player tab.</li>
                           <li>2 - Activates the Combat tab.</li>
                           <li>3 - Activates the Powers tab.</li>
@@ -350,29 +350,125 @@
                         <p><strong>Version 1.0 RC2</strong></p>
                         <p>Changes in this version:</p>
                         <ul>
-                          <li>Quality of Life<ul>
-                            <li>The Inventory Clean button and the auto-battle function now provide a summary of the resources gained from processing all of the player's items, instead of a single message for each item.</li>
-                            <li>Clicking on a toast notification will dismiss it and display the next one in the queue, if there is one.</li>
-                          </ul></li>
-                          <li>Bug Fixes<ul>
-                            <li>Fixed an issue wherein the automatic clearing of the inventory by the auto-battle function was not triggering.</li>
-                            <li>Fixed an issue wherein the keybinding for Burst Attack was placing it on cooldown without performing the attack.</li>
-                            <li>You can no longer change zones while in combat.</li>
-                            <li>Fixed an edge case where the 'Wherefore Art Thou, Romeo?' badge could be unlocked by inflicting Sleep with a killing blow.</li>
-                            <li>Fixed an issue where cancelling out of the item renaming dialogue would result in wasted scrap.</li>
-                          </ul></li>
-                          <li>Badges and Tracking<ul>
-                            <li>The descriptions and flavour text on badges are now permanetly visible, even if the badge has not yet been earned.</li>
-                            <li>The boost to seed and experience gains from badges have been increased to 2% per badge.</li>
-                          </ul></li>
-                          <li>Balance Changes<ul>
-                            <li>The shop stock is now level capped to the lower value out of your character's level and the level cap for your current zone.</li>
-                            <li>To accompany the above change, the shop inventory now regenerates when changing zones.</li>
-                            <li>The Sleep debuff is now much more likely to break as a result of incoming damage.</li>
-                          </ul></li>
-                          <li>Known Issues<ul>
-                            <li>The badges 'Alchemical Bombardment', 'Trust Me, I'm a Doctor', 'Dirty Tactics', 'Potion Hoarder' and 'Full House' are still unattainable due to the postponement of the Potions mechanic.</li>
-                            </ul></li>
+                          <li>
+                            Balance Changes
+                            <ul>
+                              <li>
+                                Player stats now provide an additional passive bonus, which scales with their value subject to diminishing returns:
+                                <ul>
+                                  <li><strong>Strength</strong> gives a chance to block enemy attacks, reducing the damage taken by 25%;</li>
+                                  <li><strong>Dexterity</strong> gives a chance to critically strike enemies for 50% increased damage;</li>
+                                  <li><strong>Intelligence</strong> gives a chance to dodge an incoming attack, preventing all effects of it;</li>
+                                  <li><strong>Constitution</strong> gives a chance to restore health equal to your Constitution value when attacking.</li>
+                                </ul>
+                              </li>
+                              <li>
+                                The base from which enemy stat scaling is calculated has been increased slightly, for both normal and elite foes. This will be most noticeable at lower levels.
+                              </li>
+                            </ul>
+                          </li>
+                          <li>
+                            Skill Changes
+                            <ul>
+                              <li>
+                                The skill tree has been completely redefined and split into three broad sections:
+                                <ul>
+                                  <li>The <strong>Offense</strong> tree focuses on skills that increase damage done and effects that occur when attacking;</li>
+                                  <li>The <strong>Defence</strong> tree focuses on skills that decrease damage taken and effects that occur when attacked;</li>
+                                  <li>The <strong>Support</strong> tree focuses on quality of life upgrades that don't fit into either of the above trees.</li>
+                                </ul>
+                              </li>
+                              <li>
+                                The 'Intuition' skill has been renamed to 'Undermine'
+                              </li>
+                              <li>
+                                The 'Will to Live' skill has been renamed to 'Victory Rush' and now restores 5% health per rank when you defeat an enemy.
+                              </li>
+                              <li>
+                                The 'Survival Instincts' skill now directly increases repair and regen values instead of reducing the time between ticks.
+                              </li>
+                              <li>
+                                Restrictions on purchasing certain skill combinations have been removed, with the exception of the split between 'Reflective Shield' and 'Absorption Shield'.
+                              </li>
+                              <li>
+                                Many skills have had their values per rank and number of ranks changed, as follows:
+                                <ul>
+                                  <li>Proper Care (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)</li>
+                                  <li>Pickpocket (10 ranks -> 5 ranks)</li>
+                                  <li>Divine Shield (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)</li>
+                                  <li>Luck of the Draw (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)</li>
+                                  <li>Fast Learner (10 ranks -> 5 ranks)</li>
+                                  <li>Flurry (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)</li>
+                                  <li>Survival Instincts (10 ranks -> 5 ranks, 2% per rank -> 4% per rank)</li>
+                                  <li>Deadly Force (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)</li>
+                                  <li>Ancestral Fortitude (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)</li>
+                                  <li>Nimble Fingers (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)</li>
+                                  <li>Expose Weakness (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)</li>
+                                  <li>Bartering (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)</li>
+                                  <li>Patience and Discipline (1% per rank -> 2% per rank)</li>
+                                  <li>Empowered Flurry (4% per rank -> 5% per rank)</li>
+                                  <li>Overcharge (25% per rank -> 35% per rank)</li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                          <li>
+                            New Skills
+                            <ul>
+                              <li><strong>Armour Mastery</strong> is the new base skill in the Defence tree, increasing the potency of armour bonuses by 5% per rank (rounded up to the nearest point).</li>
+                              <li><strong>Terminal Illness</strong> is a new single rank skill in the Offense tree, allowing the player to refresh debuff timers if they are reapplied during their duration. Branches from Expose Weakness.</li>
+                              <li><strong>Bloodlust</strong> is a new single rank skill in the Offense tree, which refreshes your Burst Attack cooldown upon a critical hit. Branches from Keener Eye.</li>
+                              <li><strong>Shield Wall</strong> is a new 5 rank skill in the Defence tree, increasing block chance by 1% per rank. Branches from Ancestral Fortitude.</li>
+                              <li><strong>Shield Crush</strong> is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to ignore enemy armour bonuses. Branches from Shield Wall.</li>
+                              <li><strong>Hold The Line</strong> is a new single rank skill in the Defence tree, guaranteeing a block whenever Shield Crush activates. Branches from Shield Crush.</li>
+                              <li><strong>Stand Your Ground</strong> is a new single rank skill in the Defence tree, which removes the active debuff on you when Shield Crush activates. Branches from Shield Crush.</li>
+                              <li><strong>Riposte</strong> is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to Disarm the attacker upon a successful block. Branches from Hold the Line.</li>
+                              <li><strong>Bladed Armour</strong> is a new 5 rank skill in the Defence tree, that deals a flat 2% per rank of damage taken to an attacker. Branches from Shield Wall.</li>
+                              <li><strong>Artful Dodger</strong> is a new single rank skill in the Defence tree, causing successful dodges to refresh the cooldown on your Burst Attack. Branches from Victory Rush.</li>
+                              <li><strong>Eye for an Eye</strong> is a new single rank skill in the Defence tree, which deals 100% of blocked damage to the attacker upon a successful block. Branches from Victory Rush.</li>
+                              <li><strong>Second Wind</strong> is a new 5 rank skill in the Defence tree, which will negate a killing blow made against you and restore 6% of your maximum health per rank, once per battle. Branches from Last Bastion.</li>
+                              <li><strong>Bountiful Bags</strong> is a new 5 rank skill in the Support tree, which increases your inventory sizes by 3 slots per rank. Branches from Five Finger Discount.</li>
+                            </ul>
+                          </li>
+                          <li>
+                            Badge Changes
+                            <ul>
+                              <li>
+                                All badges relating to reaching maximum levels with specific skills have been removed.
+                              </li>
+                              <li>
+                                A new badge, <strong>Terminally Unimaginative</strong>, is awarded for reaching level 50 without providing custom names or descriptions for anything.
+                              </li>
+                            </ul>
+                          </li>
+                          <li>
+                            Bug Fixes
+                            <ul>
+                              <li>
+                                Fixed an issue where the 'Proper Care' skill was less likely to activate than it should have been.
+                              </li>
+                              <li>
+                                Fixed an issue where the 'Master Tinkerer' skill was much less effective than intended.
+                              </li>
+                              <li>
+                                Fixed an issue where the UI on the Player tab was often unresponsive due to excessive redrawing operations.
+                              </li>
+                            </ul>
+                          </li>
+                          <li>
+                            Miscellaneous Changes
+                            <ul>
+                              <li>
+                                Purchased skills will no longer remain in the 'Available Skills' section of the Skills tab once they have reached their maximum level.
+                              </li>
+                              <li>
+                                New players will now load into the Updates tab by default when playing for the first time.
+                              </li>
+                              <li>
+                                The various sections of the Help tab are now collapsible, and all but the Introduction section are collapsed by default.
+                              </li>
+                            </ul>
+                          </li>
                         </ul>
                       </td>
                     </tr>
