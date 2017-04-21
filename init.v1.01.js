@@ -357,7 +357,7 @@ Game.init = function() {
   this.autoSell_options = ["SELL","SCRAP","IGNORE","IGNORE","IGNORE"];
   if(!this.load()) {
     this.initPlayer(1);
-    this.showPanel("helpTable");
+    this.showPanel("updateTable");
     this.repopulateShop();
     this.save(true);
   }
@@ -730,6 +730,18 @@ function updateElementIDContent(elID, content) {
   var T = document.getElementById(elID);
   if (T !== null) {
     T.innerHTML = content;
+  }
+}
+
+function toggleHelpVis(blockname) {
+  var elementList = document.body.querySelectorAll("." + blockname);
+  for(var i = 0; i < elementList.length; i++) {
+    if(elementList[i].classList.contains("hiddenElement")) {
+      elementList[i].classList.remove("hiddenElement");
+    }
+    else {
+      elementList[i].classList.add("hiddenElement");
+    }
   }
 }
 

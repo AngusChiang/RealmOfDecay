@@ -29,7 +29,8 @@ Game.repairTick = function() {
     Game.toastNotification("Equipment repaired.");
   }
   Game.updateInventory = true;
-  Game.drawActivePanel();
+  //Game.drawActivePanel();
+  Game.updateActivePanel();
 }
 Game.idleHeal = function() {
   // Todo: Finish the updateActivePanel function.
