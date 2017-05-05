@@ -802,7 +802,7 @@ Game.createZonePanel = function(zoneID, active) {
   if(active) {
     var descSection = document.createElement("td");
     descSection.setAttribute("colspan",2);
-    descSection.innerHTML = (Game.p_maxZone+1) >= zoneID ? Game.ZONE_DESCRIPTIONS[zoneID] : "???";
+    descSection.innerHTML = Game.p_maxZone >= zoneID ? Game.ZONE_DESCRIPTIONS[zoneID] : "???";
     row2.appendChild(descSection);
     panel.appendChild(row2);
   }
