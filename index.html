@@ -8,7 +8,7 @@
 		<div id="main">
       <table id="topBar">
         <tr>
-          <td style="text-align:center;width:125px;"><span><strong>Realm of Decay</strong> <br /><span style="font-size:10px;">Version 1.0 RC2</span></span></td>
+          <td style="text-align:center;width:125px;"><span><strong>Realm of Decay</strong> <br /><span style="font-size:10px;">Version 1.1</span></span></td>
           <td class="topBarButton" id="playerTab">Player</td>
           <td class="topBarButton" id="combatTab">Combat</td>
           <td class="topBarButton" id="zoneTab">Zones</td>
@@ -379,35 +379,128 @@
                                 </ul>
                               </li>
                               <li>
-                                The 'Intuition' skill has been renamed to 'Undermine'
-                              </li>
-                              <li>
-                                The 'Will to Live' skill has been renamed to 'Victory Rush' and now restores 5% health per rank when you defeat an enemy.
-                              </li>
-                              <li>
-                                The 'Survival Instincts' skill now directly increases repair and regen values instead of reducing the time between ticks.
-                              </li>
-                              <li>
                                 Restrictions on purchasing certain skill combinations have been removed, with the exception of the split between 'Reflective Shield' and 'Absorption Shield'.
                               </li>
                               <li>
-                                Many skills have had their values per rank and number of ranks changed, as follows:
+                                The following skills have been updated:
                                 <ul>
-                                  <li>Proper Care (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)</li>
-                                  <li>Pickpocket (10 ranks -> 5 ranks)</li>
-                                  <li>Divine Shield (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)</li>
-                                  <li>Luck of the Draw (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)</li>
-                                  <li>Fast Learner (10 ranks -> 5 ranks)</li>
-                                  <li>Flurry (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)</li>
-                                  <li>Survival Instincts (10 ranks -> 5 ranks, 2% per rank -> 4% per rank)</li>
-                                  <li>Deadly Force (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)</li>
-                                  <li>Ancestral Fortitude (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)</li>
-                                  <li>Nimble Fingers (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)</li>
-                                  <li>Expose Weakness (10 ranks -> 5 ranks, 1% per rank -> 2% per rank)</li>
-                                  <li>Bartering (10 ranks -> 5 ranks, 2% per rank -> 3% per rank)</li>
-                                  <li>Patience and Discipline (1% per rank -> 2% per rank)</li>
-                                  <li>Empowered Flurry (4% per rank -> 5% per rank)</li>
-                                  <li>Overcharge (25% per rank -> 35% per rank)</li>
+                                  <li><strong>Intuition</strong>
+                                    <ul>
+                                      <li>Renamed to 'Undermine'</li>
+                                    </ul>
+                                  </li>
+                                  <li><strong>Will To Live</strong>
+                                    <ul>
+                                      <li>Renamed to 'Victory Rush'</li>
+                                      <li>Updated to restore 5% health per rank upon defeating an enemy.</li>
+                                    </ul>
+                                  </li>
+                                  <li><strong>Master Tinkerer</strong>
+                                    <ul>
+                                      <li>Fixed an issue where this skill was far less effective than originally intended.</li>
+                                    </ul>
+                                  </li>
+                                  <li><strong>Survival Instincts</strong>
+                                    <ul>
+                                      <li>Has been changed to directly increase the amounts healed and repaired, instead of speeding up the ticks.</li>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                      <li>Increased the bonus amount healed and repaired to 4% per rank (up from 2%).</li>
+                                    </ul>
+                                  </li>
+                                  <li><strong>Proper Care</strong>
+                                    <ul>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                      <li>Each rank provides a 3% chance to prevent durability loss (up from 2%).</li>
+                                      <li>Fixed an issue where it was less likely to activate than it should have been.</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Pickpocket</strong>
+                                    <ul>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Divine Shield</strong>
+                                    <ul>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                      <li>Chance to nullify attacks is now 2% per rank (up from 1%).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Luck of the Draw</strong>
+                                    <ul>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                      <li>Chance to gain an additional Stat Point is now 2% per rank (up from 1%).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Fast Learner</strong>
+                                    <ul>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Flurry</strong>
+                                    <ul>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                      <li>Chance to deliver a second attack is now 2% per rank (up from 1%).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Deadly Force</strong>
+                                    <ul>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                      <li>Damage increase is now 3% per rank (up from 2%).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Ancestral Fortitude</strong>
+                                    <ul>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                      <li>Damage reduction is now 3% per rank (up from 2%).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Nimble Fingers</strong>
+                                    <ul>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                      <li>Attack speed increase is now 3% per rank (up from 2%).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Expose Weakness</strong>
+                                    <ul>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                      <li>Debuff application rate increase is now 2% per rank (up from 1%).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Bartering</strong>
+                                    <ul>
+                                      <li>Now has 5 ranks available (down from 10).</li>
+                                      <li>Price reduction is now 3% per rank (up from 2%).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Patience and Discipline</strong>
+                                    <ul>
+                                      <li>Chance of an additional stat boost is now 2% per rank (down from 3%).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Empowered Flurry</strong>
+                                    <ul>
+                                      <li>Damage increase is now 5% per rank (up from 4%).</li>
+                                    </ul>
+                                  </li>
+                                  <li>
+                                    <strong>Overcharge</strong>
+                                    <ul>
+                                      <li>Damage increase is now 35% (up from 25%).</li>
+                                    </ul>
+                                  </li>
+                                  <li>Overcharge<br /><span style="width:1em;">&nbsp;</span>(25% per rank -> 35% per rank)</li>
                                 </ul>
                               </li>
                             </ul>
@@ -431,7 +524,7 @@
                             </ul>
                           </li>
                           <li>
-                            Badge Changes
+                            Miscellaneous Changes
                             <ul>
                               <li>
                                 All badges relating to reaching maximum levels with specific skills have been removed.
@@ -439,25 +532,9 @@
                               <li>
                                 A new badge, <strong>Terminally Unimaginative</strong>, is awarded for reaching level 50 without providing custom names or descriptions for anything.
                               </li>
-                            </ul>
-                          </li>
-                          <li>
-                            Bug Fixes
-                            <ul>
-                              <li>
-                                Fixed an issue where the 'Proper Care' skill was less likely to activate than it should have been.
-                              </li>
-                              <li>
-                                Fixed an issue where the 'Master Tinkerer' skill was much less effective than intended.
-                              </li>
                               <li>
                                 Fixed an issue where the UI on the Player tab was often unresponsive due to excessive redrawing operations.
                               </li>
-                            </ul>
-                          </li>
-                          <li>
-                            Miscellaneous Changes
-                            <ul>
                               <li>
                                 Purchased skills will no longer remain in the 'Available Skills' section of the Skills tab once they have reached their maximum level.
                               </li>
