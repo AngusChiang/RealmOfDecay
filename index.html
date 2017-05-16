@@ -124,7 +124,7 @@
                             <td id="purchased_area"></td>
                           </tr>
                         </table>
-                        <span class="nonPanelButton" id="powerReset" onclick="Game.resetPowers();">Reset your Powers</span>
+                        <span class="nonPanelButton" id="powerReset" onclick="Game.resetPowers();">Reset your Skills</span>
                         </td>
                       </tr>
                     </table>
@@ -235,7 +235,7 @@
                           <li>The attack damage on your weapon;</li>
                           <li>The value of the stat relating to your current weapon (Strength for melee, Dexterity for ranged, Intelligence for magic);</li>
                           <li>Any resistances or vulnerabilities on the target's armour;</li>
-                          <li>Any powers that inflence damage dealt.</li>
+                          <li>Any skills that inflence damage dealt.</li>
                         </ul>
 
                         <p class="combatBlock hiddenElement">And when your target decides to fight back, the damage they deal to you is based on a similar set of values:</p>
@@ -243,7 +243,7 @@
                           <li>The attack damage on their weapon;</li>
                           <li>Their 'main stat' value (this plays the same role yours does in your damage calculation);</li>
                           <li>Any resistances or vulnerabilities on your armour;</li>
-                          <li>Any powers that influence damage taken.</li>
+                          <li>Any skills that influence damage taken.</li>
                         </ul>
 
                         <p class="combatBlock hiddenElement">Your offensive options during combat are limited to fleeing, and using a Burst Attack. The Burst Attack button is simply a single strike delivered instantly to the target, respecting all the usual rules regarding how much damage is dealt, as well as resetting the time delay between attacks.</p>
@@ -256,9 +256,13 @@
 
                         <p class="debuffBlock hiddenElement">A full listing of the debuffs in the game and their effects is available in the Store tab.</p>
 
-                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('powerBlock');">Powers</div>
+                        <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('powerBlock');">Skills</div>
 
-                        <p class="powerBlock hiddenElement">The ability to break things by holding them isn't the only interesting ability you have access to - the Powers tab lists a number of additional effects that can apply to you and be honed and strengthened through the leveling process. You'll gain a point every level to spend on this tab, and most of the listed powers unlock additional subsidiaries once they reach maximum strength - although you can only level one subsidiary power at once. Located on this tab is also the 'Reset Powers' button - for a small fee of scrap based on total Power Points earned, you can clear your mind, and thus your power selection, and then re-assign points to your taste.</p>
+                        <p class="powerBlock hiddenElement">The ability to break things by holding them isn't the only interesting ability you have access to - the Skills tab lists a number of additional effects that can apply to you and be honed and strengthened through the leveling process.</p>
+                        
+                        <p class="powerBlock hiddenElement">You'll gain a point every odd level, starting from level 5, to spend on this tab. Almost all skills will, upon reaching maximum rank, open access to further developments in their respective disciplines.</p> 
+                          
+                        <p class="powerBlock hiddenElement">Located on this tab is also the 'Reset Skills' button - for a small fee of scrap based on total Skill Points earned, you can clear your mind, and thus your skill selection, and then re-assign points to your taste.</p>
 
                         <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('qualityBlock');">Item Quality</div>
 
@@ -315,7 +319,9 @@
 
                         <p class="optionsBlock hiddenElement">The auto-battle system is what makes this game semi-idle: it will attempt to initiate combat whenever your health is full, will flee from combat if you are close to death, repair items if they have broken or are close to doing so, and bulk sell or scrap items if your inventories get full.</p>
 
-                        <p class="optionsBlock hiddenElement">The auto-battle system will not do certain things, though: It will not change your equipment for you, it will not attempt to upgrade or purchase new equipment in the Store, nor will it attempt to spend any of your Stat Points or Power Points for you. The auto-battle system will stop running automatically if either section of your inventory is full after the usual selling or scrapping has occured.</p>
+                        <p class="optionsBlock hiddenElement">The auto-battle system will not do certain things, though: It will not change your equipment for you, it will not attempt to upgrade or purchase new equipment in the Store, nor will it attempt to spend any of your Stat Points or Skill Points for you. The auto-battle system will stop running automatically if either section of your inventory is full after the usual selling or scrapping has occured.</p>
+                        
+                        <p class="optionsBlock hiddenElement">Additionally, the auto-battle system will not attempt to enter boss battles or change the zone in which you are fighting.</p>
 
                         <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('badgeBlock');">Badges</div>
 
@@ -327,7 +333,7 @@
                         <ul class="bindingBlock hiddenElement">
                           <li>1 - Activates the Player tab.</li>
                           <li>2 - Activates the Combat tab.</li>
-                          <li>3 - Activates the Powers tab.</li>
+                          <li>3 - Activates the Skills tab.</li>
                           <li>4 - Activates the Inventory tab.</li>
                           <li>5 - Activates the Forge tab.</li>
                           <li>6 - Activates the Shop tab.</li>
@@ -347,7 +353,7 @@
                     <tr>
                       <td>
                         <div class="powerHeader">Update News</div>
-                        <p><strong>Version 1.0 RC2</strong></p>
+                        <p><strong>Version 1.1</strong></p>
                         <p>Changes in this version:</p>
                         <ul>
                           <li>
@@ -381,6 +387,7 @@
                               <li>
                                 Restrictions on purchasing certain skill combinations have been removed, with the exception of the split between 'Reflective Shield' and 'Absorption Shield'.
                               </li>
+                              <li>The availability of Skill Points has been changed: a minimum level of 5 is required, and they are only naturally gained on odd levels beyond that point.</li>
                               <li>
                                 The following skills have been updated:
                                 <ul>
@@ -500,7 +507,6 @@
                                       <li>Damage increase is now 35% (up from 25%).</li>
                                     </ul>
                                   </li>
-                                  <li>Overcharge<br /><span style="width:1em;">&nbsp;</span>(25% per rank -> 35% per rank)</li>
                                 </ul>
                               </li>
                             </ul>
@@ -509,18 +515,18 @@
                             New Skills
                             <ul>
                               <li><strong>Armour Mastery</strong> is the new base skill in the Defence tree, increasing the potency of armour bonuses by 5% per rank (rounded up to the nearest point).</li>
-                              <li><strong>Terminal Illness</strong> is a new single rank skill in the Offense tree, allowing the player to refresh debuff timers if they are reapplied during their duration. Branches from Expose Weakness.</li>
-                              <li><strong>Bloodlust</strong> is a new single rank skill in the Offense tree, which refreshes your Burst Attack cooldown upon a critical hit. Branches from Keener Eye.</li>
-                              <li><strong>Shield Wall</strong> is a new 5 rank skill in the Defence tree, increasing block chance by 1% per rank. Branches from Ancestral Fortitude.</li>
-                              <li><strong>Shield Crush</strong> is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to ignore enemy armour bonuses. Branches from Shield Wall.</li>
-                              <li><strong>Hold The Line</strong> is a new single rank skill in the Defence tree, guaranteeing a block whenever Shield Crush activates. Branches from Shield Crush.</li>
-                              <li><strong>Stand Your Ground</strong> is a new single rank skill in the Defence tree, which removes the active debuff on you when Shield Crush activates. Branches from Shield Crush.</li>
-                              <li><strong>Riposte</strong> is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to Disarm the attacker upon a successful block. Branches from Hold the Line.</li>
-                              <li><strong>Bladed Armour</strong> is a new 5 rank skill in the Defence tree, that deals a flat 2% per rank of damage taken to an attacker. Branches from Shield Wall.</li>
-                              <li><strong>Artful Dodger</strong> is a new single rank skill in the Defence tree, causing successful dodges to refresh the cooldown on your Burst Attack. Branches from Victory Rush.</li>
-                              <li><strong>Eye for an Eye</strong> is a new single rank skill in the Defence tree, which deals 100% of blocked damage to the attacker upon a successful block. Branches from Victory Rush.</li>
-                              <li><strong>Second Wind</strong> is a new 5 rank skill in the Defence tree, which will negate a killing blow made against you and restore 6% of your maximum health per rank, once per battle. Branches from Last Bastion.</li>
-                              <li><strong>Bountiful Bags</strong> is a new 5 rank skill in the Support tree, which increases your inventory sizes by 3 slots per rank. Branches from Five Finger Discount.</li>
+                              <li><strong>Terminal Illness</strong> is a new single rank skill in the Offense tree, allowing the player to refresh debuff timers if they are reapplied during their duration. Branches from <strong>Expose Weakness</strong>.</li>
+                              <li><strong>Bloodlust</strong> is a new single rank skill in the Offense tree, which refreshes your Burst Attack cooldown upon a critical hit. Branches from <strong>Keener Eye</strong>.</li>
+                              <li><strong>Shield Wall</strong> is a new 5 rank skill in the Defence tree, increasing block chance by 1% per rank. Branches from <strong>Ancestral Fortitude</strong>.</li>
+                              <li><strong>Shield Crush</strong> is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to ignore enemy armour bonuses. Branches from <strong>Shield Wall</strong>.</li>
+                              <li><strong>Hold The Line</strong> is a new single rank skill in the Defence tree, guaranteeing a block whenever Shield Crush activates. Branches from <strong>Shield Crush</strong>.</li>
+                              <li><strong>Stand Your Ground</strong> is a new single rank skill in the Defence tree, which removes the active debuff on you when Shield Crush activates. Branches from <strong>Shield Crush</strong>.</li>
+                              <li><strong>Riposte</strong> is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to Disarm the attacker upon a successful block. Branches from <strong>Hold the Line</strong>.</li>
+                              <li><strong>Bladed Armour</strong> is a new 5 rank skill in the Defence tree, that deals a flat 2% per rank of damage taken to an attacker. Branches from <strong>Shield Wall</strong>.</li>
+                              <li><strong>Artful Dodger</strong> is a new single rank skill in the Defence tree, causing successful dodges to refresh the cooldown on your Burst Attack. Branches from <strong>Victory Rush</strong>.</li>
+                              <li><strong>Eye for an Eye</strong> is a new single rank skill in the Defence tree, which deals 100% of blocked damage to the attacker upon a successful block. Branches from <strong>Victory Rush</strong>.</li>
+                              <li><strong>Second Wind</strong> is a new 5 rank skill in the Defence tree, which will negate a killing blow made against you and restore 6% of your maximum health per rank, once per battle. Branches from <strong>Last Bastion</strong>.</li>
+                              <li><strong>Bountiful Bags</strong> is a new 5 rank skill in the Support tree, which increases your inventory sizes by 3 slots per rank. Branches from <strong>Five Finger Discount</strong>.</li>
                             </ul>
                           </li>
                           <li>

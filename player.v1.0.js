@@ -53,13 +53,15 @@ Game.levelUp = function() {
   Game.combatLog("info","You gained a Stat Point.");
   if(Game.RNG(1,50) <= Game.powerLevel(Game.SKILL_LUCK_OF_THE_DRAW)) {
     Game.p_StatPoints++;
-    Game.combatLog("info","Your <span class='q222'>Luck of the Draw</span> power granted another Stat Point.");
+    Game.combatLog("info","<span class='q222'>Luck of the Draw</span> activates, granting a Stat Point.");
   }
-  Game.p_SkillPoints += 1;
-  Game.combatLog("info","You gained a Skill Point.");
+  if(Game.p_Level >= 5 && Game.p_Level % 2 == 1) {
+    Game.p_SkillPoints += 1;
+    Game.combatLog("info","You gained a Skill Point."); 
+  }
   if(Game.RNG(1,100) <= Game.powerLevel(Game.SKILL_LUCKY_STAR)) {
     Game.p_SkillPoints++;
-    Game.combatLog("info","<span class='q222'>Lucky Star</span> granted an additional Skill Point.");
+    Game.combatLog("info","<span class='q222'>Lucky Star</span> activates, granting a Skill Point.");
   }
   if(Game.p_Level == 5) { Game.bossChance = 1; }
   Game.repopulateShop();
