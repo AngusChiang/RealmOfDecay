@@ -386,7 +386,7 @@ Game.createPowerUIPanel = function(powerID, rootID, currentLevel, selectable, bu
     upgradeSection.setAttribute("colspan", "4");
     upgradeButton.setAttribute("class", "itemPanelButton");
     upgradeButton.onclick = function(a){ return function() { Game.buyPower(a); }; }(powerID);
-    upgradeButton.innerHTML = "Upgrade this Power";
+    upgradeButton.innerHTML = "Upgrade this Skill";
     upgradeSection.appendChild(upgradeButton);
     row4.appendChild(upgradeSection);
     panel.appendChild(row4);
