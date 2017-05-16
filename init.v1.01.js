@@ -2,6 +2,9 @@ Game = {};
 /*
 Stuff left to do for MVP:
 
+Legendary equipment:
+  Legendary equipment will have a small chance to stop instead of an enemy's equipped item
+
 Add in the ability to buy potions:
  - Potions come in two main types: healing potions and debuff potions.
  - Healing potions restore a set percentage of the player's health when used.
@@ -12,8 +15,8 @@ Add in the ability to buy potions:
    - Each potion applies the base version of the debuff (as if it were generated on a Good quality weapon)
  - A debuff potion must be equipped before it can be used in an encounter.
  - Only one potion can be used per encounter.
- - A new 10 point base power, Brewmaster, will be added that provides a 1% chance per rank to ignore the single-use lockout for potions when using one.
- - A pair of single point powers will be added to boost the effectiveness of healing (Medic's Intuition) or debuff (Saboteur's Intuition) potions. Both of these powers will branch from Brewmaster.
+ - A new 5 point skill, Brewmaster, will be added that provides a 2% chance per rank to ignore the single-use lockout for potions when using one.
+ - A pair of single point skills will be added to boost the effectiveness of healing (Medic's Intuition) or debuff (Saboteur's Intuition) potions. Both of these skills will branch from Brewmaster.
    - Healing potions heal for 10% more when boosted by Medic's Intuition
    - Debuff potions apply superior debuffs when boosted by Saboteur's Intuition
 
