@@ -76,7 +76,7 @@ Game.createPlayerTab = function() {
   statPanel.appendChild(Game.createStatisticPanel("Experience Overflow Pool", Game.TRACK_XP_OVERFLOW, "player_stat22"));
   statPanel.appendChild(Game.createStatisticPanel("Item Upgrades Bought", Game.TRACK_UPGRADES, "player_stat23"));
   statPanel.appendChild(Game.createStatisticPanel("Reforges Bought", Game.TRACK_REFORGES, "player_stat24"));
-  statPanel.appendChild(Game.createStatisticPanel("Power/Stat Point Resets", Game.TRACK_RESETS, "player_stat25"));
+  statPanel.appendChild(Game.createStatisticPanel("Skill/Stat Point Resets", Game.TRACK_RESETS, "player_stat25"));
   statPanel.appendChild(Game.createStatisticPanel("Items Sold", Game.TRACK_ITEM_SALES, "player_stat26"));
   statPanel.appendChild(Game.createStatisticPanel("Items Scrapped", Game.TRACK_ITEM_SCRAPS, "player_stat27"));
   statPanel.appendChild(Game.createStatisticPanel("Items Discarded", Game.TRACK_ITEM_DISCARDS, "player_stat28"));
