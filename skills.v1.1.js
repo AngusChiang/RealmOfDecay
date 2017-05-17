@@ -1,8 +1,8 @@
-Game.buyPower = function(power) {
-  if(Game.p_SkillPoints > 0) {
+Game.buyPower = function (power) {
+  if (Game.p_SkillPoints > 0) {
     var selectionLevel = Game.powerLevel(power);
     var canUpgrade = true;
-    switch(power) {
+    switch (power) {
       case Game.SKILL_DISASSEMBLY:
       case Game.SKILL_TERMINAL_ILLNESS:
       case Game.SKILL_BLOODLUST:
@@ -15,37 +15,37 @@ Game.buyPower = function(power) {
       case Game.SKILL_ABSORPTION_SHIELD:
       case Game.SKILL_REFLECTIVE_SHIELD:
       case Game.SKILL_RECLAIMED_KNOWLEDGE:
-      // case Game.BOOST_HEALINGPOTION:
-      // case Game.BOOST_DEBUFFPOTION:
-        if(selectionLevel === 1) {
+        // case Game.BOOST_HEALINGPOTION:
+        // case Game.BOOST_DEBUFFPOTION:
+        if (selectionLevel === 1) {
           Game.toastNotification("This skill is at maximum level.");
           canUpgrade = false;
         }
         break;
       default:
-        if(selectionLevel === 5) {
+        if (selectionLevel === 5) {
           Game.toastNotification("This skill is at maximum level.");
           canUpgrade = false;
         }
     }
-    if(canUpgrade) {
-      switch(power) {
+    if (canUpgrade) {
+      switch (power) {
         case Game.SKILL_ABSORPTION_SHIELD:
           // Absorption Shield
-          if(Game.powerLevel(Game.SKILL_DIVINE_SHIELD) < 5) {
+          if (Game.powerLevel(Game.SKILL_DIVINE_SHIELD) < 5) {
             Game.toastNotification("You need maximum level in Divine Shield to upgrade this skill.");
             canUpgrade = false;
-          } else if(Game.powerLevel(Game.SKILL_REFLECTIVE_SHIELD) > 0) {
+          } else if (Game.powerLevel(Game.SKILL_REFLECTIVE_SHIELD) > 0) {
             Game.toastNotification("This skill cannot be used in conjunction with Reflective Shield.");
             canUpgrade = false;
           }
           break;
         case Game.SKILL_REFLECTIVE_SHIELD:
           // Reflective Shield
-          if(Game.powerLevel(Game.SKILL_DIVINE_SHIELD) < 5) {
+          if (Game.powerLevel(Game.SKILL_DIVINE_SHIELD) < 5) {
             Game.toastNotification("You need maximum level in Divine Shield to upgrade this skill.");
             canUpgrade = false;
-          } else if(Game.powerLevel(Game.SKILL_ABSORPTION_SHIELD) > 0) {
+          } else if (Game.powerLevel(Game.SKILL_ABSORPTION_SHIELD) > 0) {
             Game.toastNotification("This skill cannot be used in conjunction with Absorption Shield.");
             canUpgrade = false;
           }
@@ -53,41 +53,40 @@ Game.buyPower = function(power) {
       }
     }
     var canStillUpgrade = false;
-    if(canUpgrade) {
+    if (canUpgrade) {
       // Check to see if we have the subsidiary skill
-      if(power > 1000) {
+      if (power > 1000) {
         var subPower = Math.floor(power / 10);
-        for(var a = 0; a < Game.p_Powers.length; a++) {
-          if(Game.p_Powers[a][0] === subPower) {
+        for (var a = 0; a < Game.p_Powers.length; a++) {
+          if (Game.p_Powers[a][0] === subPower) {
             canStillUpgrade = true;
           }
         }
+      } else {
+        canStillUpgrade = true;
       }
-      else { canStillUpgrade = true; }
     }
-    if(canUpgrade && canStillUpgrade) {
-      if(selectionLevel === 0) {
+    if (canUpgrade && canStillUpgrade) {
+      if (selectionLevel === 0) {
         Game.p_Powers.push(new Array(power, 1));
-      }
-      else {
-        for(var x = 0; x < Game.p_Powers.length; x++) {
-          if(Game.p_Powers[x][0] === power) {
+      } else {
+        for (var x = 0; x < Game.p_Powers.length; x++) {
+          if (Game.p_Powers[x][0] === power) {
             Game.p_Powers[x][1]++;
           }
         }
       }
       Game.p_SkillPoints--;
       Game.updateSkills = true;
-    }
-    else {
+    } else {
       Game.toastNotification("Skill purchase failed.");
     }
   }
   Game.badgeCheck(Game.BADGE_POWER); // Unlimited Power!
   Game.drawActivePanel();
 }
-Game.getPowerLevelCap = function(power) {
-  switch(power) {
+Game.getPowerLevelCap = function (power) {
+  switch (power) {
     case Game.SKILL_PICKPOCKET:
     case Game.SKILL_CAVITY_SEARCH:
     case Game.SKILL_BARTERING:
@@ -114,6 +113,7 @@ Game.getPowerLevelCap = function(power) {
     case Game.SKILL_PRESS_THE_ADVANTAGE:
     case Game.SKILL_WILD_SWINGS:
     case Game.SKILL_ADRENALINE_RUSH:
+    case Game.SKILL_POWER_SURGE:
     case Game.SKILL_EXECUTE:
     case Game.SKILL_TURN_THE_TABLES:
     case Game.SKILL_ARMOUR_MASTERY:
@@ -141,34 +141,34 @@ Game.getPowerLevelCap = function(power) {
     case Game.SKILL_ABSORPTION_SHIELD:
     case Game.SKILL_REFLECTIVE_SHIELD:
     case Game.SKILL_RECLAIMED_KNOWLEDGE:
-    // case Game.BOOST_HEALINGPOTION:
-    // case Game.BOOST_DEBUFFPOTION:
+      // case Game.BOOST_HEALINGPOTION:
+      // case Game.BOOST_DEBUFFPOTION:
       return 1;
     default:
       return 0;
   }
 }
-Game.getPowerName = function(power) {
-  for(var x = 0; x < Game.SKILL_LIST.length; x++) {
-    if(Game.SKILL_LIST[x][2] == power) return Game.SKILL_LIST[x][0];
+Game.getPowerName = function (power) {
+  for (var x = 0; x < Game.SKILL_LIST.length; x++) {
+    if (Game.SKILL_LIST[x][2] == power) return Game.SKILL_LIST[x][0];
   }
 }
-Game.getPowerDesc = function(power) {
-  for(var x = 0; x < Game.SKILL_LIST.length; x++) {
-    if(Game.SKILL_LIST[x][2] == power) return Game.SKILL_LIST[x][1];
+Game.getPowerDesc = function (power) {
+  for (var x = 0; x < Game.SKILL_LIST.length; x++) {
+    if (Game.SKILL_LIST[x][2] == power) return Game.SKILL_LIST[x][1];
   }
 }
-Game.resetPowers = function() {
+Game.resetPowers = function () {
   var totalSpent = 0;
-  for(var a = 0; a < Game.p_Powers.length; a++) {
+  for (var a = 0; a < Game.p_Powers.length; a++) {
     totalSpent += Game.p_Powers[a][1];
   }
-  var scrapCost = Math.ceil((totalSpent + Game.p_SkillPoints)/3);
-  if(Game.p_Scrap < scrapCost) {
+  var scrapCost = Math.ceil((totalSpent + Game.p_SkillPoints) / 3);
+  if (Game.p_Scrap < scrapCost) {
     Game.toastNotification("You need " + scrapCost + " scrap to reset your skills.");
     return;
   }
-  if(confirm("Are you sure you wish to reset your skill point allocation? \n\nThis will cost a total of " + scrapCost + " scrap and cannot be undone.")) {
+  if (confirm("Are you sure you wish to reset your skill point allocation? \n\nThis will cost a total of " + scrapCost + " scrap and cannot be undone.")) {
     Game.p_Powers = [];
     Game.p_SkillPoints += totalSpent;
     Game.p_Scrap -= scrapCost;
