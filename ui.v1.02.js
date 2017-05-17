@@ -5,19 +5,24 @@ Functions for updating various UI
 tabs and panels.
 ----------------------------------*/
 
-Game.drawActivePanel = function() {
+Game.drawActivePanel = function () {
   Game.updateTitleBar();
-  switch(Game.activePanel) {
+  switch (Game.activePanel) {
     case "playerTable":
-      Game.createPlayerTab(); break;
+      Game.createPlayerTab();
+      break;
     case "combatTable":
-      Game.createCombatTab(); break;
+      Game.createCombatTab();
+      break;
     case "zoneTable":
-      Game.createZoneTab(); break;
+      Game.createZoneTab();
+      break;
     case "skillsTable":
-      Game.createSkillsTab(); break;
+      Game.createSkillsTab();
+      break;
     case "inventoryTable":
-      Game.createInventoryTab(); break;
+      Game.createInventoryTab();
+      break;
     case "storeTable":
       Game.createForgeTab();
       Game.createShopTab();
@@ -30,7 +35,7 @@ Game.drawActivePanel = function() {
       break;
   }
 }
-Game.updateTitleBar = function() {
+Game.updateTitleBar = function () {
   var seeds = document.getElementById("seedsOut");
   seeds.innerHTML = abbreviateNumber(Game.p_Currency);
   seeds.setAttribute("title", Game.p_Currency);
@@ -38,11 +43,11 @@ Game.updateTitleBar = function() {
   scrap.innerHTML = abbreviateNumber(Game.p_Scrap);
   scrap.setAttribute("title", Game.p_Scrap);
 }
-Game.createPlayerTab = function() {
+Game.createPlayerTab = function () {
   var playerInfoPanel = document.getElementById("playerInfoPanel");
   playerInfoPanel.innerHTML = "";
   playerInfoPanel.appendChild(Game.createPlayerUIPanel());
-  if(Game.p_StatPoints > 0) {
+  if (Game.p_StatPoints > 0) {
     playerInfoPanel.appendChild(Game.createStatPointPanel());
   }
   var playerEQPanel = document.getElementById("playerEquipmentPanel");
@@ -103,7 +108,7 @@ Game.createPlayerTab = function() {
   statPanel.appendChild(Game.createStatisticPanel("Badges Earned", Game.playerBadges.length, "player_stat49"));
   statPanel.appendChild(Game.createStatisticPanel("Prestige Level", Game.prestigeLevel, "player_stat50"));
 }
-Game.createCombatTab = function() {
+Game.createCombatTab = function () {
   var playerCombatPanel = document.getElementById("playerCombatPanel");
   playerCombatPanel.innerHTML = "";
   playerCombatPanel.appendChild(Game.createPlayerCombatPanel());
@@ -118,13 +123,12 @@ Game.createCombatTab = function() {
   playerCombatArmourPanel.appendChild(Game.createArmourUIPanel(Game.p_Armour, "combat"));
   var enemyCombatWeaponPanel = document.getElementById("enemyCombatWeaponPanel");
   var enemyCombatArmourPanel = document.getElementById("enemyCombatArmourPanel");
-  if(Game.p_State == Game.STATE_COMBAT) {
+  if (Game.p_State == Game.STATE_COMBAT) {
     enemyCombatWeaponPanel.innerHTML = "";
     enemyCombatWeaponPanel.appendChild(Game.createWeaponUIPanel(Game.e_Weapon, "combat"));
     enemyCombatArmourPanel.innerHTML = "";
     enemyCombatArmourPanel.appendChild(Game.createArmourUIPanel(Game.e_Armour, "combat"));
-  }
-  else {
+  } else {
     enemyCombatWeaponPanel.innerHTML = "";
     enemyCombatArmourPanel.innerHTML = "";
   }
@@ -135,38 +139,49 @@ Game.createCombatTab = function() {
   // 50 to 25%: Orange
   // 25 to 0%: Red
   var PHB = document.getElementById("playerHPBar");
-  var PH_Percent = Game.p_HP/Game.p_MaxHP;
-  if(PH_Percent < 0.25) { PHB.style.background = "#dd0000"; }
-  else if(PH_Percent < 0.5) { PHB.style.background = "#dd7700"; }
-  else if(PH_Percent < 0.75) { PHB.style.background = "#dddd00"; }
-  else { PHB.style.background = "#33cc33"; }
+  var PH_Percent = Game.p_HP / Game.p_MaxHP;
+  if (PH_Percent < 0.25) {
+    PHB.style.background = "#dd0000";
+  } else if (PH_Percent < 0.5) {
+    PHB.style.background = "#dd7700";
+  } else if (PH_Percent < 0.75) {
+    PHB.style.background = "#dddd00";
+  } else {
+    PHB.style.background = "#33cc33";
+  }
   PHB.style.width = (100 * PH_Percent) + "%";
   var EHB = document.getElementById("enemyHPBar");
-  if(Game.p_State !== Game.STATE_COMBAT) { EHB.style.display = "none"; }
-  else {
+  if (Game.p_State !== Game.STATE_COMBAT) {
+    EHB.style.display = "none";
+  } else {
     EHB.style.display = "";
-    var EH_Percent = Game.e_HP/Game.e_MaxHP;
-    if(EH_Percent < 0.25) { EHB.style.background = "#dd0000"; }
-    else if(EH_Percent < 0.5) { EHB.style.background = "#dd7700"; }
-    else if(EH_Percent < 0.75) { EHB.style.background = "#dddd00"; }
-    else { EHB.style.background = "#33cc33"; }
+    var EH_Percent = Game.e_HP / Game.e_MaxHP;
+    if (EH_Percent < 0.25) {
+      EHB.style.background = "#dd0000";
+    } else if (EH_Percent < 0.5) {
+      EHB.style.background = "#dd7700";
+    } else if (EH_Percent < 0.75) {
+      EHB.style.background = "#dddd00";
+    } else {
+      EHB.style.background = "#33cc33";
+    }
     EHB.style.width = (100 * EH_Percent) + "%";
   }
 }
-Game.createZoneTab = function() {
+Game.createZoneTab = function () {
   var cz = document.getElementById("currentZone");
   cz.innerHTML = "";
-  cz.appendChild(Game.createZonePanel(Game.p_currentZone,true));
+  cz.appendChild(Game.createZonePanel(Game.p_currentZone, true));
   var zl = document.getElementById("zoneList");
   zl.innerHTML = "";
-  for(var x = 0; x < Game.ZONE_MIN_LEVEL.length; x++) {
+  for (var x = 0; x < Game.ZONE_MIN_LEVEL.length; x++) {
     zl.appendChild(Game.createZonePanel(x));
   }
 }
-Game.createSkillsTab = function() {
+Game.createSkillsTab = function () {
   //The Skills Panel
   //This bit is important - we set in other functions whether the power panel needs rebuilding, because mass DOM changes cause lag problems when they're done once a second.
-  if(Game.updateSkills) {
+  if (Game.updateSkills) {
     var avail = document.getElementById("availableSkills");
     avail.style.display = Game.p_SkillPoints == 0 ? "none" : "";
     var avail2 = document.getElementById("availableSkillsHeader");
@@ -182,39 +197,39 @@ Game.createSkillsTab = function() {
     supportPane.innerHTML = "";
     var specialPane = document.getElementById("available_area_special");
     specialPane.innerHTML = "";
-    for(var x = 0; x < Game.SKILL_LIST.length; x++) {
+    for (var x = 0; x < Game.SKILL_LIST.length; x++) {
       var available = true;
       var viewable = true;
       var subsidiary = false;
       var basePower = -1;
       // Step 1: Determine if this is a subsidiary power.
-      if(Game.SKILL_LIST[x][2].toString().length > 3) {
+      if (Game.SKILL_LIST[x][2].toString().length > 3) {
         //SKILL_LIST[x][2] is the constant for the power. If it's more than 3 chars long, it's a subsidiary!
         // Now... we check the level of the base power!
         subsidiary = true;
         basePower = Math.floor(Game.SKILL_LIST[x][2] / 10);
-        if(Game.powerLevel(basePower) != Game.getPowerLevelCap(basePower)) {
+        if (Game.powerLevel(basePower) != Game.getPowerLevelCap(basePower)) {
           // The base power isn't capped, we can't buy this
           available = false;
           viewable = false;
         }
-        if(Game.SKILL_LIST[x][2] == Game.SKILL_ABSORPTION_SHIELD) {
-          if(Game.powerLevel(Game.SKILL_REFLECTIVE_SHIELD) > 0) {
+        if (Game.SKILL_LIST[x][2] == Game.SKILL_ABSORPTION_SHIELD) {
+          if (Game.powerLevel(Game.SKILL_REFLECTIVE_SHIELD) > 0) {
             available = false;
           }
         }
-        if(Game.SKILL_LIST[x][2] == Game.SKILL_REFLECTIVE_SHIELD) {
-          if(Game.powerLevel(Game.SKILL_ABSORPTION_SHIELD) > 0) {
+        if (Game.SKILL_LIST[x][2] == Game.SKILL_REFLECTIVE_SHIELD) {
+          if (Game.powerLevel(Game.SKILL_ABSORPTION_SHIELD) > 0) {
             available = false;
           }
         }
       }
-      if(Game.powerLevel(Game.SKILL_LIST[x][2]) == Game.getPowerLevelCap(Game.SKILL_LIST[x][2])) {
+      if (Game.powerLevel(Game.SKILL_LIST[x][2]) == Game.getPowerLevelCap(Game.SKILL_LIST[x][2])) {
         viewable = false;
       }
-      if(viewable) {
+      if (viewable) {
         var powerPane = null;
-        switch(Game.SKILL_LIST[x][2].toString().substring(0,3)) {
+        switch (Game.SKILL_LIST[x][2].toString().substring(0, 3)) {
           case "101":
             powerPane = offensePane;
             break;
@@ -233,49 +248,55 @@ Game.createSkillsTab = function() {
     }
     var purchasedPowers = document.getElementById("purchased_area");
     purchasedPowers.innerHTML = "";
-    for(var y = 0; y < Game.p_Powers.length; y++) {
+    for (var y = 0; y < Game.p_Powers.length; y++) {
       purchasedPowers.appendChild(Game.createPowerUIPanel(Game.p_Powers[y][0], -1, Game.p_Powers[y][1], true, false));
     }
     Game.updateSkills = false;
   }
 }
-Game.createInventoryTab = function() {
-  if(Game.updateInventory) {
+Game.createInventoryTab = function () {
+  if (Game.updateInventory) {
     var invPanel = document.getElementById("weaponOut");
     invPanel.innerHTML = "";
-    if(Game.p_WeaponInventory.length > 0) { document.getElementById("weaponCache").style.display = ""; }
-    else { document.getElementById("weaponCache").style.display = "none"; }
-    for(var x = 0; x < Game.p_WeaponInventory.length; x++) {
+    if (Game.p_WeaponInventory.length > 0) {
+      document.getElementById("weaponCache").style.display = "";
+    } else {
+      document.getElementById("weaponCache").style.display = "none";
+    }
+    for (var x = 0; x < Game.p_WeaponInventory.length; x++) {
       // Table row
-      invPanel.appendChild(Game.createWeaponUIPanel(Game.p_WeaponInventory[x],"inventory",x));
+      invPanel.appendChild(Game.createWeaponUIPanel(Game.p_WeaponInventory[x], "inventory", x));
     }
     // Armour panel
     invPanel = document.getElementById("armourOut");
     invPanel.innerHTML = "";
-    if(Game.p_ArmourInventory.length > 0) { document.getElementById("armourCache").style.display = ""; }
-    else { document.getElementById("armourCache").style.display = "none"; }
-    for(var y = 0; y < Game.p_ArmourInventory.length; y++) {
-      invPanel.appendChild(Game.createArmourUIPanel(Game.p_ArmourInventory[y],"inventory",y));
+    if (Game.p_ArmourInventory.length > 0) {
+      document.getElementById("armourCache").style.display = "";
+    } else {
+      document.getElementById("armourCache").style.display = "none";
+    }
+    for (var y = 0; y < Game.p_ArmourInventory.length; y++) {
+      invPanel.appendChild(Game.createArmourUIPanel(Game.p_ArmourInventory[y], "inventory", y));
     }
     // Enemy loot panel
     invPanel = document.getElementById("enemyInvOut");
     invPanel.innerHTML = "";
-    if(Game.last_Weapon.length > 0 || Game.last_Armour.length > 0) {
+    if (Game.last_Weapon.length > 0 || Game.last_Armour.length > 0) {
       document.getElementById("enemyItems").style.display = "";
+    } else {
+      document.getElementById("enemyItems").style.display = "none";
     }
-    else { document.getElementById("enemyItems").style.display = "none";
+    if (Game.last_Weapon.length > 0) {
+      invPanel.appendChild(Game.createWeaponUIPanel(Game.last_Weapon, "enemyInventory"));
     }
-    if(Game.last_Weapon.length > 0) {
-      invPanel.appendChild(Game.createWeaponUIPanel(Game.last_Weapon,"enemyInventory"));
-    }
-    if(Game.last_Armour.length > 0) {
-      invPanel.appendChild(Game.createArmourUIPanel(Game.last_Armour,"enemyInventory"));
+    if (Game.last_Armour.length > 0) {
+      invPanel.appendChild(Game.createArmourUIPanel(Game.last_Armour, "enemyInventory"));
     }
     Game.updateInventory = false;
   }
 }
-Game.createForgeTab = function() {
-  if(Game.updateForge) {
+Game.createForgeTab = function () {
+  if (Game.updateForge) {
     var wPanelOut = document.getElementById("weaponPanelOut");
     wPanelOut.innerHTML = "";
     wPanelOut.appendChild(Game.createWeaponUIPanel(Game.p_Weapon, "forge"));
@@ -284,25 +305,25 @@ Game.createForgeTab = function() {
     wPanelOut.appendChild(Game.createArmourUIPanel(Game.p_Armour, "forge"));
     var reforgePanelOut = document.getElementById("debuffList");
     reforgePanelOut.innerHTML = "";
-    for(var x = -1; x < 10; x++) {
+    for (var x = -1; x < 10; x++) {
       reforgePanelOut.appendChild(Game.createForgePanel(Game.DEBUFF_SHRED + x));
     }
   }
   Game.updateForge = false;
 }
-Game.createShopTab = function() {
+Game.createShopTab = function () {
   var sw = document.getElementById("storeWeapons");
   sw.innerHTML = "";
-  for(var x = 0; x < Game.p_WeaponShopStock.length; x++) {
+  for (var x = 0; x < Game.p_WeaponShopStock.length; x++) {
     sw.appendChild(Game.createWeaponUIPanel(Game.p_WeaponShopStock[x], "shop", x));
   }
   var sa = document.getElementById("storeArmour");
   sa.innerHTML = "";
-  for(var x = 0; x < Game.p_ArmourShopStock.length; x++) {
+  for (var x = 0; x < Game.p_ArmourShopStock.length; x++) {
     sa.appendChild(Game.createArmourUIPanel(Game.p_ArmourShopStock[x], "shop", x));
   }
 }
-Game.createOptionsTab = function() {
+Game.createOptionsTab = function () {
   var abHook = document.getElementById("autoBattleHook");
   abHook.innerHTML = "";
   abHook.appendChild(Game.createABOptionPanel());
@@ -313,16 +334,16 @@ Game.createOptionsTab = function() {
   saveHook.innerHTML = "";
   saveHook.appendChild(Game.createSavePanel());
 }
-Game.createBadgeTab = function() {
+Game.createBadgeTab = function () {
   var badgePanel = document.getElementById("badgeList");
   badgePanel.innerHTML = "";
-  for(var x = 0; x < Game.BADGE_LIST.length; x++) {
+  for (var x = 0; x < Game.BADGE_LIST.length; x++) {
     badgePanel.appendChild(Game.createBadgePanel(x));
   }
 }
-Game.combatLog = function(combatant, message) {
+Game.combatLog = function (combatant, message) {
   var d = document.createElement("div");
-  d.setAttribute("class",combatant);
+  d.setAttribute("class", combatant);
   var x = document.createElement("span");
   var ct = new Date();
   x.innerHTML = message;
@@ -331,20 +352,19 @@ Game.combatLog = function(combatant, message) {
   var logBox = document.getElementById("logBody");
   logBox.appendChild(d);
 }
-Game.showPanel = function(panelID) {
+Game.showPanel = function (panelID) {
   var panelList = document.getElementsByTagName("table");
   var initPanel = document.getElementById("initTable");
-  for(var x = 0; x < panelList.length; x++) {
-    if(panelList[x].id !== "initTable" && panelList[x].id == panelID) {
+  for (var x = 0; x < panelList.length; x++) {
+    if (panelList[x].id !== "initTable" && panelList[x].id == panelID) {
       panelList[x].style.display = "";
-      var tabHeader = document.getElementById(panelList[x].id.slice(0,-2));
+      var tabHeader = document.getElementById(panelList[x].id.slice(0, -2));
       tabHeader.style.backgroundColor = "#991010";
       tabHeader.style.color = "#ffffff";
       tabHeader.style.fontWeight = "bold";
-    }
-    else if(panelList[x].id !== "initTable" && panelList[x].id.match(/(\w+)Table/g) !== null) {
+    } else if (panelList[x].id !== "initTable" && panelList[x].id.match(/(\w+)Table/g) !== null) {
       panelList[x].style.display = "none";
-      var tabHeader = document.getElementById(panelList[x].id.slice(0,-2));
+      var tabHeader = document.getElementById(panelList[x].id.slice(0, -2));
       tabHeader.style.backgroundColor = "";
       tabHeader.style.color = "";
       tabHeader.style.fontWeight = "";
@@ -352,141 +372,177 @@ Game.showPanel = function(panelID) {
   }
   Game.activePanel = panelID;
   initPanel.style.display = "none";
-  switch(panelID) {
-    case "inventoryTable": Game.updateInventory = true; break;
-    case "powersTable": Game.updateSkills = true; break;
-    case "forgeTable": Game.updateForge = true; break;
+  switch (panelID) {
+    case "inventoryTable":
+      Game.updateInventory = true;
+      break;
+    case "powersTable":
+      Game.updateSkills = true;
+      break;
+    case "forgeTable":
+      Game.updateForge = true;
+      break;
   }
   Game.drawActivePanel();
 }
-Game.toastNotification = function(message) {
+Game.toastNotification = function (message) {
   Game.toastQueue.push(message);
-  if(Game.toastTimer == null) {
+  if (Game.toastTimer == null) {
     Game.showMessage();
   }
 }
-Game.showMessage = function() {
+Game.showMessage = function () {
   var toastFrame = document.getElementById("saveToast");
-  if(Game.toastQueue.length == 0) {
+  if (Game.toastQueue.length == 0) {
     toastFrame.style.display = "none";
     window.clearTimeout(Game.toastTimer);
     Game.toastTimer = null;
-	}
-  else {
+  } else {
     var toast = document.getElementById("toastContent");
     toast.innerHTML = Game.toastQueue.shift()
     toastFrame.style.display = "";
     Game.toastTimer = window.setTimeout(Game.showMessage, 2000);
   }
 }
-Game.buildArmourEffectString = function(effect) {
+Game.buildArmourEffectString = function (effect) {
   var returnBlock = document.createElement("span");
-  if(effect === undefined) {
-    returnBlock.setAttribute("style","");
+  if (effect === undefined) {
+    returnBlock.setAttribute("style", "");
     returnBlock.innerHTML = "&nbsp;";
     return returnBlock;
   }
-  switch(effect[0]) {
+  switch (effect[0]) {
     case Game.ARMOUR_STR_MELEE:
-      returnBlock.setAttribute("style","color:#33cc33;");
+      returnBlock.setAttribute("style", "color:#33cc33;");
       returnBlock.innerHTML = "+" + effect[1] + " Melee Resist";
       break;
     case Game.ARMOUR_STR_RANGE:
-      returnBlock.setAttribute("style","color:#33cc33;");
+      returnBlock.setAttribute("style", "color:#33cc33;");
       returnBlock.innerHTML = "+" + effect[1] + " Range Resist";
       break;
     case Game.ARMOUR_STR_MAGIC:
-      returnBlock.setAttribute("style","color:#33cc33;");
+      returnBlock.setAttribute("style", "color:#33cc33;");
       returnBlock.innerHTML = "+" + effect[1] + " Magic Resist";
       break;
     case Game.ARMOUR_VULN_MELEE:
-      returnBlock.setAttribute("style","color:red;");
+      returnBlock.setAttribute("style", "color:red;");
       returnBlock.innerHTML = "-" + effect[1] + " Melee Resist";
       break;
     case Game.ARMOUR_VULN_RANGE:
-      returnBlock.setAttribute("style","color:red;");
+      returnBlock.setAttribute("style", "color:red;");
       returnBlock.innerHTML = "-" + effect[1] + " Range Resist";
       break;
     case Game.ARMOUR_VULN_MAGIC:
-      returnBlock.setAttribute("style","color:red;");
+      returnBlock.setAttribute("style", "color:red;");
       returnBlock.innerHTML = "-" + effect[1] + " Magic Resist";
       break;
     default:
-      returnBlock.setAttribute("style","");
+      returnBlock.setAttribute("style", "");
       returnBlock.innerHTML = "&nbsp;";
       break;
   }
   return returnBlock;
 }
-Game.updateActivePanel = function() {
+Game.updateActivePanel = function () {
   // This function is for direct updating of panels on certain frequently updated screens, which results in less CPU usage and more responsive UI on all screens (regenerating the UI causes weird problems with clicking buttons, manual updates are usually tied to button presses, but the idle ticker is the biggest problem...)
   Game.updateTitleBar();
-  switch(Game.activePanel) {
+  switch (Game.activePanel) {
     case "combatTable":
-      Game.updateCombatTab(); break;
+      Game.updateCombatTab();
+      break;
     case "playerTable":
-      Game.updatePlayerTab(); break;
+      Game.updatePlayerTab();
+      break;
   }
 }
-Game.updateCombatTab = function() {
+Game.updateCombatTab = function () {
   // Player Panel
   var playerName = document.getElementById("combat_playerName");
-  if(playerName !== null) { playerName.innerHTML = Game.p_Name; }
+  if (playerName !== null) {
+    playerName.innerHTML = Game.p_Name;
+  }
   var playerLevel = document.getElementById("combat_playerLevel");
-  if(playerLevel !== null) { playerLevel.innerHTML = "Level " + Game.p_Level; }
+  if (playerLevel !== null) {
+    playerLevel.innerHTML = "Level " + Game.p_Level;
+  }
   var playerHP = document.getElementById("combat_playerHP");
-  if(playerHP !== null) { playerHP.innerHTML = "HP: " + prettifyNumber(Game.p_HP) + " / " + prettifyNumber(Game.p_MaxHP) + " (" + Math.floor(Game.p_HP / Game.p_MaxHP * 10000)/100 + "%)"; }
+  if (playerHP !== null) {
+    playerHP.innerHTML = "HP: " + prettifyNumber(Game.p_HP) + " / " + prettifyNumber(Game.p_MaxHP) + " (" + Math.floor(Game.p_HP / Game.p_MaxHP * 10000) / 100 + "%)";
+  }
   var playerDebuff = document.getElementById("combat_playerDebuff");
-  if(playerDebuff !== null) { playerDebuff.innerHTML = "<strong>Debuff:</strong> " + Game.p_Debuff[1] + "(" + Game.debuff_names[Game.p_Debuff[0]-Game.DEBUFF_SHRED] + ") - " + Game.player_debuffTimer + "s"; }
+  if (playerDebuff !== null) {
+    playerDebuff.innerHTML = "<strong>Debuff:</strong> " + Game.p_Debuff[1] + "(" + Game.debuff_names[Game.p_Debuff[0] - Game.DEBUFF_SHRED] + ") - " + Game.player_debuffTimer + "s";
+  }
   var playerBurst = document.getElementById("combat_burstButton");
-  if(playerBurst !== null) { playerBurst.innerHTML = Game.p_specUsed ? "Burst Unavailable" : (Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0 ? "Wild Swings" : "Burst Attack"); }
+  if (playerBurst !== null) {
+    playerBurst.innerHTML = Game.p_specUsed ? "Burst Unavailable" : (Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0 ? "Wild Swings" : "Burst Attack");
+  }
   // Player Weapon (Durability)
   var playerWeaponDurability = document.getElementById("combat_playerWeaponDurability");
-  if(playerWeaponDurability !== null) { playerWeaponDurability.innerHTML = Game.p_Weapon[8] + " uses"; }
+  if (playerWeaponDurability !== null) {
+    playerWeaponDurability.innerHTML = Game.p_Weapon[8] + " uses";
+  }
   // Player Armour (Durability)
   var playerArmourDurability = document.getElementById("combat_playerArmourDurability");
-  if(playerArmourDurability !== null) { playerArmourDurability.innerHTML = Game.p_Armour[3] + " uses"; }
+  if (playerArmourDurability !== null) {
+    playerArmourDurability.innerHTML = Game.p_Armour[3] + " uses";
+  }
   // Enemy Panel
   //  - Enemy HP
   var enemyHP = document.getElementById("combat_enemyHealth");
-  if(enemyHP !== null) { enemyHP.innerHTML = Game.p_State == Game.STATE_COMBAT ? ("HP: " + prettifyNumber(Game.e_HP) + " / " + prettifyNumber(Game.e_MaxHP) + " (" + Math.floor(Game.e_HP / Game.e_MaxHP * 10000)/100 + "%)") : "Elite Appearance Chance: " + Game.bossChance + "%"; }
+  if (enemyHP !== null) {
+    enemyHP.innerHTML = Game.p_State == Game.STATE_COMBAT ? ("HP: " + prettifyNumber(Game.e_HP) + " / " + prettifyNumber(Game.e_MaxHP) + " (" + Math.floor(Game.e_HP / Game.e_MaxHP * 10000) / 100 + "%)") : "Elite Appearance Chance: " + Game.bossChance + "%";
+  }
   //  - Enemy Debuff
   var enemyDebuff = document.getElementById("combat_enemyDebuff");
-  if(enemyDebuff !== null) { enemyDebuff.innerHTML = "<strong>Debuff:</strong> " + Game.e_Debuff[1] + "(" + Game.debuff_names[Game.e_Debuff[0]-Game.DEBUFF_SHRED] + ") - " + Game.enemy_debuffTimer + "s"; }
+  if (enemyDebuff !== null) {
+    enemyDebuff.innerHTML = "<strong>Debuff:</strong> " + Game.e_Debuff[1] + "(" + Game.debuff_names[Game.e_Debuff[0] - Game.DEBUFF_SHRED] + ") - " + Game.enemy_debuffTimer + "s";
+  }
   // HP Bars
   var PHB = document.getElementById("playerHPBar");
-  var PH_Percent = Game.p_HP/Game.p_MaxHP;
-  if(PH_Percent < 0.25) { PHB.style.background = "#dd0000"; }
-  else if(PH_Percent < 0.5) { PHB.style.background = "#dd7700"; }
-  else if(PH_Percent < 0.75) { PHB.style.background = "#dddd00"; }
-  else { PHB.style.background = "#33cc33"; }
+  var PH_Percent = Game.p_HP / Game.p_MaxHP;
+  if (PH_Percent < 0.25) {
+    PHB.style.background = "#dd0000";
+  } else if (PH_Percent < 0.5) {
+    PHB.style.background = "#dd7700";
+  } else if (PH_Percent < 0.75) {
+    PHB.style.background = "#dddd00";
+  } else {
+    PHB.style.background = "#33cc33";
+  }
   PHB.style.MozTransition = "width 0.5s";
   PHB.style.WebkitTransition = "width 0.5s";
   PHB.style.width = (100 * PH_Percent) + "%";
   var EHB = document.getElementById("enemyHPBar");
-  if(Game.p_State !== Game.STATE_COMBAT) { EHB.style.display = "none"; }
-  else {
+  if (Game.p_State !== Game.STATE_COMBAT) {
+    EHB.style.display = "none";
+  } else {
     EHB.style.display = "";
-    var EH_Percent = Game.e_HP/Game.e_MaxHP;
-    if(EH_Percent < 0.25) { EHB.style.background = "#dd0000"; }
-    else if(EH_Percent < 0.5) { EHB.style.background = "#dd7700"; }
-    else if(EH_Percent < 0.75) { EHB.style.background = "#dddd00"; }
-    else { EHB.style.background = "#33cc33"; }
+    var EH_Percent = Game.e_HP / Game.e_MaxHP;
+    if (EH_Percent < 0.25) {
+      EHB.style.background = "#dd0000";
+    } else if (EH_Percent < 0.5) {
+      EHB.style.background = "#dd7700";
+    } else if (EH_Percent < 0.75) {
+      EHB.style.background = "#dddd00";
+    } else {
+      EHB.style.background = "#33cc33";
+    }
     EHB.style.MozTransition = "width 0.5s";
     EHB.style.WebkitTransition = "width 0.5s";
     EHB.style.width = (100 * EH_Percent) + "%";
   }
 }
-Game.updatePlayerTab = function() {
+Game.updatePlayerTab = function () {
   // TODO: Fill
   // This tab uses the following controls - updatable items in brackets:
   // Player UI Panel (level, hp, max hp, xp, xp to level, sp, pp, str, dex, int, con, seeds, scrap)
   var levelSection = document.getElementById("player_level");
   levelSection.innerHTML = "Level " + Game.p_Level;
   var HPSection = document.getElementById("player_hpmaxhp");
-  HPSection.innerHTML = "<strong>HP:</strong> " + prettifyNumber(Game.p_HP) + " / " + prettifyNumber(Game.p_MaxHP) + " (" + Math.floor(Game.p_HP / Game.p_MaxHP * 10000)/100 + "%)";
+  HPSection.innerHTML = "<strong>HP:</strong> " + prettifyNumber(Game.p_HP) + " / " + prettifyNumber(Game.p_MaxHP) + " (" + Math.floor(Game.p_HP / Game.p_MaxHP * 10000) / 100 + "%)";
   var XPSection = document.getElementById("player_xpmaxxp");
-  XPSection.innerHTML = "<strong>XP:</strong> " + Game.p_EXP + " / " + Game.p_NextEXP + " (" + Math.floor(Game.p_EXP / Game.p_NextEXP * 10000)/100 + "%)";
+  XPSection.innerHTML = "<strong>XP:</strong> " + Game.p_EXP + " / " + Game.p_NextEXP + " (" + Math.floor(Game.p_EXP / Game.p_NextEXP * 10000) / 100 + "%)";
   var STRSection = document.getElementById("player_UIStr");
   STRSection.innerHTML = "<strong>STR:</strong> " + Game.p_Str;
   var DEXSection = document.getElementById("player_UIDex");
@@ -505,7 +561,9 @@ Game.updatePlayerTab = function() {
   scrapSection.innerHTML = "<strong>Scrap:</strong> " + Game.p_Scrap;
   // Stat Point Panel (available points)
   var statPointPanel = document.getElementById("player_statPointsLeft");
-  if(statPointPanel !== null) { statPointPanel.innerHTML = "Stat Points (" + Game.p_StatPoints + " left)"; }
+  if (statPointPanel !== null) {
+    statPointPanel.innerHTML = "Stat Points (" + Game.p_StatPoints + " left)";
+  }
   // Tracking panel values
   // Modify this so that we don't have to redraw the panels every time.
   updateElementIDContent("player_stat1", Game.TRACK_TOTAL_DMG);
@@ -560,9 +618,13 @@ Game.updatePlayerTab = function() {
   updateElementIDContent("player_stat50", Game.prestigeLevel);
   // Player Weapon (Durability)
   var playerWeaponDurability = document.getElementById("combat_playerWeaponDurability");
-  if(playerWeaponDurability !== null) { playerWeaponDurability.innerHTML = Game.p_Weapon[8] + " uses"; }
+  if (playerWeaponDurability !== null) {
+    playerWeaponDurability.innerHTML = Game.p_Weapon[8] + " uses";
+  }
   // Player Armour (Durability)
   var playerArmourDurability = document.getElementById("combat_playerArmourDurability");
-  if(playerArmourDurability !== null) { playerArmourDurability.innerHTML = Game.p_Armour[3] + " uses"; }
+  if (playerArmourDurability !== null) {
+    playerArmourDurability.innerHTML = Game.p_Armour[3] + " uses";
+  }
 }
 document.getElementById("loadedUI").style.display = "";

@@ -3,7 +3,7 @@ Game = {};
 Stuff left to do for MVP:
 
 Legendary equipment:
-  Legendary equipment will have a small chance to stop instead of an enemy's equipped item
+  Legendary equipment will have a small chance to stop instead of an enemy's equipped item.
 
 Add in the ability to buy potions:
  - Potions come in two main types: healing potions and debuff potions.
@@ -20,9 +20,6 @@ Add in the ability to buy potions:
    - Healing potions heal for 10% more when boosted by Medic's Intuition
    - Debuff potions apply superior debuffs when boosted by Saboteur's Intuition
 
-Badges
-  New Badge: Terminally Unimaginative - Reach level 50 without naming any nameable object or yourself.
-
 Possible updates:
 
 Tweaks for the strength of bosses
@@ -35,7 +32,7 @@ Boss Buffs and Debuffs
  - Bosses and some elites should be able to give themselves buffs that have various effects on the user (and possibly cause issues for the player)
 
 */
-Game.init = function() {
+Game.init = function () {
   //Define some constants we can use later
   this.GAME_VERSION = 11; // Used to purge older saves between major version changes, don't change this value unless you're also making a change that modifies what is saved or loaded.
   // The experience curve
@@ -45,7 +42,7 @@ Game.init = function() {
   this.XP_BASE = 40;
   this.XP_INIT = 128;
   this.WEAPON_BASE_MULT = 0.6; // Multiplier for main stat to apply to damage dealt.
-  this.STAT_CONVERSION_SCALE = 3;
+  this.STAT_CONVERSION_SCALE = 3; // Used to determine diminishing returns for additional stat effects.
   //Player states
   this.STATE_IDLE = 0;
   this.STATE_REPAIR = 1;
@@ -60,32 +57,33 @@ Game.init = function() {
   this.SKILL_FIVE_FINGER_DISCOUNT = 101211;
   this.SKILL_PATIENCE_AND_DISCIPLINE = 101212;
   this.SKILL_DISASSEMBLY = 101213;
-  this.SKILL_BOUNTIFUL_BAGS = 1012111; // Increases the size of the player's weapon and armour storage by 3 items per rank.
+  this.SKILL_BOUNTIFUL_BAGS = 1012111;
   this.SKILL_LUCK_OF_THE_DRAW = 1012121;
   this.SKILL_FAST_LEARNER = 1012122;
   this.SKILL_PROPER_CARE = 1012123;
   this.SKILL_MASTER_TINKERER = 1012131;
   this.SKILL_LUCKY_STAR = 10121211;
   this.SKILL_HIGH_MAINTENANCE = 10121231;
-  this.SKILL_HANGING_BY_A_THREAD = 10121232; 
+  this.SKILL_HANGING_BY_A_THREAD = 10121232;
   // Offense Tree
   this.SKILL_DEADLY_FORCE = 102;
-  this.SKILL_NIMBLE_FINGERS = 1021; 
-  this.SKILL_KEEN_EYE = 1022; 
-  this.SKILL_FLURRY = 10211; 
+  this.SKILL_NIMBLE_FINGERS = 1021;
+  this.SKILL_KEEN_EYE = 1022;
+  this.SKILL_FLURRY = 10211;
   this.SKILL_KEENER_EYE = 10221;
-  this.SKILL_EXPOSE_WEAKNESS = 10222; 
+  this.SKILL_EXPOSE_WEAKNESS = 10222;
   this.SKILL_EMPOWERED_FLURRY = 102111;
   this.SKILL_SNEAK_ATTACK = 102211;
   this.SKILL_BLOODLUST = 102212;
   this.SKILL_PRESS_THE_ADVANTAGE = 102221;
   this.SKILL_TERMINAL_ILLNESS = 102222;
   this.SKILL_WILD_SWINGS = 1021111;
-  this.SKILL_ADRENALINE_RUSH = 1021112; 
+  this.SKILL_ADRENALINE_RUSH = 1021112;
+  this.SKILL_POWER_SURGE = 10211121;
   this.SKILL_EXECUTE = 1022111;
-  this.SKILL_TURN_THE_TABLES = 1022211; 
-  this.SKILL_OVERCHARGE = 10211121; 
-  this.SKILL_UNDERMINE = 10222111; 
+  this.SKILL_TURN_THE_TABLES = 1022211;
+  this.SKILL_OVERCHARGE = 10211121;
+  this.SKILL_UNDERMINE = 10222111;
   // Defense Tree
   this.SKILL_ARMOUR_MASTERY = 103;
   this.SKILL_ANCESTRAL_FORTITUDE = 1031;
@@ -101,7 +99,7 @@ Game.init = function() {
   this.SKILL_ARTFUL_DODGER = 103211;
   this.SKILL_EYE_FOR_AN_EYE = 103212;
   this.SKILL_DIVINE_SHIELD = 1031121;
-  this.SKILL_SECOND_WIND = 1031122; // A blow that would kill you instead restores 6% health per rank. Can only trigger once per battle.
+  this.SKILL_SECOND_WIND = 1031122;
   this.SKILL_RIPOSTE = 1031211;
   this.SKILL_ABSORPTION_SHIELD = 10311211;
   this.SKILL_REFLECTIVE_SHIELD = 10311212;
@@ -291,12 +289,17 @@ Game.init = function() {
   this.BADGE_ZONE12 = 2072; // A Long Way Down
   // Player variables
   this.p_Name = "Generic Player Name";
-  this.p_HP = 0; this.p_MaxHP = 0;
-  this.p_Str = 0; this.p_Dex = 0;
-  this.p_Int = 0; this.p_Con = 0;
-  this.p_EXP = 0; this.p_NextEXP = 0;
+  this.p_HP = 0;
+  this.p_MaxHP = 0;
+  this.p_Str = 0;
+  this.p_Dex = 0;
+  this.p_Int = 0;
+  this.p_Con = 0;
+  this.p_EXP = 0;
+  this.p_NextEXP = 0;
   this.p_SkillPoints = 0;
-  this.p_Level = 0; this.p_PP = 0; // Power points.
+  this.p_Level = 0;
+  this.p_PP = 0; // Power points.
   this.p_Powers = []; // Selected powers.
   this.p_Weapon = []; // Player weapon.
   this.p_Armour = []; // Player armour.
@@ -340,8 +343,10 @@ Game.init = function() {
   this.toastQueue = [];
   this.toastTimer = null;
   // Enemy variables
-  this.e_HP = 0; this.e_MaxHP = 0;
-  this.e_MainStat = 0; this.e_Level = 0;
+  this.e_HP = 0;
+  this.e_MaxHP = 0;
+  this.e_MainStat = 0;
+  this.e_Level = 0;
   this.e_Name = "";
   this.e_isBoss = false;
   this.e_Weapon = []; // Enemy weapon
@@ -357,14 +362,13 @@ Game.init = function() {
   this.autoBattleTicker = null;
   this.autoBattle_flee = 5;
   this.autoBattle_repair = 5;
-  this.autoSell_options = ["SELL","SCRAP","IGNORE","IGNORE","IGNORE"];
-  if(!this.load()) {
+  this.autoSell_options = ["SELL", "SCRAP", "IGNORE", "IGNORE", "IGNORE"];
+  if (!this.load()) {
     this.initPlayer(1);
     this.showPanel("updateTable");
     this.repopulateShop();
     this.save(true);
-  }
-  else {
+  } else {
     this.showPanel(this.activePanel);
     this.toastNotification("Game loaded.");
   }
@@ -379,30 +383,52 @@ Game.init = function() {
   var helpTabButton = document.getElementById("helpTab");
   var updateTabButton = document.getElementById("updateTab");
   var badgeTabButton = document.getElementById("badgeTab");
-  playerTabButton.onclick = function(){ Game.showPanel('playerTable'); };
-  combatTabButton.onclick = function(){ Game.showPanel('combatTable'); };
-  zoneTabButton.onclick = function(){ Game.showPanel('zoneTable'); };
-  skillsTabButton.onclick = function(){ Game.showPanel('skillsTable'); };
-  inventoryTabButton.onclick = function(){ Game.showPanel('inventoryTable'); };
-  storeTabButton.onclick = function(){ Game.showPanel('storeTable'); };
-  optionsTabButton.onclick = function(){ Game.showPanel('optionsTable'); };
-  helpTabButton.onclick = function(){ Game.showPanel('helpTable'); };
-  updateTabButton.onclick = function(){ Game.showPanel('updateTable'); };
-  badgeTabButton.onclick = function(){ Game.showPanel('badgeTable'); };
-  if(Game.p_State != Game.STATE_COMBAT) { Game.idleHeal(); }
+  playerTabButton.onclick = function () {
+    Game.showPanel('playerTable');
+  };
+  combatTabButton.onclick = function () {
+    Game.showPanel('combatTable');
+  };
+  zoneTabButton.onclick = function () {
+    Game.showPanel('zoneTable');
+  };
+  skillsTabButton.onclick = function () {
+    Game.showPanel('skillsTable');
+  };
+  inventoryTabButton.onclick = function () {
+    Game.showPanel('inventoryTable');
+  };
+  storeTabButton.onclick = function () {
+    Game.showPanel('storeTable');
+  };
+  optionsTabButton.onclick = function () {
+    Game.showPanel('optionsTable');
+  };
+  helpTabButton.onclick = function () {
+    Game.showPanel('helpTable');
+  };
+  updateTabButton.onclick = function () {
+    Game.showPanel('updateTable');
+  };
+  badgeTabButton.onclick = function () {
+    Game.showPanel('badgeTable');
+  };
+  if (Game.p_State != Game.STATE_COMBAT) {
+    Game.idleHeal();
+  }
   this.drawActivePanel();
 }
-Game.reset = function() {
-  if(confirm("Are you sure you wish to erase your save? It will be lost permanently...")) {
+Game.reset = function () {
+  if (confirm("Are you sure you wish to erase your save? It will be lost permanently...")) {
     window.localStorage.removeItem("gameSave");
     window.location.reload();
   }
 }
-Game.prestige = function() {
+Game.prestige = function () {
   var prestigeBonus = Game.p_Level;
-  if(Game.p_State == Game.STATE_IDLE) {
-    if(Game.p_maxZone > 0) {
-      if(confirm("The following actions will take place: \n • You will lose all of your items and currency. \n • Your character will be returned to level 1. \n • You will gain " + prestigeBonus + " prestige levels. \n\n Are you sure you wish to prestige?")) {
+  if (Game.p_State == Game.STATE_IDLE) {
+    if (Game.p_maxZone > 0) {
+      if (confirm("The following actions will take place: \n • You will lose all of your items and currency. \n • Your character will be returned to level 1. \n • You will gain " + prestigeBonus + " prestige levels. \n\n Are you sure you wish to prestige?")) {
         Game.POINTS_STR = 0;
         Game.POINTS_DEX = 0;
         Game.POINTS_INT = 0;
@@ -425,8 +451,8 @@ Game.prestige = function() {
         Game.p_maxZone = 0;
         Game.prestigeLevel += Game.p_Level;
         Game.initPlayer(1);
-        Game.p_SkillPoints += Math.floor(Game.prestigeLevel/4);
-        Game.p_StatPoints += Math.floor(Game.prestigeLevel/2);
+        Game.p_SkillPoints += Math.floor(Game.prestigeLevel / 4);
+        Game.p_StatPoints += Math.floor(Game.prestigeLevel / 2);
         Game.repopulateShop();
         Game.TRACK_RESETS++;
         Game.giveBadge(Game.BADGE_PRESTIGE);
@@ -434,16 +460,14 @@ Game.prestige = function() {
         Game.save(true);
         Game.drawActivePanel();
       }
-    }
-    else {
+    } else {
       Game.toastNotification("You cannot prestige until you have cleared the first zone.");
     }
-  }
-  else {
+  } else {
     Game.toastNotification("You cannot perform a prestige reset when in combat.");
   }
 }
-Game.save = function(auto) {
+Game.save = function (auto) {
   var STS = {};
   STS.p_Name = Game.p_Name;
   STS.p_HP = Game.p_HP;
@@ -454,7 +478,7 @@ Game.save = function(auto) {
   STS.p_Con = Game.p_Con;
   STS.POINTS_STR = Game.POINTS_STR;
   STS.POINTS_DEX = Game.POINTS_DEX;
-  STS.POINTS_INT  = Game.POINTS_INT;
+  STS.POINTS_INT = Game.POINTS_INT;
   STS.POINTS_CON = Game.POINTS_CON;
   STS.POINTS_STR_CURRENT = Game.POINTS_STR_CURRENT;
   STS.POINTS_DEX_CURRENT = Game.POINTS_DEX_CURRENT;
@@ -545,27 +569,25 @@ Game.save = function(auto) {
   STS.autoSell_options = Game.autoSell_options;
   STS.prestigeLevel = Game.prestigeLevel;
   STS.GAME_VERSION = Game.GAME_VERSION;
-  window.localStorage.setItem("gameSave",JSON.stringify(STS));
+  window.localStorage.setItem("gameSave", JSON.stringify(STS));
   Game.toastNotification("Game saved.");
-  if(!auto) {
+  if (!auto) {
     Game.giveBadge(Game.BADGE_MANUALSAVE); // Trust Issues
-  }
-  else {
+  } else {
     Game.PROGRESS_AUTOSAVE++;
     Game.badgeCheck(Game.BADGE_AUTOSAVE); // We've Got You Covered
   }
 }
-Game.load = function() {
+Game.load = function () {
   //localStorage yeeeeee
   var g;
   try {
     g = JSON.parse(window.localStorage.getItem("gameSave"));
-  }
-  catch(x) {
+  } catch (x) {
     g = null;
     console.log("Failed to load save. Is localStorage a thing on this browser?");
   }
-  if(g !== null && g.GAME_VERSION == Game.GAME_VERSION) {
+  if (g !== null && g.GAME_VERSION == Game.GAME_VERSION) {
     Game.p_Name = g.p_Name;
     Game.p_HP = g.p_HP;
     Game.p_MaxHP = g.p_MaxHP;
@@ -663,47 +685,58 @@ Game.load = function() {
     Game.autoBattle_flee = g.autoBattle_flee;
     Game.autoBattle_repair = g.autoBattle_repair;
     Game.autoSell_options = g.autoSell_options;
-    if(g.bossChance === undefined) { Game.bossChance = Game.p_Level >= 5 ? 1 : 0; }
-    else { Game.bossChance = g.bossChance; }
-    if(g.prestigeLevel === undefined) { Game.prestigeLevel = 0; }
-    else { Game.prestigeLevel = g.prestigeLevel; }
+    if (g.bossChance === undefined) {
+      Game.bossChance = Game.p_Level >= 5 ? 1 : 0;
+    } else {
+      Game.bossChance = g.bossChance;
+    }
+    if (g.prestigeLevel === undefined) {
+      Game.prestigeLevel = 0;
+    } else {
+      Game.prestigeLevel = g.prestigeLevel;
+    }
     // Fix for weapons with the old weaker sleep debuff circa V1.0 RC2
-    if(Game.p_Weapon[9][0] == 250 && Game.p_Weapon[9][3] == 20) {
+    if (Game.p_Weapon[9][0] == 250 && Game.p_Weapon[9][3] == 20) {
       Game.p_Weapon[9][3] = 15;
     }
-    for(var x = 0; x < Game.p_WeaponInventory.length; x++) {
-      if(Game.p_WeaponInventory[x][9][0] == 250 && Game.p_WeaponInventory[x][9][3] == 20) {
+    for (var x = 0; x < Game.p_WeaponInventory.length; x++) {
+      if (Game.p_WeaponInventory[x][9][0] == 250 && Game.p_WeaponInventory[x][9][3] == 20) {
         Game.p_WeaponInventory[x][9][3] = 15;
       }
     }
     return true;
+  } else {
+    return false;
   }
-  else { return false; }
 }
-Game.RNG = function(min, max) {
+Game.RNG = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-Game.padLeft = function(nr, n, str){
-  return Array(n-String(nr).length+1).join(str||'0')+nr;
+Game.padLeft = function (nr, n, str) {
+  return Array(n - String(nr).length + 1).join(str || '0') + nr;
 }
+
 function prettifyNumber(x) {
   var parts = x.toString().split(".");
   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return parts.join(".");
 }
+
 function abbreviateNumber(value) {
   var newValue = value;
   if (value >= 1000) {
-    var suffixes = ["","k","m","b","t","qa","qi","sx","sp"];
-    var suffixNum = Math.floor( (""+value).length/3 );
+    var suffixes = ["", "k", "m", "b", "t", "qa", "qi", "sx", "sp"];
+    var suffixNum = Math.floor(("" + value).length / 3);
     var shortValue = '';
     for (var precision = 2; precision >= 1; precision--) {
-      shortValue = parseFloat( (suffixNum != 0 ? (value / Math.pow(1000,suffixNum) ) : value).toPrecision(precision));
-      var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g,'');
-      if (dotLessShortValue.length <= 2) { break; }
+      shortValue = parseFloat((suffixNum != 0 ? (value / Math.pow(1000, suffixNum)) : value).toPrecision(precision));
+      var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g, '');
+      if (dotLessShortValue.length <= 2) {
+        break;
+      }
     }
-    if (shortValue % 1 != 0)  shortNum = shortValue.toFixed(1);
-    newValue = shortValue+suffixes[suffixNum];
+    if (shortValue % 1 != 0) shortNum = shortValue.toFixed(1);
+    newValue = shortValue + suffixes[suffixNum];
   }
   return newValue;
 }
@@ -719,14 +752,18 @@ function arraysEqual(a, b) {
 }
 
 function statValue(val) {
-  if(val < 0) { return -statValue(-val); }
+  if (val < 0) {
+    return -statValue(-val);
+  }
   var mult = val / Game.STAT_CONVERSION_SCALE;
   var trinum = (Math.sqrt(8.0 * mult + 1.0) - 1.0) / 2.0;
   return trinum * Game.STAT_CONVERSION_SCALE;
 }
 
 function clearElementContent(el) {
-  while(el.firstChild) { el.removeChild(el.firstChild); }
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
 }
 
 function updateElementIDContent(elID, content) {
@@ -738,11 +775,10 @@ function updateElementIDContent(elID, content) {
 
 function toggleHelpVis(blockname) {
   var elementList = document.body.querySelectorAll("." + blockname);
-  for(var i = 0; i < elementList.length; i++) {
-    if(elementList[i].classList.contains("hiddenElement")) {
+  for (var i = 0; i < elementList.length; i++) {
+    if (elementList[i].classList.contains("hiddenElement")) {
       elementList[i].classList.remove("hiddenElement");
-    }
-    else {
+    } else {
       elementList[i].classList.add("hiddenElement");
     }
   }

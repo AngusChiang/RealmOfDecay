@@ -5,7 +5,7 @@ if (!String.prototype.trim) {
 }
 
 if (!Array.prototype.indexOf) {
-  Array.prototype.indexOf = function(searchElement, fromIndex) {
+  Array.prototype.indexOf = function (searchElement, fromIndex) {
 
     var k;
 
