@@ -416,6 +416,7 @@ Game.init = function () {
   if (Game.p_State != Game.STATE_COMBAT) {
     Game.idleHeal();
   }
+  this.hideLockedFeatures();
   this.drawActivePanel();
 }
 Game.reset = function () {

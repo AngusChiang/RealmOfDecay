@@ -1,0 +1,151 @@
+* {
+  box-sizing:border-box;
+  font-family: sans-serif;
+}
+
+body {
+  background-color:#300000;
+  min-width: 800px;
+}
+
+body * {
+  color: #dddddd;
+}
+
+.gameWrapper {
+  background-color:#460000;
+  max-width:750px;
+  margin:0px auto;
+  border: 2px solid #666666;
+  padding:10px;
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  border-radius:10px;
+}
+
+.header {
+  text-align: center;
+  position: relative;
+  background-color: #460000;
+  width:100%;
+}
+
+.hiddenElement {
+  display:none !important;
+}
+
+.headerTab {
+  width: 65px;
+  display: inline-block;
+  text-align:center;
+  padding:5px 0px;
+  margin:0px 2px;
+  border-bottom: 2px solid #600000;
+}
+
+.headerTab:hover {
+  background-color: #600000;
+}
+
+.itemPanel {
+  width: 320px !important;
+}
+
+.selectedTab {
+  border-bottom: 2px solid #dfdfdf;
+  padding:5px 0px;
+  font-weight:bold;
+}
+
+.playerHPBar, .enemyHPBar, .fillingBar {
+  position: relative;
+  z-index: 8;
+  height: 25px;
+}
+
+#playerHPBarText, #enemyHPBarText {
+  font-size: 10px;
+  padding: 1px 3px;
+  vertical-align: middle;
+  float: inherit;
+}
+
+.fillingBorder {
+  border: 2px outset #666666;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  z-index: 9;
+  width: 45%;
+  height: 29px;
+  text-align: left;
+  position: relative;
+}
+
+.reverseFillingBorder {
+  border: 2px outset #666666;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  z-index: 9;
+  width: 45%;
+  height: 29px;
+  text-align: right;
+  position: relative;
+}
+
+.playerHPBorder {
+  border: 2px outset #666666;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  z-index: 9;
+  width: 49%;
+  height: 29px;
+  float: left;
+  text-align: left;
+  position: relative;
+}
+
+.enemyHPBorder {
+  border: 2px outset #666666;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  z-index: 9;
+  width: 49%;
+  height: 29px;
+  float: right;
+  text-align: right;
+  position: relative;
+}
+
+.q221 {
+  color: #808080;
+  font-weight: bold;
+}
+
+.q222 {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.q223 {
+  color: #33cc33;
+  font-weight: bold;
+}
+
+.q224 {
+  color: #4d94ff;
+  font-weight: bold;
+}
+
+.q225 {
+  color: #e600e6;
+  font-weight: bold;
+}
+
+.q226 {
+  color: #ffbf00;
+  font-weight: bold;
+}

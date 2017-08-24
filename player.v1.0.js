@@ -8,18 +8,18 @@ actions and advancement.
 Game.levelUp = function () {
   Game.combatLog("info", "Level up! You are now level <span class='q222'>" + (Game.p_Level + 1) + "</span>.");
   var hpUp = Game.RNG(25, 30);
-  Game.p_MaxHP += hpUp
+  Game.p_MaxHP += hpUp;
   Game.combatLog("info", "You gained <span class='q222'>" + hpUp + "</span> maximum HP.");
-  var strUp = 1 + (Game.p_Weapon[2] == Game.WEAPON_MELEE ? 1 : 0);
+  var strUp = 1 + (Game.p_Weapon[2] === Game.WEAPON_MELEE ? 1 : 0);
   Game.p_Str += strUp;
   Game.combatLog("info", "You gained <span class='q222'>" + strUp + "</span> Strength.");
-  var dexUp = 1 + (Game.p_Weapon[2] == Game.WEAPON_RANGE ? 1 : 0);
+  var dexUp = 1 + (Game.p_Weapon[2] === Game.WEAPON_RANGE ? 1 : 0);
   Game.p_Dex += dexUp;
   Game.combatLog("info", "You gained <span class='q222'>" + dexUp + "</span> Dexterity.");
-  var intUp = 1 + (Game.p_Weapon[2] == Game.WEAPON_MAGIC ? 1 : 0);
+  var intUp = 1 + (Game.p_Weapon[2] === Game.WEAPON_MAGIC ? 1 : 0);
   Game.p_Int += intUp;
   Game.combatLog("info", "You gained <span class='q222'>" + intUp + "</span> Intelligence.");
-  var conUp = Game.RNG(1, 4) == 1 ? 2 : 1;
+  var conUp = Game.RNG(1, 4) === 1 ? 2 : 1;
   Game.p_Con += conUp;
   Game.combatLog("info", "You gained <span class='q222'>" + conUp + "</span> Constitution.");
   Game.p_MaxHP += (15 * conUp);
@@ -27,49 +27,49 @@ Game.levelUp = function () {
   if (statUpChance > 0 && Game.RNG(1, 100) <= 3 * statUpChance) {
     var chosenStat = Game.RNG(1, 4);
     switch (chosenStat) {
-      case 1:
-        Game.p_Str++;
-        Game.combatLog("info", "<span class='q222'>Patience and Discipline</span> granted an additional 1 Strength.");
-        break;
-      case 2:
-        Game.p_Dex++;
-        Game.combatLog("info", "<span class='q222'>Patience and Discipline</span> granted an additional 1 Dexterity.");
-        break;
-      case 3:
-        Game.p_Int++;
-        Game.combatLog("info", "<span class='q222'>Patience and Discipline</span> granted an additional 1 Intelligence.");
-        break;
-      case 4:
-        Game.p_Con++;
-        Game.combatLog("info", "<span class='q222'>Patience and Discipline</span> granted an additional 1 Constitution.");
-        break;
+    case 1:
+      Game.p_Str += 1;
+      Game.combatLog("info", "<span class='q222'>Patience and Discipline</span> granted an additional 1 Strength.");
+      break;
+    case 2:
+      Game.p_Dex += 1;
+      Game.combatLog("info", "<span class='q222'>Patience and Discipline</span> granted an additional 1 Dexterity.");
+      break;
+    case 3:
+      Game.p_Int += 1;
+      Game.combatLog("info", "<span class='q222'>Patience and Discipline</span> granted an additional 1 Intelligence.");
+      break;
+    case 4:
+      Game.p_Con += 1;
+      Game.combatLog("info", "<span class='q222'>Patience and Discipline</span> granted an additional 1 Constitution.");
+      break;
     }
   }
-  Game.p_Level++;
+  Game.p_Level += 1;
   Game.TRACK_XP_OVERFLOW += Game.p_EXP - Game.p_NextEXP;
   Game.p_EXP = 0;
   Game.p_NextEXP = Math.floor(Game.XP_INIT * Math.pow(Game.XP_MULT, Game.p_Level - 1));
-  if (Game.p_Level == 50) {
+  if (Game.p_Level === 50) {
     Game.badgeCheck(Game.BADGE_NO_SPEND); // The Trade Blockade
     if (Game.PROGRESS_NO_NAMES) {
       Game.giveBadge(Game.BADGE_NO_NAMES);
     } // Terminally Unimaginative
   }
-  Game.p_StatPoints++;
+  Game.p_StatPoints += 1;
   Game.combatLog("info", "You gained a Stat Point.");
   if (Game.RNG(1, 50) <= Game.powerLevel(Game.SKILL_LUCK_OF_THE_DRAW)) {
-    Game.p_StatPoints++;
+    Game.p_StatPoints += 1;
     Game.combatLog("info", "<span class='q222'>Luck of the Draw</span> activates, granting a Stat Point.");
   }
-  if (Game.p_Level >= 5 && Game.p_Level % 2 == 1) {
+  if (Game.p_Level >= 5 && Game.p_Level % 2 === 1) {
     Game.p_SkillPoints += 1;
     Game.combatLog("info", "You gained a Skill Point.");
   }
   if (Game.RNG(1, 100) <= Game.powerLevel(Game.SKILL_LUCKY_STAR)) {
-    Game.p_SkillPoints++;
+    Game.p_SkillPoints += 1;
     Game.combatLog("info", "<span class='q222'>Lucky Star</span> activates, granting a Skill Point.");
   }
-  if (Game.p_Level == 5) {
+  if (Game.p_Level === 5) {
     Game.bossChance = 1;
   }
   Game.repopulateShop();
@@ -78,43 +78,43 @@ Game.levelUp = function () {
 Game.addStat = function (stat, count) {
   while (count > 0 && Game.p_StatPoints > 0) {
     switch (stat) {
-      case Game.STAT_STR:
-        Game.p_Str++;
-        Game.POINTS_STR++;
-        Game.POINTS_STR_CURRENT++;
-        if (Game.POINTS_STR >= 100) {
-          Game.giveBadge(Game.BADGE_STR);
-        }
-        break;
-        // A Good Offense
-      case Game.STAT_DEX:
-        Game.p_Dex++;
-        Game.POINTS_DEX++;
-        Game.POINTS_DEX_CURRENT++;
-        if (Game.POINTS_DEX >= 100) {
-          Game.giveBadge(Game.BADGE_DEX);
-        }
-        break;
-        // Pinpoint Accuracy
-      case Game.STAT_INT:
-        Game.p_Int++;
-        Game.POINTS_INT++;
-        Game.POINTS_INT_CURRENT++;
-        if (Game.POINTS_INT >= 100) {
-          Game.giveBadge(Game.BADGE_INT);
-        }
-        break;
-        // Bookish Type
-      case Game.STAT_CON:
-        Game.p_Con++;
-        Game.POINTS_CON++;
-        Game.POINTS_CON_CURRENT++;
-        Game.p_MaxHP += 15;
-        if (Game.POINTS_CON >= 100) {
-          Game.giveBadge(Game.BADGE_CON);
-        }
-        break;
-        // Defence of the Ancients
+    case Game.STAT_STR:
+      Game.p_Str++;
+      Game.POINTS_STR++;
+      Game.POINTS_STR_CURRENT++;
+      if (Game.POINTS_STR >= 100) {
+        Game.giveBadge(Game.BADGE_STR);
+      }
+      break;
+      // A Good Offense
+    case Game.STAT_DEX:
+      Game.p_Dex++;
+      Game.POINTS_DEX++;
+      Game.POINTS_DEX_CURRENT++;
+      if (Game.POINTS_DEX >= 100) {
+        Game.giveBadge(Game.BADGE_DEX);
+      }
+      break;
+      // Pinpoint Accuracy
+    case Game.STAT_INT:
+      Game.p_Int++;
+      Game.POINTS_INT++;
+      Game.POINTS_INT_CURRENT++;
+      if (Game.POINTS_INT >= 100) {
+        Game.giveBadge(Game.BADGE_INT);
+      }
+      break;
+      // Bookish Type
+    case Game.STAT_CON:
+      Game.p_Con++;
+      Game.POINTS_CON++;
+      Game.POINTS_CON_CURRENT++;
+      Game.p_MaxHP += 15;
+      if (Game.POINTS_CON >= 100) {
+        Game.giveBadge(Game.BADGE_CON);
+      }
+      break;
+      // Defence of the Ancients
     }
     Game.p_StatPoints--;
     count--;
@@ -140,7 +140,7 @@ Game.initPlayer = function (level) {
   Game.p_NextEXP = Math.floor(Game.XP_INIT * Math.pow(Game.XP_MULT, level - 1));
   Game.p_StatPoints = level;
   Game.p_Level = level;
-  Game.p_SkillPoints = level;
+  Game.p_SkillPoints = Math.max(Math.ceil((level-4)/2),0);
   Game.p_Weapon = Game.makeWeapon(level);
   Game.p_Armour = Game.makeArmour(level);
 }
