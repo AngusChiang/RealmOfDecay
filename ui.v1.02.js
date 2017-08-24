@@ -34,6 +34,7 @@ Game.drawActivePanel = function () {
       Game.createBadgeTab();
       break;
   }
+  Game.hideLockedFeatures();
 }
 Game.updateTitleBar = function () {
   var seeds = document.getElementById("seedsOut");
@@ -44,6 +45,12 @@ Game.updateTitleBar = function () {
   scrap.setAttribute("title", Game.p_Scrap);
 }
 Game.createPlayerTab = function () {
+  // Player's Name
+  var playerName = document.getElementById("playerNameOut");
+  playerName.innerHTML = Game.p_Name;
+  // Player's Health and Experience
+  
+  // Old code
   var playerInfoPanel = document.getElementById("playerInfoPanel");
   playerInfoPanel.innerHTML = "";
   playerInfoPanel.appendChild(Game.createPlayerUIPanel());
@@ -359,15 +366,11 @@ Game.showPanel = function (panelID) {
     if (panelList[x].id !== "initTable" && panelList[x].id == panelID) {
       panelList[x].style.display = "";
       var tabHeader = document.getElementById(panelList[x].id.slice(0, -2));
-      tabHeader.style.backgroundColor = "#991010";
-      tabHeader.style.color = "#ffffff";
-      tabHeader.style.fontWeight = "bold";
+      tabHeader.classList.add("selectedTab");
     } else if (panelList[x].id !== "initTable" && panelList[x].id.match(/(\w+)Table/g) !== null) {
       panelList[x].style.display = "none";
       var tabHeader = document.getElementById(panelList[x].id.slice(0, -2));
-      tabHeader.style.backgroundColor = "";
-      tabHeader.style.color = "";
-      tabHeader.style.fontWeight = "";
+      tabHeader.classList.remove("selectedTab");
     }
   }
   Game.activePanel = panelID;
@@ -454,6 +457,7 @@ Game.updateActivePanel = function () {
       Game.updatePlayerTab();
       break;
   }
+  Game.hideLockedFeatures();
 }
 Game.updateCombatTab = function () {
   // Player Panel
@@ -625,6 +629,33 @@ Game.updatePlayerTab = function () {
   var playerArmourDurability = document.getElementById("combat_playerArmourDurability");
   if (playerArmourDurability !== null) {
     playerArmourDurability.innerHTML = Game.p_Armour[3] + " uses";
+  }
+}
+Game.hideLockedFeatures = function() {
+  if(Game.TRACK_COMBAT_SEEDS < 100) {
+    document.getElementById("storeTab").classList.add("hiddenElement");
+  } else {
+    document.getElementById("storeTab").classList.remove("hiddenElement");
+  }
+  if(Game.p_SkillPoints === 0 && Game.p_Powers.length === 0) {
+    document.getElementById("skillsTab").classList.add("hiddenElement");
+  } else {
+    document.getElementById("skillsTab").classList.remove("hiddenElement");
+  }
+  if(Game.p_maxZone < 1) {
+    document.getElementById("zoneTab").classList.add("hiddenElement");
+  } else {
+    document.getElementById("zoneTab").classList.remove("hiddenElement");
+  }
+  if(Game.p_WeaponInventory.length === 0 && Game.p_ArmourInventory.length === 0 && Game.TRACK_ITEM_SALES === 0 && Game.TRACK_ITEM_SCRAPS === 0 && Game.TRACK_ITEM_DISCARDS === 0) {
+    document.getElementById("inventoryTab").classList.add("hiddenElement");
+  } else {
+    document.getElementById("inventoryTab").classList.remove("hiddenElement");
+  }
+  if(Game.playerBadges.length < 1) {
+    document.getElementById("badgeTab").classList.add("hiddenElement");
+  } else {
+    document.getElementById("badgeTab").classList.remove("hiddenElement");
   }
 }
 document.getElementById("loadedUI").style.display = "";
