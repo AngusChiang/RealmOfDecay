@@ -477,52 +477,22 @@ Game.createPowerUIPanel = function (powerID, rootID, currentLevel, selectable, b
 }
 Game.createPlayerUIPanel = function () {
   // And it goes a little something like this...
-  // +-------------------------------------+------------+
-  // | Player Name                         | Level XX   |
-  // +-------------------------------------+------------+
-  // | HP: XXXXX / YYYYY (ZZ.ZZ%)          | Free SP: X |
   // +--------------------------------------------------+
-  // | Experience: XXXXX / YYYYY (ZZ.ZZ%)  | Free PP: X |
+  // | Stat Points: X          | Skill Points: X        |
   // +--------------------------------------------------+
   // |  STR XXX   |  DEX XXX   |  INT XXX  |  CON XXX   |
-  // +--------------------------------------------------+
-  // |      Scrap: XXXXX       |     Seeds: XXXXX       |
   // +--------------------------------------------------+
   // |       Change Name       |      Reset Stats       |
   // +--------------------------------------------------+
 
   var panel = document.createElement("table");
   panel.setAttribute("class", "itemPanel");
-  var row1 = document.createElement("tr");
   var row2 = document.createElement("tr");
   var row3 = document.createElement("tr");
   var row4 = document.createElement("tr");
   var row5 = document.createElement("tr");
   var row6 = document.createElement("tr");
   var row7 = document.createElement("tr");
-  var nameSection = document.createElement("td");
-  nameSection.setAttribute("colspan", "3");
-  nameSection.setAttribute("style", "font-size:18px;font-weight:bold;")
-  nameSection.innerHTML = Game.p_Name;
-  var levelSection = document.createElement("td");
-  levelSection.setAttribute("style", "text-align:right;");
-  levelSection.innerHTML = "Level " + Game.p_Level;
-  levelSection.id = "player_level";
-  row1.appendChild(nameSection);
-  row1.appendChild(levelSection);
-  panel.appendChild(row1);
-  var HPSection = document.createElement("td");
-  HPSection.setAttribute("colspan", "4");
-  HPSection.id = "player_hpmaxhp";
-  HPSection.innerHTML = "<strong>HP:</strong> " + prettifyNumber(Game.p_HP) + " / " + prettifyNumber(Game.p_MaxHP) + " (" + Math.floor(Game.p_HP / Game.p_MaxHP * 10000) / 100 + "%)";
-  row2.appendChild(HPSection);
-  panel.appendChild(row2);
-  var XPSection = document.createElement("td");
-  XPSection.setAttribute("colspan", "4");
-  XPSection.id = "player_xpmaxxp";
-  XPSection.innerHTML = "<strong>XP:</strong> " + Game.p_EXP + " / " + Game.p_NextEXP + " (" + Math.floor(Game.p_EXP / Game.p_NextEXP * 10000) / 100 + "%)";
-  row3.appendChild(XPSection);
-  panel.appendChild(row3);
   var unspentSPSection = document.createElement("td");
   unspentSPSection.setAttribute("colspan", "2");
   unspentSPSection.id = "player_UISP";
@@ -551,27 +521,11 @@ Game.createPlayerUIPanel = function () {
   row5.appendChild(INTSection);
   row5.appendChild(CONSection);
   panel.appendChild(row5);
-  var seedsSection = document.createElement("td");
-  seedsSection.setAttribute("colspan", "2");
-  seedsSection.id = "player_UISeeds";
-  seedsSection.innerHTML = "<strong>Seeds:</strong> " + Game.p_Currency;
-  var scrapSection = document.createElement("td");
-  scrapSection.setAttribute("colspan", "2");
-  scrapSection.id = "player_UIScrap";
-  scrapSection.innerHTML = "<strong>Scrap:</strong> " + Game.p_Scrap;
-  row6.appendChild(seedsSection);
-  row6.appendChild(scrapSection);
-  panel.appendChild(row6);
   var renameButton = document.createElement("span");
   var renameSection = document.createElement("td");
   renameSection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;width:50% !important");
   renameSection.setAttribute("colspan", "2");
   renameButton.setAttribute("class", "itemPanelButton");
-  renameButton.onclick = function () {
-    return function () {
-      Game.renamePlayer();
-    };
-  }();
   renameButton.innerHTML = "Rename Character"
   renameSection.appendChild(renameButton);
   var resetSection = document.createElement("td");

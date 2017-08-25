@@ -35,8 +35,13 @@
             </tr>
             <tr>
               <td>
-                <div id="playerNameOut" style="float:left;font-weight:bold;font-size:16px;"></div>
-                <div id="enemyNameOut" style="float:right;text-align:right;font-weight:bold;font-size:16px;"></div>
+                <style>
+                  #playerNameOut:hover, #enemyNameOut:hover {
+                    color: #ffffff !important;
+                  }
+                </style>
+                <div id="playerNameOut" title="Rename your character." style="cursor:pointer;float:left;font-weight:bold;font-size:16px;" onclick="Game.renamePlayer();"></div>
+                <div id="enemyNameOut" title="Activate Burst Attack." style="cursor:pointer;float:right;text-align:right;font-weight:bold;font-size:16px;" onclick="Game.burstAttack();"></div>
                 <br />
                 <hr />
               </td>
@@ -366,6 +371,8 @@
                           <ul>
                             <li>Player health and experience bars are now visible across all tabs.</li>
                             <li>When in combat, the experience bar will be replaced by the enemy's health bar.</li>
+                            <li>Renaming your character is now accomplished by clicking the existing name below the health bar.</li>
+                            <li>When in combat, clicking the enemy's name below the health bar will now initiate your Burst Attack.</li>
                             <li>
                               The following tabs are now hidden until certain conditions are met:
                               <ul>

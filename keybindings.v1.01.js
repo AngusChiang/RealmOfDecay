@@ -12,20 +12,28 @@ function keyBindings(key) {
       Game.PROGRESS_KEYBINDING++;
       break;
     case "3":
-      Game.showPanel('zoneTable');
-      Game.PROGRESS_KEYBINDING++;
+      if(!document.getElementById("zoneTab").classList.contains("hiddenElement")) {
+        Game.showPanel('zoneTable');
+        Game.PROGRESS_KEYBINDING++;
+      }
       break;
     case "4":
-      Game.showPanel('powersTable');
-      Game.PROGRESS_KEYBINDING++;
+      if(!document.getElementById("powersTab").classList.contains("hiddenElement")) {
+        Game.showPanel('powersTable');
+        Game.PROGRESS_KEYBINDING++;
+      }
       break;
     case "5":
-      Game.showPanel('inventoryTable');
-      Game.PROGRESS_KEYBINDING++;
+      if(!document.getElementById("inventoryTab").classList.contains("hiddenElement")) {
+        Game.showPanel('inventoryTable');
+        Game.PROGRESS_KEYBINDING++;
+      }
       break;
     case "6":
-      Game.showPanel('storeTable');
-      Game.PROGRESS_KEYBINDING++;
+      if(!document.getElementById("storeTab").classList.contains("hiddenElement")) {
+        Game.showPanel('storeTable');
+        Game.PROGRESS_KEYBINDING++;
+      }
       break;
     case "7":
       Game.showPanel('optionsTable');
@@ -40,8 +48,10 @@ function keyBindings(key) {
       Game.PROGRESS_KEYBINDING++;
       break;
     case "0":
-      Game.showPanel('badgeTable');
-      Game.PROGRESS_KEYBINDING++;
+      if(!document.getElementById("badgeTab").classList.contains("hiddenElement")) {
+        Game.showPanel('badgeTable');
+        Game.PROGRESS_KEYBINDING++;
+      }
       break;
     case " ":
       Game.startCombat();
