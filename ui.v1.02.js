@@ -43,14 +43,89 @@ Game.updateTitleBar = function () {
   var scrap = document.getElementById("scrapOut");
   scrap.innerHTML = abbreviateNumber(Game.p_Scrap);
   scrap.setAttribute("title", Game.p_Scrap);
-}
-Game.createPlayerTab = function () {
   // Player's Name
   var playerName = document.getElementById("playerNameOut");
-  playerName.innerHTML = Game.p_Name;
-  // Player's Health and Experience
+  playerName.innerHTML = Game.p_Name + " (Lv. " + Game.p_Level + ")";
+  // Enemy Name (if applicable)
+  var enemyName = document.getElementById("enemyNameOut");
+  if(Game.p_State === Game.STATE_COMBAT) {
+    enemyName.innerHTML = "(Lv. " + Game.e_Level + ") " + Game.e_Name;
+  } 
+  else {
+    enemyName.innerHTML = "";  
+  }
+  // Player's Health
+  var playerCurrentHP = document.getElementById("player_currentHPOut");
+  playerCurrentHP.innerHTML = prettifyNumber(Game.p_HP);
+  var playerMaxHP = document.getElementById("player_maxHPOut");
+  playerMaxHP.innerHTML = prettifyNumber(Game.p_MaxHP);
+  var playerPercentHP = document.getElementById("player_percentHPOut");
+  playerPercentHP.innerHTML = Math.floor(Game.p_HP / Game.p_MaxHP * 10000) / 100 + "%"
+  // Player's Experience
+  if (Game.p_State !== Game.STATE_COMBAT) {
+    var playerCurrentXP = document.getElementById("player_currentXPOut");
+    playerCurrentXP.innerHTML = prettifyNumber(Game.p_EXP);
+    var playerMaxXP = document.getElementById("player_maxXPOut");
+    playerMaxXP.innerHTML = prettifyNumber(Game.p_NextEXP);
+    var playerPercentXP = document.getElementById("player_percentXPOut");
+    playerPercentXP.innerHTML = Math.floor(Game.p_EXP / Game.p_NextEXP * 10000) / 100 + "%"
+  }
+  else {
+    var playerCurrentXP = document.getElementById("player_currentXPOut");
+    playerCurrentXP.innerHTML = prettifyNumber(Game.e_HP);
+    var playerMaxXP = document.getElementById("player_maxXPOut");
+    playerMaxXP.innerHTML = prettifyNumber(Game.e_MaxHP);
+    var playerPercentXP = document.getElementById("player_percentXPOut");
+    playerPercentXP.innerHTML = Math.floor(Game.e_HP / Game.e_MaxHP * 10000) / 100 + "%"
+  }
+  // Bars
+  var PHB = document.getElementById("player_HPBarOut");
+  var PHBText = document.getElementById("player_HPBarText");
+  var PH_Percent = Game.p_HP / Game.p_MaxHP;
+  if (PH_Percent < 0.25) {
+    PHB.style.background = "#dd0000";
+  } else if (PH_Percent < 0.5) {
+    PHB.style.background = "#dd7700";
+  } else if (PH_Percent < 0.75) {
+    PHB.style.background = "#aaaa00";
+    //PHBText.classList.add("forceBlackText");
+  } else {
+    PHB.style.background = "#228822";
+  }
+  PHB.style.width = (100 * PH_Percent) + "%";
+  PHB.style.MozTransition = "width 0.5s";
+  PHB.style.WebkitTransition = "width 0.5s";
   
-  // Old code
+  var EHB = document.getElementById("player_XPBarOut");
+  var EHBText = document.getElementById("player_XPBarText");
+  var Prefix = document.getElementById("player_currentXPPrefix");
+  if (Game.p_State !== Game.STATE_COMBAT) {
+    Prefix.innerHTML = "EXP:";
+    EHB.style.display = "";
+    var EH_Percent = Game.p_EXP / Game.p_NextEXP;
+    EHB.style.background = "#000044";
+    EHB.style.width = (100 * EH_Percent) + "%";
+    EHB.style.MozTransition = "width 0.5s";
+    EHB.style.WebkitTransition = "width 0.5s";
+  } else {
+    Prefix.innerHTML = "Enemy HP:";
+    EHB.style.display = "";
+    var EH_Percent = Game.e_HP / Game.e_MaxHP;
+    if (EH_Percent < 0.25) {
+      EHB.style.background = "#dd0000";
+    } else if (EH_Percent < 0.5) {
+      EHB.style.background = "#dd7700";
+    } else if (EH_Percent < 0.75) {
+      EHB.style.background = "#aaaa00";
+    } else {
+      EHB.style.background = "#228822";
+    }
+    EHB.style.width = (100 * EH_Percent) + "%";
+    EHB.style.MozTransition = "width 0.5s";
+    EHB.style.WebkitTransition = "width 0.5s";
+  }
+}
+Game.createPlayerTab = function () {
   var playerInfoPanel = document.getElementById("playerInfoPanel");
   playerInfoPanel.innerHTML = "";
   playerInfoPanel.appendChild(Game.createPlayerUIPanel());
@@ -138,41 +213,6 @@ Game.createCombatTab = function () {
   } else {
     enemyCombatWeaponPanel.innerHTML = "";
     enemyCombatArmourPanel.innerHTML = "";
-  }
-
-  // Some logic
-  // 100 to 75%: Green
-  // 75 to 50%: Yellow
-  // 50 to 25%: Orange
-  // 25 to 0%: Red
-  var PHB = document.getElementById("playerHPBar");
-  var PH_Percent = Game.p_HP / Game.p_MaxHP;
-  if (PH_Percent < 0.25) {
-    PHB.style.background = "#dd0000";
-  } else if (PH_Percent < 0.5) {
-    PHB.style.background = "#dd7700";
-  } else if (PH_Percent < 0.75) {
-    PHB.style.background = "#dddd00";
-  } else {
-    PHB.style.background = "#33cc33";
-  }
-  PHB.style.width = (100 * PH_Percent) + "%";
-  var EHB = document.getElementById("enemyHPBar");
-  if (Game.p_State !== Game.STATE_COMBAT) {
-    EHB.style.display = "none";
-  } else {
-    EHB.style.display = "";
-    var EH_Percent = Game.e_HP / Game.e_MaxHP;
-    if (EH_Percent < 0.25) {
-      EHB.style.background = "#dd0000";
-    } else if (EH_Percent < 0.5) {
-      EHB.style.background = "#dd7700";
-    } else if (EH_Percent < 0.75) {
-      EHB.style.background = "#dddd00";
-    } else {
-      EHB.style.background = "#33cc33";
-    }
-    EHB.style.width = (100 * EH_Percent) + "%";
   }
 }
 Game.createZoneTab = function () {
@@ -536,6 +576,7 @@ Game.updateCombatTab = function () {
     EHB.style.WebkitTransition = "width 0.5s";
     EHB.style.width = (100 * EH_Percent) + "%";
   }
+  Game.updateTitleBar();
 }
 Game.updatePlayerTab = function () {
   // TODO: Fill

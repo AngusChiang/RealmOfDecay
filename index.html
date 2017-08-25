@@ -10,38 +10,54 @@
 
 <body onload="Game.init()">
   <div id="main" class="gameWrapper">
-    <span style="display:block;text-align:right;">
-      Seeds: <span id="seedsOut"></span>&nbsp;Scrap: <span id="scrapOut"></span>
-    </span>
-    <table id="topBar" class="header">
-      <tr>
-        <td class="headerTab" id="playerTab">Player</td>
-        <td class="headerTab" id="combatTab">Combat</td>
-        <td class="headerTab" id="zoneTab">Zones</td>
-        <td class="headerTab" id="skillsTab">Skills</td>
-        <td class="headerTab" id="inventoryTab">Items</td>
-        <td class="headerTab" id="storeTab">Store</td>
-        <td class="headerTab" id="optionsTab">Options</td>
-        <td class="headerTab" id="helpTab">Help</td>
-        <td class="headerTab" id="updateTab">Updates</td>
-        <td class="headerTab" id="badgeTab">Badges</td>
-        <td style="text-align:right;">
-        </td>
-      </tr>
-    </table>
     <table style="width:100%">
       <tr>
         <td id="rightPanel" valign="top">
           <table>
             <tr>
               <td>
+                <div style="text-align:center;font-size:18px;font-weight:bold;">Realm of Decay</div>
+                <div style="text-align:center;font-size:10px;">by /u/Psychemaster - Version 1.1   
+                </div>
+                  <span style="display:block;text-align:right;">
+                    Seeds: <span id="seedsOut"></span>&nbsp;Scrap: <span id="scrapOut"></span>
+                  </span>  
+                <hr style="margin-bottom:9px;"/>
+                <div class="fillingBorder">
+                  <img id="player_HPBarOut" class="fillingBar" src="Clear.gif"/>
+                  <div id="player_HPBarText" class="fillingText">HP: <span id="player_currentHPOut"></span>/<span id="player_maxHPOut"></span> (<span id="player_percentHPOut"></span>)</div>
+                </div>
+                <div class="reverseFillingBorder">
+                  <img id="player_XPBarOut" class="fillingBar" src="Clear.gif"/>
+                  <div id="player_XPBarText" class="fillingText"><span id="player_currentXPPrefix"></span>&nbsp;<span id="player_currentXPOut"></span>/<span id="player_maxXPOut"></span> (<span id="player_percentXPOut"></span>)</div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div id="playerNameOut" style="float:left;font-weight:bold;font-size:16px;"></div>
+                <div id="enemyNameOut" style="float:right;text-align:right;font-weight:bold;font-size:16px;"></div>
+                <br />
+                <hr />
+              </td>
+            </tr>
+            <tr class="header" id="topBar">
+              <td class="headerTab" id="playerTab">Player</td>
+              <td class="headerTab" id="combatTab">Combat</td>
+              <td class="headerTab" id="zoneTab">Zones</td>
+              <td class="headerTab" id="skillsTab">Skills</td>
+              <td class="headerTab" id="inventoryTab">Items</td>
+              <td class="headerTab" id="storeTab">Store</td>
+              <td class="headerTab" id="optionsTab">Options</td>
+              <td class="headerTab" id="helpTab">Help</td>
+              <td class="headerTab" id="updateTab">Updates</td>
+              <td class="headerTab" id="badgeTab">Badges</td>
+            </tr>
+            <tr>
+              <td>
                 <table id="playerTable" style="display:none;">
                   <tr>
                     <td>
-                      <span id="playerNameOut" class="powerHeader"></span><br />
-                      <div class="fillingBorder">
-                        <img id="playerHPBar_stats" class="fillingBar" src="Clear.gif" /><br />
-                      </div>
                       <div id="playerInfoPanel"></div>
                       <div id="playerEquipmentPanel"></div>
                     </td>
@@ -57,16 +73,6 @@
                   </tr>
                 </table>
                 <table id="combatTable" style="display:none;">
-                  <tr>
-                    <td>
-                      <div class="playerHPBorder">
-                        <img id="playerHPBar" class="playerHPBar" src="Clear.gif" />
-                      </div>
-                      <div class="enemyHPBorder">
-                        <img id="enemyHPBar" class="enemyHPBar" src="Clear.gif" />
-                      </div>
-                    </td>
-                  </tr>
                   <tr>
                     <td>
                       <span id="playerCombatPanel"></span>
@@ -358,6 +364,8 @@
                         <li>
                           UI Changes
                           <ul>
+                            <li>Player health and experience bars are now visible across all tabs.</li>
+                            <li>When in combat, the experience bar will be replaced by the enemy's health bar.</li>
                             <li>
                               The following tabs are now hidden until certain conditions are met:
                               <ul>

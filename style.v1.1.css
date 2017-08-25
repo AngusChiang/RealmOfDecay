@@ -4,16 +4,16 @@
 }
 
 body {
-  background-color:#300000;
+  background-color:#100000;
   min-width: 800px;
 }
 
 body * {
-  color: #dddddd;
+  color: #aaaaaa;
 }
 
 .gameWrapper {
-  background-color:#460000;
+  background-color:#260000;
   max-width:750px;
   margin:0px auto;
   border: 2px solid #666666;
@@ -25,8 +25,7 @@ body * {
 
 .header {
   text-align: center;
-  position: relative;
-  background-color: #460000;
+  background-color: #260000;
   width:100%;
 }
 
@@ -34,12 +33,19 @@ body * {
   display:none !important;
 }
 
+.powerHeader,
+.powerHeader span {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+}
+
 .headerTab {
   width: 65px;
   display: inline-block;
   text-align:center;
   padding:5px 0px;
-  margin:0px 2px;
+  margin:0px 2px 10px;
   border-bottom: 2px solid #600000;
 }
 
@@ -76,10 +82,37 @@ body * {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   z-index: 9;
-  width: 45%;
+  width: 48%;
   height: 29px;
+  float: left;
   text-align: left;
   position: relative;
+}
+
+.fillingText {
+  position:relative;
+  top: -24px;
+  text-align: center;
+  z-index: 10;
+  color: #dddddd !important;
+  text-shadow:
+    /* Simulated effect for Firefox and Opera
+       and nice enhancement for WebKit */
+   -1px -1px 0 #000,  
+    1px -1px 0 #000,
+   -1px  1px 0 #000,
+    1px  1px 0 #000;
+}
+
+.fillingText * {
+  color: #dddddd !important;
+  text-shadow:
+    /* Simulated effect for Firefox and Opera
+       and nice enhancement for WebKit */
+   -1px -1px 0 #000,  
+    1px -1px 0 #000,
+   -1px  1px 0 #000,
+    1px  1px 0 #000;
 }
 
 .reverseFillingBorder {
@@ -88,8 +121,9 @@ body * {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   z-index: 9;
-  width: 45%;
+  width: 48%;
   height: 29px;
+  float: right;
   text-align: right;
   position: relative;
 }
@@ -118,6 +152,14 @@ body * {
   float: right;
   text-align: right;
   position: relative;
+}
+
+.blue {
+  background-color: darkblue;
+}
+
+.forceBlackText, .forceBlackText * {
+  color: #000000 !important;
 }
 
 .q221 {
