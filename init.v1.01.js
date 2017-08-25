@@ -2,8 +2,9 @@ Game = {};
 /*
 Stuff left to do for MVP:
 
-Legendary equipment:
-  Legendary equipment will have a small chance to stop instead of an enemy's equipped item.
+UI Cleanup:
+ - Remove the reliance on the item panels for UI elements that are not items.
+ - Update the item panel styles to look better (rounded corners maybe?)
 
 Add in the ability to buy potions:
  - Potions come in two main types: healing potions and debuff potions.
@@ -22,14 +23,17 @@ Add in the ability to buy potions:
 
 Possible updates:
 
+Keybinding Remapping
+ - Allow players to set their own keybinds in the options menu.
+
 Tweaks for the strength of bosses
  - Requires a lot of playtesting. The power of the player character can vary a lot, making bosses incredibly easy or difficult. This may end up being implemented in a future patch rather than for 1.0
 
-Update strategy
- - Adjust loading algorithm for future patches so a full save clear isn't required, by checking the save version when attempting to load newly added parameters, or converting existing parameters to new formats where applicable.
-
 Boss Buffs and Debuffs
  - Bosses and some elites should be able to give themselves buffs that have various effects on the user (and possibly cause issues for the player)
+ 
+Legendary equipment:
+  Legendary equipment will have a small chance to stop instead of an enemy's equipped item.
 
 */
 Game.init = function () {

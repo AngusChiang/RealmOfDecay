@@ -94,6 +94,7 @@ body * {
   top: -24px;
   text-align: center;
   z-index: 10;
+  font-weight: bold;
   color: #dddddd !important;
   text-shadow:
     /* Simulated effect for Firefox and Opera
@@ -105,6 +106,7 @@ body * {
 }
 
 .fillingText * {
+  font-weight: bold;
   color: #dddddd !important;
   text-shadow:
     /* Simulated effect for Firefox and Opera

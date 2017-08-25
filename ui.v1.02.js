@@ -103,7 +103,7 @@ Game.updateTitleBar = function () {
     Prefix.innerHTML = "EXP:";
     EHB.style.display = "";
     var EH_Percent = Game.p_EXP / Game.p_NextEXP;
-    EHB.style.background = "#000044";
+    EHB.style.background = "#0099ff";
     EHB.style.width = (100 * EH_Percent) + "%";
     EHB.style.MozTransition = "width 0.5s";
     EHB.style.WebkitTransition = "width 0.5s";
@@ -543,51 +543,12 @@ Game.updateCombatTab = function () {
     enemyDebuff.innerHTML = "<strong>Debuff:</strong> " + Game.e_Debuff[1] + "(" + Game.debuff_names[Game.e_Debuff[0] - Game.DEBUFF_SHRED] + ") - " + Game.enemy_debuffTimer + "s";
   }
   // HP Bars
-  var PHB = document.getElementById("playerHPBar");
-  var PH_Percent = Game.p_HP / Game.p_MaxHP;
-  if (PH_Percent < 0.25) {
-    PHB.style.background = "#dd0000";
-  } else if (PH_Percent < 0.5) {
-    PHB.style.background = "#dd7700";
-  } else if (PH_Percent < 0.75) {
-    PHB.style.background = "#dddd00";
-  } else {
-    PHB.style.background = "#33cc33";
-  }
-  PHB.style.MozTransition = "width 0.5s";
-  PHB.style.WebkitTransition = "width 0.5s";
-  PHB.style.width = (100 * PH_Percent) + "%";
-  var EHB = document.getElementById("enemyHPBar");
-  if (Game.p_State !== Game.STATE_COMBAT) {
-    EHB.style.display = "none";
-  } else {
-    EHB.style.display = "";
-    var EH_Percent = Game.e_HP / Game.e_MaxHP;
-    if (EH_Percent < 0.25) {
-      EHB.style.background = "#dd0000";
-    } else if (EH_Percent < 0.5) {
-      EHB.style.background = "#dd7700";
-    } else if (EH_Percent < 0.75) {
-      EHB.style.background = "#dddd00";
-    } else {
-      EHB.style.background = "#33cc33";
-    }
-    EHB.style.MozTransition = "width 0.5s";
-    EHB.style.WebkitTransition = "width 0.5s";
-    EHB.style.width = (100 * EH_Percent) + "%";
-  }
   Game.updateTitleBar();
 }
 Game.updatePlayerTab = function () {
   // TODO: Fill
   // This tab uses the following controls - updatable items in brackets:
   // Player UI Panel (level, hp, max hp, xp, xp to level, sp, pp, str, dex, int, con, seeds, scrap)
-  var levelSection = document.getElementById("player_level");
-  levelSection.innerHTML = "Level " + Game.p_Level;
-  var HPSection = document.getElementById("player_hpmaxhp");
-  HPSection.innerHTML = "<strong>HP:</strong> " + prettifyNumber(Game.p_HP) + " / " + prettifyNumber(Game.p_MaxHP) + " (" + Math.floor(Game.p_HP / Game.p_MaxHP * 10000) / 100 + "%)";
-  var XPSection = document.getElementById("player_xpmaxxp");
-  XPSection.innerHTML = "<strong>XP:</strong> " + Game.p_EXP + " / " + Game.p_NextEXP + " (" + Math.floor(Game.p_EXP / Game.p_NextEXP * 10000) / 100 + "%)";
   var STRSection = document.getElementById("player_UIStr");
   STRSection.innerHTML = "<strong>STR:</strong> " + Game.p_Str;
   var DEXSection = document.getElementById("player_UIDex");
@@ -600,10 +561,6 @@ Game.updatePlayerTab = function () {
   unspentSPSection.innerHTML = "<strong>Stat Points:</strong> " + Game.p_StatPoints;
   var unspentPPSection = document.getElementById("player_UIPP");
   unspentPPSection.innerHTML = "<strong>Skill Points:</strong> " + Game.p_SkillPoints;
-  var seedsSection = document.getElementById("player_UISeeds");
-  seedsSection.innerHTML = "<strong>Seeds:</strong> " + Game.p_Currency;
-  var scrapSection = document.getElementById("player_UIScrap");
-  scrapSection.innerHTML = "<strong>Scrap:</strong> " + Game.p_Scrap;
   // Stat Point Panel (available points)
   var statPointPanel = document.getElementById("player_statPointsLeft");
   if (statPointPanel !== null) {
@@ -673,7 +630,7 @@ Game.updatePlayerTab = function () {
   }
 }
 Game.hideLockedFeatures = function() {
-  if(Game.TRACK_COMBAT_SEEDS < 100) {
+  if((Game.TRACK_COMBAT_SEEDS + Game.TRACK_SALE_SEEDS) < 100 && (Game.TRACK_ITEM_SCRAP + Game.TRACK_COMBAT_SCRAP) < 1) {
     document.getElementById("storeTab").classList.add("hiddenElement");
   } else {
     document.getElementById("storeTab").classList.remove("hiddenElement");

@@ -678,40 +678,42 @@ Game.enemyCombatTick = function () {
   Game.updateCombatTab();
 }
 Game.burstAttack = function () {
-  if (Game.p_specUsed) {
-    return;
-  }
-  if (Game.e_HP > 0) {
-    if (Game.getPlayerDebuff()[0] == Game.DEBUFF_SLEEP) {
-      Game.toastNotification("You cannot use Burst Attack while sleeping.")
-    } else {
-      Game.p_specUsed = true;
-      Game.TRACK_BURSTS++;
-      Game.badgeCheck(Game.BADGE_BURSTSPAM); // Manual Labour
-      if (Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0) {
-        if (Game.e_Debuff !== []) {
-          Game.specResetInterval = window.setTimeout(function () {
-            Game.p_specUsed = false;
-          }, 10000 - (1000 * Game.powerLevel(Game.SKILL_PRESS_THE_ADVANTAGE)));
+  if (Game.p_State === Game.STATE_COMBAT) {
+    if (Game.p_specUsed) {
+      return;
+    }
+    if (Game.e_HP > 0) {
+      if (Game.getPlayerDebuff()[0] == Game.DEBUFF_SLEEP) {
+        Game.toastNotification("You cannot use Burst Attack while sleeping.")
+      } else {
+        Game.p_specUsed = true;
+        Game.TRACK_BURSTS++;
+        Game.badgeCheck(Game.BADGE_BURSTSPAM); // Manual Labour
+        if (Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0) {
+          if (Game.e_Debuff !== []) {
+            Game.specResetInterval = window.setTimeout(function () {
+              Game.p_specUsed = false;
+            }, 10000 - (1000 * Game.powerLevel(Game.SKILL_PRESS_THE_ADVANTAGE)));
+          } else {
+            Game.specResetInterval = window.setTimeout(function () {
+              Game.p_specUsed = false;
+            }, 10000);
+          }
+          Game.combatLog("player", "<span class='q222'>Wild Swings</span> activated.");
+          Game.wildSwing = true;
+          for (var x = Game.powerLevel(Game.SKILL_WILD_SWINGS); x >= 0; x--) {
+            Game.playerCombatTick(true);
+          }
+          if (Game.wildSwing) {
+            Game.combatLog("player", "<span class='q222'>Wild Swings</span> ended.");
+            Game.wildSwing = false;
+          }
         } else {
-          Game.specResetInterval = window.setTimeout(function () {
-            Game.p_specUsed = false;
-          }, 10000);
-        }
-        Game.combatLog("player", "<span class='q222'>Wild Swings</span> activated.");
-        Game.wildSwing = true;
-        for (var x = Game.powerLevel(Game.SKILL_WILD_SWINGS); x >= 0; x--) {
+          Game.combatLog("player", "<span class='q222'>Burst Attack</span> activated.");
           Game.playerCombatTick(true);
         }
-        if (Game.wildSwing) {
-          Game.combatLog("player", "<span class='q222'>Wild Swings</span> ended.");
-          Game.wildSwing = false;
-        }
-      } else {
-        Game.combatLog("player", "<span class='q222'>Burst Attack</span> activated.");
-        Game.playerCombatTick(true);
+        Game.updateCombatTab();
       }
-      Game.updateCombatTab();
     }
   }
 }
