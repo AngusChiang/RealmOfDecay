@@ -1,10 +1,10 @@
 * {
-  box-sizing:border-box;
+  box-sizing: border-box;
   font-family: sans-serif;
 }
 
 body {
-  background-color:#100000;
+  background-color: #100000;
   min-width: 800px;
 }
 
@@ -13,24 +13,38 @@ body * {
 }
 
 .gameWrapper {
-  background-color:#260000;
-  max-width:750px;
-  margin:0px auto;
+  background-color: #260000;
+  max-width: 800px;
+  margin: 0px auto;
   border: 2px solid #666666;
-  padding:10px;
-  -moz-border-radius:10px;
-  -webkit-border-radius:10px;
-  border-radius:10px;
+  padding: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.indicator {
+  position: absolute;
+  display: inline-block;
+  top: -5px;
+  border: 1px solid #b0b0b0;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  background-color: #800000;
+  font-weight: bold;
+  min-width: 18px;
+  z-index: 15;
 }
 
 .header {
   text-align: center;
   background-color: #260000;
-  width:100%;
+  width: 100%;
 }
 
 .hiddenElement {
-  display:none !important;
+  display: none !important;
 }
 
 .powerHeader,
@@ -41,12 +55,13 @@ body * {
 }
 
 .headerTab {
-  width: 65px;
+  width: 70px;
   display: inline-block;
-  text-align:center;
-  padding:5px 0px;
-  margin:0px 2px 10px;
+  text-align: center;
+  padding: 5px 0px;
+  margin: 0px 2px 10px;
   border-bottom: 2px solid #600000;
+  position: relative;
 }
 
 .headerTab:hover {
@@ -59,17 +74,20 @@ body * {
 
 .selectedTab {
   border-bottom: 2px solid #dfdfdf;
-  padding:5px 0px;
-  font-weight:bold;
+  padding: 5px 0px;
+  font-weight: bold;
 }
 
-.playerHPBar, .enemyHPBar, .fillingBar {
+.playerHPBar,
+.enemyHPBar,
+.fillingBar {
   position: relative;
   z-index: 8;
   height: 25px;
 }
 
-#playerHPBarText, #enemyHPBarText {
+#playerHPBarText,
+#enemyHPBarText {
   font-size: 10px;
   padding: 1px 3px;
   vertical-align: middle;
@@ -90,31 +108,23 @@ body * {
 }
 
 .fillingText {
-  position:relative;
+  position: relative;
   top: -24px;
   text-align: center;
   z-index: 10;
   font-weight: bold;
   color: #dddddd !important;
-  text-shadow:
-    /* Simulated effect for Firefox and Opera
+  text-shadow: /* Simulated effect for Firefox and Opera
        and nice enhancement for WebKit */
-   -1px -1px 0 #000,  
-    1px -1px 0 #000,
-   -1px  1px 0 #000,
-    1px  1px 0 #000;
+  -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .fillingText * {
   font-weight: bold;
   color: #dddddd !important;
-  text-shadow:
-    /* Simulated effect for Firefox and Opera
+  text-shadow: /* Simulated effect for Firefox and Opera
        and nice enhancement for WebKit */
-   -1px -1px 0 #000,  
-    1px -1px 0 #000,
-   -1px  1px 0 #000,
-    1px  1px 0 #000;
+  -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .reverseFillingBorder {
@@ -160,7 +170,8 @@ body * {
   background-color: darkblue;
 }
 
-.forceBlackText, .forceBlackText * {
+.forceBlackText,
+.forceBlackText * {
   color: #000000 !important;
 }
 

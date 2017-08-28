@@ -17,18 +17,18 @@
             <tr>
               <td>
                 <div style="text-align:center;font-size:18px;font-weight:bold;">Realm of Decay</div>
-                <div style="text-align:center;font-size:10px;">by /u/Psychemaster - Version 1.1   
+                <div style="text-align:center;font-size:10px;">by /u/Psychemaster - Version 1.1
                 </div>
-                  <span style="display:block;text-align:right;">
+                <span style="display:block;text-align:right;">
                     Seeds: <span id="seedsOut"></span>&nbsp;Scrap: <span id="scrapOut"></span>
-                  </span>  
-                <hr style="margin-bottom:9px;"/>
+                </span>
+                <hr style="margin-bottom:9px;" />
                 <div class="fillingBorder">
-                  <img id="player_HPBarOut" class="fillingBar" src="Clear.gif"/>
+                  <img id="player_HPBarOut" class="fillingBar" src="Clear.gif" />
                   <div id="player_HPBarText" class="fillingText">HP: <span id="player_currentHPOut"></span>/<span id="player_maxHPOut"></span> (<span id="player_percentHPOut"></span>)</div>
                 </div>
                 <div class="reverseFillingBorder">
-                  <img id="player_XPBarOut" class="fillingBar" src="Clear.gif"/>
+                  <img id="player_XPBarOut" class="fillingBar" src="Clear.gif" />
                   <div id="player_XPBarText" class="fillingText"><span id="player_currentXPPrefix"></span>&nbsp;<span id="player_currentXPOut"></span>/<span id="player_maxXPOut"></span> (<span id="player_percentXPOut"></span>)</div>
                 </div>
               </td>
@@ -36,9 +36,11 @@
             <tr>
               <td>
                 <style>
-                  #playerNameOut:hover, #enemyNameOut:hover {
+                  #playerNameOut:hover,
+                  #enemyNameOut:hover {
                     color: #ffffff !important;
                   }
+
                 </style>
                 <div id="playerNameOut" title="Rename your character." style="cursor:pointer;float:left;font-weight:bold;font-size:16px;" onclick="Game.renamePlayer();"></div>
                 <div id="enemyNameOut" title="Activate Burst Attack." style="cursor:pointer;float:right;text-align:right;font-weight:bold;font-size:16px;" onclick="Game.burstAttack();"></div>
@@ -47,11 +49,11 @@
               </td>
             </tr>
             <tr class="header" id="topBar">
-              <td class="headerTab" id="playerTab">Player</td>
-              <td class="headerTab" id="combatTab">Combat</td>
+              <td class="headerTab" id="playerTab">Player<span id="header_statPoints" class="indicator"></span></td>
+              <td class="headerTab" id="combatTab">Combat<span id="header_combatState" class="indicator"></span></td>
               <td class="headerTab" id="zoneTab">Zones</td>
-              <td class="headerTab" id="skillsTab">Skills</td>
-              <td class="headerTab" id="inventoryTab">Items</td>
+              <td class="headerTab" id="skillsTab">Skills<span id="header_skillPoints" class="indicator"></span></td>
+              <td class="headerTab" id="inventoryTab">Items<span id="header_inventoryState" class="indicator"></span></td>
               <td class="headerTab" id="storeTab">Store</td>
               <td class="headerTab" id="optionsTab">Options</td>
               <td class="headerTab" id="helpTab">Help</td>
@@ -373,6 +375,14 @@
                             <li>When in combat, the experience bar will be replaced by the enemy's health bar.</li>
                             <li>Renaming your character is now accomplished by clicking the existing name below the health bar.</li>
                             <li>When in combat, clicking the enemy's name below the health bar will now initiate your Burst Attack.</li>
+                            <li>Indicators will appear on the tab bar under certain circumstances:
+                              <ul>
+                                <li>The number of stat points to be spent will appear on the Player tab, if any.</li>
+                                <li>The number of skill points to be spent will appear on the Skills tab, if any.</li>
+                                <li>A (!) will appear on the combat tab when in combat.</li>
+                                <li>A (!) will appear on the items tab if either item inventory section is full.</li>
+                              </ul>
+                            </li>
                             <li>
                               The following tabs are now hidden until certain conditions are met:
                               <ul>
