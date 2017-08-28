@@ -43,17 +43,55 @@ Game.updateTitleBar = function () {
   var scrap = document.getElementById("scrapOut");
   scrap.innerHTML = abbreviateNumber(Game.p_Scrap);
   scrap.setAttribute("title", Game.p_Scrap);
+  // Available Skill Points on bar
+  var headerSPOut = document.getElementById("header_skillPoints");
+  if (Game.p_SkillPoints > 0) {
+    if (Game.p_SkillPoints > 100) {
+      headerSPOut.innerHTML = "&nbsp;" + "!" + "&nbsp;";
+    } else {
+      headerSPOut.innerHTML = "&nbsp;" + Game.p_SkillPoints + "&nbsp;";
+    }
+  } else {
+    headerSPOut.innerHTML = "";
+    headerSPOut.classList.remove("indicator");
+  }
+  // Available Stat Points on bar
+  var headerStatOut = document.getElementById("header_statPoints");
+  if (Game.p_StatPoints > 0) {
+    if (Game.p_StatPoints > 100) {
+      headerStatOut.innerHTML = "&nbsp;" + "!" + "&nbsp;";
+    } else {
+      headerStatOut.innerHTML = "&nbsp;" + Game.p_StatPoints + "&nbsp;";
+    }
+    headerStatOut.classList.add("indicator");
+  } else {
+    headerStatOut.innerHTML = "";
+    headerStatOut.classList.remove("indicator");
+  }
+  // Combat indicator
+  var combatIndicator = document.getElementById("header_combatState");
+  if (Game.p_State === Game.STATE_COMBAT) {
+    combatIndicator.innerHTML = "&nbsp;" + "!" + "&nbsp;";
+    combatIndicator.classList.add("indicator");
+  } else {
+    combatIndicator.innerHTML = "";
+    combatIndicator.classList.remove("indicator");
+  }
+  // Inventory cap
+  var inventoryIndicator = document.getElementById("header_inventoryState");
+  if (Game.p_WeaponInventory.length === Game.MAX_INVENTORY || Game.p_ArmourInventory.length === Game.MAX_INVENTORY) {
+    inventoryIndicator.innerHTML = "&nbsp;" + "!" + "&nbsp;";
+    inventoryIndicator.classList.add("indicator");
+  } else {
+    inventoryIndicator.innerHTML = "";
+    inventoryIndicator.classList.remove("indicator");
+  }
   // Player's Name
   var playerName = document.getElementById("playerNameOut");
   playerName.innerHTML = Game.p_Name + " (Lv. " + Game.p_Level + ")";
   // Enemy Name (if applicable)
   var enemyName = document.getElementById("enemyNameOut");
-  if(Game.p_State === Game.STATE_COMBAT) {
-    enemyName.innerHTML = "(Lv. " + Game.e_Level + ") " + Game.e_Name;
-  } 
-  else {
-    enemyName.innerHTML = "";  
-  }
+  enemyName.innerHTML = Game.p_State === Game.STATE_COMBAT ? "(Lv. " + Game.e_Level + ") " + Game.e_Name : "";
   // Player's Health
   var playerCurrentHP = document.getElementById("player_currentHPOut");
   playerCurrentHP.innerHTML = prettifyNumber(Game.p_HP);
@@ -69,8 +107,7 @@ Game.updateTitleBar = function () {
     playerMaxXP.innerHTML = prettifyNumber(Game.p_NextEXP);
     var playerPercentXP = document.getElementById("player_percentXPOut");
     playerPercentXP.innerHTML = Math.floor(Game.p_EXP / Game.p_NextEXP * 10000) / 100 + "%"
-  }
-  else {
+  } else {
     var playerCurrentXP = document.getElementById("player_currentXPOut");
     playerCurrentXP.innerHTML = prettifyNumber(Game.e_HP);
     var playerMaxXP = document.getElementById("player_maxXPOut");
@@ -95,7 +132,7 @@ Game.updateTitleBar = function () {
   PHB.style.width = (100 * PH_Percent) + "%";
   PHB.style.MozTransition = "width 0.5s";
   PHB.style.WebkitTransition = "width 0.5s";
-  
+
   var EHB = document.getElementById("player_XPBarOut");
   var EHBText = document.getElementById("player_XPBarText");
   var Prefix = document.getElementById("player_currentXPPrefix");
@@ -629,28 +666,28 @@ Game.updatePlayerTab = function () {
     playerArmourDurability.innerHTML = Game.p_Armour[3] + " uses";
   }
 }
-Game.hideLockedFeatures = function() {
-  if((Game.TRACK_COMBAT_SEEDS + Game.TRACK_SALE_SEEDS) < 100 && (Game.TRACK_ITEM_SCRAP + Game.TRACK_COMBAT_SCRAP) < 1) {
+Game.hideLockedFeatures = function () {
+  if ((Game.TRACK_COMBAT_SEEDS + Game.TRACK_SALE_SEEDS) < 100 && (Game.TRACK_ITEM_SCRAPS + Game.TRACK_COMBAT_SCRAP) < 1) {
     document.getElementById("storeTab").classList.add("hiddenElement");
   } else {
     document.getElementById("storeTab").classList.remove("hiddenElement");
   }
-  if(Game.p_SkillPoints === 0 && Game.p_Powers.length === 0) {
+  if (Game.p_SkillPoints === 0 && Game.p_Powers.length === 0) {
     document.getElementById("skillsTab").classList.add("hiddenElement");
   } else {
     document.getElementById("skillsTab").classList.remove("hiddenElement");
   }
-  if(Game.p_maxZone < 1) {
+  if (Game.p_maxZone < 1) {
     document.getElementById("zoneTab").classList.add("hiddenElement");
   } else {
     document.getElementById("zoneTab").classList.remove("hiddenElement");
   }
-  if(Game.p_WeaponInventory.length === 0 && Game.p_ArmourInventory.length === 0 && Game.TRACK_ITEM_SALES === 0 && Game.TRACK_ITEM_SCRAPS === 0 && Game.TRACK_ITEM_DISCARDS === 0) {
+  if (Game.p_WeaponInventory.length === 0 && Game.p_ArmourInventory.length === 0 && Game.TRACK_ITEM_SALES === 0 && Game.TRACK_ITEM_SCRAPS === 0 && Game.TRACK_ITEM_DISCARDS === 0) {
     document.getElementById("inventoryTab").classList.add("hiddenElement");
   } else {
     document.getElementById("inventoryTab").classList.remove("hiddenElement");
   }
-  if(Game.playerBadges.length < 1) {
+  if (Game.playerBadges.length < 1) {
     document.getElementById("badgeTab").classList.add("hiddenElement");
   } else {
     document.getElementById("badgeTab").classList.remove("hiddenElement");
