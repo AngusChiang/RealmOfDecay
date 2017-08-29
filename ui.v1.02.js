@@ -586,6 +586,38 @@ Game.updatePlayerTab = function () {
   // TODO: Fill
   // This tab uses the following controls - updatable items in brackets:
   // Player UI Panel (level, hp, max hp, xp, xp to level, sp, pp, str, dex, int, con, seeds, scrap)
+  
+  var statHeaderPoints = document.getElementById("player_statPointHeaderOut");
+  statHeaderPoints.innerHTML = Game.p_StatPoints;
+  
+  var strBaseOut = document.getElementById("player_strPointsBase");
+  strBaseOut.innerHTML = Game.p_Str - Game.POINTS_STR_CURRENT;
+  var strPointsOut = document.getElementById("player_strPointsAssigned");
+  strPointsOut.innerHTML = "+" + Game.POINTS_STR_CURRENT;
+  var strChanceOut = document.getElementById("player_statPointBlockChance");
+  strChanceOut.innerHTML = Math.floor(statValue(Game.p_Str) * 100) / 100;
+  
+  var dexBaseOut = document.getElementById("player_dexPointsBase");
+  dexBaseOut.innerHTML = Game.p_Dex - Game.POINTS_DEX_CURRENT;
+  var dexPointsOut = document.getElementById("player_dexPointsAssigned");
+  dexPointsOut.innerHTML = "+" + Game.POINTS_DEX_CURRENT;
+  var dexChanceOut = document.getElementById("player_statPointCritChance");
+  dexChanceOut.innerHTML = Math.floor(statValue(Game.p_Dex) * 100) / 100;
+  
+  var intBaseOut = document.getElementById("player_intPointsBase");
+  intBaseOut.innerHTML = Game.p_Int - Game.POINTS_INT_CURRENT;
+  var intPointsOut = document.getElementById("player_intPointsAssigned");
+  intPointsOut.innerHTML = "+" + Game.POINTS_INT_CURRENT;
+  var intChanceOut = document.getElementById("player_statPointDodgeChance");
+  intChanceOut.innerHTML = Math.floor(statValue(Game.p_Int) * 50) / 100;
+   
+  var conBaseOut = document.getElementById("player_conPointsBase");
+  conBaseOut.innerHTML = Game.p_Con - Game.POINTS_CON_CURRENT;
+  var conPointsOut = document.getElementById("player_conPointsAssigned");
+  conPointsOut.innerHTML = "+" + Game.POINTS_CON_CURRENT;
+  var conChanceOut = document.getElementById("player_statPointHealChance");
+  conChanceOut.innerHTML = Math.floor(statValue(Game.p_Con) * 100) / 100;
+  
   var STRSection = document.getElementById("player_UIStr");
   STRSection.innerHTML = "<strong>STR:</strong> " + Game.p_Str;
   var DEXSection = document.getElementById("player_UIDex");
