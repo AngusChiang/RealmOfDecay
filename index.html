@@ -65,46 +65,46 @@
                 <table id="playerTable" style="display:none;table-layout:fixed;">
                   <tr id="player_statPointHeader">
                     <td colspan="4"><span style="font-size:20px;font-weight:bold;">Stat Point Allocation</span><br /><span style="margin-left:0.5em;" id="player_statPointHeaderOut"></span> points free: </td>
-                    <td colspan="2" style="text-align:center;"><span class="headerTab" style="width:auto;padding:10px;">Reset Your Stats</span></td>
+                    <td colspan="2" style="text-align:center;"><span class="headerTab" style="width:auto;padding:10px;" onclick="Game.statReset();">Reset Your Stats</span></td>
                   </tr>
                   <tr>
                     <td colspan="4"><div style="font-weight:bold;font-size:18px;">Strength (<span id="player_strPointsBase" style="font-size:18px;"></span><span id="player_strPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
                       <div style="margin-left:0.5em;">Increases damage dealt with melee weapons.<br />Increases chance to block attacks by <span id="player_statPointBlockChance"></span>%.</div>
                     </td>
-                    <td colspan="2" style="text-align:center;">
-                      <span class="headerTab">+1 STR</span>
-                      <span class="headerTab">+10 STR</span>
-                      <span class="headerTab">+ALL STR</span>
+                    <td colspan="2" style="text-align:center;" class="statAddButtons">
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_STR, 1);">+1 STR</span>
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_STR, 10);">+10 STR</span>
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_STR, 1000000);">+ALL STR</span>
                     </td>
                   </tr>
                   <tr>
                     <td colspan="4"><div style="font-weight:bold;font-size:18px;">Dexterity (<span id="player_dexPointsBase" style="font-size:18px;"></span><span id="player_dexPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
                       <div style="margin-left:0.5em;">Increases damage dealt with ranged weapons.<br />Increases chance to critically strike by <span id="player_statPointCritChance"></span>%.</div>
                     </td>
-                    <td colspan="2" style="text-align:center;">
-                      <span class="headerTab">+1 DEX</span>
-                      <span class="headerTab">+10 DEX</span>
-                      <span class="headerTab">+ALL DEX</span>
+                    <td colspan="2" style="text-align:center;" class="statAddButtons">
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_DEX, 1);">+1 DEX</span>
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_DEX, 10);">+10 DEX</span>
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_DEX, 1000000);">+ALL DEX</span>
                     </td>
                   </tr>
                   <tr>
                     <td colspan="4"><div style="font-weight:bold;font-size:18px;">Intelligence (<span id="player_intPointsBase" style="font-size:18px;"></span><span id="player_intPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
                       <div style="margin-left:0.5em;">Increases damage dealt with magic weapons.<br />Increases chance to dodge attacks by <span id="player_statPointDodgeChance"></span>%.</div>
                     </td>
-                    <td colspan="2" style="text-align:center;">
-                      <span class="headerTab">+1 INT</span>
-                      <span class="headerTab">+10 INT</span>
-                      <span class="headerTab">+ALL INT</span>
+                    <td colspan="2" style="text-align:center;" class="statAddButtons">
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_INT, 1);">+1 INT</span>
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_INT, 10);">+10 INT</span>
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_INT, 1000000);">+ALL INT</span>
                     </td>
                   </tr>
                   <tr>
                     <td colspan="4"><div style="font-weight:bold;font-size:18px;">Constitution (<span id="player_conPointsBase" style="font-size:18px;"></span><span id="player_conPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
                       <div style="margin-left:0.5em;">Increases maximum health and health restored when idle.<br />Gives a <span id="player_statPointHealChance"></span>% chance to gain HP equal to your constitution when attacking.</div>
                     </td>
-                    <td colspan="2" style="text-align:center;">
-                      <span class="headerTab">+1 CON</span>
-                      <span class="headerTab">+10 CON</span>
-                      <span class="headerTab">+ALL CON</span>
+                    <td colspan="2" style="text-align:center;" class="statAddButtons">
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_CON, 1);">+1 CON</span>
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_CON, 10);">+10 CON</span>
+                      <span class="headerTab" onclick="Game.addStat(Game.STAT_CON, 100000);">+ALL CON</span>
                     </td>
                   </tr>
                   <tr>
@@ -119,7 +119,32 @@
                     </td>
                   </tr>
                   <tr>
-                    <td id="statsOut">
+                    <td colspan="6">
+                      <span style="font-size:16px;font-weight:bold;margin-left:0.5em;">Offense</span><br />
+                      <span style="font-size:14px;margin-left:1em;">Total Damage Dealt: <span>
+                        21,000</span> over <span>21</span> attacks.</span><br />
+                      <span style="margin-left:1.5em">Melee Damage: <span>7,000</span></span><br />
+                      <span style="margin-left:1.5em">Ranged Damage: <span>7,000</span></span><br />
+                      <span style="margin-left:1.5em">Magic Damage: <span>7,000</span></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="6">
+                      <span style="font-size:16px;font-weight:bold;margin-left:0.5em;">Defense</span><br />
+                      <span style="font-size:14px;margin-left:1em;">Total Damage Taken: <span>
+                        21,000</span> over <span>21</span> attacks.</span><br />
+                      <span style="margin-left:1.5em">Melee Damage: <span>7,000</span></span><br />
+                      <span style="margin-left:1.5em">Ranged Damage: <span>7,000</span></span><br />
+                      <span style="margin-left:1.5em">Magic Damage: <span>7,000</span></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="6">
+                      <span style="font-size:16px;font-weight:bold;margin-left:0.5em;">Inventory</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="6" id="statsOut">
                     </td>
                   </tr>
                 </table>
@@ -719,7 +744,6 @@
   <script type="text/javascript" src="keybindings.v1.01.js"></script>
   <script type="text/javascript">
     document.onkeypress = keyBindings;
-
   </script>
 </body>
 

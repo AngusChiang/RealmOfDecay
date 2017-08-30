@@ -323,7 +323,7 @@ Game.playerCombatTick = function (isBurst) {
         }
         if (Game.e_Debuff.length > 0) {
           if (Game.getPlayerDebuff()[0] !== Game.DEBUFF_MC) {
-            if (Game.powerLevel(Game.SKILL_TERMINAL_ILLNESS == 0)) {
+            if (Game.powerLevel(Game.SKILL_TERMINAL_ILLNESS) == 0) {
               canDebuff = false;
             }
           }

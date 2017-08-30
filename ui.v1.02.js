@@ -163,12 +163,48 @@ Game.updateTitleBar = function () {
   }
 }
 Game.createPlayerTab = function () {
-  var playerInfoPanel = document.getElementById("playerInfoPanel");
-  playerInfoPanel.innerHTML = "";
-  playerInfoPanel.appendChild(Game.createPlayerUIPanel());
-  if (Game.p_StatPoints > 0) {
-    playerInfoPanel.appendChild(Game.createStatPointPanel());
-  }
+  
+  var statHeaderPoints = document.getElementById("player_statPointHeaderOut");
+  statHeaderPoints.innerHTML = Game.p_StatPoints;
+  
+  var strBaseOut = document.getElementById("player_strPointsBase");
+  strBaseOut.innerHTML = Game.p_Str - Game.POINTS_STR_CURRENT;
+  var strPointsOut = document.getElementById("player_strPointsAssigned");
+  strPointsOut.innerHTML = "+" + Game.POINTS_STR_CURRENT;
+  var strChanceOut = document.getElementById("player_statPointBlockChance");
+  strChanceOut.innerHTML = Math.floor(statValue(Game.p_Str) * 100) / 100;
+  
+  var dexBaseOut = document.getElementById("player_dexPointsBase");
+  dexBaseOut.innerHTML = Game.p_Dex - Game.POINTS_DEX_CURRENT;
+  var dexPointsOut = document.getElementById("player_dexPointsAssigned");
+  dexPointsOut.innerHTML = "+" + Game.POINTS_DEX_CURRENT;
+  var dexChanceOut = document.getElementById("player_statPointCritChance");
+  dexChanceOut.innerHTML = Math.floor(statValue(Game.p_Dex) * 100) / 100;
+  
+  var intBaseOut = document.getElementById("player_intPointsBase");
+  intBaseOut.innerHTML = Game.p_Int - Game.POINTS_INT_CURRENT;
+  var intPointsOut = document.getElementById("player_intPointsAssigned");
+  intPointsOut.innerHTML = "+" + Game.POINTS_INT_CURRENT;
+  var intChanceOut = document.getElementById("player_statPointDodgeChance");
+  intChanceOut.innerHTML = Math.floor(statValue(Game.p_Int) * 50) / 100;
+   
+  var conBaseOut = document.getElementById("player_conPointsBase");
+  conBaseOut.innerHTML = Game.p_Con - Game.POINTS_CON_CURRENT;
+  var conPointsOut = document.getElementById("player_conPointsAssigned");
+  conPointsOut.innerHTML = "+" + Game.POINTS_CON_CURRENT;
+  var conChanceOut = document.getElementById("player_statPointHealChance");
+  conChanceOut.innerHTML = Math.floor(statValue(Game.p_Con) * 100) / 100;
+  
+  var statAdd = document.getElementsByClassName("statAddButtons");
+  Array.prototype.filter.call(statAdd, function(e) { 
+    if(Game.p_StatPoints > 0) {
+      e.classList.remove("hiddenElement");
+    }
+    else {
+      e.classList.add("hiddenElement");
+    }
+  });
+  
   var playerEQPanel = document.getElementById("playerEquipmentPanel");
   playerEQPanel.innerHTML = "";
   playerEQPanel.appendChild(Game.createWeaponUIPanel(Game.p_Weapon, "player"));
@@ -617,24 +653,17 @@ Game.updatePlayerTab = function () {
   conPointsOut.innerHTML = "+" + Game.POINTS_CON_CURRENT;
   var conChanceOut = document.getElementById("player_statPointHealChance");
   conChanceOut.innerHTML = Math.floor(statValue(Game.p_Con) * 100) / 100;
+
+  var statAdd = document.getElementsByClassName("statAddButtons");
+  Array.prototype.filter.call(statAdd, function(e) { 
+    if(Game.p_StatPoints > 0) {
+      e.classList.remove("hiddenElement");
+    }
+    else {
+      e.classList.add("hiddenElement");
+    }
+  });
   
-  var STRSection = document.getElementById("player_UIStr");
-  STRSection.innerHTML = "<strong>STR:</strong> " + Game.p_Str;
-  var DEXSection = document.getElementById("player_UIDex");
-  DEXSection.innerHTML = "<strong>DEX:</strong> " + Game.p_Dex;
-  var INTSection = document.getElementById("player_UIInt");
-  INTSection.innerHTML = "<strong>INT:</strong> " + Game.p_Int;
-  var CONSection = document.getElementById("player_UICon");
-  CONSection.innerHTML = "<strong>CON:</strong> " + Game.p_Con;
-  var unspentSPSection = document.getElementById("player_UISP");
-  unspentSPSection.innerHTML = "<strong>Stat Points:</strong> " + Game.p_StatPoints;
-  var unspentPPSection = document.getElementById("player_UIPP");
-  unspentPPSection.innerHTML = "<strong>Skill Points:</strong> " + Game.p_SkillPoints;
-  // Stat Point Panel (available points)
-  var statPointPanel = document.getElementById("player_statPointsLeft");
-  if (statPointPanel !== null) {
-    statPointPanel.innerHTML = "Stat Points (" + Game.p_StatPoints + " left)";
-  }
   // Tracking panel values
   // Modify this so that we don't have to redraw the panels every time.
   updateElementIDContent("player_stat1", Game.TRACK_TOTAL_DMG);
@@ -698,6 +727,7 @@ Game.updatePlayerTab = function () {
     playerArmourDurability.innerHTML = Game.p_Armour[3] + " uses";
   }
 }
+
 Game.hideLockedFeatures = function () {
   if ((Game.TRACK_COMBAT_SEEDS + Game.TRACK_SALE_SEEDS) < 100 && (Game.TRACK_ITEM_SCRAPS + Game.TRACK_COMBAT_SCRAP) < 1) {
     document.getElementById("storeTab").classList.add("hiddenElement");
@@ -725,4 +755,5 @@ Game.hideLockedFeatures = function () {
     document.getElementById("badgeTab").classList.remove("hiddenElement");
   }
 }
+
 document.getElementById("loadedUI").style.display = "";

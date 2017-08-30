@@ -32,20 +32,14 @@ Game.buyPower = function (power) {
       switch (power) {
         case Game.SKILL_ABSORPTION_SHIELD:
           // Absorption Shield
-          if (Game.powerLevel(Game.SKILL_DIVINE_SHIELD) < 5) {
-            Game.toastNotification("You need maximum level in Divine Shield to upgrade this skill.");
-            canUpgrade = false;
-          } else if (Game.powerLevel(Game.SKILL_REFLECTIVE_SHIELD) > 0) {
+          if (Game.powerLevel(Game.SKILL_REFLECTIVE_SHIELD) > 0) {
             Game.toastNotification("This skill cannot be used in conjunction with Reflective Shield.");
             canUpgrade = false;
           }
           break;
         case Game.SKILL_REFLECTIVE_SHIELD:
           // Reflective Shield
-          if (Game.powerLevel(Game.SKILL_DIVINE_SHIELD) < 5) {
-            Game.toastNotification("You need maximum level in Divine Shield to upgrade this skill.");
-            canUpgrade = false;
-          } else if (Game.powerLevel(Game.SKILL_ABSORPTION_SHIELD) > 0) {
+          if (Game.powerLevel(Game.SKILL_ABSORPTION_SHIELD) > 0) {
             Game.toastNotification("This skill cannot be used in conjunction with Absorption Shield.");
             canUpgrade = false;
           }
