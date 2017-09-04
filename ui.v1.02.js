@@ -91,7 +91,15 @@ Game.updateTitleBar = function () {
   playerName.innerHTML = Game.p_Name + " (Lv. " + Game.p_Level + ")";
   // Enemy Name (if applicable)
   var enemyName = document.getElementById("enemyNameOut");
+  var noEnemy = document.getElementById("noEnemyOut");
   enemyName.innerHTML = Game.p_State === Game.STATE_COMBAT ? "(Lv. " + Game.e_Level + ") " + Game.e_Name : "";
+  if(Game.p_State !== Game.STATE_COMBAT) {
+    enemyName.classList.add("hiddenElement");
+    noEnemy.classList.remove("hiddenElement");
+  } else {
+    enemyName.classList.remove("hiddenElement");
+    noEnemy.classList.add("hiddenElement");
+  }
   // Player's Health
   var playerCurrentHP = document.getElementById("player_currentHPOut");
   playerCurrentHP.innerHTML = prettifyNumber(Game.p_HP);
@@ -209,6 +217,13 @@ Game.createPlayerTab = function () {
   playerEQPanel.innerHTML = "";
   playerEQPanel.appendChild(Game.createWeaponUIPanel(Game.p_Weapon, "player"));
   playerEQPanel.appendChild(Game.createArmourUIPanel(Game.p_Armour, "player"));
+  
+  // New stat outputs.
+  updateElementIDContent("player_statTotalDMG", prettifyNumber(Game.TRACK_TOTAL_DMG));
+  updateElementIDContent("player_statAttacks", prettifyNumber(Game.TRACK_ATTACKS_OUT));
+  updateElementIDContent("player_statMeleeOut", prettifyNumber(Game.TRACK_MELEE_DMG));
+  updateElementIDContent("player_statRangedOut", prettifyNumber(Game.TRACK_RANGE_DMG));
+  
   // Statistics outputs. There's going to be a LOT of these.
   var statPanel = document.getElementById("statsOut");
   statPanel.innerHTML = "";
@@ -663,6 +678,12 @@ Game.updatePlayerTab = function () {
       e.classList.add("hiddenElement");
     }
   });
+  
+  // New stat outputs.
+  updateElementIDContent("player_statTotalDMG", prettifyNumber(Game.TRACK_TOTAL_DMG));
+  updateElementIDContent("player_statAttacks", prettifyNumber(Game.TRACK_ATTACKS_OUT));
+  updateElementIDContent("player_statMeleeOut", prettifyNumber(Game.TRACK_MELEE_DMG));
+  updateElementIDContent("player_statRangedOut", prettifyNumber(Game.TRACK_RANGE_DMG));
   
   // Tracking panel values
   // Modify this so that we don't have to redraw the panels every time.

@@ -37,13 +37,15 @@
               <td>
                 <style>
                   #playerNameOut:hover,
-                  #enemyNameOut:hover {
+                  #enemyNameOut:hover,
+                  #noEnemyOut:hover {
                     color: #ffffff !important;
                   }
 
                 </style>
                 <div id="playerNameOut" title="Rename your character." style="cursor:pointer;float:left;font-weight:bold;font-size:16px;" onclick="Game.renamePlayer();"></div>
                 <div id="enemyNameOut" title="Activate Burst Attack." style="cursor:pointer;float:right;text-align:right;font-weight:bold;font-size:16px;" onclick="Game.burstAttack();"></div>
+                <div id="noEnemyOut" title="Look for something to kill." style="cursor:pointer;float:right;text-align:right;font-weight:bold;font-size:16px" onclick="Game.startCombat(true);" class="hiddenElement">Click here to enter combat.</div>
                 <br />
                 <hr />
               </td>
@@ -121,10 +123,9 @@
                   <tr>
                     <td colspan="6">
                       <span style="font-size:16px;font-weight:bold;margin-left:0.5em;">Offense</span><br />
-                      <span style="font-size:14px;margin-left:1em;">Total Damage Dealt: <span>
-                        21,000</span> over <span>21</span> attacks.</span><br />
-                      <span style="margin-left:1.5em">Melee Damage: <span>7,000</span></span><br />
-                      <span style="margin-left:1.5em">Ranged Damage: <span>7,000</span></span><br />
+                      <span style="font-size:14px;margin-left:1em;">Total Damage Dealt: <span id="player_statTotalDMG"></span> over <span id="player_statAttacks"></span> attack(s).</span><br />
+                      <span style="margin-left:1.5em">Melee Damage: <span id="player_statMeleeOut"></span></span><br />
+                      <span style="margin-left:1.5em">Ranged Damage: <span id="player_statRangedOut"></span></span><br />
                       <span style="margin-left:1.5em">Magic Damage: <span>7,000</span></span>
                     </td>
                   </tr>
