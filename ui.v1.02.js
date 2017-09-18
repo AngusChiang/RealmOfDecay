@@ -218,34 +218,39 @@ Game.createPlayerTab = function () {
   playerEQPanel.appendChild(Game.createWeaponUIPanel(Game.p_Weapon, "player"));
   playerEQPanel.appendChild(Game.createArmourUIPanel(Game.p_Armour, "player"));
   
-  // New stat outputs.
+  // Offense section
   updateElementIDContent("player_statTotalDMG", prettifyNumber(Game.TRACK_TOTAL_DMG));
   updateElementIDContent("player_statAttacks", prettifyNumber(Game.TRACK_ATTACKS_OUT));
   updateElementIDContent("player_statMeleeOut", prettifyNumber(Game.TRACK_MELEE_DMG));
   updateElementIDContent("player_statRangedOut", prettifyNumber(Game.TRACK_RANGE_DMG));
+  updateElementIDContent("player_statMagicOut", prettifyNumber(Game.TRACK_MAGIC_DMG));
+  updateElementIDContent("player_statBiggestHitOut", prettifyNumber(Game.TRACK_MAXHIT_OUT));
+  updateElementIDContent("player_statBursts", prettifyNumber(Game.TRACK_BURSTS));
+  updateElementIDContent("player_statDebuffsOut", prettifyNumber(Game.TRACK_DEBUFFS_OUT));
+  updateElementIDContent("player_statDoomKills", prettifyNumber(Game.TRACK_DOOM_OUT));
+  updateElementIDContent("player_statSleepBreaksOut", prettifyNumber(Game.TRACK_SLEEPBREAK_OUT));
+  updateElementIDContent("player_statEnemyHealthDrained", prettifyNumber(Game.TRACK_DRAIN_IN));
+  updateElementIDContent("player_statDoTDamageOut", prettifyNumber(Game.TRACK_DOTS_OUT));
+  updateElementIDContent("player_statConfusionOut", prettifyNumber(Game.TRACK_CHARM_OUT));
+  updateElementIDContent("player_statParahaxOut", prettifyNumber(Game.TRACK_PARAHAX_OUT));
+  
+  // Defense section
+  updateElementIDContent("player_statTotalDMGTaken", prettifyNumber(Game.TRACK_TOTAL_TAKEN));
+  updateElementIDContent("player_statAttacksTaken", prettifyNumber(Game.TRACK_ATTACKS_IN));
+  updateElementIDContent("player_statMeleeIn", prettifyNumber(Game.TRACK_MELEE_TAKEN));
+  updateElementIDContent("player_statRangedIn", prettifyNumber(Game.TRACK_RANGE_TAKEN));
+  updateElementIDContent("player_statMagicIn", prettifyNumber(Game.TRACK_MAGIC_TAKEN));
+  updateElementIDContent("player_statBiggestHitIn", prettifyNumber(Game.TRACK_MAXHIT_IN));
   
   // Statistics outputs. There's going to be a LOT of these.
   var statPanel = document.getElementById("statsOut");
   statPanel.innerHTML = "";
-  statPanel.appendChild(Game.createStatisticPanel("Total Damage Dealt", Game.TRACK_TOTAL_DMG, "player_stat1"));
-  statPanel.appendChild(Game.createStatisticPanel("Melee Damage Dealt", Game.TRACK_MELEE_DMG, "player_stat2"));
-  statPanel.appendChild(Game.createStatisticPanel("Ranged Damage Dealt", Game.TRACK_RANGE_DMG, "player_stat3"));
-  statPanel.appendChild(Game.createStatisticPanel("Magic Damage Dealt", Game.TRACK_MAGIC_DMG, "player_stat4"));
-  statPanel.appendChild(Game.createStatisticPanel("Total Damage Taken", Game.TRACK_TOTAL_TAKEN, "player_stat5"));
-  statPanel.appendChild(Game.createStatisticPanel("Melee Damage Taken", Game.TRACK_MELEE_TAKEN, "player_stat6"));
-  statPanel.appendChild(Game.createStatisticPanel("Ranged Damage Taken", Game.TRACK_RANGE_TAKEN, "player_stat7"));
-  statPanel.appendChild(Game.createStatisticPanel("Magic Damage Taken", Game.TRACK_MAGIC_TAKEN, "player_stat8"));
-  statPanel.appendChild(Game.createStatisticPanel("Attacks Used", Game.TRACK_ATTACKS_OUT, "player_stat9"));
-  statPanel.appendChild(Game.createStatisticPanel("Attacks Taken", Game.TRACK_ATTACKS_IN, "player_stat10"));
   statPanel.appendChild(Game.createStatisticPanel("Battles Won", Game.TRACK_WINS, "player_stat11"));
   statPanel.appendChild(Game.createStatisticPanel("Battles Lost", Game.TRACK_LOSSES, "player_stat12"));
   statPanel.appendChild(Game.createStatisticPanel("Battles Fled", Game.TRACK_ESCAPES, "player_stat13"));
   statPanel.appendChild(Game.createStatisticPanel("Current Win Streak", Game.TRACK_WIN_STREAK, "player_stat14"));
-  statPanel.appendChild(Game.createStatisticPanel("Burst Attacks Used", Game.TRACK_BURSTS, "player_stat15"));
   statPanel.appendChild(Game.createStatisticPanel("Elites / Bosses Defeated", Game.TRACK_BOSS_KILLS, "player_stat16"));
   statPanel.appendChild(Game.createStatisticPanel("Highest Elite Chance", Game.TRACK_BOSS_CHANCE + "%", "player_stat17"));
-  statPanel.appendChild(Game.createStatisticPanel("Largest Hit Dealt", Game.TRACK_MAXHIT_OUT, "player_stat18"));
-  statPanel.appendChild(Game.createStatisticPanel("Largest Hit Taken", Game.TRACK_MAXHIT_IN, "player_stat19"));
   statPanel.appendChild(Game.createStatisticPanel("Total Experience Gained", Game.TRACK_XP_GAINED, "player_stat20"));
   statPanel.appendChild(Game.createStatisticPanel("Experience Lost", Game.TRACK_XP_LOST, "player_stat21"));
   statPanel.appendChild(Game.createStatisticPanel("Experience Overflow Pool", Game.TRACK_XP_OVERFLOW, "player_stat22"));
@@ -488,7 +493,7 @@ Game.combatLog = function (combatant, message) {
   logBox.appendChild(d);
 }
 Game.showPanel = function (panelID) {
-  var panelList = document.getElementsByTagName("table");
+  var panelList = document.getElementsByClassName("rootTable");
   var initPanel = document.getElementById("initTable");
   for (var x = 0; x < panelList.length; x++) {
     if (panelList[x].id !== "initTable" && panelList[x].id == panelID) {
@@ -679,33 +684,38 @@ Game.updatePlayerTab = function () {
     }
   });
   
-  // New stat outputs.
+  // Offense section
   updateElementIDContent("player_statTotalDMG", prettifyNumber(Game.TRACK_TOTAL_DMG));
   updateElementIDContent("player_statAttacks", prettifyNumber(Game.TRACK_ATTACKS_OUT));
   updateElementIDContent("player_statMeleeOut", prettifyNumber(Game.TRACK_MELEE_DMG));
   updateElementIDContent("player_statRangedOut", prettifyNumber(Game.TRACK_RANGE_DMG));
+  updateElementIDContent("player_statMagicOut", prettifyNumber(Game.TRACK_MAGIC_DMG));
+  updateElementIDContent("player_statBiggestHitOut", prettifyNumber(Game.TRACK_MAXHIT_OUT));
+  updateElementIDContent("player_statBursts", prettifyNumber(Game.TRACK_BURSTS));
+  updateElementIDContent("player_statDebuffsOut", prettifyNumber(Game.TRACK_DEBUFFS_OUT));
+  updateElementIDContent("player_statDoomKills", prettifyNumber(Game.TRACK_DOOM_OUT));
+  updateElementIDContent("player_statSleepBreaksOut", prettifyNumber(Game.TRACK_SLEEPBREAK_OUT));
+  updateElementIDContent("player_statEnemyHealthDrained", prettifyNumber(Game.TRACK_DRAIN_IN));
+  updateElementIDContent("player_statDoTDamageOut", prettifyNumber(Game.TRACK_DOTS_OUT));
+  updateElementIDContent("player_statConfusionOut", prettifyNumber(Game.TRACK_CHARM_OUT));
+  updateElementIDContent("player_statParahaxOut", prettifyNumber(Game.TRACK_PARAHAX_OUT));
+  
+  // Defense section
+  updateElementIDContent("player_statTotalDMGTaken", prettifyNumber(Game.TRACK_TOTAL_TAKEN));
+  updateElementIDContent("player_statAttacksTaken", prettifyNumber(Game.TRACK_ATTACKS_IN));
+  updateElementIDContent("player_statMeleeIn", prettifyNumber(Game.TRACK_MELEE_TAKEN));
+  updateElementIDContent("player_statRangedIn", prettifyNumber(Game.TRACK_RANGE_TAKEN));
+  updateElementIDContent("player_statMagicIn", prettifyNumber(Game.TRACK_MAGIC_TAKEN));
+  updateElementIDContent("player_statBiggestHitIn", prettifyNumber(Game.TRACK_MAXHIT_IN));
   
   // Tracking panel values
   // Modify this so that we don't have to redraw the panels every time.
-  updateElementIDContent("player_stat1", Game.TRACK_TOTAL_DMG);
-  updateElementIDContent("player_stat2", Game.TRACK_MELEE_DMG);
-  updateElementIDContent("player_stat3", Game.TRACK_RANGE_DMG);
-  updateElementIDContent("player_stat4", Game.TRACK_MAGIC_DMG);
-  updateElementIDContent("player_stat5", Game.TRACK_TOTAL_TAKEN);
-  updateElementIDContent("player_stat6", Game.TRACK_MELEE_TAKEN);
-  updateElementIDContent("player_stat7", Game.TRACK_RANGE_TAKEN);
-  updateElementIDContent("player_stat8", Game.TRACK_MAGIC_TAKEN);
-  updateElementIDContent("player_stat9", Game.TRACK_ATTACKS_OUT);
-  updateElementIDContent("player_stat10", Game.TRACK_ATTACKS_IN);
   updateElementIDContent("player_stat11", Game.TRACK_WINS);
   updateElementIDContent("player_stat12", Game.TRACK_LOSSES);
   updateElementIDContent("player_stat13", Game.TRACK_ESCAPES);
   updateElementIDContent("player_stat14", Game.TRACK_WIN_STREAK);
-  updateElementIDContent("player_stat15", Game.TRACK_BURSTS);
   updateElementIDContent("player_stat16", Game.TRACK_BOSS_KILLS);
   updateElementIDContent("player_stat17", Game.TRACK_BOSS_CHANCE + "%");
-  updateElementIDContent("player_stat18", Game.TRACK_MAXHIT_OUT);
-  updateElementIDContent("player_stat19", Game.TRACK_MAXHIT_IN);
   updateElementIDContent("player_stat20", Game.TRACK_XP_GAINED);
   updateElementIDContent("player_stat21", Game.TRACK_XP_LOST);
   updateElementIDContent("player_stat22", Game.TRACK_XP_OVERFLOW);

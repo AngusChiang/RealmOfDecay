@@ -23,6 +23,12 @@ body * {
   border-radius: 10px;
 }
 
+#playerNameOut:hover,
+#enemyNameOut:hover,
+#noEnemyOut:hover {
+  color: #ffffff !important;
+}
+
 .indicator {
   position: absolute;
   display: inline-block;
@@ -52,6 +58,11 @@ body * {
   font-size: 28px;
   font-weight: bold;
   text-align: center;
+}
+
+.playerStatistics > span > span {
+  font-weight:bold;
+  color: #fff;
 }
 
 .headerTab {
