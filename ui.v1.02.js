@@ -241,6 +241,7 @@ Game.createPlayerTab = function () {
   updateElementIDContent("player_statRangedIn", prettifyNumber(Game.TRACK_RANGE_TAKEN));
   updateElementIDContent("player_statMagicIn", prettifyNumber(Game.TRACK_MAGIC_TAKEN));
   updateElementIDContent("player_statBiggestHitIn", prettifyNumber(Game.TRACK_MAXHIT_IN));
+  updateElementIDContent("player_statDebuffsIn", prettifyNumber(Game.TRACK_DEBUFFS_IN));
   
   // Statistics outputs. There's going to be a LOT of these.
   var statPanel = document.getElementById("statsOut");
@@ -265,20 +266,12 @@ Game.createPlayerTab = function () {
   statPanel.appendChild(Game.createStatisticPanel("Seeds Gained from Sales", Game.TRACK_SALE_SEEDS, "player_stat31"));
   statPanel.appendChild(Game.createStatisticPanel("Scrap Gained from Combat", Game.TRACK_COMBAT_SCRAP, "player_stat32"));
   statPanel.appendChild(Game.createStatisticPanel("Scrap Gained from Conversion", Game.TRACK_CONVERT_SCRAP, "player_stat33"));
-  statPanel.appendChild(Game.createStatisticPanel("Debuffs Applied", Game.TRACK_DEBUFFS_OUT, "player_stat34"));
-  statPanel.appendChild(Game.createStatisticPanel("Debuffs Suffered", Game.TRACK_DEBUFFS_IN, "player_stat35"));
-  statPanel.appendChild(Game.createStatisticPanel("Successful Dooms Used", Game.TRACK_DOOM_OUT, "player_stat36"));
   statPanel.appendChild(Game.createStatisticPanel("Successful Dooms Suffered", Game.TRACK_DOOM_IN, "player_stat37"));
-  statPanel.appendChild(Game.createStatisticPanel("Enemies Awoken from Sleep", Game.TRACK_SLEEPBREAK_OUT, "player_stat38"));
   statPanel.appendChild(Game.createStatisticPanel("Times Awoken from Sleep", Game.TRACK_SLEEPBREAK_IN, "player_stat39"));
-  statPanel.appendChild(Game.createStatisticPanel("Health Drained from Enemies", Game.TRACK_DRAIN_IN, "player_stat40"));
   statPanel.appendChild(Game.createStatisticPanel("Health Drained by Enemies", Game.TRACK_DRAIN_OUT, "player_stat41"));
-  statPanel.appendChild(Game.createStatisticPanel("Damage Dealt with DoTs", Game.TRACK_DOTS_OUT, "player_stat42"));
   statPanel.appendChild(Game.createStatisticPanel("Damage Taken from DoTs", Game.TRACK_DOTS_IN, "player_stat43"));
   statPanel.appendChild(Game.createStatisticPanel("Times Confused", Game.TRACK_CHARM_IN, "player_stat44"));
-  statPanel.appendChild(Game.createStatisticPanel("Enemies Confused", Game.TRACK_CHARM_OUT, "player_stat45"));
   statPanel.appendChild(Game.createStatisticPanel("Your Hits Lost to Paralysis", Game.TRACK_PARAHAX_IN, "player_stat46"));
-  statPanel.appendChild(Game.createStatisticPanel("Enemy Hits Lost to Paralysis", Game.TRACK_PARAHAX_OUT, "player_stat47"));
   statPanel.appendChild(Game.createStatisticPanel("Potions Used", Game.TRACK_POTIONS_USED, "player_stat48"));
   statPanel.appendChild(Game.createStatisticPanel("Badges Earned", Game.playerBadges.length, "player_stat49"));
   statPanel.appendChild(Game.createStatisticPanel("Prestige Level", Game.prestigeLevel, "player_stat50"));
@@ -707,6 +700,7 @@ Game.updatePlayerTab = function () {
   updateElementIDContent("player_statRangedIn", prettifyNumber(Game.TRACK_RANGE_TAKEN));
   updateElementIDContent("player_statMagicIn", prettifyNumber(Game.TRACK_MAGIC_TAKEN));
   updateElementIDContent("player_statBiggestHitIn", prettifyNumber(Game.TRACK_MAXHIT_IN));
+  updateElementIDContent("player_statDebuffsIn", prettifyNumber(Game.TRACK_DEBUFFS_IN));
   
   // Tracking panel values
   // Modify this so that we don't have to redraw the panels every time.
@@ -730,20 +724,12 @@ Game.updatePlayerTab = function () {
   updateElementIDContent("player_stat31", Game.TRACK_SALE_SEEDS);
   updateElementIDContent("player_stat32", Game.TRACK_COMBAT_SCRAP);
   updateElementIDContent("player_stat33", Game.TRACK_CONVERT_SCRAP);
-  updateElementIDContent("player_stat34", Game.TRACK_DEBUFFS_OUT);
-  updateElementIDContent("player_stat35", Game.TRACK_DEBUFFS_IN);
-  updateElementIDContent("player_stat36", Game.TRACK_DOOM_OUT);
   updateElementIDContent("player_stat37", Game.TRACK_DOOM_IN);
-  updateElementIDContent("player_stat38", Game.TRACK_SLEEPBREAK_OUT);
   updateElementIDContent("player_stat39", Game.TRACK_SLEEPBREAK_IN);
-  updateElementIDContent("player_stat40", Game.TRACK_DRAIN_IN);
   updateElementIDContent("player_stat41", Game.TRACK_DRAIN_OUT);
-  updateElementIDContent("player_stat42", Game.TRACK_DOTS_OUT);
   updateElementIDContent("player_stat43", Game.TRACK_DOTS_IN);
   updateElementIDContent("player_stat44", Game.TRACK_CHARM_IN);
-  updateElementIDContent("player_stat45", Game.TRACK_CHARM_OUT);
   updateElementIDContent("player_stat46", Game.TRACK_PARAHAX_IN);
-  updateElementIDContent("player_stat47", Game.TRACK_PARAHAX_OUT);
   updateElementIDContent("player_stat48", Game.TRACK_POTIONS_USED);
   updateElementIDContent("player_stat49", Game.playerBadges.length);
   updateElementIDContent("player_stat50", Game.prestigeLevel);
