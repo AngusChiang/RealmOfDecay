@@ -1,3 +1,7 @@
+/*jslint node: true */
+/*jslint devel: true */
+/*global Game, prettifyNumber, abbreviateNumber, arraysEqual, statValue, clearElementContent, updateElementIDContent, toggleHelpVis, keyBindings*/
+"use strict";
 /*--------------------------
 combat.js
 
@@ -6,7 +10,7 @@ and damage calculation.
 --------------------------*/
 
 Game.startCombat = function (isManual, isBoss) {
-  if (Game.p_State == Game.STATE_IDLE) {
+  if (Game.p_State === Game.STATE_IDLE) {
     if (Game.p_repairInterval) {
       window.clearInterval(Game.p_repairInterval);
       Game.p_repairInterval = null;
@@ -56,7 +60,7 @@ Game.startCombat = function (isManual, isBoss) {
       }, 1100);
     }
     if (isManual) {
-      Game.PROGRESS_MANUAL_BATTLE++;
+      Game.PROGRESS_MANUAL_BATTLE += 1;
       Game.badgeCheck(Game.BADGE_MANUAL_BATTLE); // Broken Mouse Convention
     }
   }
@@ -64,19 +68,21 @@ Game.startCombat = function (isManual, isBoss) {
   var log = document.getElementById("logBody");
   clearElementContent(log);
   Game.drawActivePanel();
-}
+};
+
 Game.playerCombatTick = function (isBurst) {
+  var a = 0, b = 0, c = 0, d = 0, e = 0, f = 0,
+    critChance = 0, didCrit = false, playerDMG = 0, canDebuff = true, secondStrike = 0,
+    debuffChance = 0, debuffApplied = false, timerLength = 0;
   // Are we in combat?
-  if (Game.p_State == Game.STATE_COMBAT) {
+  if (Game.p_State === Game.STATE_COMBAT) {
     // Sleep check!
-    if (Game.getPlayerDebuff()[0] == Game.DEBUFF_SLEEP) {
-      // Do nothing - not even set an attack timer.
-    } else {
+    if (Game.getPlayerDebuff()[0] !== Game.DEBUFF_SLEEP) {
       // Paralysis Check!
-      if (Game.getPlayerDebuff()[0] == Game.DEBUFF_PARAHAX && Game.RNG(1, 100) <= Game.p_Debuff[3]) {
+      if (Game.getPlayerDebuff()[0] === Game.DEBUFF_PARAHAX && Game.RNG(1, 100) <= Game.p_Debuff[3]) {
         // Paralysis happened.
         Game.combatLog("player", "<span class='q222'>" + Game.p_Debuff[1] + "</span> prevented you from attacking.");
-        Game.TRACK_PARAHAX_IN++;
+        Game.TRACK_PARAHAX_IN += 1;
       } else {
         // Stage 0: Execute
         if (Game.e_HP / Game.e_MaxHP < 0.25) {
@@ -92,26 +98,26 @@ Game.playerCombatTick = function (isBurst) {
           }
         }
         // Stage 1: Base Damage.
-        var playerDMG = Game.RNG(Game.p_Weapon[4], Game.p_Weapon[5]);
+        playerDMG = Game.RNG(Game.p_Weapon[4], Game.p_Weapon[5]);
         // Add in primary stat boost to weapon damage.
         switch (Game.p_Weapon[2]) {
-          case Game.WEAPON_MAGIC:
-            playerDMG += Game.p_Int * Game.WEAPON_BASE_MULT * Game.p_Weapon[3] / 3.0;
-            break;
-          case Game.WEAPON_RANGE:
-            playerDMG += Game.p_Dex * Game.WEAPON_BASE_MULT * Game.p_Weapon[3] / 3.0;
-            break;
-          case Game.WEAPON_MELEE:
-            playerDMG += Game.p_Str * Game.WEAPON_BASE_MULT * Game.p_Weapon[3] / 3.0;
-            break;
+        case Game.WEAPON_MAGIC:
+          playerDMG += Game.p_Int * Game.WEAPON_BASE_MULT * Game.p_Weapon[3] / 3.0;
+          break;
+        case Game.WEAPON_RANGE:
+          playerDMG += Game.p_Dex * Game.WEAPON_BASE_MULT * Game.p_Weapon[3] / 3.0;
+          break;
+        case Game.WEAPON_MELEE:
+          playerDMG += Game.p_Str * Game.WEAPON_BASE_MULT * Game.p_Weapon[3] / 3.0;
+          break;
         }
         // Stage 2: Percentile Boosts.
         // Deadly Force
         playerDMG *= (1 + 0.03 * Game.powerLevel(Game.SKILL_DEADLY_FORCE));
         // Keen Eye
-        var critChance = 300 * Game.powerLevel(Game.SKILL_KEEN_EYE);
+        critChance = 300 * Game.powerLevel(Game.SKILL_KEEN_EYE);
         critChance += Math.floor(statValue(Game.p_Dex) * 100);
-        var didCrit = false;
+        didCrit = false;
         if (Game.RNG(1, 10000) <= critChance) {
           // Keener Eye
           playerDMG *= (1.5 + 0.1 * Game.powerLevel(Game.SKILL_KEENER_EYE));
@@ -133,8 +139,8 @@ Game.playerCombatTick = function (isBurst) {
         if (Game.p_Adrenaline > 0) {
           // Adrenaline Rush
           playerDMG *= (1 + 0.05 * Game.powerLevel(Game.SKILL_ADRENALINE_RUSH));
-          Game.p_Adrenaline--;
-          if (Game.p_Adrenaline == 0) {
+          Game.p_Adrenaline -= 1;
+          if (Game.p_Adrenaline === 0) {
             Game.combatLog("player", "The <span class='q222'>Adrenaline Rush</span> subsides.");
           }
         } else {
@@ -145,13 +151,13 @@ Game.playerCombatTick = function (isBurst) {
           }
         }
         // Stage 3: Percentile Reductions
-        var canDebuff = true;
-        if (Game.p_Weapon[8] == 0) {
+        canDebuff = true;
+        if (Game.p_Weapon[8] === 0) {
           // Broken weapon.
           canDebuff = false;
           playerDMG *= (0.25 + 0.1 * Game.powerLevel(Game.SKILL_HANGING_BY_A_THREAD));
         }
-        if (Game.getPlayerDebuff()[0] == Game.DEBUFF_DISARM) {
+        if (Game.getPlayerDebuff()[0] === Game.DEBUFF_DISARM) {
           // Disarmed.
           canDebuff = false;
           playerDMG *= 0.5;
@@ -165,10 +171,10 @@ Game.playerCombatTick = function (isBurst) {
           playerDMG *= (0.5 + 0.05 * Game.powerLevel(Game.SKILL_EMPOWERED_FLURRY));
         }
         // Stage 4: Mind Control Resolution
-        if (Game.getPlayerDebuff()[0] == Game.DEBUFF_MC) {
+        if (Game.getPlayerDebuff()[0] === Game.DEBUFF_MC) {
           playerDMG = Math.floor(playerDMG);
           Game.p_HP = Math.max(Game.p_HP - playerDMG, 0);
-          Game.TRACK_CHARM_IN++;
+          Game.TRACK_CHARM_IN += 1;
           Game.combatLog("enemy", "<span class='q222'>" + Game.p_Debuff[1] + "</span> causes you to attack yourself for <span class='q222'>" + playerDMG + "</span> damage.");
           if (Game.p_HP <= 0) {
             Game.giveBadge(Game.BADGE_SELF_KILL);
@@ -176,112 +182,112 @@ Game.playerCombatTick = function (isBurst) {
         } else {
           // Stage 5: Armour Effects
           switch (Game.p_Weapon[2]) {
-            case Game.WEAPON_MAGIC:
-              if (Game.getEnemyDebuff()[0] != Game.DEBUFF_SHRED) {
-                for (var a = 0; a < Game.e_Armour[4].length; a++) {
-                  if (Game.e_Armour[4][a][0] == Game.ARMOUR_STR_MAGIC) {
-                    if (isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
-                      playerDMG += Game.e_Armour[4][a][1];
-                    } else if (Game.RNG(1, 50) <= Game.powerLevel(Game.SKILL_SHIELD_CRUSH)) {
-                      Game.combatLog("player", "<span class='q222'>Shield Crush</span> breached the enemy's defences!");
-                      Game.shieldCrushActive = true;
-                      if (Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0) {
-                        Game.combatLog("player", "Preparing to <span class='q222'>Hold The Line</span>!");
-                      }
-                      if (Game.powerLevel(Game.SKILL_STAND_YOUR_GROUND) > 0) {
-                        Game.player_debuffTimer = 0;
-                        Game.combatLog("player", "<span class='q222'>Stand Your Ground</span> cleansed your active debuff.");
-                      }
-                    } else {
-                      playerDMG = Math.max(playerDMG - Game.e_Armour[4][a][1], 0);
+          case Game.WEAPON_MAGIC:
+            if (Game.getEnemyDebuff()[0] !== Game.DEBUFF_SHRED) {
+              for (a = 0; a < Game.e_Armour[4].length; a += 1) {
+                if (Game.e_Armour[4][a][0] === Game.ARMOUR_STR_MAGIC) {
+                  if (isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
+                    playerDMG += Game.e_Armour[4][a][1];
+                  } else if (Game.RNG(1, 50) <= Game.powerLevel(Game.SKILL_SHIELD_CRUSH)) {
+                    Game.combatLog("player", "<span class='q222'>Shield Crush</span> breached the enemy's defences!");
+                    Game.shieldCrushActive = true;
+                    if (Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0) {
+                      Game.combatLog("player", "Preparing to <span class='q222'>Hold The Line</span>!");
                     }
+                    if (Game.powerLevel(Game.SKILL_STAND_YOUR_GROUND) > 0) {
+                      Game.player_debuffTimer = 0;
+                      Game.combatLog("player", "<span class='q222'>Stand Your Ground</span> cleansed your active debuff.");
+                    }
+                  } else {
+                    playerDMG = Math.max(playerDMG - Game.e_Armour[4][a][1], 0);
                   }
                 }
               }
-              for (var b = 0; b < Game.e_Armour[5].length; b++) {
-                if (Game.e_Armour[5][b][0] == Game.ARMOUR_VULN_MAGIC) {
-                  playerDMG += Game.e_Armour[5][b][1];
-                }
+            }
+            for (b = 0; b < Game.e_Armour[5].length; b += 1) {
+              if (Game.e_Armour[5][b][0] === Game.ARMOUR_VULN_MAGIC) {
+                playerDMG += Game.e_Armour[5][b][1];
               }
-              break;
-            case Game.WEAPON_RANGE:
-              if (Game.getEnemyDebuff()[0] != Game.DEBUFF_SHRED) {
-                for (var c = 0; c < Game.e_Armour[4].length; c++) {
-                  if (Game.e_Armour[4][c][0] == Game.ARMOUR_STR_RANGE) {
-                    if (isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
-                      playerDMG += Game.e_Armour[4][c][1];
-                    } else if (Game.RNG(1, 50) <= Game.powerLevel(Game.SKILL_SHIELD_CRUSH)) {
-                      Game.combatLog("player", "<span class='q222'>Shield Crush</span> breached the enemy's defences!");
-                      Game.shieldCrushActive = true;
-                      if (Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0) {
-                        Game.combatLog("player", "Preparing to <span class='q222'>Hold The Line</span>!");
-                      }
-                      if (Game.powerLevel(Game.SKILL_STAND_YOUR_GROUND) > 0) {
-                        Game.player_debuffTimer = 0;
-                        Game.combatLog("player", "<span class='q222'>Stand Your Ground</span> cleansed your active debuff.");
-                      }
-                    } else {
-                      playerDMG = Math.max(playerDMG - Game.e_Armour[4][c][1], 0);
+            }
+            break;
+          case Game.WEAPON_RANGE:
+            if (Game.getEnemyDebuff()[0] !== Game.DEBUFF_SHRED) {
+              for (c = 0; c < Game.e_Armour[4].length; c += 1) {
+                if (Game.e_Armour[4][c][0] === Game.ARMOUR_STR_RANGE) {
+                  if (isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
+                    playerDMG += Game.e_Armour[4][c][1];
+                  } else if (Game.RNG(1, 50) <= Game.powerLevel(Game.SKILL_SHIELD_CRUSH)) {
+                    Game.combatLog("player", "<span class='q222'>Shield Crush</span> breached the enemy's defences!");
+                    Game.shieldCrushActive = true;
+                    if (Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0) {
+                      Game.combatLog("player", "Preparing to <span class='q222'>Hold The Line</span>!");
                     }
+                    if (Game.powerLevel(Game.SKILL_STAND_YOUR_GROUND) > 0) {
+                      Game.player_debuffTimer = 0;
+                      Game.combatLog("player", "<span class='q222'>Stand Your Ground</span> cleansed your active debuff.");
+                    }
+                  } else {
+                    playerDMG = Math.max(playerDMG - Game.e_Armour[4][c][1], 0);
                   }
                 }
               }
-              for (var d = 0; d < Game.e_Armour[5].length; d++) {
-                if (Game.e_Armour[5][d][0] == Game.ARMOUR_VULN_RANGE) {
-                  playerDMG += Game.e_Armour[5][d][1];
-                }
+            }
+            for (d = 0; d < Game.e_Armour[5].length; d += 1) {
+              if (Game.e_Armour[5][d][0] === Game.ARMOUR_VULN_RANGE) {
+                playerDMG += Game.e_Armour[5][d][1];
               }
-              break;
-            case Game.WEAPON_MELEE:
-              if (Game.getEnemyDebuff()[0] != Game.DEBUFF_SHRED) {
-                for (var e = 0; e < Game.e_Armour[4].length; e++) {
-                  if (Game.e_Armour[4][e][0] == Game.ARMOUR_STR_MELEE) {
-                    if (isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
-                      playerDMG += Game.e_Armour[4][e][1];
-                    } else if (Game.RNG(1, 50) <= Game.powerLevel(Game.SKILL_SHIELD_CRUSH)) {
-                      Game.combatLog("player", "<span class='q222'>Shield Crush</span> breached the enemy's defences!");
-                      Game.shieldCrushActive = true;
-                      if (Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0) {
-                        Game.combatLog("player", "Preparing to <span class='q222'>Hold The Line</span>!");
-                      }
-                      if (Game.powerLevel(Game.SKILL_STAND_YOUR_GROUND) > 0) {
-                        Game.player_debuffTimer = 0;
-                        Game.combatLog("player", "<span class='q222'>Stand Your Ground</span> cleansed your active debuff.");
-                      }
-                    } else {
-                      playerDMG = Math.max(playerDMG - Game.e_Armour[4][e][1], 0);
+            }
+            break;
+          case Game.WEAPON_MELEE:
+            if (Game.getEnemyDebuff()[0] !== Game.DEBUFF_SHRED) {
+              for (e = 0; e < Game.e_Armour[4].length; e += 1) {
+                if (Game.e_Armour[4][e][0] === Game.ARMOUR_STR_MELEE) {
+                  if (isBurst && Game.powerLevel(Game.SKILL_UNDERMINE) > 0) {
+                    playerDMG += Game.e_Armour[4][e][1];
+                  } else if (Game.RNG(1, 50) <= Game.powerLevel(Game.SKILL_SHIELD_CRUSH)) {
+                    Game.combatLog("player", "<span class='q222'>Shield Crush</span> breached the enemy's defences!");
+                    Game.shieldCrushActive = true;
+                    if (Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0) {
+                      Game.combatLog("player", "Preparing to <span class='q222'>Hold The Line</span>!");
                     }
+                    if (Game.powerLevel(Game.SKILL_STAND_YOUR_GROUND) > 0) {
+                      Game.player_debuffTimer = 0;
+                      Game.combatLog("player", "<span class='q222'>Stand Your Ground</span> cleansed your active debuff.");
+                    }
+                  } else {
+                    playerDMG = Math.max(playerDMG - Game.e_Armour[4][e][1], 0);
                   }
                 }
               }
-              for (var f = 0; f < Game.e_Armour[5].length; f++) {
-                if (Game.e_Armour[5][f][0] == Game.ARMOUR_VULN_MELEE) {
-                  playerDMG += Game.e_Armour[5][f][1];
-                }
+            }
+            for (f = 0; f < Game.e_Armour[5].length; f += 1) {
+              if (Game.e_Armour[5][f][0] === Game.ARMOUR_VULN_MELEE) {
+                playerDMG += Game.e_Armour[5][f][1];
               }
-              break;
+            }
+            break;
           }
           // Stage 7: Damage Application
           // Floor it, I don't like decimals.
           playerDMG = Math.floor(playerDMG);
           Game.e_HP = Math.max(Game.e_HP - playerDMG, 0);
           Game.TRACK_TOTAL_DMG += playerDMG;
-          Game.TRACK_ATTACKS_OUT++;
+          Game.TRACK_ATTACKS_OUT += 1;
           Game.TRACK_MAXHIT_OUT = Math.max(Game.TRACK_MAXHIT_OUT, playerDMG);
           Game.badgeCheck(Game.BADGE_JACKOFTRADES); // Jack of All Trades
           switch (Game.p_Weapon[2]) {
-            case Game.WEAPON_MELEE:
-              Game.TRACK_MELEE_DMG += playerDMG;
-              break;
-            case Game.WEAPON_RANGE:
-              Game.TRACK_RANGE_DMG += playerDMG;
-              break;
-            case Game.WEAPON_MAGIC:
-              Game.TRACK_MAGIC_DMG += playerDMG;
-              break;
+          case Game.WEAPON_MELEE:
+            Game.TRACK_MELEE_DMG += playerDMG;
+            break;
+          case Game.WEAPON_RANGE:
+            Game.TRACK_RANGE_DMG += playerDMG;
+            break;
+          case Game.WEAPON_MAGIC:
+            Game.TRACK_MAGIC_DMG += playerDMG;
+            break;
           }
           Game.updateCombatTab();
-          if (Game.getPlayerDebuff()[0] == Game.DEBUFF_DISARM || Game.p_Weapon[8] == 0) {
+          if (Game.getPlayerDebuff()[0] === Game.DEBUFF_DISARM || Game.p_Weapon[8] === 0) {
             // Use the force, applied via the knuckles.
             Game.combatLog("player", "You hit " + (Game.e_ProperName ? "" : "the ") + Game.e_Name + " with your fists for <span class='q222'>" + playerDMG + "</span> damage" + (didCrit ? " (Critical)" : "."));
           } else {
@@ -291,70 +297,72 @@ Game.playerCombatTick = function (isBurst) {
               // Proper Care
               Game.combatLog("player", " - <span class='q222'>Proper Care</span> prevented weapon decay.");
             } else {
-              Game.p_Weapon[8]--;
+              // Durability loss
+              Game.p_Weapon[8] -= 1;
               if (Game.powerLevel(Game.SKILL_OVERCHARGE) > 0) {
-                Game.p_Weapon[8]--;
+                // Extra point of durability loss from Overcharge
+                Game.p_Weapon[8] -= 1;
               }
               if (Game.p_Weapon[8] <= 0) {
                 Game.p_Weapon[8] = 0;
-                Game.TRACK_BROKEN_ITEMS++;
+                Game.TRACK_BROKEN_ITEMS += 1;
                 Game.combatLog("player", " - Your <span class='q" + Game.p_Weapon[7] + "'>" + Game.p_Weapon[0].split("|")[0] + "</span> has broken!");
               }
             }
           }
-          if (Game.getEnemyDebuff()[0] == Game.DEBUFF_MULTI) {
+          if (Game.getEnemyDebuff()[0] === Game.DEBUFF_MULTI) {
             // DOUBLE STRIKEU
-            var secondStrike = Math.floor(playerDMG * (Game.e_Debuff[3] / 100));
+            secondStrike = Math.floor(playerDMG * (Game.e_Debuff[3] / 100));
             Game.e_HP = Math.max(Game.e_HP - secondStrike, 0);
             Game.combatLog("player", " - <span class='q222'>" + Game.e_Debuff[1] + "</span> allows you to strike again for <span class='q222'>" + secondStrike + "</span> damage.");
           }
-          if (Game.getEnemyDebuff()[0] == Game.DEBUFF_SLEEP) {
+          if (Game.getEnemyDebuff()[0] === Game.DEBUFF_SLEEP) {
             // Waking the beast. Maybe.
             if (Game.RNG(1, 25) <= Game.e_Debuff[3]) {
               Game.enemy_debuffTimer = 0;
-              Game.TRACK_SLEEPBREAK_OUT++;
+              Game.TRACK_SLEEPBREAK_OUT += 1;
             }
           }
         }
         // Stage 7: Debuff Application
-        var debuffChance = 10 + (2 * Game.powerLevel(Game.SKILL_EXPOSE_WEAKNESS));
+        debuffChance = 10 + (2 * Game.powerLevel(Game.SKILL_EXPOSE_WEAKNESS));
         if (isBurst) {
           debuffChance += 20 * Game.powerLevel(Game.SKILL_TURN_THE_TABLES);
         }
         if (Game.e_Debuff.length > 0) {
           if (Game.getPlayerDebuff()[0] !== Game.DEBUFF_MC) {
-            if (Game.powerLevel(Game.SKILL_TERMINAL_ILLNESS) == 0) {
+            if (Game.powerLevel(Game.SKILL_TERMINAL_ILLNESS) === 0) {
               canDebuff = false;
             }
           }
         }
-        if (Game.p_Weapon[9].length == 0) {
+        if (Game.p_Weapon[9].length === 0) {
           canDebuff = false;
         }
-        var debuffApplied = false;
+        debuffApplied = false;
         if (canDebuff) {
           if (Game.RNG(1, 100) <= debuffChance) {
             debuffApplied = true;
-            if (Game.getPlayerDebuff()[0] == Game.DEBUFF_MC) {
+            if (Game.getPlayerDebuff()[0] === Game.DEBUFF_MC) {
               Game.p_Debuff = Game.p_Weapon[9].slice();
               Game.combatLog("enemy", " - You suffer from <span class='q222'>" + Game.p_Weapon[9][1] + "</span>.");
-              Game.TRACK_DEBUFFS_IN++;
+              Game.TRACK_DEBUFFS_IN += 1;
               Game.giveBadge(Game.BADGE_SELF_DEBUFF); // Hoisted By My Own Petard
               Game.player_debuffTimer = Game.p_Weapon[9][2];
               window.clearInterval(Game.player_debuffInterval);
               Game.player_debuffInterval = window.setInterval(Game.playerDebuffTicker, 1000);
-              if (Game.getPlayerDebuff()[0] == Game.DEBUFF_SLEEP) {
+              if (Game.getPlayerDebuff()[0] === Game.DEBUFF_SLEEP) {
                 window.clearInterval(Game.combat_playerInterval);
                 Game.combatLog("player", "You fall asleep...");
               }
             } else {
               Game.e_Debuff = Game.p_Weapon[9].slice();
               Game.combatLog("player", " - " + (Game.e_ProperName ? "" : "The ") + Game.e_Name + " suffers from <span class='q222'>" + Game.p_Weapon[9][1] + "</span>.");
-              Game.TRACK_DEBUFFS_OUT++;
+              Game.TRACK_DEBUFFS_OUT += 1;
               Game.enemy_debuffTimer = Game.p_Weapon[9][2];
               window.clearInterval(Game.enemy_debuffInterval);
               Game.enemy_debuffInterval = window.setInterval(Game.enemyDebuffTicker, 1000);
-              if (Game.getEnemyDebuff()[0] == Game.DEBUFF_SLEEP) {
+              if (Game.getEnemyDebuff()[0] === Game.DEBUFF_SLEEP) {
                 window.clearInterval(Game.combat_enemyInterval);
                 Game.combatLog("enemy", (Game.e_ProperName ? "" : "The ") + Game.e_Name + " falls asleep...");
               }
@@ -362,7 +370,7 @@ Game.playerCombatTick = function (isBurst) {
           }
         }
         // Clear the debuff timer so confusion doesn't persist between turns.
-        if (Game.getPlayerDebuff()[0] == Game.DEBUFF_MC && !debuffApplied) {
+        if (Game.getPlayerDebuff()[0] === Game.DEBUFF_MC && !debuffApplied) {
           Game.player_debuffTimer = 0;
         }
         // Stage 8: Miscellaneous Effects
@@ -382,8 +390,8 @@ Game.playerCombatTick = function (isBurst) {
           Game.flurryActive = false;
         }
         window.clearTimeout(Game.combat_playerInterval);
-        var timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.03 * Game.powerLevel(Game.SKILL_NIMBLE_FINGERS)));
-        if (Game.getPlayerDebuff()[0] == Game.DEBUFF_SLOW) {
+        timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.03 * Game.powerLevel(Game.SKILL_NIMBLE_FINGERS)));
+        if (Game.getPlayerDebuff()[0] === Game.DEBUFF_SLOW) {
           timerLength *= (1 + (Game.p_Debuff[3] / 100));
         }
         if (Game.RNG(1, 10000) <= (100 * statValue(Game.p_Con))) {
@@ -409,18 +417,20 @@ Game.playerCombatTick = function (isBurst) {
     window.clearInterval(Game.combat_playerInterval);
   }
   Game.updateCombatTab();
-}
+};
+
 Game.enemyCombatTick = function () {
+  var a = 0, b = 0, c = 0, d = 0, e = 0, f = 0,
+    enemyDMG = 0, canDebuff = false, didBlock = false, blockRate = 0, blockedDamage = 0, TDMG = 0,
+    reflectDMG = 0, vengDMG = 0, secondDmg = 0, mult = 1;
   // Are we in combat?
-  if (Game.p_State == Game.STATE_COMBAT) {
+  if (Game.p_State === Game.STATE_COMBAT) {
     // Paralysis check!
-    if (Game.getEnemyDebuff()[0] == Game.DEBUFF_PARAHAX && Game.RNG(1, 100) <= Game.e_Debuff[3]) {
+    if (Game.getEnemyDebuff()[0] === Game.DEBUFF_PARAHAX && Game.RNG(1, 100) <= Game.e_Debuff[3]) {
       // Paralysis happened.
       Game.combatLog("enemy", "<span class='q222'>" + Game.e_Debuff[1] + "</span> prevented " + (Game.e_ProperName ? "" : "the ") + Game.e_Name + " from attacking.");
-      Game.TRACK_PARAHAX_OUT++;
-    }
-    // Dodge Check
-    else if (Game.RNG(1, 10000) <= Math.floor(50 * statValue(Game.p_Int))) {
+      Game.TRACK_PARAHAX_OUT += 1;
+    } else if (Game.RNG(1, 10000) <= Math.floor(50 * statValue(Game.p_Int))) {
       // Dodged a bullet
       Game.combatLog("player", "You dodged the incoming attack.");
       if (Game.p_specUsed && Game.powerLevel(Game.SKILL_ARTFUL_DODGER) > 0) {
@@ -432,14 +442,14 @@ Game.enemyCombatTick = function () {
       }
     } else {
       // Stage 1: Base Damage.
-      var enemyDMG = Game.RNG(Game.e_Weapon[4], Game.e_Weapon[5]);
+      enemyDMG = Game.RNG(Game.e_Weapon[4], Game.e_Weapon[5]);
       enemyDMG += Game.e_MainStat * Game.WEAPON_BASE_MULT * Game.e_Weapon[3] / 3.0;
-      var canDebuff = true;
+      canDebuff = true;
       // Stage 2: Mind Control Resolution
-      if (Game.getEnemyDebuff()[0] == Game.DEBUFF_MC) {
+      if (Game.getEnemyDebuff()[0] === Game.DEBUFF_MC) {
         enemyDMG = Math.floor(enemyDMG);
         Game.e_HP = Math.max(Game.e_HP - enemyDMG, 0);
-        Game.TRACK_CHARM_OUT++;
+        Game.TRACK_CHARM_OUT += 1;
         Game.combatLog("player", "<span class='q222'>" + Game.e_Debuff[1] + "</span> causes " + (Game.e_ProperName ? "" : "the ") + Game.e_Name + " to attack itself for <span class='q222'>" + enemyDMG + "</span> damage.");
         if (Game.e_HP <= 0) {
           Game.giveBadge(Game.BADGE_ENEMY_SELF_KILL);
@@ -453,58 +463,58 @@ Game.enemyCombatTick = function () {
           enemyDMG *= (1 - 0.1 * Game.powerLevel(Game.SKILL_LAST_BASTION));
         }
         // Disarmed
-        if (Game.getEnemyDebuff()[0] == Game.DEBUFF_DISARM) {
+        if (Game.getEnemyDebuff()[0] === Game.DEBUFF_DISARM) {
           enemyDMG *= 0.5;
           canDebuff = false;
         }
         // Stage 4: Armour Effects.
         switch (Game.e_Weapon[2]) {
-          case Game.WEAPON_MAGIC:
-            if (Game.getPlayerDebuff()[0] !== Game.DEBUFF_SHRED && Game.p_Armour[3] > 0) {
-              for (var a = 0; a < Game.p_Armour[4].length; a++) {
-                if (Game.p_Armour[4][a][0] == Game.ARMOUR_STR_MAGIC) {
-                  enemyDMG = Math.max(enemyDMG - Math.ceil(Game.p_Armour[4][a][1] * (1 + (0.05 * Game.powerLevel(Game.SKILL_ARMOUR_MASTERY)))), 0);
-                }
+        case Game.WEAPON_MAGIC:
+          if (Game.getPlayerDebuff()[0] !== Game.DEBUFF_SHRED && Game.p_Armour[3] > 0) {
+            for (a = 0; a < Game.p_Armour[4].length; a += 1) {
+              if (Game.p_Armour[4][a][0] === Game.ARMOUR_STR_MAGIC) {
+                enemyDMG = Math.max(enemyDMG - Math.ceil(Game.p_Armour[4][a][1] * (1 + (0.05 * Game.powerLevel(Game.SKILL_ARMOUR_MASTERY)))), 0);
               }
             }
-            for (var b = 0; b < Game.p_Armour[5].length; b++) {
-              if (Game.p_Armour[5][b][0] == Game.ARMOUR_VULN_MAGIC) {
-                enemyDMG += Game.p_Armour[5][b][1];
+          }
+          for (b = 0; b < Game.p_Armour[5].length; b += 1) {
+            if (Game.p_Armour[5][b][0] === Game.ARMOUR_VULN_MAGIC) {
+              enemyDMG += Game.p_Armour[5][b][1];
+            }
+          }
+          break;
+        case Game.WEAPON_RANGE:
+          if (Game.getPlayerDebuff()[0] !== Game.DEBUFF_SHRED && Game.p_Armour[3] > 0) {
+            for (c = 0; c < Game.p_Armour[4].length; c += 1) {
+              if (Game.p_Armour[4][c][0] === Game.ARMOUR_STR_RANGE) {
+                enemyDMG = Math.max(enemyDMG - Math.ceil(Game.p_Armour[4][c][1] * (1 + (0.05 * Game.powerLevel(Game.SKILL_ARMOUR_MASTERY)))), 0);
               }
             }
-            break;
-          case Game.WEAPON_RANGE:
-            if (Game.getPlayerDebuff()[0] !== Game.DEBUFF_SHRED && Game.p_Armour[3] > 0) {
-              for (var c = 0; c < Game.p_Armour[4].length; c++) {
-                if (Game.p_Armour[4][c][0] == Game.ARMOUR_STR_RANGE) {
-                  enemyDMG = Math.max(enemyDMG - Math.ceil(Game.p_Armour[4][c][1] * (1 + (0.05 * Game.powerLevel(Game.SKILL_ARMOUR_MASTERY)))), 0);
-                }
+          }
+          for (d = 0; d < Game.p_Armour[5].length; d += 1) {
+            if (Game.p_Armour[5][d][0] === Game.ARMOUR_VULN_RANGE) {
+              enemyDMG += Game.p_Armour[5][d][1];
+            }
+          }
+          break;
+        case Game.WEAPON_MELEE:
+          if (Game.getPlayerDebuff()[0] !== Game.DEBUFF_SHRED && Game.p_Armour[3] > 0) {
+            for (e = 0; e < Game.p_Armour[4].length; e += 1) {
+              if (Game.p_Armour[4][e][0] === Game.ARMOUR_STR_MELEE) {
+                enemyDMG = Math.max(enemyDMG - Math.ceil(Game.p_Armour[4][e][1] * (1 + (0.05 * Game.powerLevel(Game.SKILL_ARMOUR_MASTERY)))), 0);
               }
             }
-            for (var d = 0; d < Game.p_Armour[5].length; d++) {
-              if (Game.p_Armour[5][d][0] == Game.ARMOUR_VULN_RANGE) {
-                enemyDMG += Game.p_Armour[5][d][1];
-              }
+          }
+          for (f = 0; f < Game.p_Armour[5].length; f += 1) {
+            if (Game.p_Armour[5][f][0] === Game.ARMOUR_VULN_MELEE) {
+              enemyDMG += Game.p_Armour[5][f][1];
             }
-            break;
-          case Game.WEAPON_MELEE:
-            if (Game.getPlayerDebuff()[0] !== Game.DEBUFF_SHRED && Game.p_Armour[3] > 0) {
-              for (var e = 0; e < Game.p_Armour[4].length; e++) {
-                if (Game.p_Armour[4][e][0] == Game.ARMOUR_STR_MELEE) {
-                  enemyDMG = Math.max(enemyDMG - Math.ceil(Game.p_Armour[4][e][1] * (1 + (0.05 * Game.powerLevel(Game.SKILL_ARMOUR_MASTERY)))), 0);
-                }
-              }
-            }
-            for (var f = 0; f < Game.p_Armour[5].length; f++) {
-              if (Game.p_Armour[5][f][0] == Game.ARMOUR_VULN_MELEE) {
-                enemyDMG += Game.p_Armour[5][f][1];
-              }
-            }
-            break;
+          }
+          break;
         }
         // Stage 4a: Block
-        var didBlock = false;
-        var blockRate = (100 * Game.powerLevel(Game.SKILL_SHIELD_WALL)) + Math.floor(statValue(Game.p_Str) * 100);
+        didBlock = false;
+        blockRate = (100 * Game.powerLevel(Game.SKILL_SHIELD_WALL)) + Math.floor(statValue(Game.p_Str) * 100);
         if (Game.RNG(1, 10000) <= blockRate || (Game.powerLevel(Game.SKILL_HOLD_THE_LINE) > 0 && Game.shieldCrushActive)) {
           didBlock = true;
           Game.shieldCrushActive = false;
@@ -520,11 +530,11 @@ Game.enemyCombatTick = function () {
           if (Game.p_HP <= enemyDMG) {
             Game.giveBadge(Game.BADGE_INTERVENTION);
           } // Divine Intervention
-          if (Game.powerLevel(Game.SKILL_REFLECTIVE_SHIELD) == 1) {
+          if (Game.powerLevel(Game.SKILL_REFLECTIVE_SHIELD) === 1) {
             // No, YOU take the hit!
             Game.e_HP = Math.max(Game.e_HP - enemyDMG, 0);
             Game.combatLog("player", "Your <span class='q222'>Reflective Shield</span> dealt <span class='q222'>" + enemyDMG + "</span> damage.");
-          } else if (Game.powerLevel(Game.SKILL_ABSORPTION_SHIELD) == 1) {
+          } else if (Game.powerLevel(Game.SKILL_ABSORPTION_SHIELD) === 1) {
             // Free health is the best kind.
             Game.p_HP = Math.min(Game.p_HP + enemyDMG, Game.p_MaxHP);
             Game.combatLog("player", "Your <span class='q222'>Absorption Shield</span> healed you for  <span class='q222'>" + enemyDMG + "</span>.");
@@ -533,35 +543,35 @@ Game.enemyCombatTick = function () {
           }
         } else {
           // This may hurt a little.
-          var blockedDamage = 0;
+          blockedDamage = 0;
           if (didBlock) {
-            var TDMG = enemyDMG;
+            TDMG = enemyDMG;
             enemyDMG = Math.floor(enemyDMG * 3 / 4);
             blockedDamage = TDMG - enemyDMG;
           }
           Game.p_HP = Math.max(Game.p_HP - enemyDMG, 0);
           // Second Wind
-          if (Game.p_HP == 0 && Game.powerLevel(Game.SKILL_SECOND_WIND) > 0 && Game.secondWindAvailable) {
+          if (Game.p_HP === 0 && Game.powerLevel(Game.SKILL_SECOND_WIND) > 0 && Game.secondWindAvailable) {
             Game.secondWindAvailable = false;
             Game.p_HP = Math.floor(Game.p_MaxHP * (0.06 * Game.powerLevel(Game.SKILL_SECOND_WIND)));
-            Game.combatLog("player", "<span class='q222'>Second Wind</span> saved you from certain death, restoring <span class='q222'>" + Game.p_HP + "</span> health!")
+            Game.combatLog("player", "<span class='q222'>Second Wind</span> saved you from certain death, restoring <span class='q222'>" + Game.p_HP + "</span> health!");
           }
-          Game.TRACK_ATTACKS_IN++;
+          Game.TRACK_ATTACKS_IN += 1;
           Game.TRACK_TOTAL_TAKEN += enemyDMG;
           Game.TRACK_MAXHIT_IN = Math.max(Game.TRACK_MAXHIT_IN, enemyDMG);
-          Game.PROGRESS_LONGFIGHT++;
+          Game.PROGRESS_LONGFIGHT += 1;
           switch (Game.e_Weapon[2]) {
-            case Game.WEAPON_MELEE:
-              Game.TRACK_MELEE_TAKEN += enemyDMG;
-              break;
-            case Game.WEAPON_RANGE:
-              Game.TRACK_RANGE_TAKEN += enemyDMG;
-              break;
-            case Game.WEAPON_MAGIC:
-              Game.TRACK_MAGIC_TAKEN += enemyDMG;
-              break;
+          case Game.WEAPON_MELEE:
+            Game.TRACK_MELEE_TAKEN += enemyDMG;
+            break;
+          case Game.WEAPON_RANGE:
+            Game.TRACK_RANGE_TAKEN += enemyDMG;
+            break;
+          case Game.WEAPON_MAGIC:
+            Game.TRACK_MAGIC_TAKEN += enemyDMG;
+            break;
           }
-          if (Game.getEnemyDebuff()[0] == Game.DEBUFF_DISARM) {
+          if (Game.getEnemyDebuff()[0] === Game.DEBUFF_DISARM) {
             Game.combatLog("enemy", (Game.e_ProperName ? "" : "The ") + Game.e_Name + " hits you with their fists for <span class='q222'>" + enemyDMG + "</span> damage" + (didBlock ? " (<span class='q222'>" + blockedDamage + "</span> blocked)" : "") + ".");
           } else {
             Game.combatLog("enemy", (Game.e_ProperName ? "" : "The ") + Game.e_Name + " hits you with their <span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> for <span class='q222'>" + enemyDMG + "</span> damage" + (didBlock ? " (<span class='q222'>" + blockedDamage + "</span> blocked)" : "") + ".");
@@ -575,7 +585,7 @@ Game.enemyCombatTick = function () {
             // Riposte activated, disarm the opponent if we can.
             if (canDebuff) {
               Game.e_Debuff = Game.debuffs_generic[8].slice();
-              Game.TRACK_DEBUFFS_OUT++;
+              Game.TRACK_DEBUFFS_OUT += 1;
               Game.enemy_debuffTimer = Game.debuffs_generic[8][2];
               window.clearInterval(Game.enemy_debuffInterval);
               Game.enemy_debuffInterval = window.setInterval(Game.enemyDebuffTicker, 1000);
@@ -583,27 +593,27 @@ Game.enemyCombatTick = function () {
             }
           }
           // Bladed Armour
-          var reflectDMG = Math.floor(enemyDMG * (0.02 * Game.powerLevel(Game.SKILL_BLADED_ARMOUR)));
+          reflectDMG = Math.floor(enemyDMG * (0.02 * Game.powerLevel(Game.SKILL_BLADED_ARMOUR)));
           if (reflectDMG > 0) {
             Game.e_HP = Math.max(Game.e_HP - reflectDMG, 0);
             Game.combatLog("player", "<span class='q222'>Bladed Armour</span> dealt <span class='q222'>" + reflectDMG + "</span> damage to the attacker.");
           }
           if (Game.RNG(1, 50) <= Game.powerLevel(Game.SKILL_VENGEANCE)) {
             // You get what you give. Mostly.
-            var vengDMG = Math.floor(enemyDMG / 2);
+            vengDMG = Math.floor(enemyDMG / 2);
             Game.e_HP = Math.max(Game.e_HP - vengDMG, 0);
             Game.combatLog("player", "Your <span class='q222'>Vengeance</span> effect dealt " + vengDMG + " damage.");
           }
-          if (Game.getPlayerDebuff()[0] == Game.DEBUFF_MULTI) {
-            var secondDmg = Math.floor(enemyDMG * Game.p_Debuff[3] / 100);
+          if (Game.getPlayerDebuff()[0] === Game.DEBUFF_MULTI) {
+            secondDmg = Math.floor(enemyDMG * Game.p_Debuff[3] / 100);
             Game.p_HP = Math.max(Game.p_HP - secondDmg, 0);
             Game.combatLog("enemy", " - <span class='q222'>" + Game.p_Debuff[1] + "</span> allows " + (Game.e_ProperName ? "" : "the ") + Game.e_Name + " to strike again for <span class='q222'>" + secondDmg + "</span> damage.");
           }
-          if (Game.getPlayerDebuff()[0] == Game.DEBUFF_SLEEP) {
+          if (Game.getPlayerDebuff()[0] === Game.DEBUFF_SLEEP) {
             // Waking the beast. Maybe.
             if (Game.RNG(1, 25) <= Game.p_Debuff[3]) {
               Game.player_debuffTimer = 0;
-              Game.TRACK_SLEEPBREAK_IN++;
+              Game.TRACK_SLEEPBREAK_IN += 1;
             }
           }
           if (Game.p_Armour[3] > 0) {
@@ -611,11 +621,11 @@ Game.enemyCombatTick = function () {
               // My gear is INVINCIBLE!
               Game.combatLog("player", " - <span class='q222'>Proper Care</span> prevented armour decay.");
             } else {
-              Game.p_Armour[3]--;
+              Game.p_Armour[3] -= 1;
               if (Game.p_Armour[3] <= 0) {
                 Game.p_Armour[3] = 0;
                 Game.combatLog("player", " - Your <span class='q" + Game.p_Armour[2] + "'>" + Game.p_Armour[0].split("|")[0] + "</span> has broken!");
-                Game.TRACK_BROKEN_ITEMS++;
+                Game.TRACK_BROKEN_ITEMS += 1;
               }
             }
           }
@@ -623,7 +633,7 @@ Game.enemyCombatTick = function () {
       }
       Game.updateCombatTab();
       // Stage 6: Debuff Application
-      if (Game.e_Weapon[9].length == 0) {
+      if (Game.e_Weapon[9].length === 0) {
         canDebuff = false;
       }
       if (Game.p_Debuff.length > 0) {
@@ -632,41 +642,42 @@ Game.enemyCombatTick = function () {
         }
       }
       if (canDebuff) {
-        if (Game.RNG(1, 10) == 1) {
-          if (Game.getEnemyDebuff()[0] == Game.DEBUFF_MC) {
+        if (Game.RNG(1, 10) === 1) {
+          if (Game.getEnemyDebuff()[0] === Game.DEBUFF_MC) {
             Game.e_Debuff = Game.e_Weapon[9].slice();
             Game.combatLog("player", " - " + (Game.e_ProperName ? "" : "The ") + Game.e_Name + " suffers from <span class='q222'>" + Game.e_Weapon[9][1] + "</span>.");
-            Game.TRACK_DEBUFFS_OUT++;
+            Game.TRACK_DEBUFFS_OUT += 1;
             Game.giveBadge(Game.BADGE_ENEMY_SELF_DEBUFF); // Tarred With Their Own Brush
             Game.enemy_debuffTimer = Game.e_Weapon[9][2];
             window.clearInterval(Game.enemy_debuffInterval);
             Game.enemy_debuffInterval = window.setInterval(Game.enemyDebuffTicker, 1000);
-            if (Game.getEnemyDebuff()[0] == Game.DEBUFF_SLEEP) {
+            if (Game.getEnemyDebuff()[0] === Game.DEBUFF_SLEEP) {
               window.clearInterval(Game.combat_enemyInterval);
               Game.combatLog("player", (Game.e_ProperName ? "" : "The ") + Game.e_Name + " falls asleep...");
             }
           } else {
             Game.p_Debuff = Game.e_Weapon[9].slice();
             Game.combatLog("enemy", " - You suffer from <span class='q222'>" + Game.e_Weapon[9][1] + "</span>.");
-            Game.TRACK_DEBUFFS_IN++;
+            Game.TRACK_DEBUFFS_IN += 1;
             Game.player_debuffTimer = Game.e_Weapon[9][2];
             window.clearInterval(Game.player_debuffInterval);
             Game.player_debuffInterval = window.setInterval(Game.playerDebuffTicker, 1000);
-            if (Game.getPlayerDebuff()[0] == Game.DEBUFF_SLEEP) {
+            if (Game.getPlayerDebuff()[0] === Game.DEBUFF_SLEEP) {
               window.clearInterval(Game.combat_playerInterval);
               Game.combatLog("player", "You fall asleep...");
             }
           }
         }
       }
-      if (Game.getEnemyDebuff()[0] == Game.DEBUFF_MC) {
+      if (Game.getEnemyDebuff()[0] === Game.DEBUFF_MC) {
         Game.enemy_debuffTimer = 0;
       }
     }
     if (Game.e_HP > 0 && Game.p_HP > 0) {
-      var mult = 1;
-      if (Game.getEnemyDebuff()[0] == Game.DEBUFF_SLOW) {
-        mult += (Game.e_Debuff[3] / 100)
+      mult = 1;
+      if (Game.getEnemyDebuff()[0] === Game.DEBUFF_SLOW) {
+        // Increases delay on next attack
+        mult += (Game.e_Debuff[3] / 100);
       }
       Game.combat_enemyInterval = window.setTimeout(Game.enemyCombatTick, 1000 * Game.e_Weapon[3] * mult);
     } else {
@@ -676,21 +687,23 @@ Game.enemyCombatTick = function () {
     window.clearInterval(Game.combat_enemyInterval);
   }
   Game.updateCombatTab();
-}
+};
+
 Game.burstAttack = function () {
+  var x = 0;
   if (Game.p_State === Game.STATE_COMBAT) {
     if (Game.p_specUsed) {
       return;
     }
     if (Game.e_HP > 0) {
-      if (Game.getPlayerDebuff()[0] == Game.DEBUFF_SLEEP) {
-        Game.toastNotification("You cannot use Burst Attack while sleeping.")
+      if (Game.getPlayerDebuff()[0] === Game.DEBUFF_SLEEP) {
+        Game.toastNotification("You cannot use Burst Attack while sleeping.");
       } else {
         Game.p_specUsed = true;
-        Game.TRACK_BURSTS++;
+        Game.TRACK_BURSTS += 1;
         Game.badgeCheck(Game.BADGE_BURSTSPAM); // Manual Labour
         if (Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0) {
-          if (Game.e_Debuff !== []) {
+          if (!arraysEqual(Game.e_Debuff, [])) {
             Game.specResetInterval = window.setTimeout(function () {
               Game.p_specUsed = false;
             }, 10000 - (1000 * Game.powerLevel(Game.SKILL_PRESS_THE_ADVANTAGE)));
@@ -701,7 +714,7 @@ Game.burstAttack = function () {
           }
           Game.combatLog("player", "<span class='q222'>Wild Swings</span> activated.");
           Game.wildSwing = true;
-          for (var x = Game.powerLevel(Game.SKILL_WILD_SWINGS); x >= 0; x--) {
+          for (x = Game.powerLevel(Game.SKILL_WILD_SWINGS); x >= 0; x -= 1) {
             Game.playerCombatTick(true);
           }
           if (Game.wildSwing) {
@@ -716,7 +729,8 @@ Game.burstAttack = function () {
       }
     }
   }
-}
+};
+
 Game.fleeCombat = function () {
   if (Game.getPlayerDebuff()[0] !== Game.DEBUFF_SLEEP) {
     // Lots of cleanup of timers and temporary values.
@@ -736,7 +750,7 @@ Game.fleeCombat = function () {
     Game.e_Debuff = [];
     Game.p_Adrenaline = 0;
     if (Game.p_Level >= 5) {
-      Game.bossChance++;
+      Game.bossChance += 1;
     } // Not even running will save you from eventual boss encounters.
     Game.p_State = Game.STATE_IDLE;
     Game.p_specUsed = false;
@@ -747,14 +761,17 @@ Game.fleeCombat = function () {
       Game.specResetInterval = null;
     }
     Game.combatLog("info", "You fled from the battle.");
-    Game.TRACK_ESCAPES++;
+    Game.TRACK_ESCAPES += 1;
     Game.TRACK_WIN_STREAK = 0;
     Game.drawActivePanel();
   } else {
     Game.toastNotification("You cannot flee from combat while sleeping.");
   }
-}
+};
+
 Game.endCombat = function () {
+  var xpToAdd = 0, bonusXP = 0, currencyToAdd = 0, badgeBonus = 0, currencyBadgeBonus = 0, lastmax = 0,
+    restoredHealth = 0, xpDrop = 0;
   // Still lots of cleanup, but some other, more important things too!
   window.clearTimeout(Game.combat_playerInterval);
   window.clearTimeout(Game.combat_enemyInterval);
@@ -769,7 +786,7 @@ Game.endCombat = function () {
     Game.player_debuffTimer = 0;
   }
   // Wherefore art thou Romeo?
-  if (Game.getPlayerDebuff()[0] == Game.DEBUFF_DOT && Game.getEnemyDebuff()[0] == Game.DEBUFF_SLEEP && Game.p_HP <= 0) {
+  if (Game.getPlayerDebuff()[0] === Game.DEBUFF_DOT && Game.getEnemyDebuff()[0] === Game.DEBUFF_SLEEP && Game.p_HP <= 0) {
     Game.giveBadge(Game.BADGE_ROMEO); // WHerefore Art Thou, Romeo?
   }
   Game.p_Debuff = [];
@@ -801,7 +818,7 @@ Game.endCombat = function () {
       Game.giveBadge(Game.BADGE_LONGFIGHT); // War of Attrition
     }
     if (Game.e_isBoss) {
-      Game.TRACK_BOSS_KILLS++;
+      Game.TRACK_BOSS_KILLS += 1;
     }
     if (Game.p_HP > Game.VAMPIRISM_START_HEALTH) {
       Game.giveBadge(Game.BADGE_VAMPIRISM);
@@ -810,10 +827,10 @@ Game.endCombat = function () {
     if (Game.canLoot) {
       if (Game.p_WeaponInventory.length < Game.MAX_INVENTORY) {
         Game.p_WeaponInventory.push(Game.e_Weapon.slice());
-        Game.combatLog("info", "<span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> added to your inventory.")
+        Game.combatLog("info", "<span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> added to your inventory.");
       } else {
         Game.last_Weapon = Game.e_Weapon.slice();
-        Game.combatLog("info", "<span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> could not be taken due to full inventory.")
+        Game.combatLog("info", "<span class='q" + Game.e_Weapon[7] + "'>" + Game.e_Weapon[0].split("|")[0] + "</span> could not be taken due to full inventory.");
       }
       if (Game.p_ArmourInventory.length < Game.MAX_INVENTORY) {
         Game.p_ArmourInventory.push(Game.e_Armour.slice());
@@ -825,8 +842,8 @@ Game.endCombat = function () {
     }
     Game.updateInventory = true; // So we can see our new ill-gotten gains.
     // XP is not a static number. Honest.
-    var xpToAdd = Math.floor(Game.XP_BASE + (Game.RNG(Game.XP_RANGEMIN * Game.e_Level, Game.XP_RANGEMAX * Game.e_Level)));
-    var currencyToAdd = xpToAdd;
+    xpToAdd = Math.floor(Game.XP_BASE + (Game.RNG(Game.XP_RANGEMIN * Game.e_Level, Game.XP_RANGEMAX * Game.e_Level)));
+    currencyToAdd = xpToAdd;
     // More XP? Only if you paid for it in points or boss blood.
     if (!Game.canLoot) {
       xpToAdd *= 2;
@@ -834,11 +851,11 @@ Game.endCombat = function () {
       xpToAdd *= 1.5;
     }
     xpToAdd = Math.floor(xpToAdd * (1 + (0.05 * Game.powerLevel(Game.SKILL_FAST_LEARNER))));
-    var badgeBonus = Math.floor(xpToAdd * (0.02 * Game.playerBadges.length));
+    badgeBonus = Math.floor(xpToAdd * (0.02 * Game.playerBadges.length));
     Game.combatLog("info", "You gained <span class='q222'>" + xpToAdd + "</span> (<span class='q223'>+" + badgeBonus + "</span>) (<span class='q224'>+" + Game.prestigeLevel + "</span>) experience.");
     // Overflow
     if (Game.powerLevel(Game.SKILL_RECLAIMED_KNOWLEDGE) > 0) {
-      var bonusXP = Math.floor(Math.min(Game.TRACK_XP_OVERFLOW, xpToAdd / 2));
+      bonusXP = Math.floor(Math.min(Game.TRACK_XP_OVERFLOW, xpToAdd / 2));
       xpToAdd += bonusXP;
       Game.TRACK_XP_OVERFLOW -= bonusXP;
       Game.combatLog("info", "You gained an additional <span class='q222'>" + bonusXP + "</span> experience from Reclaimed Knowledge.");
@@ -850,7 +867,7 @@ Game.endCombat = function () {
       currencyToAdd *= 1.5;
     }
     currencyToAdd = Math.floor(currencyToAdd * (1 + (0.05 * Game.powerLevel(Game.SKILL_PICKPOCKET))));
-    var currencyBadgeBonus = Math.floor(currencyToAdd * (0.02 * Game.playerBadges.length));
+    currencyBadgeBonus = Math.floor(currencyToAdd * (0.02 * Game.playerBadges.length));
     if (Game.RNG(1, 50) <= Game.powerLevel(Game.SKILL_CAVITY_SEARCH)) {
       // Everybody gets seeds!
       currencyToAdd *= 3;
@@ -858,14 +875,14 @@ Game.endCombat = function () {
     }
     if (Game.RNG(1, 50) <= Game.powerLevel(Game.SKILL_THOROUGH_LOOTING)) {
       // Yes, you can have some scrap. It's okay.
-      Game.p_Scrap++;
-      Game.TRACK_COMBAT_SCRAP++;
+      Game.p_Scrap += 1;
+      Game.TRACK_COMBAT_SCRAP += 1;
       Game.combatLog("info", "<span class='q222'>Thorough Looting</span> yielded an extra piece of scrap!");
     }
     Game.combatLog("info", "You gained <span class='q222'>" + currencyToAdd + "</span> (<span class='q223'>+" + currencyBadgeBonus + "</span>) (<span class='q224'>+" + Game.prestigeLevel + "</span>) seeds.");
     if (!Game.canLoot) {
       // This was a boss kill - Set maxZone, award badge, drop notification
-      var lastmax = Game.p_maxZone;
+      lastmax = Game.p_maxZone;
       Game.p_maxZone = Math.max(Game.p_maxZone, Game.p_currentZone + 1);
       Game.giveBadge(Game.BADGE_ZONE1 + Game.p_currentZone);
       Game.combatLog("info", "<span class='q222'>" + Game.ZONE_NAMES[Game.p_currentZone] + " cleared!</span>");
@@ -885,13 +902,13 @@ Game.endCombat = function () {
     Game.TRACK_COMBAT_SEEDS += currencyBadgeBonus;
     Game.p_Currency += Game.prestigeLevel;
     Game.TRACK_COMBAT_SEEDS += Game.prestigeLevel;
-    if (Game.p_Weapon[8] == 0 && Game.p_Armour[3] == 0) {
+    if (Game.p_Weapon[8] === 0 && Game.p_Armour[3] === 0) {
       Game.giveBadge(Game.BADGE_NO_GEAR); // Where We're Going, We Don't Need Gear
     }
-    if (Game.p_Weapon[8] == 0) {
+    if (Game.p_Weapon[8] === 0) {
       Game.giveBadge(Game.BADGE_NO_WEAPON); // Where We're Going, We Don't Need Weapons
     }
-    if (Game.p_Armour[3] == 0) {
+    if (Game.p_Armour[3] === 0) {
       Game.giveBadge(Game.BADGE_NO_ARMOUR); // Where We're Going, We Don't Need Armour
     }
     if (Game.p_EXP >= Game.p_NextEXP) {
@@ -906,25 +923,25 @@ Game.endCombat = function () {
     }
     if (Game.powerLevel(Game.SKILL_VICTORY_RUSH) > 0) {
       // Cutting out the downtime.
-      var restoredHealth = Math.floor((Game.powerLevel(Game.SKILL_VICTORY_RUSH) * 0.05) * Game.p_MaxHP);
+      restoredHealth = Math.floor((Game.powerLevel(Game.SKILL_VICTORY_RUSH) * 0.05) * Game.p_MaxHP);
       Game.p_HP = Math.min(Game.p_MaxHP, Game.p_HP + restoredHealth);
       Game.combatLog("info", "<span class='q222'>Victory Rush</span> restored <span class='q222'>" + restoredHealth + "</span> health.");
     }
-    Game.TRACK_WINS++;
+    Game.TRACK_WINS += 1;
     Game.badgeCheck(Game.BADGE_KILLCOUNT); // Skullcrusher Mountain
-    Game.TRACK_WIN_STREAK++;
+    Game.TRACK_WIN_STREAK += 1;
   } else {
     // Enemy won, dock XP
     Game.combatLog("info", "You lost...");
-    var xpDrop = Math.floor(Game.p_EXP / 4);
+    xpDrop = Math.floor(Game.p_EXP / 4);
     Game.combatLog("info", "You lose <span class='q222'>" + xpDrop + "</span> experience...");
     Game.p_EXP -= xpDrop;
     Game.TRACK_XP_LOST += xpDrop;
-    Game.TRACK_LOSSES++;
+    Game.TRACK_LOSSES += 0;
     Game.TRACK_WIN_STREAK = 0;
   }
   if (Game.p_Level >= 5) {
-    Game.bossChance++;
+    Game.bossChance += 1;
     Game.TRACK_BOSS_CHANCE = Math.max(Game.bossChance, Game.TRACK_BOSS_CHANCE);
   } // Even if you win, you still get a boss. It's inevitable.
   if (Game.TRACK_BOSS_CHANCE >= 20) {
@@ -932,24 +949,28 @@ Game.endCombat = function () {
   }
   Game.p_autoSaved = false;
   Game.drawActivePanel();
-}
+};
+
 Game.getPlayerDebuff = function () {
   if (Game.p_Debuff.length > 0) {
     return Game.p_Debuff;
-  } else return [0, "", 0, 0];
-}
+  } else { return [0, "", 0, 0]; }
+};
+
 Game.getEnemyDebuff = function () {
   if (Game.e_Debuff.length > 0) {
     return Game.e_Debuff;
-  } else return [0, "", 0, 0];
-}
+  } else { return [0, "", 0, 0]; }
+};
+
 Game.playerDebuffTicker = function () {
+  var timerLength = 0, dotDMG = 0, selfHeal = 0, doomDMG = 0;
   if (Game.player_debuffTimer <= 0) {
     Game.combatLog("enemy", " - The effect of <span class='q222'>" + Game.p_Debuff[1] + "</span> faded.");
-    if (Game.getPlayerDebuff()[0] == Game.DEBUFF_SLEEP) {
+    if (Game.getPlayerDebuff()[0] === Game.DEBUFF_SLEEP) {
       // Rise and shine buttercup!
       Game.combatLog("player", "You wake up!");
-      var timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.03 * Game.powerLevel(Game.SKILL_NIMBLE_FINGERS)));
+      timerLength = 1000 * Game.p_Weapon[3] * (1 - (0.03 * Game.powerLevel(Game.SKILL_NIMBLE_FINGERS)));
       Game.combat_playerInterval = window.setTimeout(function () {
         Game.playerCombatTick(false);
       }, timerLength);
@@ -959,47 +980,49 @@ Game.playerDebuffTicker = function () {
   } else {
     Game.player_debuffTimer -= 1;
     switch (Game.p_Debuff[0]) {
-      case Game.DEBUFF_DOT:
-        // Do the deeps
-        var dotDMG = Math.floor(Game.RNG(Game.e_Weapon[4], Game.e_Weapon[5]) * Game.p_Debuff[3] / 100);
-        Game.p_HP = Math.max(Game.p_HP - dotDMG, 0);
-        Game.TRACK_DOTS_IN += dotDMG;
-        Game.combatLog("enemy", " - <span class='q222'>" + Game.p_Debuff[1] + "</span> dealt an additional <span class='q222'>" + dotDMG + "</span> damage.");
-        break;
-      case Game.DEBUFF_DRAIN:
-        // HEALZ YO
-        var selfHeal = Math.floor(Game.RNG(Game.e_Weapon[4], Game.e_Weapon[5]) * Game.p_Debuff[3] / 100);
-        Game.e_HP = Math.min(Game.e_HP + selfHeal, Game.e_MaxHP);
-        Game.TRACK_DRAIN_OUT += selfHeal;
-        Game.combatLog("enemy", " - <span class='q222'>" + Game.p_Debuff[1] + "</span> healed the enemy for <span class='q222'>" + selfHeal + "</span>.");
-        break;
-      case Game.DEBUFF_DOOM:
-        // This might hurt a little.
-        if (Game.player_debuffTimer === 0) {
-          if (Game.RNG(1, 50) <= Game.p_Debuff[3]) {
-            Game.combatLog("enemy", " - <span class='q222'>" + Game.p_Debuff[1] + "</span> explodes, instantly killing you.");
-            Game.p_HP = 0;
-            Game.TRACK_DOOM_IN++;
-          } else {
-            var doomDMG = Math.floor(Game.RNG(Game.e_Weapon[4], Game.e_Weapon[5]) * Game.e_Weapon[9][3] / 2);
-            Game.combatLog("enemy", " - <span class='q222'>" + Game.p_Debuff[1] + "</span> explodes, dealing <span class='q222'>" + doomDMG + "</span> damage.")
-            Game.p_HP = Math.max(Game.p_HP - doomDMG, 0);
-          }
+    case Game.DEBUFF_DOT:
+      // Do the deeps
+      dotDMG = Math.floor(Game.RNG(Game.e_Weapon[4], Game.e_Weapon[5]) * Game.p_Debuff[3] / 100);
+      Game.p_HP = Math.max(Game.p_HP - dotDMG, 0);
+      Game.TRACK_DOTS_IN += dotDMG;
+      Game.combatLog("enemy", " - <span class='q222'>" + Game.p_Debuff[1] + "</span> dealt an additional <span class='q222'>" + dotDMG + "</span> damage.");
+      break;
+    case Game.DEBUFF_DRAIN:
+      // HEALZ YO
+      selfHeal = Math.floor(Game.RNG(Game.e_Weapon[4], Game.e_Weapon[5]) * Game.p_Debuff[3] / 100);
+      Game.e_HP = Math.min(Game.e_HP + selfHeal, Game.e_MaxHP);
+      Game.TRACK_DRAIN_OUT += selfHeal;
+      Game.combatLog("enemy", " - <span class='q222'>" + Game.p_Debuff[1] + "</span> healed the enemy for <span class='q222'>" + selfHeal + "</span>.");
+      break;
+    case Game.DEBUFF_DOOM:
+      // This might hurt a little.
+      if (Game.player_debuffTimer === 0) {
+        if (Game.RNG(1, 50) <= Game.p_Debuff[3]) {
+          Game.combatLog("enemy", " - <span class='q222'>" + Game.p_Debuff[1] + "</span> explodes, instantly killing you.");
+          Game.p_HP = 0;
+          Game.TRACK_DOOM_IN += 1;
+        } else {
+          doomDMG = Math.floor(Game.RNG(Game.e_Weapon[4], Game.e_Weapon[5]) * Game.e_Weapon[9][3] / 2);
+          Game.combatLog("enemy", " - <span class='q222'>" + Game.p_Debuff[1] + "</span> explodes, dealing <span class='q222'>" + doomDMG + "</span> damage.");
+          Game.p_HP = Math.max(Game.p_HP - doomDMG, 0);
         }
-        break;
+      }
+      break;
     }
     if (Game.p_HP <= 0) {
       Game.endCombat();
     }
   }
   Game.updateCombatTab();
-}
+};
+
 Game.enemyDebuffTicker = function () {
+  var dotDMG = 0, selfHeal = 0, doomDMG = 0;
   if (Game.enemy_debuffTimer <= 0) {
     Game.combatLog("player", " - The effect of <span class='q222'>" + Game.e_Debuff[1] + "</span> faded.");
-    if (Game.getEnemyDebuff()[0] == Game.DEBUFF_SLEEP) {
+    if (Game.getEnemyDebuff()[0] === Game.DEBUFF_SLEEP) {
       // Oh crap it's coming for us!
-      Game.combatLog("enemy", (Game.e_ProperName ? "" : "The ") + Game.e_Name + " wakes up!")
+      Game.combatLog("enemy", (Game.e_ProperName ? "" : "The ") + Game.e_Name + " wakes up!");
       Game.combat_enemyInterval = window.setTimeout(Game.enemyCombatTick, 1000 * Game.e_Weapon[3]);
     }
     Game.e_Debuff = [];
@@ -1007,39 +1030,40 @@ Game.enemyDebuffTicker = function () {
   } else {
     Game.enemy_debuffTimer -= 1;
     switch (Game.e_Debuff[0]) {
-      case Game.DEBUFF_DOT:
-        // Do the deeps
-        var dotDMG = Math.floor(Game.RNG(Game.p_Weapon[4], Game.p_Weapon[5]) * Game.e_Debuff[3] / 100);
-        Game.e_HP = Math.max(Game.e_HP - dotDMG, 0);
-        Game.TRACK_DOTS_OUT += dotDMG;
-        Game.combatLog("player", " - <span class='q222'>" + Game.e_Debuff[1] + "</span> dealt an additional <span class='q222'>" + dotDMG + "</span> damage.");
-        break;
-      case Game.DEBUFF_DRAIN:
-        // HEALZ YO
-        var selfHeal = Math.floor(Game.RNG(Game.p_Weapon[4], Game.p_Weapon[5]) * Game.e_Debuff[3] / 100);
-        Game.p_HP = Math.min(Game.p_HP + selfHeal, Game.p_MaxHP);
-        Game.TRACK_DRAIN_IN += selfHeal;
-        Game.combatLog("player", " - <span class='q222'>" + Game.e_Debuff[1] + "</span> healed you for <span class='q222'>" + selfHeal + "</span>.");
-        break;
-      case Game.DEBUFF_DOOM:
-        // This might hurt a little.
-        if (Game.enemy_debuffTimer === 0) {
-          if (Game.RNG(1, 100) <= Game.e_Debuff[3]) {
-            Game.combatLog("player", " - <span class='q222'>" + Game.e_Debuff[1] + "</span> explodes, instantly killing the target.");
-            Game.e_HP = 0;
-            Game.TRACK_DOOM_OUT++;
-          } else {
-            var doomDMG = Math.floor(Game.RNG(Game.p_Weapon[4], Game.p_Weapon[5]) * Game.p_Weapon[9][3] / 2);
-            Game.combatLog("player", " - <span class='q222'>" + Game.e_Debuff[1] + "</span> explodes, dealing <span class='q222'>" + doomDMG + "</span> damage.")
-            Game.e_HP = Math.max(Game.e_HP - doomDMG, 0)
-          }
+    case Game.DEBUFF_DOT:
+      // Do the deeps
+      dotDMG = Math.floor(Game.RNG(Game.p_Weapon[4], Game.p_Weapon[5]) * Game.e_Debuff[3] / 100);
+      Game.e_HP = Math.max(Game.e_HP - dotDMG, 0);
+      Game.TRACK_DOTS_OUT += dotDMG;
+      Game.combatLog("player", " - <span class='q222'>" + Game.e_Debuff[1] + "</span> dealt an additional <span class='q222'>" + dotDMG + "</span> damage.");
+      break;
+    case Game.DEBUFF_DRAIN:
+      // HEALZ YO
+      selfHeal = Math.floor(Game.RNG(Game.p_Weapon[4], Game.p_Weapon[5]) * Game.e_Debuff[3] / 100);
+      Game.p_HP = Math.min(Game.p_HP + selfHeal, Game.p_MaxHP);
+      Game.TRACK_DRAIN_IN += selfHeal;
+      Game.combatLog("player", " - <span class='q222'>" + Game.e_Debuff[1] + "</span> healed you for <span class='q222'>" + selfHeal + "</span>.");
+      break;
+    case Game.DEBUFF_DOOM:
+      // This might hurt a little.
+      if (Game.enemy_debuffTimer === 0) {
+        if (Game.RNG(1, 100) <= Game.e_Debuff[3]) {
+          Game.combatLog("player", " - <span class='q222'>" + Game.e_Debuff[1] + "</span> explodes, instantly killing the target.");
+          Game.e_HP = 0;
+          Game.TRACK_DOOM_OUT += 1;
+        } else {
+          doomDMG = Math.floor(Game.RNG(Game.p_Weapon[4], Game.p_Weapon[5]) * Game.p_Weapon[9][3] / 2);
+          Game.combatLog("player", " - <span class='q222'>" + Game.e_Debuff[1] + "</span> explodes, dealing <span class='q222'>" + doomDMG + "</span> damage.");
+          Game.e_HP = Math.max(Game.e_HP - doomDMG, 0);
         }
-        break;
+      }
+      break;
     }
     if (Game.e_HP <= 0) {
       Game.endCombat();
     }
   }
   Game.updateCombatTab();
-}
+};
+
 document.getElementById("loadedCombat").style.display = "";

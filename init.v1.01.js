@@ -1,4 +1,9 @@
-Game = {};
+/*jslint node: true */
+/*jslint devel: true */
+/*global Game, prettifyNumber, abbreviateNumber, arraysEqual, statValue, clearElementContent, updateElementIDContent, toggleHelpVis, keyBindings*/
+"use strict";
+
+var Game = {};
 /*
 Stuff left to do for MVP:
 
@@ -377,16 +382,16 @@ Game.init = function () {
     this.toastNotification("Game loaded.");
   }
   // Set up the buttons here.
-  var playerTabButton = document.getElementById("playerTab");
-  var combatTabButton = document.getElementById("combatTab");
-  var zoneTabButton = document.getElementById("zoneTab");
-  var skillsTabButton = document.getElementById("skillsTab");
-  var inventoryTabButton = document.getElementById("inventoryTab");
-  var storeTabButton = document.getElementById("storeTab");
-  var optionsTabButton = document.getElementById("optionsTab");
-  var helpTabButton = document.getElementById("helpTab");
-  var updateTabButton = document.getElementById("updateTab");
-  var badgeTabButton = document.getElementById("badgeTab");
+  var playerTabButton = document.getElementById("playerTab"),
+    combatTabButton = document.getElementById("combatTab"),
+    zoneTabButton = document.getElementById("zoneTab"),
+    skillsTabButton = document.getElementById("skillsTab"),
+    inventoryTabButton = document.getElementById("inventoryTab"),
+    storeTabButton = document.getElementById("storeTab"),
+    optionsTabButton = document.getElementById("optionsTab"),
+    helpTabButton = document.getElementById("helpTab"),
+    updateTabButton = document.getElementById("updateTab"),
+    badgeTabButton = document.getElementById("badgeTab");
   playerTabButton.onclick = function () {
     Game.showPanel('playerTable');
   };
@@ -417,21 +422,23 @@ Game.init = function () {
   badgeTabButton.onclick = function () {
     Game.showPanel('badgeTable');
   };
-  if (Game.p_State != Game.STATE_COMBAT) {
+  if (Game.p_State !== Game.STATE_COMBAT) {
     Game.idleHeal();
   }
   this.hideLockedFeatures();
   this.drawActivePanel();
-}
+};
+
 Game.reset = function () {
   if (confirm("Are you sure you wish to erase your save? It will be lost permanently...")) {
     window.localStorage.removeItem("gameSave");
     window.location.reload();
   }
-}
+};
+
 Game.prestige = function () {
   var prestigeBonus = Game.p_Level;
-  if (Game.p_State == Game.STATE_IDLE) {
+  if (Game.p_State === Game.STATE_IDLE) {
     if (Game.p_maxZone > 0) {
       if (confirm("The following actions will take place: \n • You will lose all of your items and currency. \n • Your character will be returned to level 1. \n • You will gain " + prestigeBonus + " prestige levels. \n\n Are you sure you wish to prestige?")) {
         Game.POINTS_STR = 0;
@@ -459,7 +466,7 @@ Game.prestige = function () {
         Game.p_SkillPoints += Math.floor(Game.prestigeLevel / 4);
         Game.p_StatPoints += Math.floor(Game.prestigeLevel / 2);
         Game.repopulateShop();
-        Game.TRACK_RESETS++;
+        Game.TRACK_RESETS += 1;
         Game.giveBadge(Game.BADGE_PRESTIGE);
         Game.toastNotification("Prestige reset activated.");
         Game.save(true);
@@ -471,7 +478,8 @@ Game.prestige = function () {
   } else {
     Game.toastNotification("You cannot perform a prestige reset when in combat.");
   }
-}
+};
+
 Game.save = function (auto) {
   var STS = {};
   STS.p_Name = Game.p_Name;
@@ -497,7 +505,7 @@ Game.save = function (auto) {
   STS.p_Currency = Game.p_Currency;
   STS.p_Scrap = Game.p_Scrap;
   STS.p_SkillPoints = Game.p_StatPoints;
-  STS.p_WeaponInventory = Game.p_WeaponInventory
+  STS.p_WeaponInventory = Game.p_WeaponInventory;
   STS.p_Weapon = Game.p_Weapon;
   STS.p_ArmourInventory = Game.p_ArmourInventory;
   STS.p_Armour = Game.p_Armour;
@@ -579,20 +587,21 @@ Game.save = function (auto) {
   if (!auto) {
     Game.giveBadge(Game.BADGE_MANUALSAVE); // Trust Issues
   } else {
-    Game.PROGRESS_AUTOSAVE++;
+    Game.PROGRESS_AUTOSAVE += 1;
     Game.badgeCheck(Game.BADGE_AUTOSAVE); // We've Got You Covered
   }
-}
+};
+
 Game.load = function () {
   //localStorage yeeeeee
-  var g;
+  var g, lp = 0;
   try {
     g = JSON.parse(window.localStorage.getItem("gameSave"));
   } catch (x) {
     g = null;
     console.log("Failed to load save. Is localStorage a thing on this browser?");
   }
-  if (g !== null && g.GAME_VERSION == Game.GAME_VERSION) {
+  if (g !== null && g.GAME_VERSION === Game.GAME_VERSION) {
     Game.p_Name = g.p_Name;
     Game.p_HP = g.p_HP;
     Game.p_MaxHP = g.p_MaxHP;
@@ -616,7 +625,7 @@ Game.load = function () {
     Game.p_Currency = g.p_Currency;
     Game.p_Scrap = g.p_Scrap;
     Game.p_StatPoints = g.p_SkillPoints;
-    Game.p_WeaponInventory = g.p_WeaponInventory
+    Game.p_WeaponInventory = g.p_WeaponInventory;
     Game.p_Weapon = g.p_Weapon;
     Game.p_ArmourInventory = g.p_ArmourInventory;
     Game.p_Armour = g.p_Armour;
@@ -701,25 +710,27 @@ Game.load = function () {
       Game.prestigeLevel = g.prestigeLevel;
     }
     // Fix for weapons with the old weaker sleep debuff circa V1.0 RC2
-    if (Game.p_Weapon[9][0] == 250 && Game.p_Weapon[9][3] == 20) {
+    if (Game.p_Weapon[9][0] === 250 && Game.p_Weapon[9][3] === 20) {
       Game.p_Weapon[9][3] = 15;
     }
-    for (var x = 0; x < Game.p_WeaponInventory.length; x++) {
-      if (Game.p_WeaponInventory[x][9][0] == 250 && Game.p_WeaponInventory[x][9][3] == 20) {
-        Game.p_WeaponInventory[x][9][3] = 15;
+    for (lp = 0; lp < Game.p_WeaponInventory.length; lp += 1) {
+      if (Game.p_WeaponInventory[lp][9][0] === 250 && Game.p_WeaponInventory[lp][9][3] === 20) {
+        Game.p_WeaponInventory[lp][9][3] = 15;
       }
     }
     return true;
   } else {
     return false;
   }
-}
+};
+
 Game.RNG = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
+
 Game.padLeft = function (nr, n, str) {
-  return Array(n - String(nr).length + 1).join(str || '0') + nr;
-}
+  return new Array[n - String(nr).length + 1].join(str || '0') + nr;
+};
 
 function prettifyNumber(x) {
   var parts = x.toString().split(".");
@@ -728,40 +739,45 @@ function prettifyNumber(x) {
 }
 
 function abbreviateNumber(value) {
-  var newValue = value;
+  var newValue = value,
+    suffixes = ["", "k", "m", "b", "t", "qa", "qi", "sx", "sp"],
+    suffixNum = Math.floor(String(value).length / 3),
+    shortValue = '',
+    shortNum = 0,
+    dotLessShortValue = '',
+    precision = 0;
   if (value >= 1000) {
-    var suffixes = ["", "k", "m", "b", "t", "qa", "qi", "sx", "sp"];
-    var suffixNum = Math.floor(("" + value).length / 3);
-    var shortValue = '';
-    for (var precision = 2; precision >= 1; precision--) {
-      shortValue = parseFloat((suffixNum != 0 ? (value / Math.pow(1000, suffixNum)) : value).toPrecision(precision));
-      var dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g, '');
+    for (precision = 2; precision >= 1; precision -= 1) {
+      shortValue = parseFloat((suffixNum !== 0 ? (value / Math.pow(1000, suffixNum)) : value).toPrecision(precision));
+      dotLessShortValue = String(shortValue).replace(/[\D]+/g, '');
       if (dotLessShortValue.length <= 2) {
         break;
       }
     }
-    if (shortValue % 1 != 0) shortNum = shortValue.toFixed(1);
+    if (shortValue % 1 !== 0) { shortNum = shortValue.toFixed(1); }
     newValue = shortValue + suffixes[suffixNum];
   }
   return newValue;
 }
 
 function arraysEqual(a, b) {
-  if (a === b) return true;
-  if (a == null || b == null) return false;
-  if (a.length != b.length) return false;
-  for (var i = 0; i < a.length; ++i) {
-    if (a[i] !== b[i]) return false;
+  var i = 0;
+  if (a === b) { return true; }
+  if (a === null || b === null) { return false; }
+  if (a.length !== b.length) { return false; }
+  for (i = 0; i < a.length; i += 1) {
+    if (a[i] !== b[i]) { return false; }
   }
   return true;
 }
 
 function statValue(val) {
+  var mult = 0, trinum = 0;
   if (val < 0) {
     return -statValue(-val);
   }
-  var mult = val / Game.STAT_CONVERSION_SCALE;
-  var trinum = (Math.sqrt(8.0 * mult + 1.0) - 1.0) / 2.0;
+  mult = val / Game.STAT_CONVERSION_SCALE;
+  trinum = (Math.sqrt(8.0 * mult + 1.0) - 1.0) / 2.0;
   return trinum * Game.STAT_CONVERSION_SCALE;
 }
 
@@ -779,8 +795,8 @@ function updateElementIDContent(elID, content) {
 }
 
 function toggleHelpVis(blockname) {
-  var elementList = document.body.querySelectorAll("." + blockname);
-  for (var i = 0; i < elementList.length; i++) {
+  var i = 0, elementList = document.body.querySelectorAll("." + blockname);
+  for (i = 0; i < elementList.length; i += 1) {
     if (elementList[i].classList.contains("hiddenElement")) {
       elementList[i].classList.remove("hiddenElement");
     } else {

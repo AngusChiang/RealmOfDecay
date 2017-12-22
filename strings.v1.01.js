@@ -1,3 +1,7 @@
+/*jslint node: true */
+/*jslint devel: true */
+/*global Game, prettifyNumber, abbreviateNumber, arraysEqual, statValue, clearElementContent, updateElementIDContent, toggleHelpVis, keyBindings*/
+"use strict";
 /*---------------------------------
 strings.js
 
