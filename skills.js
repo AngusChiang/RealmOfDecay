@@ -114,6 +114,7 @@ Game.getPowerLevelCap = function (power) {
   case Game.SKILL_WILD_SWINGS:
   case Game.SKILL_ADRENALINE_RUSH:
   case Game.SKILL_POWER_SURGE:
+  case Game.SKILL_DEADLY_MOMENTUM:
   case Game.SKILL_EXECUTE:
   case Game.SKILL_TURN_THE_TABLES:
   case Game.SKILL_ARMOUR_MASTERY:

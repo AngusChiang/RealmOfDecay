@@ -230,6 +230,13 @@ Game.createPlayerTab = function () {
   updateElementIDContent("player_statConfusionOut", prettifyNumber(Game.TRACK_CHARM_OUT));
   updateElementIDContent("player_statParahaxOut", prettifyNumber(Game.TRACK_PARAHAX_OUT));
   
+  // Conditional to hide stored damage if the player doesn't have the Deadly Momentum power.
+  if (Game.powerLevel(Game.SKILL_DEADLY_MOMENTUM) > 0) {
+    updateElementIDContent("player_statStoredDamage", prettifyNumber(Game.TRACK_STORED_DAMAGE));
+  } else {
+    updateElementIDContent("player_statStoredDamage", "N/A");
+  }
+  
   // Defense section
   updateElementIDContent("player_statTotalDMGTaken", prettifyNumber(Game.TRACK_TOTAL_TAKEN));
   updateElementIDContent("player_statAttacksTaken", prettifyNumber(Game.TRACK_ATTACKS_IN));
@@ -245,32 +252,31 @@ Game.createPlayerTab = function () {
   updateElementIDContent("player_statConfusionIn", prettifyNumber(Game.TRACK_CHARM_IN));
   updateElementIDContent("player_statParahaxIn", prettifyNumber(Game.TRACK_PARAHAX_IN));
   
-  // Statistics outputs. There's going to be a LOT of these.
-  statPanel = document.getElementById("statsOut");
-  statPanel.innerHTML = "";
-  statPanel.appendChild(Game.createStatisticPanel("Battles Won", Game.TRACK_WINS, "player_stat11"));
-  statPanel.appendChild(Game.createStatisticPanel("Battles Lost", Game.TRACK_LOSSES, "player_stat12"));
-  statPanel.appendChild(Game.createStatisticPanel("Battles Fled", Game.TRACK_ESCAPES, "player_stat13"));
-  statPanel.appendChild(Game.createStatisticPanel("Current Win Streak", Game.TRACK_WIN_STREAK, "player_stat14"));
-  statPanel.appendChild(Game.createStatisticPanel("Elites / Bosses Defeated", Game.TRACK_BOSS_KILLS, "player_stat16"));
-  statPanel.appendChild(Game.createStatisticPanel("Highest Elite Chance", Game.TRACK_BOSS_CHANCE + "%", "player_stat17"));
-  statPanel.appendChild(Game.createStatisticPanel("Total Experience Gained", Game.TRACK_XP_GAINED, "player_stat20"));
-  statPanel.appendChild(Game.createStatisticPanel("Experience Lost", Game.TRACK_XP_LOST, "player_stat21"));
-  statPanel.appendChild(Game.createStatisticPanel("Experience Overflow Pool", Game.TRACK_XP_OVERFLOW, "player_stat22"));
-  statPanel.appendChild(Game.createStatisticPanel("Item Upgrades Bought", Game.TRACK_UPGRADES, "player_stat23"));
-  statPanel.appendChild(Game.createStatisticPanel("Reforges Bought", Game.TRACK_REFORGES, "player_stat24"));
-  statPanel.appendChild(Game.createStatisticPanel("Skill/Stat Point Resets", Game.TRACK_RESETS, "player_stat25"));
-  statPanel.appendChild(Game.createStatisticPanel("Items Sold", Game.TRACK_ITEM_SALES, "player_stat26"));
-  statPanel.appendChild(Game.createStatisticPanel("Items Scrapped", Game.TRACK_ITEM_SCRAPS, "player_stat27"));
-  statPanel.appendChild(Game.createStatisticPanel("Items Discarded", Game.TRACK_ITEM_DISCARDS, "player_stat28"));
-  statPanel.appendChild(Game.createStatisticPanel("Items Broken in Combat", Game.TRACK_BROKEN_ITEMS, "player_stat29"));
-  statPanel.appendChild(Game.createStatisticPanel("Seeds Gained from Combat", Game.TRACK_COMBAT_SEEDS, "player_stat30"));
-  statPanel.appendChild(Game.createStatisticPanel("Seeds Gained from Sales", Game.TRACK_SALE_SEEDS, "player_stat31"));
-  statPanel.appendChild(Game.createStatisticPanel("Scrap Gained from Combat", Game.TRACK_COMBAT_SCRAP, "player_stat32"));
-  statPanel.appendChild(Game.createStatisticPanel("Scrap Gained from Conversion", Game.TRACK_CONVERT_SCRAP, "player_stat33"));
-  statPanel.appendChild(Game.createStatisticPanel("Potions Used", Game.TRACK_POTIONS_USED, "player_stat48"));
-  statPanel.appendChild(Game.createStatisticPanel("Badges Earned", Game.playerBadges.length, "player_stat49"));
-  statPanel.appendChild(Game.createStatisticPanel("Prestige Level", Game.prestigeLevel, "player_stat50"));
+  // Inventory section
+  updateElementIDContent("player_upgradesBought", prettifyNumber(Game.TRACK_UPGRADES));
+  updateElementIDContent("player_reforgesBought", prettifyNumber(Game.TRACK_REFORGES));
+  updateElementIDContent("player_statResets", prettifyNumber(Game.TRACK_RESETS));
+  updateElementIDContent("player_itemsSold", prettifyNumber(Game.TRACK_ITEM_SALES));
+  updateElementIDContent("player_itemsScrapped", prettifyNumber(Game.TRACK_ITEM_SCRAPS));
+  updateElementIDContent("player_itemsDiscarded", prettifyNumber(Game.TRACK_ITEM_DISCARDS));
+  updateElementIDContent("player_itemsBroken", prettifyNumber(Game.TRACK_BROKEN_ITEMS));
+  updateElementIDContent("player_combatSeeds", prettifyNumber(Game.TRACK_COMBAT_SEEDS));
+  updateElementIDContent("player_salesSeeds", prettifyNumber(Game.TRACK_SALE_SEEDS));
+  updateElementIDContent("player_combatScrap", prettifyNumber(Game.TRACK_COMBAT_SCRAP));
+  updateElementIDContent("player_salesScrap", prettifyNumber(Game.TRACK_CONVERT_SCRAP));
+  
+  // Misc section
+  updateElementIDContent("player_battlesWon", prettifyNumber(Game.TRACK_WINS));
+  updateElementIDContent("player_battlesLost", prettifyNumber(Game.TRACK_LOSSES));
+  updateElementIDContent("player_battlesFled", prettifyNumber(Game.TRACK_ESCAPES));
+  updateElementIDContent("player_winningStreak", prettifyNumber(Game.TRACK_WIN_STREAK));
+  updateElementIDContent("player_maxElite", prettifyNumber(Game.TRACK_BOSS_CHANCE) + "%");
+  updateElementIDContent("player_bossKills", prettifyNumber(Game.TRACK_BOSS_KILLS));
+  updateElementIDContent("player_totalXP", prettifyNumber(Game.TRACK_XP_GAINED));
+  updateElementIDContent("player_xpLost", prettifyNumber(Game.TRACK_XP_LOST));
+  updateElementIDContent("player_xpOverflow", prettifyNumber(Game.TRACK_XP_OVERFLOW));
+  updateElementIDContent("player_badgeCount", prettifyNumber(Game.playerBadges.length));
+  updateElementIDContent("player_prestigeLevel", prettifyNumber(Game.prestigeLevel));
 };
 
 Game.createCombatTab = function () {
@@ -681,6 +687,13 @@ Game.updatePlayerTab = function () {
   updateElementIDContent("player_statConfusionOut", prettifyNumber(Game.TRACK_CHARM_OUT));
   updateElementIDContent("player_statParahaxOut", prettifyNumber(Game.TRACK_PARAHAX_OUT));
   
+  // Conditional to hide stored damage if the player doesn't have the Deadly Momentum power.
+  if (Game.powerLevel(Game.SKILL_DEADLY_MOMENTUM) > 0) {
+    updateElementIDContent("player_statStoredDamage", prettifyNumber(Game.TRACK_STORED_DAMAGE));
+  } else {
+    updateElementIDContent("player_statStoredDamage", "N/A");
+  }
+  
   // Defense section
   updateElementIDContent("player_statTotalDMGTaken", prettifyNumber(Game.TRACK_TOTAL_TAKEN));
   updateElementIDContent("player_statAttacksTaken", prettifyNumber(Game.TRACK_ATTACKS_IN));
@@ -696,31 +709,31 @@ Game.updatePlayerTab = function () {
   updateElementIDContent("player_statConfusionIn", prettifyNumber(Game.TRACK_CHARM_IN));
   updateElementIDContent("player_statParahaxIn", prettifyNumber(Game.TRACK_PARAHAX_IN));
   
-  // Tracking panel values
-  // Modify this so that we don't have to redraw the panels every time.
-  updateElementIDContent("player_stat11", Game.TRACK_WINS);
-  updateElementIDContent("player_stat12", Game.TRACK_LOSSES);
-  updateElementIDContent("player_stat13", Game.TRACK_ESCAPES);
-  updateElementIDContent("player_stat14", Game.TRACK_WIN_STREAK);
-  updateElementIDContent("player_stat16", Game.TRACK_BOSS_KILLS);
-  updateElementIDContent("player_stat17", Game.TRACK_BOSS_CHANCE + "%");
-  updateElementIDContent("player_stat20", Game.TRACK_XP_GAINED);
-  updateElementIDContent("player_stat21", Game.TRACK_XP_LOST);
-  updateElementIDContent("player_stat22", Game.TRACK_XP_OVERFLOW);
-  updateElementIDContent("player_stat23", Game.TRACK_UPGRADES);
-  updateElementIDContent("player_stat24", Game.TRACK_REFORGES);
-  updateElementIDContent("player_stat25", Game.TRACK_RESETS);
-  updateElementIDContent("player_stat26", Game.TRACK_ITEM_SALES);
-  updateElementIDContent("player_stat27", Game.TRACK_ITEM_SCRAPS);
-  updateElementIDContent("player_stat28", Game.TRACK_ITEM_DISCARDS);
-  updateElementIDContent("player_stat29", Game.TRACK_BROKEN_ITEMS);
-  updateElementIDContent("player_stat30", Game.TRACK_COMBAT_SEEDS);
-  updateElementIDContent("player_stat31", Game.TRACK_SALE_SEEDS);
-  updateElementIDContent("player_stat32", Game.TRACK_COMBAT_SCRAP);
-  updateElementIDContent("player_stat33", Game.TRACK_CONVERT_SCRAP);
-  updateElementIDContent("player_stat48", Game.TRACK_POTIONS_USED);
-  updateElementIDContent("player_stat49", Game.playerBadges.length);
-  updateElementIDContent("player_stat50", Game.prestigeLevel);
+  // Inventory section
+  updateElementIDContent("player_upgradesBought", prettifyNumber(Game.TRACK_UPGRADES));
+  updateElementIDContent("player_reforgesBought", prettifyNumber(Game.TRACK_REFORGES));
+  updateElementIDContent("player_statResets", prettifyNumber(Game.TRACK_RESETS));
+  updateElementIDContent("player_itemsSold", prettifyNumber(Game.TRACK_ITEM_SALES));
+  updateElementIDContent("player_itemsScrapped", prettifyNumber(Game.TRACK_ITEM_SCRAPS));
+  updateElementIDContent("player_itemsDiscarded", prettifyNumber(Game.TRACK_ITEM_DISCARDS));
+  updateElementIDContent("player_itemsBroken", prettifyNumber(Game.TRACK_BROKEN_ITEMS));
+  updateElementIDContent("player_combatSeeds", prettifyNumber(Game.TRACK_COMBAT_SEEDS));
+  updateElementIDContent("player_salesSeeds", prettifyNumber(Game.TRACK_SALE_SEEDS));
+  updateElementIDContent("player_combatScrap", prettifyNumber(Game.TRACK_COMBAT_SCRAP));
+  updateElementIDContent("player_salesScrap", prettifyNumber(Game.TRACK_CONVERT_SCRAP));
+  
+  // Misc section
+  updateElementIDContent("player_battlesWon", prettifyNumber(Game.TRACK_WINS));
+  updateElementIDContent("player_battlesLost", prettifyNumber(Game.TRACK_LOSSES));
+  updateElementIDContent("player_battlesFled", prettifyNumber(Game.TRACK_ESCAPES));
+  updateElementIDContent("player_winningStreak", prettifyNumber(Game.TRACK_WIN_STREAK));
+  updateElementIDContent("player_maxElite", prettifyNumber(Game.TRACK_BOSS_CHANCE) + "%");
+  updateElementIDContent("player_bossKills", prettifyNumber(Game.TRACK_BOSS_KILLS));
+  updateElementIDContent("player_totalXP", prettifyNumber(Game.TRACK_XP_GAINED));
+  updateElementIDContent("player_xpLost", prettifyNumber(Game.TRACK_XP_LOST));
+  updateElementIDContent("player_xpOverflow", prettifyNumber(Game.TRACK_XP_OVERFLOW));
+  updateElementIDContent("player_badgeCount", prettifyNumber(Game.playerBadges.length));
+  updateElementIDContent("player_prestigeLevel", prettifyNumber(Game.prestigeLevel));
   
   // Player Weapon (Durability)
   playerWeaponDurability = document.getElementById("combat_playerWeaponDurability");

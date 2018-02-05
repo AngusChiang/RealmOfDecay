@@ -82,7 +82,8 @@ Game.levelUp = function () {
 };
 
 Game.addStat = function (stat, count) {
-  while (count > 0 && Game.p_StatPoints > 0) {
+  count = Math.min(count, Game.p_StatPoints);
+  while (count > 0) {
     switch (stat) {
     case Game.STAT_STR:
       Game.p_Str += 1;

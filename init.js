@@ -43,20 +43,41 @@ Legendary equipment:
 */
 Game.init = function () {
   //Define some constants we can use later
-  this.GAME_VERSION = 11; // Used to purge older saves between major version changes, don't change this value unless you're also making a change that modifies what is saved or loaded.
+  
+  // Game version constant.
+  // This is checked against the value in the save file on load, which allows us to reject loaded data if it's using an older version of the game.
+  // This should only be updated if changes are made to the game code that add or remove entries to the save format.
+  this.GAME_VERSION = 11;
+  
   // The experience curve
+  // Took a lot of math to figure this one out.
   this.XP_MULT = 1.05;
   this.XP_RANGEMIN = 3.0;
   this.XP_RANGEMAX = 4.0;
   this.XP_BASE = 40;
   this.XP_INIT = 128;
-  this.WEAPON_BASE_MULT = 0.6; // Multiplier for main stat to apply to damage dealt.
-  this.STAT_CONVERSION_SCALE = 3; // Used to determine diminishing returns for additional stat effects.
+  
+  // Multiplier for main stat to apply to damage dealt.
+  // Change this if you want weapons to benefit more, or less, from stat investments.
+  this.WEAPON_BASE_MULT = 0.6;
+  
+  // Used to determine diminishing returns for additional stat effects.
+  // Higher values cause greater gains to secondary stats based on primary stat values.
+  this.STAT_CONVERSION_SCALE = 3;
+  
   //Player states
   this.STATE_IDLE = 0;
   this.STATE_REPAIR = 1;
   this.STATE_COMBAT = 2;
-  //New Skill List
+  
+  //Skill List
+  // The numbering of skills in this list is used later to handle unlocking based on preceding skills.
+  // Essentially, the longer a number is, the further the associated skill is into the tree.
+  // For skills with a 3-digit number, these are base skills (ie. they start off available).
+  // For all other skills, removing the last digit from their numbers gives the number of the skill they depend on.
+  // The parent skill must be at max level to see the child skills on the Skills tab.
+  // Example: 'Luck of the Draw' (1012121) and 'Fast Learner' (1012122) both start with 101212, and thus are both descended from 'Patience and Discipline' (101212)
+  
   // Support Tree
   this.SKILL_PICKPOCKET = 101;
   this.SKILL_CAVITY_SEARCH = 1011;
@@ -89,6 +110,7 @@ Game.init = function () {
   this.SKILL_WILD_SWINGS = 1021111;
   this.SKILL_ADRENALINE_RUSH = 1021112;
   this.SKILL_POWER_SURGE = 10211121;
+  this.SKILL_DEADLY_MOMENTUM = 10211122;
   this.SKILL_EXECUTE = 1022111;
   this.SKILL_TURN_THE_TABLES = 1022211;
   this.SKILL_OVERCHARGE = 10211121;
@@ -113,22 +135,27 @@ Game.init = function () {
   this.SKILL_ABSORPTION_SHIELD = 10311211;
   this.SKILL_REFLECTIVE_SHIELD = 10311212;
   this.SKILL_RECLAIMED_KNOWLEDGE = 104;
+  
   //Weapon Types
   this.WEAPON_MELEE = 201;
   this.WEAPON_RANGE = 202;
   this.WEAPON_MAGIC = 203;
+  
   //Weapon Speeds
   this.WSPEED_SLOW = 211; // 2.6 to 3.0 seconds
   this.WSPEED_MID = 212; // 2.1 to 2.5 seconds
   this.WSPEED_FAST = 213; // 1.6 to 2.0 seconds
+  
   // Armour strengths
   this.ARMOUR_STR_MELEE = 231;
   this.ARMOUR_STR_RANGE = 232;
   this.ARMOUR_STR_MAGIC = 233;
+  
   // Armour vulnerabilities
   this.ARMOUR_VULN_MELEE = 234;
   this.ARMOUR_VULN_RANGE = 235;
   this.ARMOUR_VULN_MAGIC = 236;
+  
   // Debuff types
   this.DEBUFF_SHRED = 241; // Negates target's armour
   this.DEBUFF_MULTI = 242; // Delivers a second, weaker attack with each hit
@@ -140,6 +167,7 @@ Game.init = function () {
   this.DEBUFF_DOOM = 248; // Chance to kill the target instantly
   this.DEBUFF_DISARM = 249; // Negates target's weapon
   this.DEBUFF_SLEEP = 250; // Renders target unable to act. Can be broken with damage.
+  
   // Item Quality
   this.QUALITY_POOR = 221;
   this.QUALITY_NORMAL = 222;
@@ -147,11 +175,13 @@ Game.init = function () {
   this.QUALITY_GREAT = 224;
   this.QUALITY_AMAZING = 225;
   this.QUALITY_LEGENDARY = 226;
+  
   // Point assignment stats
   this.STAT_STR = 301;
   this.STAT_DEX = 302;
   this.STAT_INT = 303;
   this.STAT_CON = 304;
+  
   // Point assignment tracking
   this.POINTS_STR = 0;
   this.POINTS_DEX = 0;
@@ -161,6 +191,7 @@ Game.init = function () {
   this.POINTS_DEX_CURRENT = 0;
   this.POINTS_INT_CURRENT = 0;
   this.POINTS_CON_CURRENT = 0;
+  
   // Statistics tracking
   this.TRACK_TOTAL_DMG = 0;
   this.TRACK_MELEE_DMG = 0;
@@ -210,6 +241,7 @@ Game.init = function () {
   this.TRACK_PARAHAX_IN = 0;
   this.TRACK_PARAHAX_OUT = 0;
   this.TRACK_POTIONS_USED = 0;
+  this.TRACK_STORED_DAMAGE = 0;
   // Badge constants and progress trackers
   this.BADGE_NAME = 2001; // The Personal Touch
   this.BADGE_DEVNAME = 2002; // God Complex
@@ -283,6 +315,7 @@ Game.init = function () {
   this.BADGE_BOSSCHANCE = 2059; // Chasing Shadows
   this.BADGE_NO_NAMES = 2060; // Terminally Unimaginative
   this.PROGRESS_NO_NAMES = true;
+  
   // Boss kill badges
   this.BADGE_ZONE1 = 2061; // Trolling the Troll
   this.BADGE_ZONE2 = 2062; // Calm Down Dear
@@ -296,6 +329,7 @@ Game.init = function () {
   this.BADGE_ZONE10 = 2070; // Coming To A Point
   this.BADGE_ZONE11 = 2071; // Too Hot To Handle
   this.BADGE_ZONE12 = 2072; // A Long Way Down
+  
   // Player variables
   this.p_Name = "Generic Player Name";
   this.p_HP = 0;
@@ -308,7 +342,6 @@ Game.init = function () {
   this.p_NextEXP = 0;
   this.p_SkillPoints = 0;
   this.p_Level = 0;
-  this.p_PP = 0; // Power points.
   this.p_Powers = []; // Selected powers.
   this.p_Weapon = []; // Player weapon.
   this.p_Armour = []; // Player armour.
@@ -336,9 +369,14 @@ Game.init = function () {
   this.p_WeaponShopStock = [];
   this.p_ArmourShopStock = [];
   this.p_PotionShopStock = [];
+  
+  // Session specific stuff
+  // Window redraw flags
   this.updateInventory = true;
   this.updateSkills = true;
   this.updateForge = true;
+  
+  // Combat variables
   this.flurryActive = false;
   this.shieldCrushActive = false;
   this.secondWindAvailable = true;
@@ -351,6 +389,7 @@ Game.init = function () {
   this.specResetInterval = null;
   this.toastQueue = [];
   this.toastTimer = null;
+  
   // Enemy variables
   this.e_HP = 0;
   this.e_MaxHP = 0;
@@ -366,12 +405,14 @@ Game.init = function () {
   this.canLoot = true; // So we can take items from things...
   this.last_Weapon = []; // Weapon to take
   this.last_Armour = [];
-  // Autobattle vars
+  
+  // Options
   this.autoBattle = false;
   this.autoBattleTicker = null;
   this.autoBattle_flee = 5;
   this.autoBattle_repair = 5;
   this.autoSell_options = ["SELL", "SCRAP", "IGNORE", "IGNORE", "IGNORE"];
+  
   if (!this.load()) {
     this.initPlayer(1);
     this.showPanel("updateTable");
@@ -462,6 +503,8 @@ Game.prestige = function () {
         Game.p_currentZone = 0;
         Game.p_maxZone = 0;
         Game.prestigeLevel += Game.p_Level;
+        Game.TRACK_STORED_DAMAGE = 0;
+        Game.TRACK_XP_OVERFLOW = 0;
         Game.initPlayer(1);
         Game.p_SkillPoints += Math.floor(Game.prestigeLevel / 4);
         Game.p_StatPoints += Math.floor(Game.prestigeLevel / 2);
@@ -569,6 +612,7 @@ Game.save = function (auto) {
   STS.TRACK_PARAHAX_IN = Game.TRACK_PARAHAX_IN;
   STS.TRACK_PARAHAX_OUT = Game.TRACK_PARAHAX_OUT;
   STS.TRACK_POTIONS_USED = Game.TRACK_POTIONS_USED;
+  STS.TRACK_STORED_DAMAGE = Game.TRACK_STORED_DAMAGE;
   STS.PROGRESS_AUTOSAVE = Game.PROGRESS_AUTOSAVE;
   STS.PROGRESS_KEYBINDING = Game.PROGRESS_KEYBINDING;
   STS.PROGRESS_MANUAL_BATTLE = Game.PROGRESS_MANUAL_BATTLE;
@@ -688,6 +732,11 @@ Game.load = function () {
     Game.TRACK_PARAHAX_IN = g.TRACK_PARAHAX_IN;
     Game.TRACK_PARAHAX_OUT = g.TRACK_PARAHAX_OUT;
     Game.TRACK_POTIONS_USED = g.TRACK_POTIONS_USED;
+    if (g.TRACK_STORED_DAMAGE === undefined) {
+      Game.TRACK_STORED_DAMAGE = 0;
+    } else {
+      Game.TRACK_STORED_DAMAGE = g.TRACK_STORED_DAMAGE;
+    }
     Game.PROGRESS_AUTOSAVE = g.PROGRESS_AUTOSAVE;
     Game.PROGRESS_KEYBINDING = g.PROGRESS_KEYBINDING;
     Game.PROGRESS_MANUAL_BATTLE = g.PROGRESS_MANUAL_BATTLE;
@@ -790,7 +839,9 @@ function clearElementContent(el) {
 function updateElementIDContent(elID, content) {
   var T = document.getElementById(elID);
   if (T !== null) {
-    T.innerHTML = content;
+    if (T.innerHTML !== content) {
+      T.innerHTML = content;
+    }
   }
 }
 

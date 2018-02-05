@@ -242,33 +242,38 @@ Game.createArmourUIPanel = function (armour, sourcePanel, itemSlot) {
   // |    (costs X seeds)     |     (costs X scrap)     |
   // +------------------------+-------------------------+
   //
-  var panel = document.createElement("table");
+  var panel, row1, row2, row3, row4, row5, nameSection, iLvlSection, effect1Section, armourDesc, x, y, duraSection, effect2Section, effect3Section, flavourSection, repairSection, repairButton, equipSection, equipButton, sellSection, sellButton, scrapSection, scrapButton, discardSection, discardButton, buySection, buyButton, levelSection, levelButton, qualitySection, qualityButton, takeSection, takeButton, cost;
+  panel = document.createElement("table");
   panel.setAttribute("class", "itemPanel");
-  var row1 = document.createElement("tr");
-  var row2 = document.createElement("tr");
-  var row3 = document.createElement("tr");
-  var row4 = document.createElement("tr");
-  var row5 = document.createElement("tr");
-  var nameSection = document.createElement("td");
+  row1 = document.createElement("tr");
+  row2 = document.createElement("tr");
+  row3 = document.createElement("tr");
+  row4 = document.createElement("tr");
+  row5 = document.createElement("tr");
+  
+  nameSection = document.createElement("td");
   nameSection.setAttribute("colspan", "3");
   nameSection.innerHTML = "<span class='q" + armour[2] + "' style='font-size:18px !important;'>" + armour[0].split("|")[0] + "</span>";
-  var iLvlSection = document.createElement("td");
+  
+  iLvlSection = document.createElement("td");
   iLvlSection.setAttribute("style", "text-align:right");
   iLvlSection.innerHTML = "Level " + armour[1];
   row1.appendChild(nameSection);
   row1.appendChild(iLvlSection);
   panel.appendChild(row1);
-  var effect1Section = document.createElement("td");
-  var armourDesc = [];
-  for (var x = 0; x < armour[4].length; x++) {
+  
+  effect1Section = document.createElement("td");
+  armourDesc = [];
+  for (x = 0; x < armour[4].length; x += 1) {
     armourDesc.push(armour[4][x].slice());
   }
-  for (var y = 0; y < armour[5].length; y++) {
+  for (y = 0; y < armour[5].length; y += 1) {
     armourDesc.push(armour[5][y].slice());
   }
   effect1Section.setAttribute("colspan", "3");
   effect1Section.appendChild(Game.buildArmourEffectString(armourDesc[0]));
-  var duraSection = document.createElement("td");
+  
+  duraSection = document.createElement("td");
   duraSection.setAttribute("style", "text-align:right");
   if (arraysEqual(armour, Game.p_Armour)) {
     duraSection.id = "combat_playerArmourDurability";
@@ -277,152 +282,161 @@ Game.createArmourUIPanel = function (armour, sourcePanel, itemSlot) {
   row2.appendChild(effect1Section);
   row2.appendChild(duraSection);
   panel.appendChild(row2);
-  var effect2Section = document.createElement("td");
+  effect2Section = document.createElement("td");
   effect2Section.setAttribute("colspan", "2");
   effect2Section.setAttribute("style", "width:50% !important");
   effect2Section.appendChild(Game.buildArmourEffectString(armourDesc[1]));
-  var effect3Section = document.createElement("td");
+  
+  effect3Section = document.createElement("td");
   effect3Section.setAttribute("colspan", "2");
   effect3Section.setAttribute("style", "width:50% !important");
   effect3Section.appendChild(Game.buildArmourEffectString(armourDesc[2]));
   row3.appendChild(effect2Section);
   row3.appendChild(effect3Section);
   panel.appendChild(row3);
-  var flavourSection = document.createElement("td");
-  flavourSection.setAttribute("colspan", sourcePanel == "player" ? "3" : "4");
-  flavourSection.setAttribute("style", sourcePanel == "player" ? "width:75% !important" : "");
-  var repairSection = document.createElement("td");
+  
+  flavourSection = document.createElement("td");
+  flavourSection.setAttribute("colspan", sourcePanel === "player" ? "3" : "4");
+  flavourSection.setAttribute("style", sourcePanel === "player" ? "width:75% !important" : "");
+  
+  repairSection = document.createElement("td");
   flavourSection.innerHTML = "<span style='font-style:italic'>" + (armour[0].split("|").length > 1 ? armour[0].split("|")[1] : "&nbsp;") + "</span>";
   row4.appendChild(flavourSection);
-  if (sourcePanel == "player") {
-    var repairButton = document.createElement("span");
+  if (sourcePanel === "player") {
+    repairButton = document.createElement("span");
     repairButton.setAttribute("class", "itemPanelButton");
     repairSection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;");
-    repairButton.onclick = function () {
+    repairButton.onclick = (function () {
       return function () {
         Game.startRepair();
       };
-    }();
+    }());
     repairButton.innerHTML = "Repair";
     repairSection.appendChild(repairButton);
     row4.appendChild(repairSection);
   }
   panel.appendChild(row4);
-  if (sourcePanel == "inventory") {
-    var equipSection = document.createElement("td");
-    var sellSection = document.createElement("td");
-    var scrapSection = document.createElement("td");
-    var discardSection = document.createElement("td");
-    var equipButton = document.createElement("span");
+  if (sourcePanel === "inventory") {
+    equipSection = document.createElement("td");
+    sellSection = document.createElement("td");
+    scrapSection = document.createElement("td");
+    discardSection = document.createElement("td");
+    
+    equipButton = document.createElement("span");
     equipButton.setAttribute("class", "itemPanelButton");
     equipSection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;");
-    equipButton.onclick = function (a) {
+    equipButton.onclick = (function (a) {
       return function () {
         Game.equipArmour(a);
       };
-    }(itemSlot);
+    }(itemSlot));
     equipButton.innerHTML = "Equip";
     equipSection.appendChild(equipButton);
     row5.appendChild(equipSection);
-    var sellButton = document.createElement("span");
+    
+    sellButton = document.createElement("span");
     sellButton.setAttribute("class", "itemPanelButton");
     sellSection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;");
-    sellButton.onclick = function (a, b) {
+    sellButton.onclick = (function (a, b) {
       return function () {
         Game.sellArmour(a, b);
       };
-    }(itemSlot, true);
+    }(itemSlot, true));
     sellButton.innerHTML = "Sell";
     sellSection.appendChild(sellButton);
     row5.appendChild(sellSection);
-    var scrapButton = document.createElement("span");
+    
+    scrapButton = document.createElement("span");
     scrapButton.setAttribute("class", "itemPanelButton");
     scrapSection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;");
-    scrapButton.onclick = function (a, b) {
+    scrapButton.onclick = (function (a, b) {
       return function () {
         Game.scrapArmour(a, b);
       };
-    }(itemSlot, true);
+    }(itemSlot, true));
     scrapButton.innerHTML = "Scrap";
     scrapSection.appendChild(scrapButton);
     row5.appendChild(scrapSection);
-    var discardButton = document.createElement("span");
+    
+    discardButton = document.createElement("span");
     discardButton.setAttribute("class", "itemPanelButton");
     discardSection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;");
-    discardButton.onclick = function (a) {
+    discardButton.onclick = (function (a) {
       return function () {
         Game.discardArmour(a);
       };
-    }(itemSlot);
+    }(itemSlot));
     discardButton.innerHTML = "Discard";
     discardSection.appendChild(discardButton);
     row5.appendChild(discardSection);
     panel.appendChild(row5);
   }
-  if (sourcePanel == "enemyInventory") {
-    var takeButton = document.createElement("span");
-    var takeSection = document.createElement("td");
+  if (sourcePanel === "enemyInventory") {
+    takeButton = document.createElement("span");
+    takeSection = document.createElement("td");
     takeSection.setAttribute("colspan", "4");
     takeButton.setAttribute("class", "itemPanelButton");
     takeSection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;");
-    takeButton.onclick = function () {
+    takeButton.onclick = (function () {
       return function () {
         Game.takeArmour();
       };
-    }();
+    }());
     takeButton.innerHTML = "Take this armour";
     takeSection.appendChild(takeButton);
     row5.appendChild(takeSection);
     panel.appendChild(row5);
   }
-  if (sourcePanel == "shop") {
-    var buyButton = document.createElement("span");
-    var buySection = document.createElement("td");
+  if (sourcePanel === "shop") {
+    buyButton = document.createElement("span");
+    buySection = document.createElement("td");
     buySection.setAttribute("colspan", "4");
     buyButton.setAttribute("class", "itemPanelButton");
     buySection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;");
-    var cost = 2 * Game.calculateItemLevelPrice(armour[1], armour[2]);
-    buyButton.onclick = function (a) {
+    cost = 2 * Game.calculateItemLevelPrice(armour[1], armour[2]);
+    buyButton.onclick = (function (a) {
       return function () {
         Game.buyArmour(a);
       };
-    }(itemSlot);
+    }(itemSlot));
     buyButton.innerHTML = "Buy this armour for " + cost + " seeds";
     buySection.appendChild(buyButton);
     row5.appendChild(buySection);
     panel.appendChild(row5);
   }
-  if (sourcePanel == "forge") {
-    var levelButton = document.createElement("span");
-    var levelSection = document.createElement("td");
+  if (sourcePanel === "forge") {
+    levelButton = document.createElement("span");
+    levelSection = document.createElement("td");
     levelSection.setAttribute("colspan", "2");
     levelButton.setAttribute("class", "itemPanelButton");
     levelSection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;width:50% !important");
-    levelButton.onclick = function (a) {
+    levelButton.onclick = (function (a) {
       return function () {
         Game.buyArmourLevelUpgrade();
       };
-    }();
+    }());
     levelButton.innerHTML = "Increase Armour Level for " + Game.calculateItemLevelPrice(armour[1], armour[2]) + " seeds";
     levelSection.appendChild(levelButton);
-    var qualityButton = document.createElement("span");
-    var qualitySection = document.createElement("td");
+    
+    qualityButton = document.createElement("span");
+    qualitySection = document.createElement("td");
     qualitySection.setAttribute("colspan", "2");
     qualityButton.setAttribute("class", "itemPanelButton");
     qualitySection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0; width:50% !important");
-    qualityButton.onclick = function (a) {
+    qualityButton.onclick = (function (a) {
       return function () {
         Game.buyArmourQualityUpgrade();
       };
-    }();
-    qualityButton.innerHTML = (armour[2] == Game.QUALITY_AMAZING ? "Cannot increase armour quality." : "Increase Armour Quality for " + Game.calculateItemQualityPrice(armour[2]) + " scrap");
+    }());
+    qualityButton.innerHTML = (armour[2] === Game.QUALITY_AMAZING ? "Cannot increase armour quality." : "Increase Armour Quality for " + Game.calculateItemQualityPrice(armour[2]) + " scrap");
     qualitySection.appendChild(qualityButton);
     row5.appendChild(levelSection);
     row5.appendChild(qualitySection);
     panel.appendChild(row5);
   }
   return panel;
-}
+};
+
 Game.createPowerUIPanel = function (powerID, rootID, currentLevel, selectable, buyable) {
   // And it goes a little something like this...
   // +-------------------------------------+------------+
@@ -435,7 +449,7 @@ Game.createPowerUIPanel = function (powerID, rootID, currentLevel, selectable, b
   // |                Upgrade This Power                |
   // +--------------------------------------------------+
   // this panel will only appear on the Powers tab - so a check of which tab we're on is not required.
-
+  var panel, row1, row2, row3, row4, nameSection, investmentSection;
   var panel = document.createElement("table");
   panel.setAttribute("class", "itemPanel");
   if (!selectable || (Game.p_SkillPoints === 0 && Game.powerLevel(powerID) === 0)) {
@@ -632,26 +646,6 @@ Game.createEnemyCombatPanel = function () {
     row3.appendChild(debuffSection);
     panel.appendChild(row3);
   }
-  return panel;
-}
-Game.createStatisticPanel = function (name, value, valueID) {
-  // And it goes a little something like this:
-  // +-----------------------------------+
-  // | Name                    |  Value  |
-  // +-----------------------------------+
-  var panel = document.createElement("table");
-  panel.setAttribute("class", "statisticsPanel");
-  var row1 = document.createElement("tr");
-  var nameSection = document.createElement("td");
-  var valSection = document.createElement("td");
-  nameSection.innerHTML = "<strong>" + name + "</strong>";
-  nameSection.setAttribute("style", "width:75% !important");
-  valSection.innerHTML = prettifyNumber(value);
-  valSection.setAttribute("style", "text-align:right;width:25% !important");
-  valSection.id = valueID;
-  row1.appendChild(nameSection);
-  row1.appendChild(valSection);
-  panel.appendChild(row1);
   return panel;
 }
 Game.createZonePanel = function (zoneID, active) {

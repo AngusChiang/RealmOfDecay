@@ -73,7 +73,7 @@ Game.startCombat = function (isManual, isBoss) {
 Game.playerCombatTick = function (isBurst) {
   var a = 0, b = 0, c = 0, d = 0, e = 0, f = 0,
     critChance = 0, didCrit = false, playerDMG = 0, canDebuff = true, secondStrike = 0,
-    debuffChance = 0, debuffApplied = false, timerLength = 0;
+    debuffChance = 0, debuffApplied = false, timerLength = 0, maxStoredDamage = 0;
   // Are we in combat?
   if (Game.p_State === Game.STATE_COMBAT) {
     // Sleep check!
@@ -93,6 +93,17 @@ Game.playerCombatTick = function (isBurst) {
               Game.wildSwing = false;
               Game.combatLog("player", "<span class='q222'>Wild Swings</span> ended.");
             }
+            Game.endCombat();
+            return;
+          }
+        }
+        // Stage 0.5: Deadly Momentum
+        if (Game.powerLevel(Game.SKILL_DEADLY_MOMENTUM) > 0 && Game.TRACK_STORED_DAMAGE > 0) {
+          Game.combatLog("player", "<span class='q222'>Deadly Momentum</span> activates, dealing " + Game.TRACK_STORED_DAMAGE + " damage!");
+          Game.e_HP = Math.max(0, Game.e_HP - Math.floor(Game.TRACK_STORED_DAMAGE));
+          Game.TRACK_STORED_DAMAGE = 0;
+          if (Game.e_HP === 0) {
+            // Enemy died from the DM hit
             Game.endCombat();
             return;
           }
@@ -270,6 +281,12 @@ Game.playerCombatTick = function (isBurst) {
           // Stage 7: Damage Application
           // Floor it, I don't like decimals.
           playerDMG = Math.floor(playerDMG);
+          // Stored Damage check
+          if (playerDMG > Game.e_HP) {
+            // Applying cap
+            maxStoredDamage = Math.floor(Game.powerLevel(Game.SKILL_DEADLY_MOMENTUM) / Game.getPowerLevelCap(Game.SKILL_DEADLY_MOMENTUM) * Game.e_MaxHP);
+            Game.TRACK_STORED_DAMAGE = Math.min(maxStoredDamage, playerDMG - Game.e_HP);
+          }
           Game.e_HP = Math.max(Game.e_HP - playerDMG, 0);
           Game.TRACK_TOTAL_DMG += playerDMG;
           Game.TRACK_ATTACKS_OUT += 1;
@@ -787,7 +804,7 @@ Game.endCombat = function () {
   }
   // Wherefore art thou Romeo?
   if (Game.getPlayerDebuff()[0] === Game.DEBUFF_DOT && Game.getEnemyDebuff()[0] === Game.DEBUFF_SLEEP && Game.p_HP <= 0) {
-    Game.giveBadge(Game.BADGE_ROMEO); // WHerefore Art Thou, Romeo?
+    Game.giveBadge(Game.BADGE_ROMEO);
   }
   Game.p_Debuff = [];
   Game.e_Debuff = [];

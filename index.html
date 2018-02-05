@@ -61,7 +61,7 @@
           <td colspan="2" style="text-align:center;" class="statAddButtons">
             <span class="headerTab" onclick="Game.addStat(Game.STAT_STR, 1);">+1 STR</span>
             <span class="headerTab" onclick="Game.addStat(Game.STAT_STR, 10);">+10 STR</span>
-            <span class="headerTab" onclick="Game.addStat(Game.STAT_STR, 1000000);">+ALL STR</span>
+            <span class="headerTab" onclick="Game.addStat(Game.STAT_STR, Number.MAX_SAFE_INTEGER);">+ALL STR</span>
           </td>
         </tr>
         <tr>
@@ -71,7 +71,7 @@
           <td colspan="2" style="text-align:center;" class="statAddButtons">
             <span class="headerTab" onclick="Game.addStat(Game.STAT_DEX, 1);">+1 DEX</span>
             <span class="headerTab" onclick="Game.addStat(Game.STAT_DEX, 10);">+10 DEX</span>
-            <span class="headerTab" onclick="Game.addStat(Game.STAT_DEX, 1000000);">+ALL DEX</span>
+            <span class="headerTab" onclick="Game.addStat(Game.STAT_DEX, Number.MAX_SAFE_INTEGER);">+ALL DEX</span>
           </td>
         </tr>
         <tr>
@@ -81,7 +81,7 @@
           <td colspan="2" style="text-align:center;" class="statAddButtons">
             <span class="headerTab" onclick="Game.addStat(Game.STAT_INT, 1);">+1 INT</span>
             <span class="headerTab" onclick="Game.addStat(Game.STAT_INT, 10);">+10 INT</span>
-            <span class="headerTab" onclick="Game.addStat(Game.STAT_INT, 1000000);">+ALL INT</span>
+            <span class="headerTab" onclick="Game.addStat(Game.STAT_INT, Number.MAX_SAFE_INTEGER);">+ALL INT</span>
           </td>
         </tr>
         <tr>
@@ -91,7 +91,7 @@
           <td colspan="2" style="text-align:center;" class="statAddButtons">
             <span class="headerTab" onclick="Game.addStat(Game.STAT_CON, 1);">+1 CON</span>
             <span class="headerTab" onclick="Game.addStat(Game.STAT_CON, 10);">+10 CON</span>
-            <span class="headerTab" onclick="Game.addStat(Game.STAT_CON, 1000000);">+ALL CON</span>
+            <span class="headerTab" onclick="Game.addStat(Game.STAT_CON, Number.MAX_SAFE_INTEGER);">+ALL CON</span>
           </td>
         </tr>
       </table>
@@ -111,7 +111,8 @@
         <span style="margin-left:1.5em">Melee Damage: <span id="player_statMeleeOut"></span></span><br />
         <span style="margin-left:1.5em">Ranged Damage: <span id="player_statRangedOut"></span></span><br />
         <span style="margin-left:1.5em">Magic Damage: <span id="player_statMagicOut"></span></span><br />
-        <span style="margin-left:1em;">Most damage dealt in one hit: <span id="player_statBiggestHitOut"></span></span><br /><br />
+        <span style="margin-left:1em;">Most damage dealt in one hit: <span id="player_statBiggestHitOut"></span></span><br />
+        <span style="margin-left:1em;">Stored damage: <span id="player_statStoredDamage"></span></span><br /><br />
         <span style="margin-left:1em;">Burst Attacks activated: <span id="player_statBursts"></span></span><br /><br />
         <span style="margin-left:1em;">Debuffs applied: <span id="player_statDebuffsOut"></span></span><br />
         <span style="margin-left:1.5em;">Enemies killed instantly with Doom: <span id="player_statDoomKills"></span></span><br />
@@ -137,7 +138,34 @@
         <span style="margin-left:1.5em;">Attacks lost to paralysis: <span id="player_statParahaxIn"></span></span><br />
       </div>
       <div class="playerStatistics" style="padding:5px 0px;">
-        <span style="font-size:16px;font-weight:bold;margin-left:0.5em;">Inventory</span>
+        <span style="font-size:16px;font-weight:bold;margin-left:0.5em;">Inventory</span><br />
+        <span style="margin-left:1em;">Item upgrades bought: <span id="player_upgradesBought"></span></span><br />
+        <span style="margin-left:1em;">Item reforges bought: <span id="player_reforgesBought"></span></span><br />
+        <span style="margin-left:1em;">Skill/stat point resets: <span id="player_statResets"></span></span><br />
+        <span style="margin-left:1em;">Items sold: <span id="player_itemsSold"></span></span><br />
+        <span style="margin-left:1em;">Items scrapped: <span id="player_itemsScrapped"></span></span><br />
+        <span style="margin-left:1em;">Items discarded: <span id="player_itemsDiscarded"></span></span><br />
+        <span style="margin-left:1em;">Items broken in combat: <span id="player_itemsBroken"></span></span><br />
+        <span style="margin-left:1em;">Seeds gained: </span><br />
+        <span style="margin-left:1.5em;">From combat: <span id="player_combatSeeds"></span></span><br />
+        <span style="margin-left:1.5em;">From item sales: <span id="player_salesSeeds"></span></span><br />
+        <span style="margin-left:1em;">Scrap gained: </span><br />
+        <span style="margin-left:1.5em;">From combat: <span id="player_combatScrap"></span></span><br />
+        <span style="margin-left:1.5em;">From item conversions: <span id="player_salesScrap"></span></span><br />
+      </div>
+      <div class="playerStatistics" style="padding:5px 0px;">
+        <span style="font-size:16px;font-weight:bold;margin-left:0.5em;">Misc</span><br />
+        <span style="margin-left:1em;">Battles won: <span id="player_battlesWon"></span></span><br />
+        <span style="margin-left:1em;">Battles lost: <span id="player_battlesLost"></span></span><br />
+        <span style="margin-left:1em;">Battles fled: <span id="player_battlesFled"></span></span><br />
+        <span style="margin-left:1em;">Winning streak: <span id="player_winningStreak"></span></span><br />
+        <span style="margin-left:1em;">Highest elite appearance chance: <span id="player_maxElite"></span></span><br />
+        <span style="margin-left:1em;">Bosses defeated: <span id="player_bossKills"></span></span><br /><br />
+        <span style="margin-left:1em;">Total experience gained: <span id="player_totalXP"></span></span><br />
+        <span style="margin-left:1em;">Experience lost to deaths: <span id="player_xpLost"></span></span><br />
+        <span style="margin-left:1em;">Experience Overflow Pool: <span id="player_xpOverflow"></span></span><br /><br />
+        <span style="margin-left:1em;">Badges earned: <span id="player_badgeCount"></span></span><br />
+        <span style="margin-left:1em;">Prestige level: <span id="player_prestigeLevel"></span></span>
       </div>
       <table>
         <!-- Stats -->
@@ -617,6 +645,12 @@
                               <li>Damage increase is now 35% (up from 25%).</li>
                             </ul>
                           </li>
+                          <li>
+                            <strong>Reclaimed Knowledge</strong>
+                            <ul>
+                              <li>Fixed an issue where the accumulated experience was not removed when prestiging.</li>
+                            </ul>
+                          </li>
                         </ul>
                       </li>
                     </ul>
@@ -628,6 +662,7 @@
                       <li><strong>Terminal Illness</strong> is a new single rank skill in the Offense tree, allowing the player to refresh debuff timers if they are reapplied during their duration. Branches from <strong>Expose Weakness</strong>.</li>
                       <li><strong>Bloodlust</strong> is a new single rank skill in the Offense tree, which refreshes your Burst Attack cooldown upon a critical hit. Branches from <strong>Keener Eye</strong>.</li>
                       <li><strong>Power Surge</strong> is a new 5 rank skill in the Offense tree, which applies Adrenaline Rush at the start of combat for one attack per rank. Branches from <strong>Adrenaline Rush</strong>.</li>
+                      <li><string>Deadly Momentum</string> is a new 5 rank skill in the Offense tree, which stores overkill damage from all other sources (up to 20% per rank of target's max HP) and applies it at the start of combat. Branches from <strong>Adrenaline Rush</strong>.</li>
                       <li><strong>Shield Wall</strong> is a new 5 rank skill in the Defence tree, increasing block chance by 1% per rank. Branches from <strong>Ancestral Fortitude</strong>.</li>
                       <li><strong>Shield Crush</strong> is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to ignore enemy armour bonuses. Branches from <strong>Shield Wall</strong>.</li>
                       <li><strong>Hold The Line</strong> is a new single rank skill in the Defence tree, guaranteeing a block whenever Shield Crush activates. Branches from <strong>Shield Crush</strong>.</li>
@@ -728,19 +763,19 @@
     </table>
   </div>
   <div id="saveToast" class="savePopup" style="display:none;" onclick="Game.showMessage()"><span id="toastContent"></span></div>
-  <script type="text/javascript" src="shims.v1.0.js"></script>
-  <script type="text/javascript" src="init.v1.01.js"></script>
-  <script type="text/javascript" src="strings.v1.01.js"></script>
-  <script type="text/javascript" src="zones.v1.02.js"></script>
-  <script type="text/javascript" src="skills.v1.1.js"></script>
-  <script type="text/javascript" src="combat.v1.01.js"></script>
-  <script type="text/javascript" src="inventory.v1.03.js"></script>
-  <script type="text/javascript" src="player.v1.0.js"></script>
-  <script type="text/javascript" src="tickers.v1.02.js"></script>
-  <script type="text/javascript" src="ui.v1.02.js"></script>
-  <script type="text/javascript" src="uipanels.v1.01.js"></script>
-  <script type="text/javascript" src="badges.v1.0.js"></script>
-  <script type="text/javascript" src="keybindings.v1.01.js"></script>
+  <script type="text/javascript" src="shims.js?ver=1.1"></script>
+  <script type="text/javascript" src="init.js?ver=1.1"></script>
+  <script type="text/javascript" src="strings.js?ver=1.1"></script>
+  <script type="text/javascript" src="zones.js?ver=1.1"></script>
+  <script type="text/javascript" src="skills.js?ver=1.1"></script>
+  <script type="text/javascript" src="combat.js?ver=1.1"></script>
+  <script type="text/javascript" src="inventory.js?ver=1.1"></script>
+  <script type="text/javascript" src="player.js?ver=1.1"></script>
+  <script type="text/javascript" src="tickers.js?ver=1.1"></script>
+  <script type="text/javascript" src="ui.js?ver=1.1"></script>
+  <script type="text/javascript" src="uipanels.js?ver=1.1"></script>
+  <script type="text/javascript" src="badges.js?ver=1.1"></script>
+  <script type="text/javascript" src="keybindings.js?ver=1.1"></script>
   <script type="text/javascript">
     document.onkeypress = keyBindings;
   </script>

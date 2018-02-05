@@ -656,7 +656,7 @@ Game.upgradeWeaponQuality = function (weapon) {
     if (userFlavourText.trim() === "") {
       Game.giveBadge(Game.BADGE_NO_FLAVOUR);
     } // Lacking in Flavour
-    weapon[0] = (userWeaponName.trim() !== "" ? userWeaponName : weapon[0]) + "|" + (userFlavourText.trim() !== "" ? userFlavourText : "I have no flavour.");
+    weapon[0] = (userWeaponName.trim() !== "" ? userWeaponName : weapon[0].split("|")[0]) + "|" + userFlavourText.trim();
   }
   weapon[7] += 1;
   weapon[4] = Math.ceil(baseMin * (10 + (weapon[7] - Game.QUALITY_NORMAL)) / 10);
@@ -712,7 +712,9 @@ Game.upgradeArmourQuality = function (armour) {
       } else {
         userArmourName = userArmourName.replace(/[<>|]/g, "");
         validArmourName = true;
-        Game.PROGRESS_NO_NAMES = false;
+        if (userArmourName !== "") {
+          Game.PROGRESS_NO_NAMES = false;
+        }
       }
     }
     validFlavourText = false;
@@ -729,17 +731,18 @@ Game.upgradeArmourQuality = function (armour) {
       } else {
         userFlavourText = userFlavourText.replace(/[<>|]/g, "");
         validFlavourText = true;
-        Game.PROGRESS_NO_NAMES = false;
+        if (userFlavourText !== "") {
+          Game.PROGRESS_NO_NAMES = false;
+        }
       }
     }
-    armour[0] = userArmourName + "|" + userFlavourText;
     if (userArmourName.trim() === "") {
       Game.giveBadge(Game.BADGE_NO_NAME);
     } // Unimaginative
     if (userFlavourText.trim() === "") {
       Game.giveBadge(Game.BADGE_NO_FLAVOUR);
     } // Lacking in Flavour
-    armour[0] = (userArmourName.trim() !== "" ? userArmourName : armour[0]) + "|" + (userFlavourText.trim() !== "" ? userFlavourText : "I have no flavour.");
+    armour[0] = (userArmourName.trim() !== "" ? userArmourName : armour[0].split("|")[0]) + "|" + userFlavourText.trim();
     break;
   case Game.QUALITY_GREAT:
     availableTypes = [0, 1, 2];
