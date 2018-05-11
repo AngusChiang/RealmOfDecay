@@ -229,3 +229,8 @@ body * {
   z-index: 20;
   display:none;
 }
+
+.subTable {
+  width:100%;
+  table-layout:fixed;
+}

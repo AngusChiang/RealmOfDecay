@@ -450,7 +450,7 @@ Game.createForgeTab = function () {
     wPanelOut.appendChild(Game.createWeaponUIPanel(Game.p_Weapon, "forge"));
     aPanelOut = document.getElementById("armourPanelOut");
     aPanelOut.innerHTML = "";
-    wPanelOut.appendChild(Game.createArmourUIPanel(Game.p_Armour, "forge"));
+    aPanelOut.appendChild(Game.createArmourUIPanel(Game.p_Armour, "forge"));
     reforgePanelOut = document.getElementById("debuffList");
     reforgePanelOut.innerHTML = "";
     for (x = -1; x < 10; x += 1) {
