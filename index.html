@@ -105,8 +105,8 @@
         </tr>
       </table>
       <div class="powerHeader">Statistics</div>
-      <div class="playerStatistics" style="padding:5px 0px;">
-        <span style="font-size:16px;font-weight:bold;margin-left:0.5em;">Offense</span><br />
+      <span class="underLineMe" style="font-size:16px;font-weight:bold;margin-left:0.5em;" onclick="toggleHelpVis('offenseStats');">Offense</span><br />
+      <div class="playerStatistics offenseStats" style="padding:5px 0px;">
         <span style="font-size:14px;margin-left:1em;">Total Damage Dealt: <span id="player_statTotalDMG"></span> over <span id="player_statAttacks"></span> attack(s).</span><br />
         <span style="margin-left:1.5em">Melee Damage: <span id="player_statMeleeOut"></span></span><br />
         <span style="margin-left:1.5em">Ranged Damage: <span id="player_statRangedOut"></span></span><br />
@@ -122,8 +122,8 @@
         <span style="margin-left:1.5em;">Enemies confused: <span id="player_statConfusionOut"></span></span><br />
         <span style="margin-left:1.5em;">Enemy attacks stopped with Paralysis: <span id="player_statParahaxOut"></span></span>
       </div>
-      <div class="playerStatistics" style="padding:5px 0px;">
-        <span style="font-size:16px;font-weight:bold;margin-left:0.5em;">Defense</span><br />
+      <span class="underLineMe" style="font-size:16px;font-weight:bold;margin-left:0.5em;" onclick="toggleHelpVis('defenseStats');">Defense</span><br />
+      <div class="playerStatistics defenseStats" style="padding:5px 0px;">
         <span style="font-size:14px;margin-left:1em;">Total Damage Taken: <span id="player_statTotalDMGTaken"></span> over <span id="player_statAttacksTaken"></span> attack(s).</span><br />
         <span style="margin-left:1.5em">Melee Damage: <span id="player_statMeleeIn"></span></span><br />
         <span style="margin-left:1.5em">Ranged Damage: <span id="player_statRangedIn"></span></span><br />
@@ -137,8 +137,8 @@
         <span style="margin-left:1.5em;">Times confused: <span id="player_statConfusionIn"></span></span><br />
         <span style="margin-left:1.5em;">Attacks lost to paralysis: <span id="player_statParahaxIn"></span></span><br />
       </div>
-      <div class="playerStatistics" style="padding:5px 0px;">
-        <span style="font-size:16px;font-weight:bold;margin-left:0.5em;">Inventory</span><br />
+      <span class="underLineMe" style="font-size:16px;font-weight:bold;margin-left:0.5em;" onclick="toggleHelpVis('inventoryStats');">Inventory</span><br />
+      <div class="playerStatistics inventoryStats" style="padding:5px 0px;">
         <span style="margin-left:1em;">Item upgrades bought: <span id="player_upgradesBought"></span></span><br />
         <span style="margin-left:1em;">Item reforges bought: <span id="player_reforgesBought"></span></span><br />
         <span style="margin-left:1em;">Skill/stat point resets: <span id="player_statResets"></span></span><br />
@@ -153,8 +153,8 @@
         <span style="margin-left:1.5em;">From combat: <span id="player_combatScrap"></span></span><br />
         <span style="margin-left:1.5em;">From item conversions: <span id="player_salesScrap"></span></span><br />
       </div>
-      <div class="playerStatistics" style="padding:5px 0px;">
-        <span style="font-size:16px;font-weight:bold;margin-left:0.5em;">Misc</span><br />
+      <span class="underLineMe" style="font-size:16px;font-weight:bold;margin-left:0.5em;" onclick="toggleHelpVis('miscStats');">Misc</span><br />
+      <div class="playerStatistics miscStats" style="padding:5px 0px;">
         <span style="margin-left:1em;">Battles won: <span id="player_battlesWon"></span></span><br />
         <span style="margin-left:1em;">Battles lost: <span id="player_battlesLost"></span></span><br />
         <span style="margin-left:1em;">Battles fled: <span id="player_battlesFled"></span></span><br />
@@ -166,14 +166,7 @@
         <span style="margin-left:1em;">Experience Overflow Pool: <span id="player_xpOverflow"></span></span><br /><br />
         <span style="margin-left:1em;">Badges earned: <span id="player_badgeCount"></span></span><br />
         <span style="margin-left:1em;">Prestige level: <span id="player_prestigeLevel"></span></span>
-      </div>
-      <table>
-        <!-- Stats -->
-        <tr>
-          <td colspan="6" id="statsOut">
-          </td>
-        </tr>
-      </table>   
+      </div>  
     </div>
     <table style="width:100%;">
       <tr>
@@ -369,9 +362,11 @@
                   <li>Any skills that influence damage taken.</li>
                 </ul>
 
-                <p class="combatBlock hiddenElement">Your offensive options during combat are limited to fleeing, and using a Burst Attack. The Burst Attack button is simply a single strike delivered instantly to the target, respecting all the usual rules regarding how much damage is dealt, as well as resetting the time delay between attacks.</p>
+                <p class="combatBlock hiddenElement">Your offensive options during combat consist of fleeing, and using a Burst Attack. The Burst Attack button is simply a single strike delivered instantly to the target, respecting all the usual rules regarding how much damage is dealt, as well as resetting the time delay between attacks. Any skills you have that can be triggered when a target is hit can also be triggered by a Burst Attack.</p>
 
                 <p class="combatBlock hiddenElement">When you are not in combat, your health regenerates based on your Constitution value. That value also increases the size of your maximum health pool, which is good for the whole 'not dying' thing.</p>
+                
+                <p class="combatBlock hiddenElement">If, by some unfortunate series of events, you are defeated by an opponent, all is not lost - as a penalty, you lose 25% of the progress you have made towards your next level, but can otherwise continue on as normal.</p>
 
                 <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('debuffBlock');">Debuffs</div>
 
@@ -662,7 +657,7 @@
                       <li><strong>Terminal Illness</strong> is a new single rank skill in the Offense tree, allowing the player to refresh debuff timers if they are reapplied during their duration. Branches from <strong>Expose Weakness</strong>.</li>
                       <li><strong>Bloodlust</strong> is a new single rank skill in the Offense tree, which refreshes your Burst Attack cooldown upon a critical hit. Branches from <strong>Keener Eye</strong>.</li>
                       <li><strong>Power Surge</strong> is a new 5 rank skill in the Offense tree, which applies Adrenaline Rush at the start of combat for one attack per rank. Branches from <strong>Adrenaline Rush</strong>.</li>
-                      <li><string>Deadly Momentum</string> is a new 5 rank skill in the Offense tree, which stores overkill damage from all other sources (up to 20% per rank of target's max HP) and applies it at the start of combat. Branches from <strong>Adrenaline Rush</strong>.</li>
+                      <li><strong>Deadly Momentum</strong> is a new 5 rank skill in the Offense tree, which stores overkill damage from all other sources (up to 20% per rank of target's max HP) and applies it at the start of combat. Branches from <strong>Adrenaline Rush</strong>.</li>
                       <li><strong>Shield Wall</strong> is a new 5 rank skill in the Defence tree, increasing block chance by 1% per rank. Branches from <strong>Ancestral Fortitude</strong>.</li>
                       <li><strong>Shield Crush</strong> is a new 5 rank skill in the Defence tree, granting a 2% chance per rank to ignore enemy armour bonuses. Branches from <strong>Shield Wall</strong>.</li>
                       <li><strong>Hold The Line</strong> is a new single rank skill in the Defence tree, guaranteeing a block whenever Shield Crush activates. Branches from <strong>Shield Crush</strong>.</li>
