@@ -13,7 +13,8 @@ and management. Includes store.
 // Yes, I'm doing a lot of array slicing in here. Weird things can happen if you pass them around by reference, it's safer this way :)
 Game.equipWeapon = function (index) {
   // How do you like my new pointy.
-  var currentWep = [], newWep = [];
+  var currentWep = [],
+    newWep = [];
   currentWep = Game.p_Weapon.slice(0);
   newWep = Game.p_WeaponInventory[index].slice(0);
   Game.p_Weapon = newWep.slice(0);
@@ -42,7 +43,8 @@ Game.discardWeapon = function (index) {
 };
 
 Game.sellWeapon = function (index, loud) {
-  var salePrice = 0, soldWepName = '';
+  var salePrice = 0,
+    soldWepName = '';
   salePrice = Math.floor(25 * Math.pow(1.1, Game.p_WeaponInventory[index][1]) * (1 + 0.05 * Game.powerLevel(Game.SKILL_HAGGLING)));
   salePrice = Math.floor(salePrice * (10 + (Game.p_WeaponInventory[index][7] - Game.QUALITY_NORMAL)) / 10);
   soldWepName = Game.p_WeaponInventory[index][0].split("|")[0];
@@ -62,24 +64,25 @@ Game.sellWeapon = function (index, loud) {
 
 Game.scrapWeapon = function (index, loud) {
   // Breaking things willingly.
-  var salePrice = 0, scrappedWepName = '';
+  var salePrice = 0,
+    scrappedWepName = '';
   scrappedWepName = Game.p_WeaponInventory[index][0].split("|")[0];
   switch (Game.p_WeaponInventory[index][7]) {
-  case Game.QUALITY_AMAZING:
-    salePrice = Game.RNG(7, 10);
-    break;
-  case Game.QUALITY_GREAT:
-    salePrice = Game.RNG(4, 6);
-    break;
-  case Game.QUALITY_GOOD:
-    salePrice = Game.RNG(2, 3);
-    break;
-  case Game.QUALITY_NORMAL:
-    salePrice = Game.RNG(1, 2);
-    break;
-  case Game.QUALITY_POOR:
-    salePrice = Game.RNG(0, 1);
-    break;
+    case Game.QUALITY_AMAZING:
+      salePrice = Game.RNG(7, 10);
+      break;
+    case Game.QUALITY_GREAT:
+      salePrice = Game.RNG(4, 6);
+      break;
+    case Game.QUALITY_GOOD:
+      salePrice = Game.RNG(2, 3);
+      break;
+    case Game.QUALITY_NORMAL:
+      salePrice = Game.RNG(1, 2);
+      break;
+    case Game.QUALITY_POOR:
+      salePrice = Game.RNG(0, 1);
+      break;
   }
   if (Game.powerLevel(Game.SKILL_DISASSEMBLY) === 1) {
     salePrice += 1;
@@ -100,7 +103,8 @@ Game.scrapWeapon = function (index, loud) {
 };
 
 Game.equipArmour = function (index) {
-  var currentArm = [], newArm = [];
+  var currentArm = [],
+    newArm = [];
   currentArm = Game.p_Armour.slice(0);
   newArm = Game.p_ArmourInventory[index].slice(0);
   Game.p_Armour = newArm.slice(0);
@@ -128,7 +132,8 @@ Game.discardArmour = function (index) {
 };
 
 Game.sellArmour = function (index, loud) {
-  var salePrice = 0, soldArmName = '';
+  var salePrice = 0,
+    soldArmName = '';
   salePrice = Math.floor(25 * Math.pow(1.1, Game.p_ArmourInventory[index][1]) * (1 + 0.05 * Game.powerLevel(Game.SKILL_HAGGLING)));
   salePrice = Math.floor(salePrice * (10 + (Game.p_ArmourInventory[index][2] - Game.QUALITY_NORMAL)) / 10);
   soldArmName = Game.p_ArmourInventory[index][0].split("|")[0];
@@ -147,24 +152,25 @@ Game.sellArmour = function (index, loud) {
 };
 
 Game.scrapArmour = function (index, loud) {
-  var salePrice = 0, scrappedArmName = '';
+  var salePrice = 0,
+    scrappedArmName = '';
   scrappedArmName = Game.p_ArmourInventory[index][0].split("|")[0];
   switch (Game.p_ArmourInventory[index][2]) {
-  case Game.QUALITY_AMAZING:
-    salePrice = Game.RNG(7, 10);
-    break;
-  case Game.QUALITY_GREAT:
-    salePrice = Game.RNG(4, 6);
-    break;
-  case Game.QUALITY_GOOD:
-    salePrice = Game.RNG(2, 3);
-    break;
-  case Game.QUALITY_NORMAL:
-    salePrice = Game.RNG(1, 2);
-    break;
-  case Game.QUALITY_POOR:
-    salePrice = Game.RNG(0, 1);
-    break;
+    case Game.QUALITY_AMAZING:
+      salePrice = Game.RNG(7, 10);
+      break;
+    case Game.QUALITY_GREAT:
+      salePrice = Game.RNG(4, 6);
+      break;
+    case Game.QUALITY_GOOD:
+      salePrice = Game.RNG(2, 3);
+      break;
+    case Game.QUALITY_NORMAL:
+      salePrice = Game.RNG(1, 2);
+      break;
+    case Game.QUALITY_POOR:
+      salePrice = Game.RNG(0, 1);
+      break;
   }
   if (Game.powerLevel(Game.SKILL_DISASSEMBLY) === 1) {
     salePrice += 1;
@@ -187,9 +193,21 @@ Game.scrapArmour = function (index, loud) {
 Game.makeWeapon = function (level) {
   // Returns a weapon as an array with the form
   // [name,level,type,speed,minDmg,maxDmg,dps,quality,decay,[debuffID,debuffName,debuffDuration,debuffStrength]]
-  var type = 0, sType = 0, speed = 0, minDmg = 0, maxDmg = 0, dps = 0,
-    decay = 0, qualityMult = 1, qualityID = 0, debuff = [], qT = 0,
-    base = 0, variance = 0, perLv = 0, name = '';
+  var type = 0,
+    sType = 0,
+    speed = 0,
+    minDmg = 0,
+    maxDmg = 0,
+    dps = 0,
+    decay = 0,
+    qualityMult = 1,
+    qualityID = 0,
+    debuff = [],
+    qT = 0,
+    base = 0,
+    variance = 0,
+    perLv = 0,
+    name = '';
   type = Game.RNG(Game.WEAPON_MELEE, Game.WEAPON_MAGIC);
   sType = Game.RNG(Game.WSPEED_SLOW, Game.WSPEED_FAST);
   speed = 0;
@@ -220,36 +238,36 @@ Game.makeWeapon = function (level) {
   }
   // Weapon speed
   switch (sType) {
-  case Game.WSPEED_FAST:
-    speed = Game.RNG(16, 20);
-    break;
-  case Game.WSPEED_MID:
-    speed = Game.RNG(21, 25);
-    break;
-  case Game.WSPEED_SLOW:
-    speed = Game.RNG(26, 30);
-    break;
+    case Game.WSPEED_FAST:
+      speed = Game.RNG(16, 20);
+      break;
+    case Game.WSPEED_MID:
+      speed = Game.RNG(21, 25);
+      break;
+    case Game.WSPEED_SLOW:
+      speed = Game.RNG(26, 30);
+      break;
   }
   speed = speed / 10;
   base = 0;
   variance = 0;
   perLv = 0;
   switch (sType) {
-  case Game.WSPEED_FAST:
-    base = Game.RNG(8, 10);
-    perLv = 2;
-    variance = 0.3;
-    break;
-  case Game.WSPEED_MID:
-    base = Game.RNG(11, 13);
-    perLv = 2.5;
-    variance = 0.4;
-    break;
-  case Game.WSPEED_SLOW:
-    base = Game.RNG(14, 16);
-    perLv = 3;
-    variance = 0.5;
-    break;
+    case Game.WSPEED_FAST:
+      base = Game.RNG(8, 10);
+      perLv = 2;
+      variance = 0.3;
+      break;
+    case Game.WSPEED_MID:
+      base = Game.RNG(11, 13);
+      perLv = 2.5;
+      variance = 0.4;
+      break;
+    case Game.WSPEED_SLOW:
+      base = Game.RNG(14, 16);
+      perLv = 3;
+      variance = 0.5;
+      break;
   }
   name = Game.getWeaponName(type, qualityID, sType);
   // Logic time!
@@ -263,9 +281,26 @@ Game.makeWeapon = function (level) {
 Game.makeArmour = function (level) {
   // Returns a piece of armour in the following form:
   // [name,level,quality,durability,[[str1,value],[str2,value],[str3,value]],[[vuln1,value],[vuln2,value]]]
-  var x = 0, y = 0, armLevel = 0, armDura = 0, armQuality = 0, qualityPlus = 1, armStrengths = 0,
-    armVulns = 0, qT = 0, availableTypes = [], armStrList = [], armVulnList = [], added = false,
-    strType = 0, strPower = 0, str = [], vulnType = 0, vulnPower = 0, vuln = [], armName = "";
+  var x = 0,
+    y = 0,
+    armLevel = 0,
+    armDura = 0,
+    armQuality = 0,
+    qualityPlus = 1,
+    armStrengths = 0,
+    armVulns = 0,
+    qT = 0,
+    availableTypes = [],
+    armStrList = [],
+    armVulnList = [],
+    added = false,
+    strType = 0,
+    strPower = 0,
+    str = [],
+    vulnType = 0,
+    vulnPower = 0,
+    vuln = [],
+    armName = "";
   armLevel = level;
   armDura = 50 + (5 * (level - 1));
   armQuality = 0;
@@ -340,93 +375,98 @@ Game.makeArmour = function (level) {
 
 Game.getWeaponName = function (type, quality, speedTier) {
   // The lengths we go to for making names.
-  var nameArray = [], debuffArray = [], arrayIndex = 0, qualityState = '', debuff = '', aName = '';
+  var nameArray = [],
+    debuffArray = [],
+    arrayIndex = 0,
+    qualityState = '',
+    debuff = '',
+    aName = '';
   switch (type) {
     // Weapons are named differently based on how fast their attack is and what type of attack it is.
-  case Game.WEAPON_MELEE:
-    switch (speedTier) {
-    case Game.WSPEED_SLOW:
-      if (quality >= Game.QUALITY_GREAT) {
-        nameArray = Game.slow_melee_special;
-        debuffArray = Game.slow_melee_debuffs;
-      } else {
-        nameArray = Game.slow_melee_generic;
+    case Game.WEAPON_MELEE:
+      switch (speedTier) {
+        case Game.WSPEED_SLOW:
+          if (quality >= Game.QUALITY_GREAT) {
+            nameArray = Game.slow_melee_special;
+            debuffArray = Game.slow_melee_debuffs;
+          } else {
+            nameArray = Game.slow_melee_generic;
+          }
+          break;
+        case Game.WSPEED_MID:
+          if (quality >= Game.QUALITY_GREAT) {
+            nameArray = Game.mid_melee_special;
+            debuffArray = Game.mid_melee_debuffs;
+          } else {
+            nameArray = Game.mid_melee_generic;
+          }
+          break;
+        case Game.WSPEED_FAST:
+          if (quality >= Game.QUALITY_GREAT) {
+            nameArray = Game.fast_melee_special;
+            debuffArray = Game.fast_melee_debuffs;
+          } else {
+            nameArray = Game.fast_melee_generic;
+          }
+          break;
       }
       break;
-    case Game.WSPEED_MID:
-      if (quality >= Game.QUALITY_GREAT) {
-        nameArray = Game.mid_melee_special;
-        debuffArray = Game.mid_melee_debuffs;
-      } else {
-        nameArray = Game.mid_melee_generic;
+    case Game.WEAPON_RANGE:
+      switch (speedTier) {
+        case Game.WSPEED_SLOW:
+          if (quality >= Game.QUALITY_GREAT) {
+            nameArray = Game.slow_range_special;
+            debuffArray = Game.slow_range_debuffs;
+          } else {
+            nameArray = Game.slow_range_generic;
+          }
+          break;
+        case Game.WSPEED_MID:
+          if (quality >= Game.QUALITY_GREAT) {
+            nameArray = Game.mid_range_special;
+            debuffArray = Game.mid_range_debuffs;
+          } else {
+            nameArray = Game.mid_range_generic;
+          }
+          break;
+        case Game.WSPEED_FAST:
+          if (quality >= Game.QUALITY_GREAT) {
+            nameArray = Game.fast_range_special;
+            debuffArray = Game.fast_range_debuffs;
+          } else {
+            nameArray = Game.fast_range_generic;
+          }
+          break;
       }
       break;
-    case Game.WSPEED_FAST:
-      if (quality >= Game.QUALITY_GREAT) {
-        nameArray = Game.fast_melee_special;
-        debuffArray = Game.fast_melee_debuffs;
-      } else {
-        nameArray = Game.fast_melee_generic;
+    case Game.WEAPON_MAGIC:
+      switch (speedTier) {
+        case Game.WSPEED_SLOW:
+          if (quality >= Game.QUALITY_GREAT) {
+            nameArray = Game.slow_magic_special;
+            debuffArray = Game.slow_magic_debuffs;
+          } else {
+            nameArray = Game.slow_magic_generic;
+          }
+          break;
+        case Game.WSPEED_MID:
+          if (quality >= Game.QUALITY_GREAT) {
+            nameArray = Game.mid_magic_special;
+            debuffArray = Game.mid_magic_debuffs;
+          } else {
+            nameArray = Game.mid_magic_generic;
+          }
+          break;
+        case Game.WSPEED_FAST:
+          if (quality >= Game.QUALITY_GREAT) {
+            nameArray = Game.fast_magic_special;
+            debuffArray = Game.fast_magic_debuffs;
+          } else {
+            nameArray = Game.fast_magic_generic;
+          }
+          break;
       }
       break;
-    }
-    break;
-  case Game.WEAPON_RANGE:
-    switch (speedTier) {
-    case Game.WSPEED_SLOW:
-      if (quality >= Game.QUALITY_GREAT) {
-        nameArray = Game.slow_range_special;
-        debuffArray = Game.slow_range_debuffs;
-      } else {
-        nameArray = Game.slow_range_generic;
-      }
-      break;
-    case Game.WSPEED_MID:
-      if (quality >= Game.QUALITY_GREAT) {
-        nameArray = Game.mid_range_special;
-        debuffArray = Game.mid_range_debuffs;
-      } else {
-        nameArray = Game.mid_range_generic;
-      }
-      break;
-    case Game.WSPEED_FAST:
-      if (quality >= Game.QUALITY_GREAT) {
-        nameArray = Game.fast_range_special;
-        debuffArray = Game.fast_range_debuffs;
-      } else {
-        nameArray = Game.fast_range_generic;
-      }
-      break;
-    }
-    break;
-  case Game.WEAPON_MAGIC:
-    switch (speedTier) {
-    case Game.WSPEED_SLOW:
-      if (quality >= Game.QUALITY_GREAT) {
-        nameArray = Game.slow_magic_special;
-        debuffArray = Game.slow_magic_debuffs;
-      } else {
-        nameArray = Game.slow_magic_generic;
-      }
-      break;
-    case Game.WSPEED_MID:
-      if (quality >= Game.QUALITY_GREAT) {
-        nameArray = Game.mid_magic_special;
-        debuffArray = Game.mid_magic_debuffs;
-      } else {
-        nameArray = Game.mid_magic_generic;
-      }
-      break;
-    case Game.WSPEED_FAST:
-      if (quality >= Game.QUALITY_GREAT) {
-        nameArray = Game.fast_magic_special;
-        debuffArray = Game.fast_magic_debuffs;
-      } else {
-        nameArray = Game.fast_magic_generic;
-      }
-      break;
-    }
-    break;
   }
   if (quality >= Game.QUALITY_GREAT) {
     arrayIndex = Game.RNG(0, nameArray.length - 1);
@@ -443,7 +483,8 @@ Game.getWeaponName = function (type, quality, speedTier) {
 };
 
 Game.getArmourName = function (quality) {
-  var qualitySet = '', aName = '';
+  var qualitySet = '',
+    aName = '';
   if (quality >= Game.QUALITY_GREAT) {
     return Game.armour_special[Game.RNG(0, Game.armour_special.length - 1)];
   } else {
@@ -458,51 +499,53 @@ Game.upgradeWeaponLevel = function (weapon) {
   weapon[1] += 1;
   var qualityMult = 1.0;
   switch (weapon[7]) {
-  case Game.QUALITY_POOR:
-    qualityMult = 0.9;
-    break;
-  case Game.QUALITY_GOOD:
-    qualityMult = 1.1;
-    break;
-  case Game.QUALITY_GREAT:
-    qualityMult = 1.2;
-    break;
-  case Game.QUALITY_AMAZING:
-    qualityMult = 1.3;
-    break;
+    case Game.QUALITY_POOR:
+      qualityMult = 0.9;
+      break;
+    case Game.QUALITY_GOOD:
+      qualityMult = 1.1;
+      break;
+    case Game.QUALITY_GREAT:
+      qualityMult = 1.2;
+      break;
+    case Game.QUALITY_AMAZING:
+      qualityMult = 1.3;
+      break;
   }
   switch (weapon[3]) {
-  case 1.6:
-  case 1.7:
-  case 1.8:
-  case 1.9:
-  case 2.0:
-    weapon[4] = Math.floor(weapon[4] + 1.7 * qualityMult);
-    weapon[5] = Math.floor(weapon[5] + 2.3 * qualityMult);
-    break;
-  case 2.1:
-  case 2.2:
-  case 2.3:
-  case 2.4:
-  case 2.5:
-    weapon[4] = Math.floor(weapon[4] + 2.1 * qualityMult);
-    weapon[5] = Math.floor(weapon[5] + 2.9 * qualityMult);
-    break;
-  case 2.6:
-  case 2.7:
-  case 2.8:
-  case 2.9:
-  case 3.0:
-    weapon[4] = Math.floor(weapon[4] + 2.5 * qualityMult);
-    weapon[5] = Math.floor(weapon[5] + 3.5 * qualityMult);
-    break;
+    case 1.6:
+    case 1.7:
+    case 1.8:
+    case 1.9:
+    case 2.0:
+      weapon[4] = Math.floor(weapon[4] + 1.7 * qualityMult);
+      weapon[5] = Math.floor(weapon[5] + 2.3 * qualityMult);
+      break;
+    case 2.1:
+    case 2.2:
+    case 2.3:
+    case 2.4:
+    case 2.5:
+      weapon[4] = Math.floor(weapon[4] + 2.1 * qualityMult);
+      weapon[5] = Math.floor(weapon[5] + 2.9 * qualityMult);
+      break;
+    case 2.6:
+    case 2.7:
+    case 2.8:
+    case 2.9:
+    case 3.0:
+      weapon[4] = Math.floor(weapon[4] + 2.5 * qualityMult);
+      weapon[5] = Math.floor(weapon[5] + 3.5 * qualityMult);
+      break;
   }
   weapon[6] = Math.floor((weapon[4] + weapon[5]) / 2 / weapon[3] * 100) / 100;
+  Game.updateForge = true;
   return weapon;
 };
 
 Game.upgradeArmourLevel = function (armour) {
-  var x = 0, y = 0;
+  var x = 0,
+    y = 0;
   armour[1] += 1;
   for (x = 0; x < armour[4].length; x += 1) {
     armour[4][x][1] += 1;
@@ -510,6 +553,7 @@ Game.upgradeArmourLevel = function (armour) {
   for (y = 0; y < armour[5].length; y += 1) {
     armour[5][y][1] += 1;
   }
+  Game.updateForge = true;
   return armour;
 };
 
@@ -524,7 +568,8 @@ Game.calculateItemQualityPrice = function (quality) {
 };
 
 Game.buyWeapon = function (index) {
-  var purchase = [], cost = 0;
+  var purchase = [],
+    cost = 0;
   purchase = Game.p_WeaponShopStock[index];
   cost = 2 * Game.calculateItemLevelPrice(purchase[1], purchase[7]);
   if (Game.p_WeaponInventory.length === Game.MAX_INVENTORY) {
@@ -551,7 +596,8 @@ Game.buyWeapon = function (index) {
 };
 
 Game.buyArmour = function (index) {
-  var purchase = [], cost = 0;
+  var purchase = [],
+    cost = 0;
   purchase = Game.p_ArmourShopStock[index];
   cost = 2 * Game.calculateItemLevelPrice(purchase[1], purchase[2]);
   if (Game.p_ArmourInventory.length === Game.MAX_INVENTORY) {
@@ -606,8 +652,13 @@ Game.buyArmourLevelUpgrade = function () {
 };
 
 Game.upgradeWeaponQuality = function (weapon) {
-  var baseMin = 0, baseMax = 0, dbIndex = 0, validWeaponName = false, userWeaponName = '',
-    validFlavourText = false, userFlavourText = '';
+  var baseMin = 0,
+    baseMax = 0,
+    dbIndex = 0,
+    validWeaponName = false,
+    userWeaponName = '',
+    validFlavourText = false,
+    userFlavourText = '';
   baseMin = Math.floor(weapon[4] / (10 + (weapon[7] - Game.QUALITY_NORMAL)) * 10);
   baseMax = Math.ceil(weapon[5] / (10 + (weapon[7] - Game.QUALITY_NORMAL)) * 10);
   if (weapon[7] === Game.QUALITY_NORMAL) {
@@ -684,73 +735,79 @@ Game.buyWeaponQualityUpgrade = function () {
 };
 
 Game.upgradeArmourQuality = function (armour) {
-  var x = 0, availableTypes = [], buffPower = 0, validArmourName = false, userArmourName = '', validFlavourText = false, userFlavourText = '';
+  var x = 0,
+    availableTypes = [],
+    buffPower = 0,
+    validArmourName = false,
+    userArmourName = '',
+    validFlavourText = false,
+    userFlavourText = '';
   switch (armour[2]) {
-  case Game.QUALITY_POOR:
-    armour[5].pop();
-    break;
-  case Game.QUALITY_NORMAL:
-    availableTypes = [0, 1, 2];
-    availableTypes.splice(availableTypes.indexOf(armour[4][0][0] - Game.ARMOUR_STR_MELEE), 1);
-    availableTypes.splice(availableTypes.indexOf(armour[5][0][0] - Game.ARMOUR_VULN_MELEE), 1);
-    buffPower = 1 + Math.floor(Game.RNG(Math.floor(armour[1] / 2), armour[1]));
-    armour[4].push([availableTypes[0] + Game.ARMOUR_STR_MELEE, buffPower]);
-    break;
-  case Game.QUALITY_GOOD:
-    armour[5].pop();
-    validArmourName = false;
-    userArmourName = "";
-    while (!validArmourName) {
-      userArmourName = prompt("Please provide a name for your upgraded armour.\n\n(Max 40 characters)");
-      if (userArmourName === null) {
-        userArmourName = "";
-      }
-      if (userArmourName.length > 40) {
-        alert("The text provided was too long, please try something shorter.");
-      } else if (/[<>|]/g.test(userArmourName)) {
-        alert("The text provided contained invalid characters, please try something else.");
-      } else {
-        userArmourName = userArmourName.replace(/[<>|]/g, "");
-        validArmourName = true;
-        if (userArmourName !== "") {
-          Game.PROGRESS_NO_NAMES = false;
+    case Game.QUALITY_POOR:
+      armour[5].pop();
+      break;
+    case Game.QUALITY_NORMAL:
+      availableTypes = [0, 1, 2];
+      availableTypes.splice(availableTypes.indexOf(armour[4][0][0] - Game.ARMOUR_STR_MELEE), 1);
+      availableTypes.splice(availableTypes.indexOf(armour[5][0][0] - Game.ARMOUR_VULN_MELEE), 1);
+      buffPower = 1 + Math.floor(Game.RNG(Math.floor(armour[1] / 2), armour[1]));
+      armour[4].push([availableTypes[0] + Game.ARMOUR_STR_MELEE, buffPower]);
+      break;
+    case Game.QUALITY_GOOD:
+      armour[5].pop();
+      validArmourName = false;
+      userArmourName = "";
+      while (!validArmourName) {
+        userArmourName = prompt("Please provide a name for your upgraded armour.\n\n(Max 40 characters)");
+        if (userArmourName === null) {
+          userArmourName = "";
+        }
+        if (userArmourName.length > 40) {
+          alert("The text provided was too long, please try something shorter.");
+        } else if (/[<>|]/g.test(userArmourName)) {
+          alert("The text provided contained invalid characters, please try something else.");
+        } else {
+          userArmourName = userArmourName.replace(/[<>|]/g, "");
+          validArmourName = true;
+          if (userArmourName !== "") {
+            Game.PROGRESS_NO_NAMES = false;
+          }
         }
       }
-    }
-    validFlavourText = false;
-    userFlavourText = "";
-    while (!validFlavourText) {
-      userFlavourText = prompt("Please provide some flavour text for your upgraded armour.\n\n(Max 60 characters)");
-      if (userFlavourText === null) {
-        userFlavourText = "";
-      }
-      if (userFlavourText.length > 60) {
-        alert("The text provided was too long, please try something shorter.");
-      } else if (/[<>|]/g.test(userFlavourText)) {
-        alert("The text provided contained invalid characters, please try something else.");
-      } else {
-        userFlavourText = userFlavourText.replace(/[<>|]/g, "");
-        validFlavourText = true;
-        if (userFlavourText !== "") {
-          Game.PROGRESS_NO_NAMES = false;
+      validFlavourText = false;
+      userFlavourText = "";
+      while (!validFlavourText) {
+        userFlavourText = prompt("Please provide some flavour text for your upgraded armour.\n\n(Max 60 characters)");
+        if (userFlavourText === null) {
+          userFlavourText = "";
+        }
+        if (userFlavourText.length > 60) {
+          alert("The text provided was too long, please try something shorter.");
+        } else if (/[<>|]/g.test(userFlavourText)) {
+          alert("The text provided contained invalid characters, please try something else.");
+        } else {
+          userFlavourText = userFlavourText.replace(/[<>|]/g, "");
+          validFlavourText = true;
+          if (userFlavourText !== "") {
+            Game.PROGRESS_NO_NAMES = false;
+          }
         }
       }
-    }
-    if (userArmourName.trim() === "") {
-      Game.giveBadge(Game.BADGE_NO_NAME);
-    } // Unimaginative
-    if (userFlavourText.trim() === "") {
-      Game.giveBadge(Game.BADGE_NO_FLAVOUR);
-    } // Lacking in Flavour
-    armour[0] = (userArmourName.trim() !== "" ? userArmourName : armour[0].split("|")[0]) + "|" + userFlavourText.trim();
-    break;
-  case Game.QUALITY_GREAT:
-    availableTypes = [0, 1, 2];
-    availableTypes.splice(availableTypes.indexOf(armour[4][0][0] - Game.ARMOUR_STR_MELEE), 1);
-    availableTypes.splice(availableTypes.indexOf(armour[4][1][0] - Game.ARMOUR_STR_MELEE), 1);
-    buffPower = 3 + Math.floor(Game.RNG(Math.floor(armour[1] / 2), armour[1]));
-    armour[4].push([availableTypes[0] + Game.ARMOUR_STR_MELEE, buffPower]);
-    break;
+      if (userArmourName.trim() === "") {
+        Game.giveBadge(Game.BADGE_NO_NAME);
+      } // Unimaginative
+      if (userFlavourText.trim() === "") {
+        Game.giveBadge(Game.BADGE_NO_FLAVOUR);
+      } // Lacking in Flavour
+      armour[0] = (userArmourName.trim() !== "" ? userArmourName : armour[0].split("|")[0]) + "|" + userFlavourText.trim();
+      break;
+    case Game.QUALITY_GREAT:
+      availableTypes = [0, 1, 2];
+      availableTypes.splice(availableTypes.indexOf(armour[4][0][0] - Game.ARMOUR_STR_MELEE), 1);
+      availableTypes.splice(availableTypes.indexOf(armour[4][1][0] - Game.ARMOUR_STR_MELEE), 1);
+      buffPower = 3 + Math.floor(Game.RNG(Math.floor(armour[1] / 2), armour[1]));
+      armour[4].push([availableTypes[0] + Game.ARMOUR_STR_MELEE, buffPower]);
+      break;
   }
   armour[2] += 1;
   for (x = 0; x < armour[4].length; x += 1) {
@@ -780,26 +837,28 @@ Game.buyArmourQualityUpgrade = function () {
 // Let's mop up by combining four functions into one.
 Game.automaticInventoryClear = function () {
   // Weapons first
-  var i = 0, seedsGained = 0, scrapGained = 0;
+  var i = 0,
+    seedsGained = 0,
+    scrapGained = 0;
   for (i = Game.p_WeaponInventory.length - 1; i >= 0; i -= 1) {
     switch (Game.autoSell_options[Game.p_WeaponInventory[i][7] - Game.QUALITY_POOR]) {
-    case "SELL":
-      seedsGained += Game.sellWeapon(i, false);
-      break;
-    case "SCRAP":
-      scrapGained += Game.scrapWeapon(i, false);
-      break;
+      case "SELL":
+        seedsGained += Game.sellWeapon(i, false);
+        break;
+      case "SCRAP":
+        scrapGained += Game.scrapWeapon(i, false);
+        break;
     }
   }
   // Now armour
   for (i = Game.p_ArmourInventory.length - 1; i >= 0; i -= 1) {
     switch (Game.autoSell_options[Game.p_ArmourInventory[i][2] - Game.QUALITY_POOR]) {
-    case "SELL":
-      seedsGained += Game.sellArmour(i, false);
-      break;
-    case "SCRAP":
-      scrapGained += Game.scrapArmour(i, false);
-      break;
+      case "SELL":
+        seedsGained += Game.sellArmour(i, false);
+        break;
+      case "SCRAP":
+        scrapGained += Game.scrapArmour(i, false);
+        break;
     }
   }
   Game.toastNotification("Inventory cleaning gave " + prettifyNumber(seedsGained) + " seeds and " + prettifyNumber(scrapGained) + " scrap.");
@@ -839,7 +898,10 @@ Game.takeArmour = function () {
 };
 
 Game.reforgeWeapon = function (debuff, isSuperior) {
-  var debuffCost = 0, isRandom = false, dbName = '', validDebuffName = false;
+  var debuffCost = 0,
+    isRandom = false,
+    dbName = '',
+    validDebuffName = false;
   debuffCost = isSuperior ? 2 : 1;
   if (debuff >= Game.DEBUFF_SHRED) {
     debuffCost *= 4;
@@ -853,7 +915,7 @@ Game.reforgeWeapon = function (debuff, isSuperior) {
   } else {
     isRandom = false;
     if (debuff < Game.DEBUFF_SHRED) {
-      debuff = Game.RNG(Game.DEBUFF_SHRED, Game.DEBUFF_DISARM);
+      debuff = Game.RNG(Game.DEBUFF_SHRED, Game.DEBUFF_SLEEP);
       isRandom = true;
       Game.PROGRESS_RANDOM_DEBUFFS += 1;
       Game.badgeCheck(Game.BADGE_RANDOM_DEBUFFS); // Rolling the Bones
@@ -867,6 +929,9 @@ Game.reforgeWeapon = function (debuff, isSuperior) {
           alert("The text provided was too long, please try something shorter.");
         } else if (/[<>|]/g.test(dbName)) {
           alert("The text provided contained invalid characters, please try something else.");
+        } else if (dbName.trim() === "") {
+          dbName = Game.debuff_names[debuff - Game.DEBUFF_SHRED];
+          validDebuffName = true;
         } else {
           dbName = dbName.replace(/[<>|]/g, "");
           validDebuffName = true;
@@ -874,72 +939,72 @@ Game.reforgeWeapon = function (debuff, isSuperior) {
       }
     }
     switch (debuff) {
-    case 241:
-      if (isSuperior) {
-        Game.p_Weapon[9] = [241, (dbName.trim() === "" ? "Ruthlessness" : dbName), 15, -1];
-      } else {
-        Game.p_Weapon[9] = [241, "Ruthlessness", 10, -1];
-      }
-      break;
-    case 242:
-      if (isSuperior) {
-        Game.p_Weapon[9] = [242, (dbName.trim() === "" ? "Frenzy" : dbName), 15, 70];
-      } else {
-        Game.p_Weapon[9] = [242, "Frenzy", 10, 50];
-      }
-      break;
-    case 243:
-      if (isSuperior) {
-        Game.p_Weapon[9] = [243, (dbName.trim() === "" ? "Bloodthirst" : dbName), 15, 30];
-      } else {
-        Game.p_Weapon[9] = [243, "Bloodthirst", 10, 20];
-      }
-      break;
-    case 244:
-      if (isSuperior) {
-        Game.p_Weapon[9] = [244, (dbName.trim() === "" ? "Cripple" : dbName), 15, 25];
-      } else {
-        Game.p_Weapon[9] = [244, "Cripple", 10, 15];
-      }
-      break;
-    case 245:
-      Game.p_Weapon[9] = [245, (dbName.trim() === "" ? "Charm" : dbName), 5, -1];
-      break;
-    case 246:
-      if (isSuperior) {
-        Game.p_Weapon[9] = [246, (dbName.trim() === "" ? "Wound Poison" : dbName), 15, 30];
-      } else {
-        Game.p_Weapon[9] = [246, "Wound Poison", 10, 20];
-      }
-      break;
-    case 247:
-      if (isSuperior) {
-        Game.p_Weapon[9] = [247, (dbName.trim() === "" ? "Nerve Strike" : dbName), 15, 25];
-      } else {
-        Game.p_Weapon[9] = [247, "Nerve Strike", 10, 15];
-      }
-      break;
-    case 248:
-      if (isSuperior) {
-        Game.p_Weapon[9] = [248, (dbName.trim() === "" ? "Mounting Dread" : dbName), 5, 10];
-      } else {
-        Game.p_Weapon[9] = [248, "Mounting Dread", 5, 6];
-      }
-      break;
-    case 249:
-      if (isSuperior) {
-        Game.p_Weapon[9] = [249, (dbName.trim() === "" ? "Disarmed" : dbName), 15, -1];
-      } else {
-        Game.p_Weapon[9] = [249, "Disarmed", 10, -1];
-      }
-      break;
-    case 250:
-      if (isSuperior) {
-        Game.p_Weapon[9] = [250, (dbName.trim() === "" ? "Comatose" : dbName), 15, 10];
-      } else {
-        Game.p_Weapon[9] = [250, "Comatose", 10, 20];
-      }
-      break;
+      case 241:
+        if (isSuperior) {
+          Game.p_Weapon[9] = [241, (dbName.trim() === "" ? "Ruthlessness" : dbName), 15, -1];
+        } else {
+          Game.p_Weapon[9] = [241, "Ruthlessness", 10, -1];
+        }
+        break;
+      case 242:
+        if (isSuperior) {
+          Game.p_Weapon[9] = [242, (dbName.trim() === "" ? "Frenzy" : dbName), 15, 70];
+        } else {
+          Game.p_Weapon[9] = [242, "Frenzy", 10, 50];
+        }
+        break;
+      case 243:
+        if (isSuperior) {
+          Game.p_Weapon[9] = [243, (dbName.trim() === "" ? "Bloodthirst" : dbName), 15, 30];
+        } else {
+          Game.p_Weapon[9] = [243, "Bloodthirst", 10, 20];
+        }
+        break;
+      case 244:
+        if (isSuperior) {
+          Game.p_Weapon[9] = [244, (dbName.trim() === "" ? "Cripple" : dbName), 15, 25];
+        } else {
+          Game.p_Weapon[9] = [244, "Cripple", 10, 15];
+        }
+        break;
+      case 245:
+        Game.p_Weapon[9] = [245, (dbName.trim() === "" ? "Charm" : dbName), 5, -1];
+        break;
+      case 246:
+        if (isSuperior) {
+          Game.p_Weapon[9] = [246, (dbName.trim() === "" ? "Wound Poison" : dbName), 15, 30];
+        } else {
+          Game.p_Weapon[9] = [246, "Wound Poison", 10, 20];
+        }
+        break;
+      case 247:
+        if (isSuperior) {
+          Game.p_Weapon[9] = [247, (dbName.trim() === "" ? "Nerve Strike" : dbName), 15, 25];
+        } else {
+          Game.p_Weapon[9] = [247, "Nerve Strike", 10, 15];
+        }
+        break;
+      case 248:
+        if (isSuperior) {
+          Game.p_Weapon[9] = [248, (dbName.trim() === "" ? "Mounting Dread" : dbName), 5, 10];
+        } else {
+          Game.p_Weapon[9] = [248, "Mounting Dread", 5, 6];
+        }
+        break;
+      case 249:
+        if (isSuperior) {
+          Game.p_Weapon[9] = [249, (dbName.trim() === "" ? "Disarmed" : dbName), 15, -1];
+        } else {
+          Game.p_Weapon[9] = [249, "Disarmed", 10, -1];
+        }
+        break;
+      case 250:
+        if (isSuperior) {
+          Game.p_Weapon[9] = [250, (dbName.trim() === "" ? "Comatose" : dbName), 15, 10];
+        } else {
+          Game.p_Weapon[9] = [250, "Comatose", 10, 20];
+        }
+        break;
     }
     Game.p_Scrap -= debuffCost;
     Game.toastNotification("Weapon has been reforged.");
@@ -955,7 +1020,11 @@ Game.repopulateShop = function () {
 };
 
 Game.repopulateWeaponShop = function () {
-  var isGreat = false, firstItem = [], nextItem = [], levelCap = 0, x = 1;
+  var isGreat = false,
+    firstItem = [],
+    nextItem = [],
+    levelCap = 0,
+    x = 1;
   Game.p_WeaponShopStock = [];
   isGreat = false;
   firstItem = [];
@@ -977,7 +1046,11 @@ Game.repopulateWeaponShop = function () {
 };
 
 Game.repopulateArmourShop = function () {
-  var isGreat = false, firstItem = [], nextItem = [], levelCap = 0, x = 1;
+  var isGreat = false,
+    firstItem = [],
+    nextItem = [],
+    levelCap = 0,
+    x = 1;
   Game.p_ArmourShopStock = [];
   isGreat = false;
   firstItem = [];

@@ -32,7 +32,7 @@
       <div id="playerNameOut" title="Rename your character." style="cursor:pointer;float:left;font-weight:bold;font-size:16px;" onclick="Game.renamePlayer();"></div>
       <div id="enemyNameOut" title="Activate Burst Attack." style="cursor:pointer;float:right;text-align:right;font-weight:bold;font-size:16px;" onclick="Game.burstAttack();"></div>
       <div id="noEnemyOut" title="Look for something to kill." style="cursor:pointer;float:right;text-align:right;font-weight:bold;font-size:16px" onclick="Game.startCombat(true);" class="hiddenElement">Click here to enter combat.</div>
-      <hr style="margin-top:4.5em;"/>
+      <hr style="margin-top:4.5em;" />
       <!-- Tabs -->
       <div class="header" id="topBar">
         <span class="headerTab" id="playerTab">Player<span id="header_statPoints" class="indicator"></span></span>
@@ -58,7 +58,8 @@
                 <td colspan="2" style="text-align:center;"><span class="headerTab" style="width:auto;padding:10px;" onclick="Game.statReset();">Reset Your Stats</span></td>
               </tr>
               <tr>
-                <td colspan="4"><div style="font-weight:bold;font-size:18px;">Strength (<span id="player_strPointsBase" style="font-size:18px;"></span><span id="player_strPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
+                <td colspan="4">
+                  <div style="font-weight:bold;font-size:18px;">Strength (<span id="player_strPointsBase" style="font-size:18px;"></span><span id="player_strPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
                   <div style="margin-left:0.5em;">Increases damage dealt with melee weapons.<br />Increases chance to block attacks by <span id="player_statPointBlockChance"></span>%.</div>
                 </td>
                 <td colspan="2" style="text-align:center;" class="statAddButtons">
@@ -68,7 +69,8 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="4"><div style="font-weight:bold;font-size:18px;">Dexterity (<span id="player_dexPointsBase" style="font-size:18px;"></span><span id="player_dexPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
+                <td colspan="4">
+                  <div style="font-weight:bold;font-size:18px;">Dexterity (<span id="player_dexPointsBase" style="font-size:18px;"></span><span id="player_dexPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
                   <div style="margin-left:0.5em;">Increases damage dealt with ranged weapons.<br />Increases chance to critically strike by <span id="player_statPointCritChance"></span>%.</div>
                 </td>
                 <td colspan="2" style="text-align:center;" class="statAddButtons">
@@ -78,7 +80,8 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="4"><div style="font-weight:bold;font-size:18px;">Intelligence (<span id="player_intPointsBase" style="font-size:18px;"></span><span id="player_intPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
+                <td colspan="4">
+                  <div style="font-weight:bold;font-size:18px;">Intelligence (<span id="player_intPointsBase" style="font-size:18px;"></span><span id="player_intPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
                   <div style="margin-left:0.5em;">Increases damage dealt with magic weapons.<br />Increases chance to dodge attacks by <span id="player_statPointDodgeChance"></span>%.</div>
                 </td>
                 <td colspan="2" style="text-align:center;" class="statAddButtons">
@@ -88,7 +91,8 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="4"><div style="font-weight:bold;font-size:18px;">Constitution (<span id="player_conPointsBase" style="font-size:18px;"></span><span id="player_conPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
+                <td colspan="4">
+                  <div style="font-weight:bold;font-size:18px;">Constitution (<span id="player_conPointsBase" style="font-size:18px;"></span><span id="player_conPointsAssigned" class="q223" style="font-size:18px;"></span>)</div>
                   <div style="margin-left:0.5em;">Increases maximum health and health restored when idle.<br />Gives a <span id="player_statPointHealChance"></span>% chance to gain HP equal to your constitution when attacking.</div>
                 </td>
                 <td colspan="2" style="text-align:center;" class="statAddButtons">
@@ -99,7 +103,7 @@
               </tr>
             </table>
             <table>
-            <!-- Player equipment -->
+              <!-- Player equipment -->
               <tr>
                 <td>
                   <div id="playerEquipmentPanel"></div>
@@ -168,7 +172,7 @@
               <span style="margin-left:1em;">Experience Overflow Pool: <span id="player_xpOverflow"></span></span><br /><br />
               <span style="margin-left:1em;">Badges earned: <span id="player_badgeCount"></span></span><br />
               <span style="margin-left:1em;">Prestige level: <span id="player_prestigeLevel"></span></span>
-            </div>  
+            </div>
           </div>
           <div id="combatTable" class="rootTable" style="display:none;">
             <table class="subTable">
@@ -307,15 +311,122 @@
                   <div id="armourPanelOut"></div>
                 </td>
               </tr>
-              <tr>
-                <td>&nbsp;</td>
-              </tr>
-              <tr>
-                <td colspan="2">
-                  <div class="powerHeader">Reforging Debuffs</div>
-                  <div id="debuffList"></div>
-                </td>
-              </tr>
+            </table>
+            <div>
+              <div class="powerHeader">Weapon Debuffs</div>
+              <table class="subTable">
+                <tr>
+                  <td colspan="6">
+                    <div style="font-weight:bold;font-size:18px;">Armour Shred</div>
+                    <div style="margin-left:0.5em;">Causes your attacks to ignore the target's armour resistances for 10 <span class="q223">(15)</span> seconds.</div>
+                  </td>
+                  <td colspan="4" style="text-align:center;">
+                    <span class="headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_SHRED, false);">Standard (4 scrap)</span>
+                    <span class="q223 headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_SHRED, true);">Superior (8 scrap)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    <div style="font-weight:bold;font-size:18px;">Double Attack</div>
+                    <div style="margin-left:0.5em;">Causes your attacks to deal a second hit for 50% <span class="q223">(70%)</span> of the main hit's damage for 10 <span class="q223">(15)</span> seconds.</div>
+                  </td>
+                  <td colspan="4" style="text-align:center;">
+                    <span class="headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_MULTI, false);">Standard (4 scrap)</span>
+                    <span class="q223 headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_MULTI, true);">Superior (8 scrap)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    <div style="font-weight:bold;font-size:18px;">Health Drain</div>
+                    <div style="margin-left:0.5em;">Restores health equal to 20% <span class="q223">(30%)</span> of weapon DPS every second for 10 <span class="q223">(15)</span> seconds.</div>
+                  </td>
+                  <td colspan="4" style="text-align:center;">
+                    <span class="headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_DRAIN, false);">Standard (4 scrap)</span>
+                    <span class="q223 headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_DRAIN, true);">Superior (8 scrap)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    <div style="font-weight:bold;font-size:18px;">Slower Attacks</div>
+                    <div style="margin-left:0.5em;">Increases the delay between the victim's attacks by 15% <span class="q223">(25%)</span> for 10 <span class="q223">(15)</span> seconds.</div>
+                  </td>
+                  <td colspan="4" style="text-align:center;">
+                    <span class="headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_SLOW, false);">Standard (4 scrap)</span>
+                    <span class="q223 headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_SLOW, true);">Superior (8 scrap)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    <div style="font-weight:bold;font-size:18px;">Confusion</div>
+                    <div style="margin-left:0.5em;">Causes the victim's next attack to be directed at themselves. This debuff does not have a superior version.</div>
+                  </td>
+                  <td colspan="4" style="text-align:center;">
+                    <span class="headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_MC, true);">Standard (4 scrap)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    <div style="font-weight:bold;font-size:18px;">Damage over Time</div>
+                    <div style="margin-left:0.5em;">Deals 20% <span class="q223">(30%)</span> of your weapon's DPS to the victim every second for 10 <span class="q223">(15)</span> seconds.</div>
+                  </td>
+                  <td colspan="4" style="text-align:center;">
+                    <span class="headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_DOT, false);">Standard (4 scrap)</span>
+                    <span class="q223 headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_DOT, true);">Superior (8 scrap)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    <div style="font-weight:bold;font-size:18px;">Paralysis</div>
+                    <div style="margin-left:0.5em;">Causes the victim's attacks to be interrupted 15% <span class="q223">(25%)</span> of the time for 10 <span class="q223">(15)</span> seconds.</div>
+                  </td>
+                  <td colspan="4" style="text-align:center;">
+                    <span class="headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_PARAHAX, false);">Standard (4 scrap)</span>
+                    <span class="q223 headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_PARAHAX, true);">Superior (8 scrap)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    <div style="font-weight:bold;font-size:18px;">Doom</div>
+                    <div style="margin-left:0.5em;">The victim has a 5% <span class="q223">(7%)</span> chance to instantly die when this debuff expires, dealing 250% <span class="q223">(350%)</span> of weapon DPS if the victim lives.</div>
+                  </td>
+                  <td colspan="4" style="text-align:center;">
+                    <span class="headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_DOOM, false);">Standard (4 scrap)</span>
+                    <span class="q223 headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_DOOM, true);">Superior (8 scrap)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    <div style="font-weight:bold;font-size:18px;">Disarm</div>
+                    <div style="margin-left:0.5em;">Halves the victim's damage output and prevents them applying debuffs for 10 <span class="q223">(15)</span> seconds.</div>
+                  </td>
+                  <td colspan="4" style="text-align:center;">
+                    <span class="headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_DISARM, false);">Standard (4 scrap)</span>
+                    <span class="q223 headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_DISARM, true);">Superior (8 scrap)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    <div style="font-weight:bold;font-size:18px;">Sleep</div>
+                    <div style="margin-left:0.5em;">Prevents the victim from attacking for 10 <span class="q223">(15)</span> seconds. Has a 60% <span class="q223">(40%)</span> chance to break when the victim is damaged.</div>
+                  </td>
+                  <td colspan="4" style="text-align:center;">
+                    <span class="headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_SLEEP, false);">Standard (4 scrap)</span>
+                    <span class="q223 headerTab-ex" onclick="Game.reforgeWeapon(Game.DEBUFF_SLEEP, true);">Superior (8 scrap)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6">
+                    <div style="font-weight:bold;font-size:18px;">Random</div>
+                    <div style="margin-left:0.5em;">Selects a debuff to apply at random from the list above.</div>
+                  </td>
+                  <td colspan="4" style="text-align:center;">
+                    <span class="headerTab-ex" onclick="Game.reforgeWeapon(0, false);">Standard (4 scrap)</span>
+                    <span class="q223 headerTab-ex" onclick="Game.reforgeWeapon(0, true);">Superior (8 scrap)</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <table class="subTable">
               <tr style="vertical-align: top">
                 <td>
                   <div class="powerHeader">Weapons For Sale</div>
@@ -340,7 +451,7 @@
             </table>
           </div>
           <div id="helpTable" class="rootTable" style="display:none;">
-            <table class="subTable"> 
+            <table class="subTable">
               <tr>
                 <td>
                   <div class="powerHeader underLineMe" style="cursor:pointer;" onclick="toggleHelpVis('introBlock');">Introduction</div>
@@ -530,7 +641,7 @@
                           The skill tree has been completely redefined and split into three broad sections:
                           <ul>
                             <li>The <strong>Offense</strong> tree focuses on skills that increase damage done and effects that occur when attacking;</li>
-                            <li>The <strong>Defence</strong> tree focuses on skills that decrease damage taken and effects that occur when attacked;</li>
+                            <li>The <strong>Defense</strong> tree focuses on skills that decrease damage taken and effects that occur when attacked;</li>
                             <li>The <strong>Support</strong> tree focuses on quality of life upgrades that don't fit into either of the above trees.</li>
                           </ul>
                         </li>
@@ -700,6 +811,12 @@
                           Fixed an issue where the UI on the Player tab was often unresponsive due to excessive redrawing operations.
                         </li>
                         <li>
+                          Fixed an issue where the default debuff name was not being applied if the dialogue was left blank.
+                        </li>
+                        <li>
+                          Fixed an issue where the random debuff reforge could not select the 'Sleep' debuff.
+                        </li>
+                        <li>
                           Purchased skills will no longer remain in the 'Available Skills' section of the Skills tab once they have reached their maximum level.
                         </li>
                         <li>
@@ -775,7 +892,7 @@
               </tr>
             </table>
           </div>
-        </td>
+          </td>
       </tr>
     </table>
   </div>

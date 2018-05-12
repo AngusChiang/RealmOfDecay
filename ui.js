@@ -12,41 +12,58 @@ tabs and panels.
 Game.drawActivePanel = function () {
   Game.updateTitleBar();
   switch (Game.activePanel) {
-  case "playerTable":
-    Game.createPlayerTab();
-    break;
-  case "combatTable":
-    Game.createCombatTab();
-    break;
-  case "zoneTable":
-    Game.createZoneTab();
-    break;
-  case "skillsTable":
-    Game.createSkillsTab();
-    break;
-  case "inventoryTable":
-    Game.createInventoryTab();
-    break;
-  case "storeTable":
-    Game.createForgeTab();
-    Game.createShopTab();
-    break;
-  case "optionsTable":
-    Game.createOptionsTab();
-    break;
-  case "badgeTable":
-    Game.createBadgeTab();
-    break;
+    case "playerTable":
+      Game.createPlayerTab();
+      break;
+    case "combatTable":
+      Game.createCombatTab();
+      break;
+    case "zoneTable":
+      Game.createZoneTab();
+      break;
+    case "skillsTable":
+      Game.createSkillsTab();
+      break;
+    case "inventoryTable":
+      Game.createInventoryTab();
+      break;
+    case "storeTable":
+      Game.createForgeTab();
+      Game.createShopTab();
+      break;
+    case "optionsTable":
+      Game.createOptionsTab();
+      break;
+    case "badgeTable":
+      Game.createBadgeTab();
+      break;
   }
   Game.hideLockedFeatures();
 };
 
 Game.updateTitleBar = function () {
-  var seeds = {}, scrap = {}, headerSPOut = {}, headerStatOut = {},
-    combatIndicator = {}, inventoryIndicator = {}, playerName = {}, enemyName = {}, noEnemy = {},
-    playerCurrentHP = {}, playerMaxHP = {}, playerPercentHP = {},
-    playerCurrentXP = {}, playerMaxXP = {}, playerPercentXP = {},
-    PHB = {}, PHBText = {}, PH_Percent = 0, EHB = {}, EHBText = {}, EH_Percent = {}, Prefix = {};
+  var seeds = {},
+    scrap = {},
+    headerSPOut = {},
+    headerStatOut = {},
+    combatIndicator = {},
+    inventoryIndicator = {},
+    playerName = {},
+    enemyName = {},
+    noEnemy = {},
+    playerCurrentHP = {},
+    playerMaxHP = {},
+    playerPercentHP = {},
+    playerCurrentXP = {},
+    playerMaxXP = {},
+    playerPercentXP = {},
+    PHB = {},
+    PHBText = {},
+    PH_Percent = 0,
+    EHB = {},
+    EHBText = {},
+    EH_Percent = {},
+    Prefix = {};
   seeds = document.getElementById("seedsOut");
   seeds.innerHTML = abbreviateNumber(Game.p_Currency);
   seeds.setAttribute("title", Game.p_Currency);
@@ -182,24 +199,26 @@ Game.updateTitleBar = function () {
 };
 
 Game.createPlayerTab = function () {
-  var playerEQPanel = {}, statPanel = {}, statAdd = [];
+  var playerEQPanel = {},
+    statPanel = {},
+    statAdd = [];
   updateElementIDContent("player_statPointHeaderOut", Game.p_StatPoints);
   updateElementIDContent("player_strPointsBase", Game.p_Str - Game.POINTS_STR_CURRENT);
   updateElementIDContent("player_strPointsAssigned", "+" + Game.POINTS_STR_CURRENT);
   updateElementIDContent("player_statPointBlockChance", Math.floor(statValue(Game.p_Str) * 100) / 100);
-  
+
   updateElementIDContent("player_dexPointsBase", Game.p_Dex - Game.POINTS_DEX_CURRENT);
   updateElementIDContent("player_dexPointsAssigned", "+" + Game.POINTS_DEX_CURRENT);
   updateElementIDContent("player_statPointCritChance", Math.floor(statValue(Game.p_Dex) * 100) / 100);
-  
+
   updateElementIDContent("player_intPointsBase", Game.p_Int - Game.POINTS_INT_CURRENT);
   updateElementIDContent("player_intPointsAssigned", "+" + Game.POINTS_INT_CURRENT);
   updateElementIDContent("player_statPointDodgeChance", Math.floor(statValue(Game.p_Int) * 50) / 100);
-  
+
   updateElementIDContent("player_conPointsBase", Game.p_Con - Game.POINTS_CON_CURRENT);
   updateElementIDContent("player_conPointsAssigned", "+" + Game.POINTS_CON_CURRENT);
   updateElementIDContent("player_statPointHealChance", Math.floor(statValue(Game.p_Con) * 100) / 100);
-  
+
   statAdd = document.getElementsByClassName("statAddButtons");
   Array.prototype.filter.call(statAdd, function (e) {
     if (Game.p_StatPoints > 0) {
@@ -208,12 +227,12 @@ Game.createPlayerTab = function () {
       e.classList.add("hiddenElement");
     }
   });
-  
+
   playerEQPanel = document.getElementById("playerEquipmentPanel");
   playerEQPanel.innerHTML = "";
   playerEQPanel.appendChild(Game.createWeaponUIPanel(Game.p_Weapon, "player"));
   playerEQPanel.appendChild(Game.createArmourUIPanel(Game.p_Armour, "player"));
-  
+
   // Offense section
   updateElementIDContent("player_statTotalDMG", prettifyNumber(Game.TRACK_TOTAL_DMG));
   updateElementIDContent("player_statAttacks", prettifyNumber(Game.TRACK_ATTACKS_OUT));
@@ -229,14 +248,14 @@ Game.createPlayerTab = function () {
   updateElementIDContent("player_statDoTDamageOut", prettifyNumber(Game.TRACK_DOTS_OUT));
   updateElementIDContent("player_statConfusionOut", prettifyNumber(Game.TRACK_CHARM_OUT));
   updateElementIDContent("player_statParahaxOut", prettifyNumber(Game.TRACK_PARAHAX_OUT));
-  
+
   // Conditional to hide stored damage if the player doesn't have the Deadly Momentum power.
   if (Game.powerLevel(Game.SKILL_DEADLY_MOMENTUM) > 0) {
     updateElementIDContent("player_statStoredDamage", prettifyNumber(Game.TRACK_STORED_DAMAGE));
   } else {
     updateElementIDContent("player_statStoredDamage", "N/A");
   }
-  
+
   // Defense section
   updateElementIDContent("player_statTotalDMGTaken", prettifyNumber(Game.TRACK_TOTAL_TAKEN));
   updateElementIDContent("player_statAttacksTaken", prettifyNumber(Game.TRACK_ATTACKS_IN));
@@ -251,7 +270,7 @@ Game.createPlayerTab = function () {
   updateElementIDContent("player_statDoTDamageIn", prettifyNumber(Game.TRACK_DOTS_IN));
   updateElementIDContent("player_statConfusionIn", prettifyNumber(Game.TRACK_CHARM_IN));
   updateElementIDContent("player_statParahaxIn", prettifyNumber(Game.TRACK_PARAHAX_IN));
-  
+
   // Inventory section
   updateElementIDContent("player_upgradesBought", prettifyNumber(Game.TRACK_UPGRADES));
   updateElementIDContent("player_reforgesBought", prettifyNumber(Game.TRACK_REFORGES));
@@ -264,7 +283,7 @@ Game.createPlayerTab = function () {
   updateElementIDContent("player_salesSeeds", prettifyNumber(Game.TRACK_SALE_SEEDS));
   updateElementIDContent("player_combatScrap", prettifyNumber(Game.TRACK_COMBAT_SCRAP));
   updateElementIDContent("player_salesScrap", prettifyNumber(Game.TRACK_CONVERT_SCRAP));
-  
+
   // Misc section
   updateElementIDContent("player_battlesWon", prettifyNumber(Game.TRACK_WINS));
   updateElementIDContent("player_battlesLost", prettifyNumber(Game.TRACK_LOSSES));
@@ -374,18 +393,18 @@ Game.createSkillsTab = function () {
       if (viewable) {
         powerPane = null;
         switch (Game.SKILL_LIST[x][2].toString().substring(0, 3)) {
-        case "101":
-          powerPane = offensePane;
-          break;
-        case "102":
-          powerPane = defensePane;
-          break;
-        case "103":
-          powerPane = supportPane;
-          break;
-        case "104":
-          powerPane = specialPane;
-          break;
+          case "101":
+            powerPane = offensePane;
+            break;
+          case "102":
+            powerPane = defensePane;
+            break;
+          case "103":
+            powerPane = supportPane;
+            break;
+          case "104":
+            powerPane = specialPane;
+            break;
         }
         powerPane.appendChild(Game.createPowerUIPanel(Game.SKILL_LIST[x][2], basePower, Game.powerLevel(Game.SKILL_LIST[x][2]), available, true));
       }
@@ -451,11 +470,6 @@ Game.createForgeTab = function () {
     aPanelOut = document.getElementById("armourPanelOut");
     aPanelOut.innerHTML = "";
     aPanelOut.appendChild(Game.createArmourUIPanel(Game.p_Armour, "forge"));
-    reforgePanelOut = document.getElementById("debuffList");
-    reforgePanelOut.innerHTML = "";
-    for (x = -1; x < 10; x += 1) {
-      reforgePanelOut.appendChild(Game.createForgePanel(Game.DEBUFF_SHRED + x));
-    }
   }
   Game.updateForge = false;
 };
@@ -475,7 +489,9 @@ Game.createShopTab = function () {
 };
 
 Game.createOptionsTab = function () {
-  var abHook = {}, asHook = {}, saveHook = {};
+  var abHook = {},
+    asHook = {},
+    saveHook = {};
   abHook = document.getElementById("autoBattleHook");
   abHook.innerHTML = "";
   abHook.appendChild(Game.createABOptionPanel());
@@ -488,7 +504,8 @@ Game.createOptionsTab = function () {
 };
 
 Game.createBadgeTab = function () {
-  var x = 0, badgePanel = {};
+  var x = 0,
+    badgePanel = {};
   badgePanel = document.getElementById("badgeList");
   badgePanel.innerHTML = "";
   for (x = 0; x < Game.BADGE_LIST.length; x += 1) {
@@ -526,15 +543,15 @@ Game.showPanel = function (panelID) {
   Game.activePanel = panelID;
   initPanel.style.display = "none";
   switch (panelID) {
-  case "inventoryTable":
-    Game.updateInventory = true;
-    break;
-  case "powersTable":
-    Game.updateSkills = true;
-    break;
-  case "forgeTable":
-    Game.updateForge = true;
-    break;
+    case "inventoryTable":
+      Game.updateInventory = true;
+      break;
+    case "powersTable":
+      Game.updateSkills = true;
+      break;
+    case "forgeTable":
+      Game.updateForge = true;
+      break;
   }
   Game.drawActivePanel();
 };
@@ -569,34 +586,34 @@ Game.buildArmourEffectString = function (effect) {
     return returnBlock;
   }
   switch (effect[0]) {
-  case Game.ARMOUR_STR_MELEE:
-    returnBlock.setAttribute("style", "color:#33cc33;");
-    returnBlock.innerHTML = "+" + effect[1] + " Melee Resist";
-    break;
-  case Game.ARMOUR_STR_RANGE:
-    returnBlock.setAttribute("style", "color:#33cc33;");
-    returnBlock.innerHTML = "+" + effect[1] + " Range Resist";
-    break;
-  case Game.ARMOUR_STR_MAGIC:
-    returnBlock.setAttribute("style", "color:#33cc33;");
-    returnBlock.innerHTML = "+" + effect[1] + " Magic Resist";
-    break;
-  case Game.ARMOUR_VULN_MELEE:
-    returnBlock.setAttribute("style", "color:red;");
-    returnBlock.innerHTML = "-" + effect[1] + " Melee Resist";
-    break;
-  case Game.ARMOUR_VULN_RANGE:
-    returnBlock.setAttribute("style", "color:red;");
-    returnBlock.innerHTML = "-" + effect[1] + " Range Resist";
-    break;
-  case Game.ARMOUR_VULN_MAGIC:
-    returnBlock.setAttribute("style", "color:red;");
-    returnBlock.innerHTML = "-" + effect[1] + " Magic Resist";
-    break;
-  default:
-    returnBlock.setAttribute("style", "");
-    returnBlock.innerHTML = "&nbsp;";
-    break;
+    case Game.ARMOUR_STR_MELEE:
+      returnBlock.setAttribute("style", "color:#33cc33;");
+      returnBlock.innerHTML = "+" + effect[1] + " Melee Resist";
+      break;
+    case Game.ARMOUR_STR_RANGE:
+      returnBlock.setAttribute("style", "color:#33cc33;");
+      returnBlock.innerHTML = "+" + effect[1] + " Range Resist";
+      break;
+    case Game.ARMOUR_STR_MAGIC:
+      returnBlock.setAttribute("style", "color:#33cc33;");
+      returnBlock.innerHTML = "+" + effect[1] + " Magic Resist";
+      break;
+    case Game.ARMOUR_VULN_MELEE:
+      returnBlock.setAttribute("style", "color:red;");
+      returnBlock.innerHTML = "-" + effect[1] + " Melee Resist";
+      break;
+    case Game.ARMOUR_VULN_RANGE:
+      returnBlock.setAttribute("style", "color:red;");
+      returnBlock.innerHTML = "-" + effect[1] + " Range Resist";
+      break;
+    case Game.ARMOUR_VULN_MAGIC:
+      returnBlock.setAttribute("style", "color:red;");
+      returnBlock.innerHTML = "-" + effect[1] + " Magic Resist";
+      break;
+    default:
+      returnBlock.setAttribute("style", "");
+      returnBlock.innerHTML = "&nbsp;";
+      break;
   }
   return returnBlock;
 };
@@ -605,12 +622,12 @@ Game.updateActivePanel = function () {
   // This function is for direct updating of panels on certain frequently updated screens, which results in less CPU usage and more responsive UI on all screens (regenerating the UI causes weird problems with clicking buttons, manual updates are usually tied to button presses, but the idle ticker is the biggest problem...)
   Game.updateTitleBar();
   switch (Game.activePanel) {
-  case "combatTable":
-    Game.updateCombatTab();
-    break;
-  case "playerTable":
-    Game.updatePlayerTab();
-    break;
+    case "combatTable":
+      Game.updateCombatTab();
+      break;
+    case "playerTable":
+      Game.updatePlayerTab();
+      break;
   }
   Game.hideLockedFeatures();
 };
@@ -618,19 +635,19 @@ Game.updateActivePanel = function () {
 Game.updateCombatTab = function () {
   // Player Panel
   updateElementIDContent("combat_playerName", Game.p_Name);
-  
+
   updateElementIDContent("combat_playerLevel", "Level " + Game.p_Level);
-  
+
   updateElementIDContent("combat_playerHP", "HP: " + prettifyNumber(Game.p_HP) + " / " + prettifyNumber(Game.p_MaxHP) + " (" + Math.floor(Game.p_HP / Game.p_MaxHP * 10000) / 100 + "%)");
-  
+
   updateElementIDContent("combat_playerDebuff", "<strong>Debuff:</strong> " + Game.p_Debuff[1] + "(" + Game.debuff_names[Game.p_Debuff[0] - Game.DEBUFF_SHRED] + ") - " + Game.player_debuffTimer + "s");
-  
+
   updateElementIDContent("combat_burstButton", Game.p_specUsed ? "Burst Unavailable" : (Game.powerLevel(Game.SKILL_WILD_SWINGS) > 0 ? "Wild Swings" : "Burst Attack"));
-  
+
   updateElementIDContent("combat_playerWeaponDurability", Game.p_Weapon[8] + " uses");
 
   updateElementIDContent("combat_playerArmourDurability", Game.p_Armour[3] + " uses");
-  
+
   // Enemy Panel
   updateElementIDContent("combat_enemyHealth", Game.p_State === Game.STATE_COMBAT ? ("HP: " + prettifyNumber(Game.e_HP) + " / " + prettifyNumber(Game.e_MaxHP) + " (" + Math.floor(Game.e_HP / Game.e_MaxHP * 10000) / 100 + "%)") : "Elite Appearance Chance: " + Game.bossChance + "%");
 
@@ -645,23 +662,23 @@ Game.updatePlayerTab = function () {
   // Player UI Panel (level, hp, max hp, xp, xp to level, sp, pp, str, dex, int, con, seeds, scrap)
   var playerWeaponDurability, playerArmourDurability, statAdd;
   updateElementIDContent("player_statPointHeaderOut", Game.p_StatPoints);
-  
+
   updateElementIDContent("player_strPointsBase", Game.p_Str - Game.POINTS_STR_CURRENT);
   updateElementIDContent("player_strPointsAssigned", "+" + Game.POINTS_STR_CURRENT);
   updateElementIDContent("player_statPointBlockChance", Math.floor(statValue(Game.p_Str) * 100) / 100);
-  
+
   updateElementIDContent("player_dexPointsBase", Game.p_Dex - Game.POINTS_DEX_CURRENT);
   updateElementIDContent("player_dexPointsAssigned", "+" + Game.POINTS_DEX_CURRENT);
   updateElementIDContent("player_statPointCritChance", Math.floor(statValue(Game.p_Dex) * 100) / 100);
-  
+
   updateElementIDContent("player_intPointsBase", Game.p_Int - Game.POINTS_INT_CURRENT);
   updateElementIDContent("player_intPointsAssigned", "+" + Game.POINTS_INT_CURRENT);
   updateElementIDContent("player_statPointDodgeChance", Math.floor(statValue(Game.p_Int) * 50) / 100);
-  
+
   updateElementIDContent("player_conPointsBase", Game.p_Con - Game.POINTS_CON_CURRENT);
   updateElementIDContent("player_conPointsAssigned", "+" + Game.POINTS_CON_CURRENT);
   updateElementIDContent("player_statPointHealChance", Math.floor(statValue(Game.p_Con) * 100) / 100);
-  
+
   statAdd = document.getElementsByClassName("statAddButtons");
   Array.prototype.filter.call(statAdd, function (e) {
     if (Game.p_StatPoints > 0) {
@@ -670,7 +687,7 @@ Game.updatePlayerTab = function () {
       e.classList.add("hiddenElement");
     }
   });
-  
+
   // Offense section
   updateElementIDContent("player_statTotalDMG", prettifyNumber(Game.TRACK_TOTAL_DMG));
   updateElementIDContent("player_statAttacks", prettifyNumber(Game.TRACK_ATTACKS_OUT));
@@ -686,14 +703,14 @@ Game.updatePlayerTab = function () {
   updateElementIDContent("player_statDoTDamageOut", prettifyNumber(Game.TRACK_DOTS_OUT));
   updateElementIDContent("player_statConfusionOut", prettifyNumber(Game.TRACK_CHARM_OUT));
   updateElementIDContent("player_statParahaxOut", prettifyNumber(Game.TRACK_PARAHAX_OUT));
-  
+
   // Conditional to hide stored damage if the player doesn't have the Deadly Momentum power.
   if (Game.powerLevel(Game.SKILL_DEADLY_MOMENTUM) > 0) {
     updateElementIDContent("player_statStoredDamage", prettifyNumber(Game.TRACK_STORED_DAMAGE));
   } else {
     updateElementIDContent("player_statStoredDamage", "N/A");
   }
-  
+
   // Defense section
   updateElementIDContent("player_statTotalDMGTaken", prettifyNumber(Game.TRACK_TOTAL_TAKEN));
   updateElementIDContent("player_statAttacksTaken", prettifyNumber(Game.TRACK_ATTACKS_IN));
@@ -708,7 +725,7 @@ Game.updatePlayerTab = function () {
   updateElementIDContent("player_statDoTDamageIn", prettifyNumber(Game.TRACK_DOTS_IN));
   updateElementIDContent("player_statConfusionIn", prettifyNumber(Game.TRACK_CHARM_IN));
   updateElementIDContent("player_statParahaxIn", prettifyNumber(Game.TRACK_PARAHAX_IN));
-  
+
   // Inventory section
   updateElementIDContent("player_upgradesBought", prettifyNumber(Game.TRACK_UPGRADES));
   updateElementIDContent("player_reforgesBought", prettifyNumber(Game.TRACK_REFORGES));
@@ -721,7 +738,7 @@ Game.updatePlayerTab = function () {
   updateElementIDContent("player_salesSeeds", prettifyNumber(Game.TRACK_SALE_SEEDS));
   updateElementIDContent("player_combatScrap", prettifyNumber(Game.TRACK_COMBAT_SCRAP));
   updateElementIDContent("player_salesScrap", prettifyNumber(Game.TRACK_CONVERT_SCRAP));
-  
+
   // Misc section
   updateElementIDContent("player_battlesWon", prettifyNumber(Game.TRACK_WINS));
   updateElementIDContent("player_battlesLost", prettifyNumber(Game.TRACK_LOSSES));
@@ -734,7 +751,7 @@ Game.updatePlayerTab = function () {
   updateElementIDContent("player_xpOverflow", prettifyNumber(Game.TRACK_XP_OVERFLOW));
   updateElementIDContent("player_badgeCount", prettifyNumber(Game.playerBadges.length));
   updateElementIDContent("player_prestigeLevel", prettifyNumber(Game.prestigeLevel));
-  
+
   // Player Weapon (Durability)
   playerWeaponDurability = document.getElementById("combat_playerWeaponDurability");
   if (playerWeaponDurability !== null) {
