@@ -449,56 +449,57 @@ Game.createPowerUIPanel = function (powerID, rootID, currentLevel, selectable, b
   // |                Upgrade This Power                |
   // +--------------------------------------------------+
   // this panel will only appear on the Powers tab - so a check of which tab we're on is not required.
-  var panel, row1, row2, row3, row4, nameSection, investmentSection;
-  var panel = document.createElement("table");
+  var panel, row1, row2, row3, row4, nameSection, investmentSection, branchSection, effectSection, upgradeButton, upgradeSection;
+  panel = document.createElement("table");
   panel.setAttribute("class", "itemPanel");
   if (!selectable || (Game.p_SkillPoints === 0 && Game.powerLevel(powerID) === 0)) {
     panel.setAttribute("style", "opacity:0.4;-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=40)';");
   }
-  var row1 = document.createElement("tr");
-  var row2 = document.createElement("tr");
-  var row3 = document.createElement("tr");
-  var row4 = document.createElement("tr");
-  var nameSection = document.createElement("td");
+  row1 = document.createElement("tr");
+  row2 = document.createElement("tr");
+  row3 = document.createElement("tr");
+  row4 = document.createElement("tr");
+  nameSection = document.createElement("td");
   nameSection.setAttribute("colspan", "3");
   nameSection.setAttribute("style", "width:75% !important");
   nameSection.innerHTML = "<span style='font-weight:bold;font-size:18px;'>" + Game.getPowerName(powerID) + "</span>";
-  var investmentSection = document.createElement("td");
+  investmentSection = document.createElement("td");
   investmentSection.setAttribute("style", "text-align:right");
   investmentSection.innerHTML = "(" + currentLevel + "/" + Game.getPowerLevelCap(powerID) + ")";
   row1.appendChild(nameSection);
   row1.appendChild(investmentSection);
   panel.appendChild(row1);
   if (typeof rootID !== undefined && rootID >= 0) {
-    var branchSection = document.createElement("td");
+    branchSection = document.createElement("td");
     branchSection.setAttribute("colspan", "4");
     branchSection.innerHTML = "<span style='font-style:italic'> - Branches from " + Game.getPowerName(rootID) + "</span>";
     row2.appendChild(branchSection);
     panel.appendChild(row2);
   }
-  var effectSection = document.createElement("td");
+  effectSection = document.createElement("td");
   effectSection.setAttribute("colspan", "4");
   effectSection.innerHTML = Game.getPowerDesc(powerID);
   row3.appendChild(effectSection);
   panel.appendChild(row3);
   if (currentLevel < Game.getPowerLevelCap(powerID) && selectable && Game.p_SkillPoints > 0 && buyable) {
-    var upgradeButton = document.createElement("span");
-    var upgradeSection = document.createElement("td");
+    upgradeButton = document.createElement("span");
+    upgradeSection = document.createElement("td");
     upgradeSection.setAttribute("style", "text-align:center;vertical-align:middle;border:1px solid #b0b0b0;");
     upgradeSection.setAttribute("colspan", "4");
     upgradeButton.setAttribute("class", "itemPanelButton");
-    upgradeButton.onclick = function (a) {
+    upgradeButton.onclick = (function (a) {
       return function () {
         Game.buyPower(a);
       };
-    }(powerID);
+    }(powerID));
     upgradeButton.innerHTML = "Upgrade this Skill";
     upgradeSection.appendChild(upgradeButton);
     row4.appendChild(upgradeSection);
     panel.appendChild(row4);
   }
   return panel;
-}
+};
+
 Game.createPlayerCombatPanel = function () {
   // And it goes a little something like this...
   // +-------------------------------------+------------+
