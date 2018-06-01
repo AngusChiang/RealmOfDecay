@@ -1416,4 +1416,8 @@ Game.createBadgePanel = function (index) {
   return panel;
 }
 
+Game.createItemPanel = function() {
+  
+}
+
 document.getElementById("loadedUIPanels").style.display = "";

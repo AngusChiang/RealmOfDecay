@@ -201,6 +201,46 @@ body * {
   color: #000000 !important;
 }
 
+.item221 {
+  background:linear-gradient(to bottom, #000, #808080);
+}
+
+.item222 {
+  background:linear-gradient(to bottom, #600, #ffffff);
+}
+
+.item223 {
+  background:linear-gradient(to bottom, #600, #33cc33);
+}
+
+.item224 {
+  background:linear-gradient(to bottom, #0d0480, #4d94ff);
+}
+
+.item225 {
+  background:linear-gradient(to bottom, #600, #e600e6);
+}
+
+.item226 {
+  background:linear-gradient(to bottom, #600, #ffbf00);
+}
+
+.item_weapon_melee {
+  background-image:url(./icon_weapon_melee.png);
+}
+
+.item_weapon_ranged {
+  
+}
+
+.item_weapon_magic {
+  
+}
+
+.item_armour {
+  
+}
+
 .q221 {
   color: #808080;
   font-weight: bold;
@@ -244,4 +284,8 @@ body * {
 .subTable {
   width: 100%;
   table-layout: fixed;
+}
+
+.subTable > tbody > tr > td {
+  padding: 5px 0px 5px;
 }

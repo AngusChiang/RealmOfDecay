@@ -75,8 +75,10 @@ Game.updateTitleBar = function () {
   if (Game.p_SkillPoints > 0) {
     if (Game.p_SkillPoints > 100) {
       headerSPOut.innerHTML = "&nbsp;" + "!" + "&nbsp;";
+      headerSPOut.classList.add("indicator");
     } else {
       headerSPOut.innerHTML = "&nbsp;" + Game.p_SkillPoints + "&nbsp;";
+      headerSPOut.classList.add("indicator");
     }
   } else {
     headerSPOut.innerHTML = "";
